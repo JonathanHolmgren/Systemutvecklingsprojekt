@@ -11,7 +11,7 @@ namespace Models
         public int CustomerID { get; set; }
         public string TelephoneNumber { get; set; }
         public string Email { get; set; }
-        public string Streetname { get; set; }
+        public string StreetName { get; set; }
         public PostalCodeCity PostalCodeCity { get; set; }
     }
 }

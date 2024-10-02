@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace Models
 {
-    public class CEO:Employee
+    public enum InsuranceStatus
     {
-
+        Active, Inactive, Preliminary
     }
 }

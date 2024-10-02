@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 namespace Models
 {
     public class InsuredPerson
-    { 
-        public int InsuredPersonId { get; set; }
+    {
+        public int InsuredPersonID { get; set; }
         public string InsuredName { get; set; }
         public string SSN { get; set; }
     }

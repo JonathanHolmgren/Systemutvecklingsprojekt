@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace Models
 {
-    public class SalesManager:Employee
+    public enum AuthorizationLevel
     {
-
+        Admin, EconomyAssistant, SalesManager, SalesPerson, CEO, SalesAssistant
     }
 }

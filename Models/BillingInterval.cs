@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace Models
 {
-    public class Admin:Employee
+    public enum BillingInterval
     {
-
+        Monthly, Quartly, HalfYear, Yearly
     }
 }

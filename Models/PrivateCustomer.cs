@@ -8,7 +8,7 @@ namespace Models
 {
     public class PrivateCustomer:Customer
     {
-        public string SSN { get; set; } //Ska vi ta detta som ID?
+        public string SSN { get; set; } 
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string WorkTelephoneNumber { get; set; }

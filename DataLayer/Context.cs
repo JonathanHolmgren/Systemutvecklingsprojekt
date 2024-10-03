@@ -2,6 +2,7 @@
 using System.Reflection.Emit;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
+using Models;
 
 namespace DataLayer
 {

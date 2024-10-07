@@ -94,7 +94,7 @@ namespace DataLayer
         public void Reset()
         {
             #region Remove Tables
-            using (SqlConnection conn = new SqlConnection(@"Server=sqlutb2-db.hb.se,56077;Database=suht2410;User Id=suht2410;Password=VOB279;TrustServerCertificate=True;"))
+            using (SqlConnection conn = new SqlConnection())
             using (SqlCommand cmd = new SqlCommand("EXEC sp_msforeachtable 'ALTER TABLE ? NOCHECK CONSTRAINT all'; EXEC sp_msforeachtable 'DROP TABLE ?'", conn))
             {
                 conn.Open();

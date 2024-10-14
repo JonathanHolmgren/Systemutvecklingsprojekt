@@ -28,37 +28,37 @@
         <!--  Dockpanel Left  -->
         <StackPanel>
             <Label Content="Personnummer" Height="25"/>
-            <TextBox Width="150" HorizontalAlignment="Left" Text="{Binding SSN, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            <TextBox Width="150" HorizontalAlignment="Left" Margin="10,0,10,0" Text="{Binding SSN, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 
             <Label Content="Förnamn" Height="25"/>
-            <TextBox Width="150" HorizontalAlignment="Left" Text="{Binding FirstName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            <TextBox Width="150" HorizontalAlignment="Left" Margin="10,0,10,0" Text="{Binding FirstName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 
             <Label Content="Efternamn" Height="25"/>
-            <TextBox Width="150" HorizontalAlignment="Left" Text="{Binding LastName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            <TextBox Width="150" HorizontalAlignment="Left" Margin="10,0,10,0" Text="{Binding LastName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 
             <Label Content="Gatuadress" Height="25"/>
-            <TextBox Width="150" HorizontalAlignment="Left" Text="{Binding StreetAdress, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            <TextBox Width="150" HorizontalAlignment="Left" Margin="10,0,10,0" Text="{Binding StreetAdress, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 
             <Label Content="Postnummer" Height="25"/>
-            <TextBox Width="150" HorizontalAlignment="Left" Text="{Binding PostalCode, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            <TextBox Width="150" HorizontalAlignment="Left" Margin="10,0,10,0" Text="{Binding PostalCode, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 
             <Label Content="Stad" Height="25"/>
-            <TextBox Width="150" HorizontalAlignment="Left" Text="{Binding City, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            <TextBox Width="150" HorizontalAlignment="Left" Margin="10,0,10,0" Text="{Binding City, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 
             <Label Content="Telefonnummer" Height="25"/>
-            <TextBox Width="150" HorizontalAlignment="Left" Text="{Binding TelephoneNumber, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            <TextBox Width="150" HorizontalAlignment="Left" Margin="10,0,10,0" Text="{Binding TelephoneNumber, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 
             <Label Content="Telefonnummer arbete" Height="25"/>
-            <TextBox Width="150" HorizontalAlignment="Left" Text="{Binding WorkTelephoneNumber, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            <TextBox Width="150" HorizontalAlignment="Left" Margin="10,0,10,0" Text="{Binding WorkTelephoneNumber, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 
             <Label Content="Email" Height="25"/>
-            <TextBox Width="150" HorizontalAlignment="Left" Text="{Binding Email, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            <TextBox Width="150" HorizontalAlignment="Left" Margin="10,0,10,0" Text="{Binding Email, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
         </StackPanel>
 
 
         <!--  Dockpanel Right  -->
         <StackPanel DockPanel.Dock="Right">
-            <Button Content="Lägg till kund" Width="100" VerticalAlignment="Center" HorizontalAlignment="Center" Command="{Binding AddPrivateCustomerCommand}"/>
+            <Button Content="Lägg till kund" Width="100" VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="40" Command="{Binding AddPrivateCustomerCommand}"/>
         </StackPanel>
 
 

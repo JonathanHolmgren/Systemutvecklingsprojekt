@@ -1,10 +1,11 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Reflection.Emit;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 
 namespace DataLayer
-{
+ {
     public class Context : DbContext
     {
         // public DbSet<Employee> Employees { get; set; }
@@ -20,12 +21,25 @@ namespace DataLayer
         // public DbSet<CompanyCustomer> CompanyCustomers { get; set; }
         // public DbSet<PostalCodeCity> PostalCodeCities { get; set; }
         //
+        private readonly IConfiguration _configuration;
+
+        public Context(IConfiguration configuration)
+        {
+            // test
+            _configuration = configuration;
+        }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            var connectionString = Environment.GetEnvironmentVariable("ToppForsakringar");
+            // Hämta anslutningssträngen från appsettings.json
+            var connectionString = _configuration.GetConnectionString("toppforsakringar");
+
+            // Skriv ut anslutningssträngen till konsolen
+            Console.WriteLine($"Context Används anslutningssträng i Context: {connectionString}");
+
             optionsBuilder.UseSqlServer(connectionString);
             base.OnConfiguring(optionsBuilder);
+        
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

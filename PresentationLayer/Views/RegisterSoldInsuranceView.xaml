@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:PresentationLayer.Views"
              xmlns:vm="clr-namespace:PresentationLayer.ViewModels"
              xmlns:windowCloser="clr-namespace:PresentationLayer.Services"
-                         
+             windowCloser:WindowCloser.EnableWindowClosing="True"            
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     
@@ -16,7 +16,12 @@
     
     <Grid Background="White">
         <Label x:Name="RegisterSoldInsuranceLabel" Content="Registrera såld försäkring" HorizontalAlignment="Center" Margin="0,10,0,0" VerticalAlignment="Top" FontSize="24" FontFamily="Times New Roman"/>
-        <DataGrid d:ItemsSource="{d:SampleData ItemCount=5}" Margin="10,80,10,198"/>
+        <DataGrid ItemsSource="{Binding TestInsurance}" AutoGenerateColumns="False" Margin="10,80,10,198">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Insurance Status" Binding="{Binding InsuranceStatus}" />
+                <!-- Lägg till fler kolumner om du vill visa andra egenskaper -->
+            </DataGrid.Columns>
+        </DataGrid>
         <TextBlock x:Name="SelectInsuranceTextBlock" HorizontalAlignment="Left" Margin="10,59,0,0" TextWrapping="Wrap" Text="Välj preliminär försärking" VerticalAlignment="Top"/>
         <Button x:Name="ConvertPreliminaryInsuranceButton" Content="Registrera som såld försäkring" HorizontalAlignment="Left" Margin="10,269,0,0" VerticalAlignment="Top"/>
         <TextBox x:Name="SearchPreliminaryInsuranceTextBox" HorizontalAlignment="Left" Margin="509,57,0,0" TextWrapping="Wrap" Text="Sök efter preliminär försäkring" VerticalAlignment="Top" Width="186"/>

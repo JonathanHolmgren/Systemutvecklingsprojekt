@@ -9,6 +9,6 @@ namespace Models
     public class CommisionRate
     {
         public int CommisionrateID { get; set; }
-        public double CommisionrateRate { get; set; }
+        public double CommisionrateRate { get; set; } = 0.12;
     }
 }

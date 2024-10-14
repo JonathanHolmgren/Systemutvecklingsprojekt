@@ -11,5 +11,11 @@ namespace Models
         public string PostalCode { get; set; }
         public string City { get; set; }
 
+        public PostalCodeCity(string postalCode, string city)
+        {
+            this.PostalCode = postalCode;
+            this.City = city;
+        }
+
     }
 }

@@ -13,10 +13,32 @@ namespace Models
         public BillingInterval BillingingInterval { get; set; }
         public User User { get; set; }
         public InsuranceStatus InsuranceStatus { get; set; }
-        public InsuranceType InsuranceType {get; set;}
+        public InsuranceType InsuranceType { get; set; }
         public string Notes { get; set; }
-        public Customer Customer {get; set;}
+        public Customer Customer { get; set; }
         public InsuredPerson InsuredPerson { get; set; }
 
+        public Insurance() { }
+
+        public Insurance(
+            DateTime expiryDate,
+            BillingInterval billingInterval,
+            User user,
+            InsuranceType insuranceType,
+            string notes,
+            Customer customer,
+            InsuredPerson insuredPerson
+        ) 
+        {
+            ExpiryDate = expiryDate;
+            BillingingInterval = billingInterval;
+            User = user;
+            InsuranceStatus = InsuranceStatus.Preliminary;
+            InsuranceType = insuranceType;
+            Notes = notes;
+            Customer = customer;
+            InsuredPerson = insuredPerson;
+
+        }
     }
 }

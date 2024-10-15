@@ -3,6 +3,7 @@ using System.Reflection.Emit;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Models;
 
 
 namespace DataLayer
@@ -10,16 +11,16 @@ namespace DataLayer
     public class Context : DbContext
     {
         public DbSet<Employee> Employees { get; set; }
-        public DbSet<User> Users { get; set; }
-        public DbSet<CommisionRate> ComissionRates { get; set; }
-        public DbSet<Insurance> Insurances { get; set; }
-        public DbSet<InsuredPerson> InsuredPersons { get; set; }
-        public DbSet<InsuranceType> InsuranceTypes { get; set; }
-        public DbSet<InsuranceTypeAttribute> InsuranceTypeAttributes { get; set; }
-        public DbSet<InsuranceSpec> InsuranceSpecs { get; set; }
-        public DbSet<Customer> Customers { get; set; }
-        public DbSet<PrivateCustomer> PrivateCustomers { get; set; }
-        public DbSet<CompanyCustomer> CompanyCustomers { get; set; }
+       // public DbSet<User> Users { get; set; }
+        public DbSet<Commission> CommissionRates { get; set; }
+       // public DbSet<Insurance> Insurances { get; set; }
+       // public DbSet<InsuredPerson> InsuredPersons { get; set; }
+       // public DbSet<InsuranceType> InsuranceTypes { get; set; }
+       // public DbSet<InsuranceTypeAttribute> InsuranceTypeAttributes { get; set; }
+       // public DbSet<InsuranceSpec> InsuranceSpecs { get; set; }
+       // public DbSet<Customer> Customers { get; set; }
+       // public DbSet<PrivateCustomer> PrivateCustomers { get; set; }
+       // public DbSet<CompanyCustomer> CompanyCustomers { get; set; }
         public DbSet<PostalCodeCity> PostalCodeCities { get; set; }
         
     
@@ -32,67 +33,87 @@ namespace DataLayer
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            ConfigureInsurance(modelBuilder);
+            //ConfigureInsurance(modelBuilder);
             ConfigureEmployeeRelations(modelBuilder);
-            ConfigureCustomerRelations(modelBuilder);
-            ConfigureInsuranceTypeAttributes(modelBuilder);
+            ConfigurePostalCodeCityRelations(modelBuilder);
+          //  ConfigureCustomerRelations(modelBuilder);
+            
+
+            
+            //ConfigureInsuranceTypeAttributes(modelBuilder);
             base.OnModelCreating(modelBuilder);
         }
 
-        private void ConfigureInsurance(ModelBuilder modelBuilder)
-        {
-            modelBuilder.Entity<Insurance>()
-                .HasOne(i => i.User)
-                .WithMany(u => u.Insurances)
-                .HasForeignKey(i => i.UserName);
-
-            modelBuilder.Entity<Insurance>()
-                .HasOne(i => i.InsuredPerson)
-                .WithMany(ip => ip.Insurances)
-                .HasForeignKey(i => i.InsuredPersonID);
-
-            modelBuilder.Entity<Insurance>()
-                .HasOne(i => i.InsuranceType)
-                .WithMany(it => it.Insurances)
-                .HasForeignKey(i => i.InsuranceTypeID);
-
-            modelBuilder.Entity<Insurance>()
-                .HasOne(i => i.Customer)
-                .WithMany(c => c.Insurances)
-            .HasForeignKey(i => i.CustomerID);
-        }
-
+        // private void ConfigureInsurance(ModelBuilder modelBuilder)
+        // {
+        //     modelBuilder.Entity<Insurance>()
+        //         .HasOne(i => i.User) // An Insurance has one User
+        //         .WithMany(u => u.Insurances) // A User has many Insurances
+        //         .HasForeignKey(i => i.); // Foreign key is UserName
+        //
+        //     modelBuilder.Entity<Insurance>()
+        //         .HasOne(i => i.InsuredPerson)
+        //         .WithMany(ip => ip.Insurances)
+        //         .HasForeignKey(i => i.InsuredPersonID);
+        //
+        //     modelBuilder.Entity<Insurance>()
+        //         .HasOne(i => i.InsuranceType)
+        //         .WithMany(it => it.Insurances)
+        //         .HasForeignKey(i => i.InsuranceTypeID);
+        //
+        //     modelBuilder.Entity<Insurance>()
+        //         .HasOne(i => i.Customer)
+        //         .WithMany(c => c.Insurances)
+        //     .HasForeignKey(i => i.CustomerID);
+        // }
+        //
         private void ConfigureEmployeeRelations(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<Employee>().HasKey(e => e.AgentNumber);
+
             modelBuilder.Entity<Employee>()
-                .HasOne(e => e.PostalCodeCity)
-                .WithMany(pc => pc.Employees)
-            .HasForeignKey(i => i.PostalCode);
+                .HasOne(e => e.Commission)
+                .WithMany(c => c.Employees) // Assuming Commission has a collection of Employees
+                .HasForeignKey("CommissionId"); // Adjust if you use a different name for the foreign key property
+            
+            
+            // modelBuilder.Entity<Employee>()
+            //     .HasOne(e => e.PostalCodeCity)
+            //     .WithMany(pc => pc.Employees)
+            // .HasForeignKey(i => i.PostalCode);
         }
-
-
-        private void ConfigureCustomerRelations(ModelBuilder modelBuilder)
+        private void ConfigurePostalCodeCityRelations(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Customer>()
-                .HasOne(c => c.PostalCodeCity)
-                .WithMany(pc => pc.Customers)
-            .HasForeignKey(i => i.PostalCode);
+            modelBuilder.Entity<PostalCodeCity>().HasKey(e => e.PostalCode);
+
+            // modelBuilder.Entity<Employee>()
+            //     .HasOne(e => e.PostalCodeCity)
+            //     .WithMany(pc => pc.Employees)
+            // .HasForeignKey(i => i.PostalCode);
         }
-
-        private void ConfigureInsuranceTypeAttributes(ModelBuilder modelBuilder)
-        {
-            modelBuilder.Entity<InsuranceTypeAttribute>()
-                .HasOne(ita => ita.InsuranceType)
-                .WithMany(it => it.InsuranceTypeAttributes)
-                .HasForeignKey(ita => ita.InsuranceTypeID);
-
-            modelBuilder.Entity<InsuranceSpec>()
-                .HasOne(isp => isp.InsuranceTypeAttribute)
-                .WithMany(ita => ita.InsuranceSpec)
-                .HasForeignKey(isp => isp.InsuranceTypeAttributeID);
-        }
-
-
+        
+        //
+        // private void ConfigureCustomerRelations(ModelBuilder modelBuilder)
+        // {
+        //     modelBuilder.Entity<Customer>()
+        //         .HasOne(c => c.PostalCodeCity)
+        //         .WithMany(pc => pc.Customers)
+        //     .HasForeignKey(i => i.PostalCode);
+        // }
+        //
+        // private void ConfigureInsuranceTypeAttributes(ModelBuilder modelBuilder)
+        // {
+        //     modelBuilder.Entity<InsuranceTypeAttribute>()
+        //         .HasOne(ita => ita.InsuranceType)
+        //         .WithMany(it => it.InsuranceTypeAttributes)
+        //         .HasForeignKey(ita => ita.InsuranceTypeID);
+        //
+        //     modelBuilder.Entity<InsuranceSpec>()
+        //         .HasOne(isp => isp.InsuranceTypeAttribute)
+        //         .WithMany(ita => ita.InsuranceSpec)
+        //         .HasForeignKey(isp => isp.InsuranceTypeAttributeID);
+        // }
+        
         public void Reset()
         {
             #region Remove Tables

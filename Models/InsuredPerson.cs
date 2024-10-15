@@ -11,5 +11,8 @@ namespace Models
         public int InsuredPersonID { get; set; }
         public string InsuredName { get; set; }
         public string SSN { get; set; }
+        
+        public ICollection<Insurance> Insurances { get; set; } 
+        
     }
 }

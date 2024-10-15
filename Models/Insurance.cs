@@ -8,15 +8,18 @@ namespace Models
 {
     public class Insurance
     {
-        public int InsuranceID { get; set; }
+        public int InsuranceId { get; set; }
         public DateTime ExpiryDate { get; set; }
         public BillingInterval BillingingInterval { get; set; }
-        public User User { get; set; }
         public InsuranceStatus InsuranceStatus { get; set; }
-        public InsuranceType InsuranceType {get; set;}
         public string Notes { get; set; }
-        public Customer Customer {get; set;}
+      
+        // Navigation property
+        public User User { get; set; }
         public InsuredPerson InsuredPerson { get; set; }
-
+        public Customer Customer {get; set;}
+        public InsuranceType InsuranceType {get; set;}
+       
+        
     }
 }

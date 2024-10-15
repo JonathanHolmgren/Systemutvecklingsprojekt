@@ -12,6 +12,13 @@ namespace Models
         public string TelephoneNumber { get; set; }
         public string Email { get; set; }
         public string StreetName { get; set; }
+       
+        
+        
+        // Navigation property
+        public ICollection<Insurance> Insurances { get; set; } 
         public PostalCodeCity PostalCodeCity { get; set; }
+        
+        
     }
 }

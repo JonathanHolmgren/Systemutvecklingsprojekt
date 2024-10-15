@@ -10,8 +10,11 @@ namespace Models
     {
         public int UserID {  get; set; }
         public string Password { get; set; }
-        public Employee Employee { get; set; }
         public AuthorizationLevel AuthorizationLevel { get; set; }
         
+        // Navigation property
+        public Employee Employee { get; set; }
+        public ICollection<Insurance> Insurances { get; set; } 
+
     }
 }

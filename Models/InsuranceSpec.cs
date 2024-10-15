@@ -9,7 +9,9 @@ namespace Models
     public class InsuranceSpec
     {
         public int InsuranceSpecID { get; set; }
-        public string Value { get; set; } //Kan behövas konvertera till Int/double
+        public string Value { get; set; } 
+       
+        // Navigation property
         public Insurance Insurance { get; set; }
         public InsuranceTypeAttribute InsuranceTypeAttribute { get; set; }
 

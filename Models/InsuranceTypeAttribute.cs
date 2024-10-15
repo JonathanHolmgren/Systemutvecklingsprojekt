@@ -9,7 +9,9 @@ namespace Models
     public class InsuranceTypeAttribute
     {
         public int InsuranceTypeAttributeID { get; set;}
-        public InsuranceType InsuranceTypes { get; set;}
         public string InsuranceAttribute { get; set;}
+        
+        public InsuranceType InsuranceType { get; set;}
+        
     }
 }

@@ -78,35 +78,152 @@ namespace PresentationLayer.ViewModels
         private void CreateCompanyCustomer()
         {
             
+            StringBuilder errorMessage = new StringBuilder();
+
+            if (!AreFieldsValid())
+            {
+                return; 
+            }
+
+            if (!IsValidPostalCode(PostalCode))
+            {
+                errorMessage.AppendLine("Postnummer måste vara 5 siffror..");
+            }
+
+            if (!IsValidOrganisationNumber(OrganisationNumber))
+            {
+                errorMessage.AppendLine("Organisationsnummer måste vara exakt 10 siffror.");
+            }
+
+            if (!IsValidEmail(Email))
+            {
+                errorMessage.AppendLine("Ogiltig e-postadress. E-post måste innehålla '@'.");
+            }
+
+            if (!IsValidCellPhoneNumber(CellPhoneNumberContactPerson))
+            {
+                errorMessage.AppendLine("Mobilnummer får vara 10 siffror.");
+            }
+            if (!IsValidCompanyPhoneNumber(TelephoneNumber))
+            {
+                errorMessage.AppendLine("Företags nummer måste vara mellan 5 och 8 siffror.");
+            }
+
+            // Error message (ONLY TEMPORARY)
+            if (errorMessage.Length > 0)
+            {
+                MessageBox.Show(errorMessage.ToString(), "Valideringsfel", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
+            //Creating CompanyCustomer and PostalCodecity objects
             CompanyCustomer companyCustomer = new CompanyCustomer();
             PostalCodeCity postalCodeCity = new PostalCodeCity();
 
-            
-            postalCodeCity.City = City;
+            //Creation of PostalCode
+            postalCodeCity.City = CapitalizeFirstLetter(City);
             postalCodeCity.PostalCode = PostalCode;
+            //Creation of CompanyCustomer
             companyCustomer.PostalCodeCity = postalCodeCity;
-            companyCustomer.CompanyName = CompanyName;
+            companyCustomer.CompanyName = CapitalizeFirstLetter(CompanyName);
             companyCustomer.OrganisationNumber = OrganisationNumber;
-            companyCustomer.ContactPersonName = ContactPersonName;
-            companyCustomer.CompanyPersonTelephoneNumber = cellPhoneNumberContactPerson;
+            companyCustomer.ContactPersonName = CapitalizeFirstLetter(ContactPersonName);
+            companyCustomer.CompanyPersonTelephoneNumber = CellPhoneNumberContactPerson;
             companyCustomer.TelephoneNumber = TelephoneNumber;
             companyCustomer.Email = Email;
-            companyCustomer.StreetAdress = StreetAdress;
-            //customerController.AddCustomer(companyCustomer);
+            companyCustomer.StreetAdress = CapitalizeFirstLetter(StreetAdress);
 
-            
+            // A check to know that all variables got right (ONLY TEMPORARY)
             string message = $"Företagsnamn: {companyCustomer.CompanyName}\n" +
                              $"Organisationsnummer: {companyCustomer.OrganisationNumber}\n" +
                              $"Kontaktperson: {companyCustomer.ContactPersonName}\n" +
-                             $"Mobilnummer Kontaktperson: {companyCustomer.CompanyPersonTelephoneNumber}\n" +
+                             $"Mobilnummer: {companyCustomer.CompanyPersonTelephoneNumber}\n" +
                              $"Telefonnummer: {companyCustomer.TelephoneNumber}\n" +
                              $"E-post: {companyCustomer.Email}\n" +
                              $"Adress: {companyCustomer.StreetAdress}\n" +
                              $"Postkod och Stad: {companyCustomer.PostalCodeCity.PostalCode} {companyCustomer.PostalCodeCity.City}";
 
-            
+            // Showing the message of the information (ONLY TEMPORARY)
             MessageBox.Show(message, "Företagsinformation", MessageBoxButton.OK, MessageBoxImage.Information);
+            AddCompanyCustomer(companyCustomer);
         }
+
+         //Adding the Company customer to the database through the controller        
+        private void AddCompanyCustomer(Customer companyCustomer)
+        {
+            customerController.AddCustomer(companyCustomer);
+        }
+
+        //Error handeling
+        private string CapitalizeFirstLetter(string input)
+        {
+            if (string.IsNullOrWhiteSpace(input))
+                return input;
+
+            return char.ToUpper(input[0]) + input.Substring(1).ToLower();
+        }
+        private bool IsValidOrganisationNumber(string organisationNumber)
+        {
+            return organisationNumber.Length == 10 && organisationNumber.All(char.IsDigit);
+        }
+        private bool IsValidEmail(string email)
+        {
+            return email.Contains("@") && email.IndexOf("@") > 0 && email.IndexOf("@") < email.Length - 1;
+        }
+        private bool IsValidCellPhoneNumber(string phoneNumber)
+        {
+            return phoneNumber.Length == 10 && phoneNumber.All(char.IsDigit);
+        }
+        private bool IsValidCompanyPhoneNumber(string phoneNumber)
+        {
+            return phoneNumber.Length >= 5 && phoneNumber.Length <= 8 && phoneNumber.All(char.IsDigit);
+        }
+        private bool IsValidPostalCode(string postalCode)
+        {
+            return postalCode.Length == 5 && postalCode.All(char.IsDigit);
+        }
+        private bool AreFieldsValid()
+        {
+            StringBuilder errorMessage = new StringBuilder();
+
+            if (string.IsNullOrWhiteSpace(City))
+                errorMessage.AppendLine("Stad får inte vara tom.");
+
+            if (string.IsNullOrWhiteSpace(CompanyName))
+                errorMessage.AppendLine("Företagsnamn får inte vara tomt.");
+
+            if (string.IsNullOrWhiteSpace(ContactPersonName))
+                errorMessage.AppendLine("Kontaktpersonens namn får inte vara tomt.");
+
+            if (string.IsNullOrWhiteSpace(OrganisationNumber))
+                errorMessage.AppendLine("Organisationsnummer får inte vara tomt.");
+
+            if (string.IsNullOrWhiteSpace(Email))
+                errorMessage.AppendLine("E-postadress får inte vara tom.");
+
+            if (string.IsNullOrWhiteSpace(cellPhoneNumberContactPerson))
+                errorMessage.AppendLine("Mobilnummer får inte vara tomt.");
+
+            if (string.IsNullOrWhiteSpace(TelephoneNumber))
+                errorMessage.AppendLine("Telefonnummer får inte vara tomt.");
+
+            if (string.IsNullOrWhiteSpace(StreetAdress))
+                errorMessage.AppendLine("Gatuadress får inte vara tom.");
+
+            if (string.IsNullOrWhiteSpace(PostalCode))
+                errorMessage.AppendLine("Postkod får inte vara tom.");
+
+            // If any errors return false
+            if (errorMessage.Length > 0)
+            {
+                MessageBox.Show(errorMessage.ToString(), "Valideringsfel", MessageBoxButton.OK, MessageBoxImage.Error);
+                return false;
+            }
+
+            // All fields are correct
+            return true;
+        }
+
 
     }
 }

@@ -15,7 +15,7 @@ namespace DataLayer
     {
         private bool isDisposed = false;
         private readonly bool disposeContext = false;
-        Context Context {  get; }
+        protected Context Context {  get; }
 
         public CommisionRateRepository CommisionRateRepository { get; private set; }
         public CompanyCustomerRepository CompanyCustomerRepository { get; private set;}
@@ -33,6 +33,7 @@ namespace DataLayer
 
         public UnitOfWork(Context context)
         {
+            // context.Database.ExecuteSqlRaw("SET IDENTITY_INSERT Patients OFF;");
             Context = context;
             CommisionRateRepository = new CommisionRateRepository(context);
             CompanyCustomerRepository = new CompanyCustomerRepository(context);
@@ -47,10 +48,27 @@ namespace DataLayer
             PrivateCustomerRepository = new PrivateCustomerRepository(context);
             UserRepository = new UserRepository(context);
         }
-        public UnitOfWork() : this(new Context())
+      
+        public UnitOfWork()
+               : this(new Context())
         {
             disposeContext = true;
         }
+
+      
+        public void Update<T>(T entity) where T : class
+        {
+            try
+            {
+                Context.Update(entity);
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+                throw;
+            }
+        }
+
         public int SaveChanges()
         {
             try
@@ -78,6 +96,34 @@ namespace DataLayer
                 throw;
             }
         }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (isDisposed)
+            {
+                return;
+            }
+            if (disposing)
+            {
+                if (disposeContext)
+                {
+                    Context.Dispose();
+                }
+            }
+            isDisposed = true;
+        }
+
+        ~UnitOfWork()
+        {
+            Dispose(false);
+        }
+
+
     }
-    
 }

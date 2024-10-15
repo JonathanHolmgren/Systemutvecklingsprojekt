@@ -8,10 +8,24 @@ namespace Models
 {
     public class InsuranceSpec
     {
-        public int InsuranceSpecID { get; set; }
-        public string Value { get; set; } //Kan behövas konvertera till Int/double
-        public Insurance Insurance { get; set; }
-        public InsuranceTypeAttribute InsuranceTypeAttribute { get; set; }
+        public int InsuranceSpecId { get; set; }
+        public string Value { get; set; }
 
+        // Navigation property
+        public Insurance? Insurance { get; set; }
+        public InsuranceTypeAttribute? InsuranceTypeAttribute { get; set; }
+
+        public InsuranceSpec() { }
+
+        public InsuranceSpec(
+            string value,
+            Insurance insurance,
+            InsuranceTypeAttribute insuranceTypeAttribute
+        )
+        {
+            Value = value;
+            Insurance = insurance;
+            InsuranceTypeAttribute = insuranceTypeAttribute;
+        }
     }
 }

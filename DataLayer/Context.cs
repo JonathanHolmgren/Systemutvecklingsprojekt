@@ -5,41 +5,41 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Models;
 
-
 namespace DataLayer
- {
+{
     public class Context : DbContext
     {
         public DbSet<Employee> Employees { get; set; }
-       // public DbSet<User> Users { get; set; }
+        public DbSet<User> Users { get; set; }
         public DbSet<Commission> CommissionRates { get; set; }
-       // public DbSet<Insurance> Insurances { get; set; }
-       // public DbSet<InsuredPerson> InsuredPersons { get; set; }
-       // public DbSet<InsuranceType> InsuranceTypes { get; set; }
-       // public DbSet<InsuranceTypeAttribute> InsuranceTypeAttributes { get; set; }
-       // public DbSet<InsuranceSpec> InsuranceSpecs { get; set; }
-       // public DbSet<Customer> Customers { get; set; }
-       // public DbSet<PrivateCustomer> PrivateCustomers { get; set; }
-       // public DbSet<CompanyCustomer> CompanyCustomers { get; set; }
+        public DbSet<Insurance> Insurances { get; set; }
+        public DbSet<InsuredPerson> InsuredPersons { get; set; }
+        public DbSet<InsuranceType> InsuranceTypes { get; set; }
+        public DbSet<InsuranceTypeAttribute> InsuranceTypeAttributes { get; set; }
+        public DbSet<InsuranceSpec> InsuranceSpecs { get; set; }
+
+        //public DbSet<Customer> Customers { get; set; }
+        public DbSet<PrivateCustomer> PrivateCustomers { get; set; }
+        public DbSet<CompanyCustomer> CompanyCustomers { get; set; }
         public DbSet<PostalCodeCity> PostalCodeCities { get; set; }
-        
-    
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(@"Server=sqlutb2-db.hb.se,56077;Database=suht2410;User Id=suht2410;Password=VOB279;TrustServerCertificate=True;");
+            optionsBuilder.UseSqlServer(
+                @"Server=sqlutb2-db.hb.se,56077;Database=suht2410;User Id=suht2410;Password=VOB279;TrustServerCertificate=True;"
+            );
             base.OnConfiguring(optionsBuilder);
         }
-
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             //ConfigureInsurance(modelBuilder);
             ConfigureEmployeeRelations(modelBuilder);
             ConfigurePostalCodeCityRelations(modelBuilder);
-          //  ConfigureCustomerRelations(modelBuilder);
-            
+            //  ConfigureCustomerRelations(modelBuilder);
 
-            
+
+
             //ConfigureInsuranceTypeAttributes(modelBuilder);
             base.OnModelCreating(modelBuilder);
         }
@@ -71,17 +71,18 @@ namespace DataLayer
         {
             modelBuilder.Entity<Employee>().HasKey(e => e.AgentNumber);
 
-            modelBuilder.Entity<Employee>()
+            modelBuilder
+                .Entity<Employee>()
                 .HasOne(e => e.Commission)
                 .WithMany(c => c.Employees) // Assuming Commission has a collection of Employees
                 .HasForeignKey("CommissionId"); // Adjust if you use a different name for the foreign key property
-            
-            
+
             // modelBuilder.Entity<Employee>()
             //     .HasOne(e => e.PostalCodeCity)
             //     .WithMany(pc => pc.Employees)
             // .HasForeignKey(i => i.PostalCode);
         }
+
         private void ConfigurePostalCodeCityRelations(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<PostalCodeCity>().HasKey(e => e.PostalCode);
@@ -91,7 +92,7 @@ namespace DataLayer
             //     .WithMany(pc => pc.Employees)
             // .HasForeignKey(i => i.PostalCode);
         }
-        
+
         //
         // private void ConfigureCustomerRelations(ModelBuilder modelBuilder)
         // {
@@ -113,12 +114,17 @@ namespace DataLayer
         //         .WithMany(ita => ita.InsuranceSpec)
         //         .HasForeignKey(isp => isp.InsuranceTypeAttributeID);
         // }
-        
+
         public void Reset()
         {
             #region Remove Tables
             using (SqlConnection conn = new SqlConnection(""))
-            using (SqlCommand cmd = new SqlCommand("EXEC sp_msforeachtable 'ALTER TABLE ? NOCHECK CONSTRAINT all'; EXEC sp_msforeachtable 'DROP TABLE ?'", conn))
+            using (
+                SqlCommand cmd = new SqlCommand(
+                    "EXEC sp_msforeachtable 'ALTER TABLE ? NOCHECK CONSTRAINT all'; EXEC sp_msforeachtable 'DROP TABLE ?'",
+                    conn
+                )
+            )
             {
                 conn.Open();
                 for (int i = 0; i < 5; i++)
@@ -136,7 +142,5 @@ namespace DataLayer
             }
             #endregion
         }
-
     }
 }
-

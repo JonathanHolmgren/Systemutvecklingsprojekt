@@ -1,56 +1,62 @@
-﻿using PresentationLayer.Models;
+﻿using Models;
+using PresentationLayer.Command;
+using PresentationLayer.Models;
+using ServiceLayer;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Input;
 
 namespace PresentationLayer.ViewModels
 {
     internal class RegisterCompanyCustomerViewModel:ObservableObject
     {
-        private string firstName;
-        public string FirstName
+        CustomerController customerController = new CustomerController();
+        private string companyName;
+        public string CompanyName
         {
-            get { return firstName; }
-            set { firstName = value; OnPropertyChanged(nameof(FirstName)); }
+            get { return companyName; }
+            set { companyName = value; OnPropertyChanged(nameof(CompanyName)); }
         }
 
-        private string lastName;
-        public string LastName
+        private string organisationNumber;
+        public string OrganisationNumber
         {
-            get { return lastName; }
-            set { lastName = value; OnPropertyChanged(nameof(LastName)); }
+            get { return organisationNumber; }
+            set { organisationNumber = value; OnPropertyChanged(nameof(OrganisationNumber)); }
         }
-        private string socialSecurityNumber;
-        public string SocialSecurityNumber
+        private string contactPersonName;
+        public string ContactPersonName
         {
-            get { return socialSecurityNumber; }
-            set { socialSecurityNumber = value; OnPropertyChanged(nameof(SocialSecurityNumber)); }
+            get { return contactPersonName; }
+            set { contactPersonName = value; OnPropertyChanged(nameof(ContactPersonName)); }
         }
-        private string cellPhoneNumber;
-        public string CellPhoneNumber
+        private string cellPhoneNumberContactPerson;
+        public string CellPhoneNumberContactPerson
         {
-            get { return cellPhoneNumber; }
-            set { cellPhoneNumber = value; OnPropertyChanged(nameof(CellPhoneNumber)); }
+            get { return cellPhoneNumberContactPerson; }
+            set { cellPhoneNumberContactPerson = value; OnPropertyChanged(nameof(CellPhoneNumberContactPerson)); }
         }
-        private string emailAddress;
-        public string EmailAddress
+        private string streetAdress;
+        public string StreetAdress
         {
-            get { return emailAddress; }
-            set { emailAddress = value; OnPropertyChanged(nameof(EmailAddress)); }
+            get { return streetAdress; }
+            set { streetAdress = value; OnPropertyChanged(nameof(StreetAdress)); }
         }
-        private string address;
-        public string Address
+        private string email;
+        public string Email
         {
-            get { return address; }
-            set { address = value; OnPropertyChanged(nameof(Address)); }
+            get { return email; }
+            set { email = value; OnPropertyChanged(nameof(Email)); }
         }
-        private string city;
-        public string City
+        private string telephoneNumber;
+        public string TelephoneNumber
         {
-            get { return city; }
-            set { city = value; OnPropertyChanged(nameof(City)); }
+            get { return telephoneNumber; }
+            set { telephoneNumber = value; OnPropertyChanged(nameof(TelephoneNumber)); }
         }
         private string postalCode;
         public string PostalCode
@@ -58,17 +64,49 @@ namespace PresentationLayer.ViewModels
             get { return postalCode; }
             set { postalCode = value; OnPropertyChanged(nameof(PostalCode)); }
         }
-        private string county;
-        public string County
+        private string city;
+        public string City
         {
-            get { return county; }
-            set { county = value; OnPropertyChanged(nameof(County)); }
+            get { return city; }
+            set { city = value; OnPropertyChanged(nameof(City)); }
         }
-        private string country;
-        public string Country
+        public ICommand CreateCompanyCustomerCommand { get; private set; }
+        public RegisterCompanyCustomerViewModel()
         {
-            get { return country; }
-            set { country = value; OnPropertyChanged(nameof(Country)); }
+            CreateCompanyCustomerCommand = new RelayCommand<object>(execute => CreateCompanyCustomer());;
         }
+        private void CreateCompanyCustomer()
+        {
+            
+            CompanyCustomer companyCustomer = new CompanyCustomer();
+            PostalCodeCity postalCodeCity = new PostalCodeCity();
+
+            
+            postalCodeCity.City = City;
+            postalCodeCity.PostalCode = PostalCode;
+            companyCustomer.PostalCodeCity = postalCodeCity;
+            companyCustomer.CompanyName = CompanyName;
+            companyCustomer.OrganisationNumber = OrganisationNumber;
+            companyCustomer.ContactPersonName = ContactPersonName;
+            companyCustomer.CompanyPersonTelephoneNumber = cellPhoneNumberContactPerson;
+            companyCustomer.TelephoneNumber = TelephoneNumber;
+            companyCustomer.Email = Email;
+            companyCustomer.StreetAdress = StreetAdress;
+            //customerController.AddCustomer(companyCustomer);
+
+            
+            string message = $"Företagsnamn: {companyCustomer.CompanyName}\n" +
+                             $"Organisationsnummer: {companyCustomer.OrganisationNumber}\n" +
+                             $"Kontaktperson: {companyCustomer.ContactPersonName}\n" +
+                             $"Mobilnummer Kontaktperson: {companyCustomer.CompanyPersonTelephoneNumber}\n" +
+                             $"Telefonnummer: {companyCustomer.TelephoneNumber}\n" +
+                             $"E-post: {companyCustomer.Email}\n" +
+                             $"Adress: {companyCustomer.StreetAdress}\n" +
+                             $"Postkod och Stad: {companyCustomer.PostalCodeCity.PostalCode} {companyCustomer.PostalCodeCity.City}";
+
+            
+            MessageBox.Show(message, "Företagsinformation", MessageBoxButton.OK, MessageBoxImage.Information);
+        }
+
     }
 }

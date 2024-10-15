@@ -11,28 +11,35 @@
         <vm:RegisterCompanyCustomerViewModel/>
     </UserControl.DataContext>
     <Grid>
-        <TextBox x:Name="firstName" Text="{Binding FirstName, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Margin="93,75,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="120"/>
-        <Label Content="Förnamn" HorizontalAlignment="Left" Margin="90,55,0,0" VerticalAlignment="Top" Foreground="White" Width="93"/>
-        <TextBox x:Name="lastName" Text="{Binding LastName, UpdateSourceTrigger=PropertyChanged}"  HorizontalAlignment="Left" Margin="93,125,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
-        <Label Content="Efternamn" HorizontalAlignment="Left" Margin="90,105,0,0" Foreground="White" VerticalAlignment="Top" Width="57"/>
-        <TextBox x:Name="socialSecurityNumber" Text="{Binding SocialSecurityNumber, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Margin="93,175,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
-        <Label Content="Personnummer" HorizontalAlignment="Left" Margin="90,155,0,0" Foreground="White" VerticalAlignment="Top" Width="93"/>
-        <TextBox x:Name="cellPhoneNumber" Text="{Binding CellPhoneNumber, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Margin="93,225,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
-        <Label Content="Mobilnummer" HorizontalAlignment="Left" Margin="90,205,0,0" Foreground="White" VerticalAlignment="Top" Width="93"/>
-        <TextBox x:Name="emailAddress" Text="{Binding EmailAddress, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Margin="93,275,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
-        <Label Content="Mailadress" HorizontalAlignment="Left" Margin="90,255,0,0" Foreground="White" VerticalAlignment="Top" Width="93"/>
-        <TextBox x:Name="address" Text="{Binding Address,UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Margin="280,75,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
-        <Label Content="Adress" HorizontalAlignment="Left" Margin="277,55,0,0" VerticalAlignment="Top" Foreground="White" Width="93"/>
-        <TextBox x:Name="city" Text="{Binding City, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Margin="280,125,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
-        <Label Content="Stad" HorizontalAlignment="Left" Margin="277,105,0,0" Foreground="White" VerticalAlignment="Top" Width="57"/>
+        <TextBox x:Name="companyName" Text="{Binding CompanyName, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Margin="93,75,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="120"/>
+        <Label Content="Företagsnamn" HorizontalAlignment="Left" Margin="90,55,0,0" VerticalAlignment="Top" Foreground="Black" Width="93"/>
+        
+        <TextBox x:Name="organisationNumber" Text="{Binding OrganisationNumber, UpdateSourceTrigger=PropertyChanged}"  HorizontalAlignment="Left" Margin="93,125,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
+        <Label Content="Organisationsnummer" HorizontalAlignment="Left" Margin="90,105,0,0" Foreground="Black" VerticalAlignment="Top" Width="136"/>
+        
+        <TextBox x:Name="contactPersonName" Text="{Binding ContactPersonName, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Margin="93,175,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
+        <Label Content="Kontaktperson namn" HorizontalAlignment="Left" Margin="90,155,0,0" Foreground="Black" VerticalAlignment="Top" Width="123"/>
+        
+        <TextBox x:Name="cellPhoneNumberContactPerson" Text="{Binding CellPhoneNumberContactPerson, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Margin="93,225,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
+        <Label Content="Mobilnummer kontaktperson" HorizontalAlignment="Left" Margin="90,205,0,0" Foreground="Black" VerticalAlignment="Top" Width="171"/>
+        
+        <TextBox x:Name="streetAddress" Text="{Binding StreetAdress, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Margin="93,275,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
+        <Label Content="Gatuadress" HorizontalAlignment="Left" Margin="90,255,0,0" Foreground="Black" VerticalAlignment="Top" Width="93"/>
+        
+        <TextBox x:Name="email" Text="{Binding Email,UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Margin="280,75,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
+        <Label Content="Mail adress" HorizontalAlignment="Left" Margin="277,55,0,0" VerticalAlignment="Top" Foreground="Black" Width="93"/>
+        
+        <TextBox x:Name="telephoneNumber" Text="{Binding TelephoneNumber, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Margin="280,125,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
+        <Label Content="Telefonnummer företag" HorizontalAlignment="Left" Margin="277,105,0,0" Foreground="Black" VerticalAlignment="Top" Width="93"/>
+        
         <TextBox x:Name="postalCode" Text="{Binding PostalCode, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Margin="280,175,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
-        <Label Content="Postkod" HorizontalAlignment="Left" Margin="277,155,0,0" Foreground="White" VerticalAlignment="Top" Width="93"/>
-        <TextBox x:Name="county" Text="{Binding County, UpdateSourceTrigger=PropertyChanged}"  HorizontalAlignment="Left" Margin="280,225,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
-        <Label Content="Län" HorizontalAlignment="Left" Margin="277,205,0,0" Foreground="White" VerticalAlignment="Top" Width="93"/>
-        <TextBox x:Name="country" Text="{Binding Country, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Margin="280,275,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
-        <Label Content="Land" HorizontalAlignment="Left" Margin="277,255,0,0" Foreground="White" VerticalAlignment="Top" Width="93"/>
+        <Label Content="Postkod" HorizontalAlignment="Left" Margin="277,155,0,0" Foreground="Black" VerticalAlignment="Top" Width="93"/>
+        
+        <TextBox x:Name="city" Text="{Binding City, UpdateSourceTrigger=PropertyChanged}"  HorizontalAlignment="Left" Margin="280,225,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
+        <Label Content="Stad" HorizontalAlignment="Left" Margin="277,205,0,0" Foreground="Black" VerticalAlignment="Top" Width="93"/>
+      
         <Button Content="Avbryt" HorizontalAlignment="Left" Margin="534,404,0,0" VerticalAlignment="Top" Height="36" Width="73"/>
-        <Button Content="Registrera" HorizontalAlignment="Left" Margin="634,404,0,0" VerticalAlignment="Top" Height="36" Width="73"/>
+        <Button x:Name="createCompanyCustomerCommand" Command="{Binding CreateCompanyCustomerCommand}" Content="Registrera" HorizontalAlignment="Left" Margin="634,404,0,0" VerticalAlignment="Top" Height="36" Width="73"/>
 
     </Grid>
 </UserControl>

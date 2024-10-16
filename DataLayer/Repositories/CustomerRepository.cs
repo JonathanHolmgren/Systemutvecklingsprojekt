@@ -10,5 +10,10 @@ namespace DataLayer.Repositories
     public class CustomerRepository : Repository<Customer>
     {
         public CustomerRepository(Context context) : base(context) { }
+
+        public List<Customer> GetAllCustomers()
+        {
+            return Context.Set<Customer>().ToList();
+        }
     }
 }

@@ -1,0 +1,35 @@
+﻿<UserControl x:Class="PresentationLayer.Views.ShowProspectsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:PresentationLayer.Views"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <DockPanel Background="White">
+        
+        <!--  Dockpanel Top  -->
+        <StackPanel DockPanel.Dock="Top" Orientation="Horizontal">
+            <Border Width="525" Height="50">
+                <TextBlock Text="Kundprospekt"
+         FontSize="30"
+         FontFamily="Roboto-Light"
+         HorizontalAlignment="Left"
+         Margin="15,15,10,0" Width="400"/>
+            </Border>
+        </StackPanel>
+
+        <!--  Dockpanel Bottom  -->
+        <StackPanel DockPanel.Dock="Bottom">
+            <ListBox Height="300" Width="700" VerticalAlignment="Center" HorizontalAlignment="Center" BorderBrush="Black" Margin="10">
+                
+            </ListBox>
+            
+            <StackPanel Orientation="Horizontal">
+                <Button Content="Huvudmeny" Margin="30" Width="110" HorizontalAlignment="Left"></Button>
+                <Button Content="Visa kundprospekt" Margin="30" Width="110" HorizontalAlignment="Right"></Button>
+            </StackPanel>
+            
+        </StackPanel>
+    </DockPanel>
+</UserControl>

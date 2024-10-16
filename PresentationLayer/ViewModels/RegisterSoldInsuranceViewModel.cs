@@ -1,43 +1,92 @@
-﻿using PresentationLayer.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using Models;
-using System.ComponentModel;
+using PresentationLayer.Command;
+using PresentationLayer.Models;
+using ServiceLayer;
 
 namespace PresentationLayer.ViewModels
 {
-    public class RegisterSoldInsuranceViewModel: ObservableObject
+    public class RegisterSoldInsuranceViewModel : ObservableObject
     {
-        Insurance testInsurance1 = new Insurance(InsuranceStatus.Active);
-        Insurance testInsurance2 = new Insurance(InsuranceStatus.Preliminary);
+        private readonly InsuranceController insuranceController;
+        public ICommand RegisterSoldInsuranceCommand { get; }
 
-        private IList<Insurance> _testInsurances;
-        public IList<Insurance> TestInsurance
+        private Insurance _selectedInsuranceRow;
+        public Insurance SelectedInsuranceRow
         {
-            get => _testInsurances;
+            get => _selectedInsuranceRow;
             set
             {
-                _testInsurances = value;
-                OnPropertyChanged(nameof(TestInsurance));
+                _selectedInsuranceRow = value;
+                OnPropertyChanged(nameof(SelectedInsuranceRow));
             }
+        }
 
+        private ObservableCollection<Insurance> _insurances;
+        public ObservableCollection<Insurance> Insurances
+        {
+            get => _insurances;
+            set
+            {
+                _insurances = value;
+                OnPropertyChanged(nameof(Insurances));
+            }
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
+
         protected void OnPropertyChanged(string propertyName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
+        #region Constructors
         public RegisterSoldInsuranceViewModel()
         {
-            
-           
-            TestInsurance = new List<Insurance> { testInsurance1, testInsurance2 };
+            insuranceController = new InsuranceController();
+
+            RegisterSoldInsuranceCommand = new RelayCommand(
+                SetInsuranceStatusToActive,
+                CanExecuteSetInsuranceStatusToActive
+            );
+
+            Insurances = LoadListBox();
+        }
+        #endregion
+
+        #region Methods
+        public void SetInsuranceStatusToActive()
+        {
+            insuranceController.SetInsuranceStatusToActive(SelectedInsuranceRow);
+            Insurances.Remove(SelectedInsuranceRow);
         }
 
+        public bool CanExecuteSetInsuranceStatusToActive()
+        {
+            if (SelectedInsuranceRow != null)
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        public ObservableCollection<Insurance> LoadListBox()
+        {
+            List<Insurance> insurances;
+
+            List<Insurance> preliminaryInsurances =
+                insuranceController.GetAllPreliminaryInsurances();
+
+            return new ObservableCollection<Insurance>(preliminaryInsurances);
+        }
+        #endregion
     }
 }

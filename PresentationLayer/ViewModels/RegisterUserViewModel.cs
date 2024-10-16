@@ -8,20 +8,17 @@ namespace PresentationLayer.ViewModels;
 
 public class RegisterUserViewModel : ObservableObject
 {
-    UserController userController;
+    private readonly UserController userController;
 
-    // public RegisterUserViewModel(UserController userController)
-    //      {
-    //         // this.userController = userController;
-    //      }
-    
     public RegisterUserViewModel()
     {
-        // this.userController = userController;
+        this.userController = new UserController();
+        ;
     }
 
     private Employee employeeSelected = null!;
-    public Employee EmployeeSelected  {
+    public Employee EmployeeSelected
+    {
         get { return employeeSelected; }
         set
         {
@@ -29,9 +26,10 @@ public class RegisterUserViewModel : ObservableObject
             OnPropertyChanged();
         }
     }
-    
+
     private string passwordInput = null!;
-    public string PasswordInput  {
+    public string PasswordInput
+    {
         get { return passwordInput; }
         set
         {
@@ -41,7 +39,8 @@ public class RegisterUserViewModel : ObservableObject
     }
 
     private AuthorizationLevel authorizationLevelSelected;
-    public AuthorizationLevel AuthorizationLevelSelected  {
+    public AuthorizationLevel AuthorizationLevelSelected
+    {
         get { return authorizationLevelSelected; }
         set
         {
@@ -50,21 +49,19 @@ public class RegisterUserViewModel : ObservableObject
         }
     }
 
-
-    
-    
     private ICommand generatePasswordCommand = null!;
-    
-    public ICommand GeneratePasswordCommand => generatePasswordCommand ??= new RelayCommand(() =>
-    {
-        PasswordInput = "123456";
-    });
 
-    private ICommand addUserCommand = null!;
+    public ICommand GeneratePasswordCommand =>
+        generatePasswordCommand ??= new RelayCommand(() =>
+        {
+            PasswordInput = "Boll";
+        });
 
-    public ICommand AddUserCommand => addUserCommand ??= new RelayCommand(() =>
-    {
-        //  userController.CreateUser(EmployeeSelected, PasswordInput, authorizationLevelSelected);
-    });
+    private ICommand addUserCommand;
 
+    public ICommand AddUserCommand =>
+        addUserCommand ??= new RelayCommand(() =>
+        {
+            userController.CreateUser(PasswordInput);
+        });
 }

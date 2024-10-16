@@ -6,17 +6,10 @@
         xmlns:local="clr-namespace:PresentationLayer"
         xmlns:services="clr-namespace:PresentationLayer.Services"
         xmlns:views="clr-namespace:PresentationLayer.Views"
-
         mc:Ignorable="d"
-        Title="MainWindow" Height="600" Width="850"
-        services:WindowCloser.EnableWindowClosing="True"
-        AllowsTransparency="True"
-        WindowStartupLocation="CenterScreen"
-        WindowStyle="None">
+        Title="MainWindow" Height="600" Width="850">
         <!-- Background="Transparent"> -->
         
-    
- 
     <Grid>
         <views:RegisterUserView />
     </Grid>

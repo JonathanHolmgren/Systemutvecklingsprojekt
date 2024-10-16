@@ -23,7 +23,6 @@ namespace PresentationLayer
     
             var serviceProvider = services.BuildServiceProvider();
 
-          
 
             // Starta huvudfönstret
             var mainWindow = serviceProvider.GetRequiredService<MainWindow>();
@@ -33,7 +32,7 @@ namespace PresentationLayer
         private void ConfigureServices(IServiceCollection services)
         {
             //services.AddDbContext<InMemoryDbContext>(options =>
-             //   options.UseInMemoryDatabase("InMemoryDb"));
+            //   options.UseInMemoryDatabase("InMemoryDb"));
 
         
             services.AddScoped<RegisterUserViewModel>();

@@ -5,34 +5,35 @@ namespace ServiceLayer;
 
 public class UserController
 {
- UnitOfWorkIM unitOfWork = new UnitOfWorkIM();
+    UnitOfWork unitOfWork = new UnitOfWork();
 
+    public void CreateUser(string password)
+    {
+        PostalCodeCity postalCodeCity3 = new PostalCodeCity("50333", "Borås");
 
- public void CreateUser(Employee employee, string password,AuthorizationLevel authorizationLevel)
- {
-    
-    PasswordHasher passwordHasher = new PasswordHasher();
-    string hashPassoword = passwordHasher.Hash(password);
+        Employee employee1 = new Employee(
+            "3432",
+            "19540314-3243",
+            "Kalle",
+            "Ben",
+            "Vasagatan 12",
+            postalCodeCity3,
+            "Kalle.Ben@exempel.se",
+            "Turist",
+            "070-123 45 67"
+        );
 
-    User user = new User(employee, hashPassoword, authorizationLevel);
-     
-     unitOfWork.UserRepository.Add(user);
-     unitOfWork.SaveChanges();
+        PasswordHasher passwordHasher = new PasswordHasher();
+        string hashPassoword = passwordHasher.Hash(password);
 
- }
+        User user = new User(hashPassoword, AuthorizationLevel.Admin, employee1);
 
- public List<User> GetAllUsers()
- {
-     unitOfWork.UserRepository.GetAll(u => u.Employee).ToString();
+        unitOfWork.UserRepository.Add(user);
+        unitOfWork.SaveChanges();
+    }
 
-
- }
- 
- 
- 
- 
- 
- 
+    // public List<User> GetAllUsers()
+    // {
+    //     //    unitOfWork.UserRepository.GetAll(u => u.Employee).ToString();
+    // }
 }
-
-

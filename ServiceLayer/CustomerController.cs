@@ -13,8 +13,7 @@ namespace ServiceLayer
     public class CustomerController
     {
         UnitOfWork unitOfWork = new UnitOfWork();
-
-        public void AddCustomer(CompanyCustomer customer)
+        public void AddCustomer(Customer customer)
         {
             try
             {
@@ -37,6 +36,4 @@ namespace ServiceLayer
             }
         }
     }
-
-
 }

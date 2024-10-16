@@ -1,9 +1,10 @@
 ﻿using DataLayer;
-using DataLayer.Repositories;
 using Models;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
+using System.Runtime.ExceptionServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -26,16 +27,13 @@ namespace ServiceLayer
                 {
                     customer.PostalCodeCity = existingPostalCodeCity;
                 }
-
                 unitOfWork.CustomerRepository.Add(customer);
                 unitOfWork.SaveChanges();
             }
             catch (Exception ex)
             {
-                // Kasta vidare undantaget så att det kan hanteras i UI-lagret
                 throw new Exception($"Ett fel uppstod vid sparandet av kunden: {ex.Message}");
             }
         }
-
     }
 }

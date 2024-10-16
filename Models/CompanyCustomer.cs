@@ -20,14 +20,14 @@ namespace Models
         public CompanyCustomer(
             string telephoneNumber,
             string email,
-            string streetName,
+            string streetAddress,
             PostalCodeCity postalCodeCity,
             string organisationNumber,
             string contactPersonName,
             string companyPersonTelephoneNumber,
             string companyName
         )
-            : base(telephoneNumber, email, streetName, postalCodeCity)
+            : base(telephoneNumber, email, streetAddress, postalCodeCity)
         {
             OrganisationNumber = organisationNumber;
             ContactPersonName = contactPersonName;

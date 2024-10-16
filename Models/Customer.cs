@@ -11,7 +11,8 @@ namespace Models
         public int CustomerID { get; set; }
         public string TelephoneNumber { get; set; }
         public string Email { get; set; }
-        public string StreetName { get; set; }
+        public string StreetAddress { get; set; }
+        
 
         // Navigation property
         public ICollection<Insurance> Insurances { get; set; }
@@ -23,13 +24,13 @@ namespace Models
         public Customer(
             string telephoneNumber,
             string email,
-            string streetName,
+            string streetAddress,
             PostalCodeCity postalCodeCity
         )
         {
             TelephoneNumber = telephoneNumber;
             Email = email;
-            StreetName = streetName;
+            StreetAddress = streetAddress;
             PostalCodeCity = postalCodeCity;
         }
     }

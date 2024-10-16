@@ -13,5 +13,26 @@ namespace Models
         public string ContactPersonName { get; set; }
         public string CompanyPersonTelephoneNumber { get; set; }
         public string CompanyName { get; set; }
+
+        //Constructors
+        public CompanyCustomer() { }
+
+        public CompanyCustomer(
+            string telephoneNumber,
+            string email,
+            string streetAddress,
+            PostalCodeCity postalCodeCity,
+            string organisationNumber,
+            string contactPersonName,
+            string companyPersonTelephoneNumber,
+            string companyName
+        )
+            : base(telephoneNumber, email, streetAddress, postalCodeCity)
+        {
+            OrganisationNumber = organisationNumber;
+            ContactPersonName = contactPersonName;
+            CompanyPersonTelephoneNumber = companyPersonTelephoneNumber;
+            CompanyName = companyName;
+        }
     }
 }

@@ -131,27 +131,25 @@ namespace PresentationLayer.ViewModels
             companyCustomer.CompanyPersonTelephoneNumber = CellPhoneNumberContactPerson;
             companyCustomer.TelephoneNumber = TelephoneNumber;
             companyCustomer.Email = Email;
-            companyCustomer.StreetAdress = CapitalizeFirstLetter(StreetAdress);
+            companyCustomer.StreetAddress = CapitalizeFirstLetter(StreetAdress);
 
-            // A check to know that all variables got right (ONLY TEMPORARY)
-            string message = $"Företagsnamn: {companyCustomer.CompanyName}\n" +
-                             $"Organisationsnummer: {companyCustomer.OrganisationNumber}\n" +
-                             $"Kontaktperson: {companyCustomer.ContactPersonName}\n" +
-                             $"Mobilnummer: {companyCustomer.CompanyPersonTelephoneNumber}\n" +
-                             $"Telefonnummer: {companyCustomer.TelephoneNumber}\n" +
-                             $"E-post: {companyCustomer.Email}\n" +
-                             $"Adress: {companyCustomer.StreetAdress}\n" +
-                             $"Postkod och Stad: {companyCustomer.PostalCodeCity.PostalCode} {companyCustomer.PostalCodeCity.City}";
-
-            // Showing the message of the information (ONLY TEMPORARY)
-            MessageBox.Show(message, "Företagsinformation", MessageBoxButton.OK, MessageBoxImage.Information);
             AddCompanyCustomer(companyCustomer);
         }
 
          //Adding the Company customer to the database through the controller        
-        private void AddCompanyCustomer(Customer companyCustomer)
+        private void AddCompanyCustomer(CompanyCustomer companyCustomer)
         {
-            customerController.AddCustomer(companyCustomer);
+            try
+            {
+                customerController.AddCustomer(companyCustomer);
+                MessageBox.Show("Kunden har lagts till framgångsrikt!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+            catch (Exception ex)
+            {
+                // Hantera fel och visa MessageBox här
+                MessageBox.Show(ex.Message, "Fel", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+
         }
 
         //Error handeling
@@ -160,7 +158,20 @@ namespace PresentationLayer.ViewModels
             if (string.IsNullOrWhiteSpace(input))
                 return input;
 
-            return char.ToUpper(input[0]) + input.Substring(1).ToLower();
+            // Dela upp strängen i ord baserat på mellanslag
+            var words = input.Split(' ');
+
+            // Kapitalisera första bokstaven i varje ord
+            for (int i = 0; i < words.Length; i++)
+            {
+                if (!string.IsNullOrWhiteSpace(words[i]))
+                {
+                    words[i] = char.ToUpper(words[i][0]) + words[i].Substring(1).ToLower();
+                }
+            }
+
+            // Sätt ihop strängen igen med mellanslag mellan orden
+            return string.Join(" ", words);
         }
         private bool IsValidOrganisationNumber(string organisationNumber)
         {

@@ -22,31 +22,31 @@
         <TextBox Height="20"  Margin="25,1,675,429"/>
 
         <Label Content="Förnamn" Height="25" HorizontalAlignment="Left" Margin="25,34,0,391"/>
-        <TextBox x:Name="FirstNameTextbox" BorderBrush="Black" HorizontalAlignment="Left" Width="200" Margin="25,55,0,367"/>
+        <TextBox x:Name="FirstNameTextbox" Text="{Binding SelectedPrivateCustomer.FirstName,UpdateSourceTrigger=PropertyChanged}" BorderBrush="Black" HorizontalAlignment="Left" Width="200" Margin="24,55,0,367"/>
 
         <Label Content="Efternamn" Height="25" HorizontalAlignment="Left" Margin="311,37,0,388"/>
-        <TextBox x:Name="LastNameTextbox" BorderBrush="Black" HorizontalAlignment="Left" Width="200" Height="30" Margin="311,60,0,360"/>
+        <TextBox x:Name="LastNameTextbox" Text="{Binding SelectedPrivateCustomer.LastName,UpdateSourceTrigger=PropertyChanged}" BorderBrush="Black" HorizontalAlignment="Left" Width="200" Height="30" Margin="311,60,0,360"/>
 
         <Label Content="Personnummer" Height="25" HorizontalAlignment="Right" Margin="0,37,127,388"/>
-        <TextBox x:Name="SSNTextbox" BorderBrush="Black" HorizontalAlignment="Right" Width="200" Height="30" Margin="0,60,19,360"/>
+        <TextBox x:Name="SSNTextbox" Text="{Binding SelectedPrivateCustomer.SSN,UpdateSourceTrigger=PropertyChanged}" BorderBrush="Black" HorizontalAlignment="Right" Width="200" Height="30" Margin="0,60,19,360"/>
 
         <Label Content="Gatuadress" HorizontalAlignment="Left" Margin="25,83,0,342"/>
-        <TextBox x:Name="StreetAddressTextbox" BorderBrush="Black" Height="30" Width="200" HorizontalAlignment="Left" Margin="25,108,0,312"/>
+        <TextBox x:Name="StreetAddressTextbox" Text="{Binding SelectedPrivateCustomer.StreetAddress,UpdateSourceTrigger=PropertyChanged}" BorderBrush="Black" Height="30" Width="200" HorizontalAlignment="Left" Margin="25,108,0,312"/>
 
         <Label Content="Postnummer" HorizontalAlignment="Left" Margin="312,88,0,337"/>
-        <TextBox x:Name="PostalCodeTextbox" BorderBrush="Black" Height="30" Width="200" HorizontalAlignment="Left" Margin="312,113,0,307"/>
+        <TextBox x:Name="PostalCodeTextbox" Text="{Binding SelectedPrivateCustomer.PostalCodeCity.PostalCode,UpdateSourceTrigger=PropertyChanged}" BorderBrush="Black" Height="30" Width="200" HorizontalAlignment="Left" Margin="312,113,0,307"/>
 
         <Label Content="Stad" HorizontalAlignment="Right" Margin="0,88,183,337"/>
-        <TextBox x:Name="CityTextbox" BorderBrush="Black" Height="30" Width="200" HorizontalAlignment="Right" Margin="0,113,19,307"/>
+        <TextBox x:Name="CityTextbox" Text="{Binding SelectedPrivateCustomer.PostalCodeCity.City,UpdateSourceTrigger=PropertyChanged}" BorderBrush="Black" Height="30" Width="200" HorizontalAlignment="Right" Margin="0,113,19,307"/>
 
         <Label Content="Mobilnummer" HorizontalAlignment="Right" Margin="0,142,690,283" RenderTransformOrigin="0.602,0.52"/>
-        <TextBox x:Name="PhoneNumberTextbox" BorderBrush="Black" Height="30" Width="200" HorizontalAlignment="Left" Margin="25,167,0,253"/>
+        <TextBox x:Name="PhoneNumberTextbox" Text="{Binding SelectedPrivateCustomer.TelephoneNumber,UpdateSourceTrigger=PropertyChanged}" BorderBrush="Black" Height="30" Width="200" HorizontalAlignment="Left" Margin="25,167,0,253"/>
 
         <Label Content="Telefonnummer (Arbete)" HorizontalAlignment="Right" Margin="0,147,349,278" RenderTransformOrigin="0.462,0.12"/>
-        <TextBox x:Name="TelephoneNumberTextbox" BorderBrush="Black" Height="30" Width="200" HorizontalAlignment="Left" Margin="312,172,0,248"/>
+        <TextBox x:Name="TelephoneNumberTextbox" Text="{Binding SelectedPrivateCustomer.WorkTelephoneNumber,UpdateSourceTrigger=PropertyChanged}" BorderBrush="Black" Height="30" Width="200" HorizontalAlignment="Left" Margin="312,172,0,248"/>
 
         <Label Content="E-mail" HorizontalAlignment="Right" Margin="0,147,174,278"/>
-        <TextBox x:Name="MailTextbox" BorderBrush="Black" Height="30" Width="200" HorizontalAlignment="Left" Margin="584,172,0,248"/>
+        <TextBox x:Name="MailTextbox" Text="{Binding SelectedPrivateCustomer.Email,UpdateSourceTrigger=PropertyChanged}" BorderBrush="Black" Height="30" Width="200" HorizontalAlignment="Left" Margin="584,172,0,248"/>
 
         <!--InsuredPersonInformation-->
         <Label Content="Försäkrandes uppgifter" HorizontalAlignment="Left" Margin="24,192,0,226" FontWeight="Bold" RenderTransformOrigin="0.502,-0.844"/>

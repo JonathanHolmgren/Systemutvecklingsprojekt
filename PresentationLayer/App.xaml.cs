@@ -15,18 +15,28 @@ namespace PresentationLayer
     /// </summary>
     public partial class App : Application
     {
-        public static IServiceProvider ServiceProvider { get; private set; }
-
         protected override void OnStartup(StartupEventArgs e)
         {
-            var services = new ServiceCollection();
-            ConfigureServices(services);
-            ServiceProvider = services.BuildServiceProvider();
+            base.OnStartup(e);
 
-            // Skapa MainWindow från DI-container och visa det
-            var mainWindow = ServiceProvider.GetRequiredService<MainWindow>();
+            // Skapa och visa huvudfönstret
+
+
+            MainWindow mainWindow = new MainWindow();
             mainWindow.Show();
         }
+        //public static IServiceProvider ServiceProvider { get; private set; }
+
+        //protected override void OnStartup(StartupEventArgs e)
+        //{
+        //    var services = new ServiceCollection();
+        //    ConfigureServices(services);
+        //    ServiceProvider = services.BuildServiceProvider();
+
+        //    // Skapa MainWindow från DI-container och visa det
+        //    var mainWindow = ServiceProvider.GetRequiredService<MainWindow>();
+        //    mainWindow.Show();
+        //}
 
         //private void ConfigureServices(ServiceCollection services)
         //{

@@ -36,10 +36,10 @@ namespace ServiceLayer
         public void AddInsurance(Insurance insurance)
         {
             unitOfWork.InsuranceRepository.Add(insurance);
-            //unitOfWork.Update(insurance.User)
-            //unitOfWork.Update(insurance.Customer)
-            //unitOfWork.Update(insurance.InsuredPerson)
-            //unitOfWork.Update(insurance.InsuredType)
+            unitOfWork.Update(insurance.User);
+            unitOfWork.Update(insurance.Customer);
+            unitOfWork.Update(insurance.InsuredPerson);
+            unitOfWork.Update(insurance.InsuranceType);
             unitOfWork.SaveChanges();
         }
     }

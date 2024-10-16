@@ -11,28 +11,24 @@ using ServiceLayer;
 
 namespace PresentationLayer.ViewModels
 {
-    public class RegisterPreliminaryInsuranceViewModel:ObservableObject
+    
+    public class RegisterPreliminaryInsuranceViewModel : ObservableObject
     {
-        InsuranceController insuranceController;
+        private InsuranceController insuranceController;
 
-        public RegisterPreliminaryInsuranceViewModel()
+        private PrivateCustomer selectedPrivateCustomer;
+        public PrivateCustomer SelectedPrivateCustomer
         {
-            insuranceController = new InsuranceController();
-            LoadCustomerData();
-        }
-
-        private PrivateCustomer privateCustomer;
-        public PrivateCustomer PrivateCustomer
-        {
-            get => PrivateCustomer;
-            set 
+            get => selectedPrivateCustomer;
+            set
             {
-                privateCustomer = value;
+                selectedPrivateCustomer = value;
                 OnPropertyChanged();
             }
         }
 
-        PostalCodeCity postalCodeCity = new PostalCodeCity
+        #region Customer
+        private PostalCodeCity postalCodeCity = new PostalCodeCity
         {
             City = "Borås",
             PostalCode = "50630"
@@ -40,26 +36,23 @@ namespace PresentationLayer.ViewModels
 
         private void LoadCustomerData()
         {
-            PrivateCustomer privateCustomer1 = new PrivateCustomer(
-            "0706689932",
-            "ingalillblommor52@emial.com",
-            "Gatuvägen 21",
-            postalCodeCity,
-            "19521019-1234",
-            "Inga-Lill",
-            "Bengtsson"
-        );
-
-
-
-
-
-
-
-
-
+            // Tilldela direkt till egenskapen för att trigga OnPropertyChanged.
+            SelectedPrivateCustomer = new PrivateCustomer(
+                "0706689932",
+                "ingalillblommor52@emial.com",
+                "Gatuvägen 21",
+                postalCodeCity,
+                "19521019-1234",
+                "Inga-Lill",
+                "Bengtsson",
+                "0346-58948");
         }
+        #endregion
 
-
+        public RegisterPreliminaryInsuranceViewModel()
+        {
+            insuranceController = new InsuranceController();
+            LoadCustomerData();
+        }
     }
 }

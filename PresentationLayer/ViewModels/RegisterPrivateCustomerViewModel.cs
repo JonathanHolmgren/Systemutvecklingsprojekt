@@ -90,12 +90,60 @@ namespace PresentationLayer.ViewModels
 
         private void AddPrivateCustomer()
         {
-            if (string.IsNullOrEmpty(SSN) || string.IsNullOrEmpty(FirstName) || string.IsNullOrEmpty(LastName) ||
-            string.IsNullOrEmpty(StreetAdress) || string.IsNullOrEmpty(PostalCode) || string.IsNullOrEmpty(City) ||
-            string.IsNullOrEmpty(TelephoneNumber) || string.IsNullOrEmpty(WorkTelephoneNumber) || string.IsNullOrEmpty(Email))
+            if (string.IsNullOrEmpty(SSN))
             {
-                MessageBox.Show("Var god fyll i alla fält");
+                MessageBox.Show("Personnummer (SSN) saknas");
+                return;
             }
+
+            if (string.IsNullOrEmpty(FirstName))
+            {
+                MessageBox.Show("Förnamn saknas");
+                return;
+            }
+
+            if (string.IsNullOrEmpty(LastName))
+            {
+                MessageBox.Show("Efternamn saknas");
+                return;
+            }
+
+            if (string.IsNullOrEmpty(StreetAdress))
+            {
+                MessageBox.Show("Gatuadress saknas");
+                return;
+            }
+
+            if (string.IsNullOrEmpty(PostalCode))
+            {
+                MessageBox.Show("Postnummer saknas");
+                return;
+            }
+
+            if (string.IsNullOrEmpty(City))
+            {
+                MessageBox.Show("Stad saknas");
+                return;
+            }
+
+            if (string.IsNullOrEmpty(TelephoneNumber))
+            {
+                MessageBox.Show("Telefonnummer saknas");
+                return;
+            }
+
+            if (string.IsNullOrEmpty(WorkTelephoneNumber))
+            {
+                MessageBox.Show("Arbetstelefonnummer saknas");
+                return;
+            }
+
+            if (string.IsNullOrEmpty(Email))
+            {
+                MessageBox.Show("E-postadress saknas");
+                return;
+            }
+
             //Check that postalcode is 5 letters
             if (PostalCode.Length != 5 || !PostalCode.All(char.IsDigit))
             {
@@ -115,11 +163,19 @@ namespace PresentationLayer.ViewModels
                 City = CapitalizeFirstLetter(City);
                 StreetAdress = CapitalizeFirstLetter(StreetAdress);
 
+            try
+            {
                 PostalCodeCity postalCodeCity = AddPostalCodeCity(PostalCode, City);
                 PrivateCustomer privateCustomer = new PrivateCustomer(TelephoneNumber, Email, StreetAdress, postalCodeCity, SSN, FirstName, LastName, WorkTelephoneNumber);
                 customerController.AddCustomer(privateCustomer);
                 MessageBox.Show("Kunden är tillagd");
-           
+            }
+            catch (Exception ex)
+            {
+                // Visa felmeddelande om något går fel vid skapandet av objektet eller lagringen
+                MessageBox.Show($"Ett fel uppstod: {ex.Message}");
+            }
+
         }
         private PostalCodeCity AddPostalCodeCity(string postalcode, string city)
         {

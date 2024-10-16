@@ -8,37 +8,59 @@ namespace Models
 {
     public class Insurance
     {
-        public int InsuranceID { get; set; }
+        public int InsuranceId { get; set; }
         public DateTime ExpiryDate { get; set; }
         public BillingInterval BillingingInterval { get; set; }
-        public User User { get; set; }
         public InsuranceStatus InsuranceStatus { get; set; }
-        public InsuranceType InsuranceType { get; set; }
-        public string Notes { get; set; }
-        public Customer Customer { get; set; }
-        public InsuredPerson InsuredPerson { get; set; }
+        public string? Notes { get; set; }
 
+        // Navigation property
+        public User? User { get; set; }
+        public InsuredPerson InsuredPerson { get; set; }
+        public Customer Customer { get; set; }
+        public InsuranceType InsuranceType { get; set; }
+
+        //Constructors
         public Insurance() { }
 
         public Insurance(
             DateTime expiryDate,
-            BillingInterval billingInterval,
+            BillingInterval billingingInterval,
+            InsuranceStatus insuranceStatus,
             User user,
-            InsuranceType insuranceType,
-            string notes,
+            InsuredPerson insuredPerson,
             Customer customer,
-            InsuredPerson insuredPerson
-        ) 
+            InsuranceType insuranceType
+        )
         {
             ExpiryDate = expiryDate;
-            BillingingInterval = billingInterval;
+            BillingingInterval = billingingInterval;
+            InsuranceStatus = insuranceStatus;
             User = user;
-            InsuranceStatus = InsuranceStatus.Preliminary;
-            InsuranceType = insuranceType;
-            Notes = notes;
-            Customer = customer;
             InsuredPerson = insuredPerson;
+            Customer = customer;
+            InsuranceType = insuranceType;
+        }
 
+        public Insurance(
+            DateTime expiryDate,
+            BillingInterval billingingInterval,
+            InsuranceStatus insuranceStatus,
+            string notes,
+            User user,
+            InsuredPerson insuredPerson,
+            Customer customer,
+            InsuranceType insuranceType
+        )
+        {
+            ExpiryDate = expiryDate;
+            BillingingInterval = billingingInterval;
+            InsuranceStatus = insuranceStatus;
+            Notes = notes;
+            User = user;
+            InsuredPerson = insuredPerson;
+            Customer = customer;
+            InsuranceType = insuranceType;
         }
     }
 }

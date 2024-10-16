@@ -8,8 +8,18 @@ namespace Models
 {
     public class InsuranceType
     {
-        public int InsuranceTypeID {  get; set; }
-        public IList<InsuranceTypeAttribute> InsuranceTypeAttributes { get; set; }
-        public string Type { get; set; }    
+        public int InsuranceTypeId { get; set; }
+        public string Type { get; set; }
+
+        // Navigation property
+        public ICollection<InsuranceTypeAttribute> InsuranceTypeAttributes { get; set; }
+        public ICollection<Insurance> Insurances { get; set; }
+
+        public InsuranceType() { }
+
+        public InsuranceType(string type)
+        {
+            Type = type;
+        }
     }
 }

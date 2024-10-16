@@ -7,7 +7,7 @@ using Models;
 
 namespace DataLayer.Repositories
 {
-    public class CommisionRateRepository : Repository<CommisionRate>
+    public class CommisionRateRepository : Repository<Commission>
     {
         public CommisionRateRepository(Context context) : base(context) { }
     }

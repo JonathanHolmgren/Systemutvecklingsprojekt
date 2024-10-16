@@ -1,4 +1,5 @@
-﻿using Models;
+﻿using Microsoft.EntityFrameworkCore;
+using Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,7 +14,7 @@ namespace DataLayer.Repositories
 
         public List<Customer> GetAllCustomers()
         {
-            return Context.Set<Customer>().ToList();
+            return Context.Set<Customer>().Include(c => c.Insurances).ToList();
         }
     }
 }

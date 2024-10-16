@@ -4,8 +4,14 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:PresentationLayer.Views"
+             xmlns:vm="clr-namespace:PresentationLayer.ViewModels"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.DataContext>
+        <vm:ShowProspectsViewModel/>
+    </UserControl.DataContext>
+
+    
     <DockPanel Background="White">
         
         <!--  Dockpanel Top  -->
@@ -20,16 +26,33 @@
         </StackPanel>
 
         <!--  Dockpanel Bottom  -->
-        <StackPanel DockPanel.Dock="Bottom">
-            <ListBox Height="300" Width="700" VerticalAlignment="Center" HorizontalAlignment="Center" BorderBrush="Black" Margin="10">
-                
-            </ListBox>
-            
+        <StackPanel DockPanel.Dock="Bottom" Orientation="Vertical">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <!--  DataGrid  -->
+                <DataGrid Grid.Column="0" Height="250" Width="700" Margin="30,30,30,0" HorizontalAlignment="Left" VerticalAlignment="Top" ItemsSource="{Binding Prospects}" SelectedItem="{Binding ProspectSelectedItem, Mode=TwoWay}" AutoGenerateColumns="False" CanUserAddRows="False">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="KundID" Binding="{Binding CustomerID}" Width="Auto"/>
+                        <DataGridTextColumn Header="Telefonnummer" Binding="{Binding TelephoneNumber}" Width="Auto"/>
+                        <DataGridTextColumn Header="Personnummer" Binding="{Binding SSN}" Width="Auto"/>
+                        <DataGridTextColumn Header="Organisationsnummer" Binding="{Binding OrganisationNumber}" Width="Auto"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+                <!-- ScrollViewer -->
+                <ScrollViewer Grid.Column="1" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+                    <!-- Innehåll här -->
+                </ScrollViewer>
+            </Grid>
+
             <StackPanel Orientation="Horizontal">
-                <Button Content="Huvudmeny" Margin="30" Width="110" HorizontalAlignment="Left"></Button>
-                <Button Content="Visa kundprospekt" Margin="30" Width="110" HorizontalAlignment="Right"></Button>
+                <Button Content="Huvudmeny" Margin="5" Command="{Binding ReturnCommand}"/>
+                <Button Content="Visa kundprospekt" Margin="5" Command="{Binding ShowProspectCommand}"/>
             </StackPanel>
-            
+
         </StackPanel>
     </DockPanel>
 </UserControl>

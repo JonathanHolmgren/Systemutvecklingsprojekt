@@ -36,8 +36,6 @@ namespace ServiceLayer
         public void AddInsurance(Insurance insurance)
         {
             unitOfWork.InsuranceRepository.Add(insurance);
-            //Vi har inte metoden Update i unitofwork
-            //t.ex;
             //unitOfWork.Update(insurance.User)
             //unitOfWork.Update(insurance.Customer)
             //unitOfWork.Update(insurance.InsuredPerson)

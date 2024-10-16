@@ -1,4 +1,5 @@
 ﻿using DataLayer;
+using DataLayer.Repositories;
 using Models;
 using System;
 using System.Collections.Generic;
@@ -11,13 +12,30 @@ namespace ServiceLayer
     public class CustomerController
     {
         UnitOfWork unitOfWork = new UnitOfWork();
-
-        public void RegisterPrivateCustomer(string ssn, string firstName, string lastName, string telephoneNumber, string workTelephoneNumber, string email, string streetAdress, PostalCodeCity postalCodeCity)
+        public void AddCustomer(Customer customer)
         {
-            PrivateCustomer privateCustomer = new PrivateCustomer(ssn, firstName, lastName, workTelephoneNumber, telephoneNumber, email, streetAdress, postalCodeCity);
+            try
+            {
+                PostalCodeCity existingPostalCodeCity = unitOfWork.PostalCodeCityRepository.GetSpecificPostalCode(customer.PostalCodeCity.PostalCode);
 
-            unitOfWork.PrivateCustomerRepository.Add(privateCustomer);
-            unitOfWork.SaveChanges();
+                if (existingPostalCodeCity == null)
+                {
+                    unitOfWork.PostalCodeCityRepository.Add(customer.PostalCodeCity);
+                }
+                else
+                {
+                    customer.PostalCodeCity = existingPostalCodeCity;
+                }
+
+                unitOfWork.CustomerRepository.Add(customer);
+                unitOfWork.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                // Kasta vidare undantaget så att det kan hanteras i UI-lagret
+                throw new Exception($"Ett fel uppstod vid sparandet av kunden: {ex.Message}");
+            }
         }
+
     }
 }

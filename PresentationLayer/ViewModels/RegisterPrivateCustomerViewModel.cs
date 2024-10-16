@@ -10,6 +10,7 @@ using System.Windows.Input;
 using Models;
 using ServiceLayer;
 using PresentationLayer.Command;
+using System.Text.RegularExpressions;
 
 namespace PresentationLayer.ViewModels
 {
@@ -90,23 +91,40 @@ namespace PresentationLayer.ViewModels
         private void AddPrivateCustomer()
         {
             if (string.IsNullOrEmpty(SSN) || string.IsNullOrEmpty(FirstName) || string.IsNullOrEmpty(LastName) ||
-            string.IsNullOrEmpty(StreetAdress) || string.IsNullOrEmpty(postalcode) || string.IsNullOrEmpty(city) ||
+            string.IsNullOrEmpty(StreetAdress) || string.IsNullOrEmpty(PostalCode) || string.IsNullOrEmpty(City) ||
             string.IsNullOrEmpty(TelephoneNumber) || string.IsNullOrEmpty(WorkTelephoneNumber) || string.IsNullOrEmpty(Email))
             {
                 MessageBox.Show("Var god fyll i alla fält");
             }
-            else
+            //Check that postalcode is 5 letters
+            if (PostalCode.Length != 5 || !PostalCode.All(char.IsDigit))
             {
-                PostalCodeCity postalCodeCity = AddPostalCodeCity(PostalCode, City);
-                customerController.RegisterPrivateCustomer(SSN, FirstName, LastName, TelephoneNumber, WorkTelephoneNumber, Email, StreetAdress, postalCodeCity);
-                MessageBox.Show("Kunden är tillagd");
+                MessageBox.Show("Postnumret måste vara exakt 5 siffror");
+                return;
             }
-        }
 
-        private PostalCodeCity AddPostalCodeCity(string postalCode, string city)
+            //Check that SSN is 10 letters
+            if (SSN.Length != 10 || !SSN.All(char.IsDigit))
+            {
+                MessageBox.Show("Personnumret måste innehålla 10 siffror");
+                return;
+            }
+          
+                FirstName = CapitalizeFirstLetter(FirstName);
+                LastName = CapitalizeFirstLetter(LastName);
+                City = CapitalizeFirstLetter(City);
+                StreetAdress = CapitalizeFirstLetter(StreetAdress);
+
+                PostalCodeCity postalCodeCity = AddPostalCodeCity(PostalCode, City);
+                PrivateCustomer privateCustomer = new PrivateCustomer(TelephoneNumber, Email, StreetAdress, postalCodeCity, SSN, FirstName, LastName, WorkTelephoneNumber);
+                customerController.AddCustomer(privateCustomer);
+                MessageBox.Show("Kunden är tillagd");
+           
+        }
+        private PostalCodeCity AddPostalCodeCity(string postalcode, string city)
         {
-            PostalCodeCity postalcodecity = new PostalCodeCity(postalCode, city);
-            return postalcodecity;
+            PostalCodeCity newpostalCodeCity = new PostalCodeCity(postalcode, city);
+            return newpostalCodeCity;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -114,5 +132,15 @@ namespace PresentationLayer.ViewModels
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
+
+        #region Felhanteringsmetoder
+        private string CapitalizeFirstLetter(string input)
+        {
+            if (string.IsNullOrEmpty(input))
+                return input;
+
+            return char.ToUpper(input[0]) + input.Substring(1).ToLower();
+        }
+        #endregion
     }
 }

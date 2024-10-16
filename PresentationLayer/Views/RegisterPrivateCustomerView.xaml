@@ -27,7 +27,7 @@
 
         <!--  Dockpanel Left  -->
         <StackPanel>
-            <Label Content="Personnummer" Height="25"/>
+            <Label Content="Personnummer (10 siffror)" Height="25"/>
             <TextBox Width="150" HorizontalAlignment="Left" Margin="10,0,10,0" Text="{Binding SSN, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 
             <Label Content="Förnamn" Height="25"/>

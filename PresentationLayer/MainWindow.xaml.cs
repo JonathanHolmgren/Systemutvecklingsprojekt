@@ -8,6 +8,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using ServiceLayer;
 
 namespace PresentationLayer
 {
@@ -16,9 +17,16 @@ namespace PresentationLayer
     /// </summary>
     public partial class MainWindow : Window
     {
-        public MainWindow()
+        private readonly MyService _myService;
+        
+        public MainWindow() 
+            : this(null) // Anropa den andra konstruktorn, men skicka null för MyService
+        {
+        }
+        public MainWindow(MyService myService)
         {
             InitializeComponent();
+            _myService = myService;
         }
     }
 }

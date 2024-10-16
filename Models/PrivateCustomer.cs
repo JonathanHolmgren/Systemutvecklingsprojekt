@@ -6,19 +6,48 @@ using System.Threading.Tasks;
 
 namespace Models
 {
-    public class PrivateCustomer:Customer
+    public class PrivateCustomer : Customer
     {
-        public string SSN { get; set; } 
+        public string SSN { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        public string WorkTelephoneNumber { get; set; }
+        public string? WorkTelephoneNumber { get; set; }
 
-        public PrivateCustomer(string ssn, string firstName, string lastName, string worktelephoneNumber, string telephoneNumber, string email, string streetAdress, PostalCodeCity postalCodeCity) : base(telephoneNumber, email, streetAdress, postalCodeCity)
+        //Constructors
+        public PrivateCustomer() { }
+
+        public PrivateCustomer(
+            string telephoneNumber,
+            string email,
+            string streetName,
+            PostalCodeCity postalCodeCity,
+            string sSN,
+            string firstName,
+            string lastName,
+            string workTelephoneNumber
+        )
+            : base(telephoneNumber, email, streetName, postalCodeCity)
         {
-            this.SSN = ssn;
-            this.FirstName = firstName;
-            this.LastName = lastName;
-            this.WorkTelephoneNumber = worktelephoneNumber;
+            SSN = sSN;
+            FirstName = firstName;
+            LastName = lastName;
+            WorkTelephoneNumber = workTelephoneNumber;
+        }
+
+        public PrivateCustomer(
+            string telephoneNumber,
+            string email,
+            string streetName,
+            PostalCodeCity postalCodeCity,
+            string sSN,
+            string firstName,
+            string lastName
+        )
+            : base(telephoneNumber, email, streetName, postalCodeCity)
+        {
+            SSN = sSN;
+            FirstName = firstName;
+            LastName = lastName;
         }
     }
 }

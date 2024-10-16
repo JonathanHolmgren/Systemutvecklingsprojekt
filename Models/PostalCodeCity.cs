@@ -10,14 +10,17 @@ namespace Models
     {
         public string PostalCode { get; set; }
         public string City { get; set; }
+        public PostalCodeCity()
+        {
+                
+        }
+        public PostalCodeCity(string postalCode, string city)
+        {
+            this.PostalCode = postalCode;
+            this.City = city;
+        }
 
         // public ICollection<Customer> Customers { get; set; } = new List<Customer>();
         public ICollection<Employee> Employees { get; set; } = new List<Employee>();
-
-        public PostalCodeCity(string postalCode, string city)
-        {
-            PostalCode = postalCode;
-            City = city;
-        }
     }
 }

@@ -11,18 +11,26 @@ namespace Models
         public int CustomerID { get; set; }
         public string TelephoneNumber { get; set; }
         public string Email { get; set; }
-        public string StreetAdress { get; set; }
+        public string StreetName { get; set; }
+
+        // Navigation property
+        public ICollection<Insurance> Insurances { get; set; }
         public PostalCodeCity PostalCodeCity { get; set; }
-        public Customer()
+
+        //Constructors
+        public Customer() { }
+
+        public Customer(
+            string telephoneNumber,
+            string email,
+            string streetName,
+            PostalCodeCity postalCodeCity
+        )
         {
-                
-        }
-        public Customer(string telephoneNumber, string email, string streetAdress, PostalCodeCity postalCodeCity)
-        {
-            this.TelephoneNumber = telephoneNumber;
-            this.Email = email;
-            this.StreetAdress = streetAdress;
-            this.PostalCodeCity = postalCodeCity;
+            TelephoneNumber = telephoneNumber;
+            Email = email;
+            StreetName = streetName;
+            PostalCodeCity = postalCodeCity;
         }
     }
 }

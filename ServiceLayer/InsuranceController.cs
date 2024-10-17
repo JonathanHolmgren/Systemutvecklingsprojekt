@@ -42,5 +42,10 @@ namespace ServiceLayer
             unitOfWork.Update(insurance.InsuranceType);
             unitOfWork.SaveChanges();
         }
+
+        public InsuredPerson CreateInsuredPerson(string firstName, string lastName, string ssn)
+        {
+            return new InsuredPerson(firstName, lastName, ssn);
+        }
     }
 }

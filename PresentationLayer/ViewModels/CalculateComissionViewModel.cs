@@ -32,6 +32,7 @@ namespace PresentationLayer.ViewModels
             }
         }
 
+        
         public double TotalCommission
         {
             get { return totalCommission; }
@@ -57,12 +58,13 @@ namespace PresentationLayer.ViewModels
 
         public CalculateComissionViewModel()
         {
-            //LoadEmployees();
+            this.comissionRateController = comissionRateController;
+            LoadEmployees();
         }
 
         private void LoadEmployees()
         {
-            var employees = comissionRateController.GetAllEmployees();
+            var employees = comissionRateController.GetEmployeesWithCommissions();
             foreach (var employee in employees)
             {
                 Employees.Add(employee);

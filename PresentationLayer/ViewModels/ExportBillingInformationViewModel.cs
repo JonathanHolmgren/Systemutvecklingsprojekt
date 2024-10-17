@@ -13,26 +13,31 @@ namespace PresentationLayer.ViewModels
     internal class ExportBillingInformationViewModel:ObservableObject
     {
         CustomerController customerController = new CustomerController();
-        private ObservableCollection<Customer> allCustomers = null;
-        public ObservableCollection<Customer> AllCustomers
+        private ObservableCollection<PrivateCustomer> privateCustomer = null;
+        public ObservableCollection<PrivateCustomer> PrivateCustomers
         {
-            get { return allCustomers; }
+            get { return privateCustomer; }
             set
             {
-                allCustomers = value;
-                OnPropertyChanged(nameof(AllCustomers));
+                privateCustomer = value;
+                OnPropertyChanged(nameof(PrivateCustomers));
+            }
+        }
+        private ObservableCollection<CompanyCustomer>companyCustomer  = null;
+        public ObservableCollection<CompanyCustomer> CompanyCustomers
+        {
+            get { return companyCustomer; }
+            set
+            {
+                companyCustomer = value;
+                OnPropertyChanged(nameof(CompanyCustomers));
             }
         }
         public ExportBillingInformationViewModel()
         {
-            AllCustomers = new ObservableCollection<Customer>(customerController.GetAll());
+            PrivateCustomers = new ObservableCollection<PrivateCustomer>(customerController.GetAllPrivateCustomers());
+            CompanyCustomers = new ObservableCollection<CompanyCustomer>(customerController.GetAllCompanyCustomers());
+            
         }
-        //Separates private and company customers
-        private void SeparateCustomers()
-        {
-            ObservableCollection<PrivateCustomer> privateCustomers = allCustomers;
-
-        }
-    }
-    
+    }    
 }

@@ -5,10 +5,36 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:PresentationLayer.Views"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800" Background="White">
+             d:DesignHeight="450" d:DesignWidth="800" Background="White"
+             xmlns:vm="clr-namespace:PresentationLayer.ViewModels">
+    <UserControl.DataContext>
+        <vm:ExportBillingInformationViewModel/>
+    </UserControl.DataContext>
     <Grid>
-        <ListBox d:ItemsSource="{d:SampleData ItemCount=5}" Margin="430,102,26,102"/>
-        <ListBox d:ItemsSource="{d:SampleData ItemCount=5}" Margin="56,102,400,102"/>
+        
+        <ListBox Height="200"
+         Width="300"
+         Margin="-300,0,100,0"
+         ItemsSource="{Binding PrivateCustomers}">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel>
+                        <TextBlock Text="{Binding TelephoneNumber}" />
+                        <TextBlock Text="{Binding LastName}" />
+                        <TextBlock Text="{Binding SSN}" />
+                        <TextBlock Text="{Binding StreetAddress}" />
+                        <TextBlock Text="{Binding PostalCodeCity.PostalCode}" />
+                        <TextBlock Text="{Binding PostalCodeCity.City}" />
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+        <ListBox Height="200"
+                 Width="300"
+                 Margin="450,0,100,0"
+                 ItemsSource="{Binding CompanyCustomers}">
+        </ListBox>
+           
         <Label Content="Privata faktura uppgifter" FontSize="15" HorizontalAlignment="Left" Margin="56,39,0,0" VerticalAlignment="Top"/>
         <Label Content="Företag faktura uppgifter" FontSize="15" HorizontalAlignment="Left" Margin="430,39,0,0" VerticalAlignment="Top"/>
         <Button Content="Button" HorizontalAlignment="Left" Margin="645,392,0,0" VerticalAlignment="Top" Height="36" Width="112"/>

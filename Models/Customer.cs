@@ -8,7 +8,7 @@ namespace Models
 
   {
     
-        public abstract class Customer
+        public class Customer
         {
             public int CustomerID { get; set; }
             public string TelephoneNumber { get; set; }

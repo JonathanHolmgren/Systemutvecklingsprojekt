@@ -11,8 +11,15 @@
     <UserControl.DataContext>
         <vm:ExportInvoiceBasisViewModel/>
     </UserControl.DataContext>
-    
+
     <Grid>
-            
+        <Canvas Background="White">
+            <Label x:Name="ExportInvoiceBasisLabel" Content="Exportera faktura" Canvas.Left="10" Canvas.Top="10" FontFamily="Times New Roman" FontSize="22" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            <DataGrid x:Name="SalesDataGrid" Height="225" Width="780" d:ItemsSource="{d:SampleData ItemCount=5}" Canvas.Left="10" Canvas.Top="79" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+            <TextBlock x:Name="SelectSaleTextBlock" Canvas.Left="10" TextWrapping="Wrap" Text="Välj en faktura att du vill exportera" Canvas.Top="61" HorizontalAlignment="Center" VerticalAlignment="Top" FontFamily="Times New Roman" FontSize="16"/>
+            <Button x:Name="ExportInvoiceBasisCSVButton" Content="Skapa CSV fil" Canvas.Left="10" Canvas.Top="319" HorizontalAlignment="Center" VerticalAlignment="Top" Width="113" Height="34"/>
+            <Button x:Name="ExportInvoiceBasisButtonJSONButton" Content="Skapa JSON fil" Canvas.Left="143" Canvas.Top="319" HorizontalAlignment="Left" VerticalAlignment="Center" Width="113" Height="34"/>
+
+        </Canvas>
     </Grid>
 </UserControl>

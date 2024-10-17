@@ -7,11 +7,15 @@
              xmlns:vm="clr-namespace:PresentationLayer.ViewModels"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
+    
+    <UserControl.Resources>
+        <BooleanToVisibilityConverter x:Key="BoolToVisConverter" />
+    </UserControl.Resources>
+
     <UserControl.DataContext>
         <vm:ShowProspectsViewModel/>
     </UserControl.DataContext>
-
-    
+   
     <DockPanel Background="White">
         
         <!--  Dockpanel Top  -->
@@ -26,7 +30,7 @@
         </StackPanel>
 
         <!--  Dockpanel Bottom  -->
-        <StackPanel DockPanel.Dock="Bottom" Orientation="Vertical">
+        <StackPanel DockPanel.Dock="Left" Orientation="Vertical">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
@@ -34,20 +38,27 @@
                 </Grid.ColumnDefinitions>
 
                 <!--  DataGrid  -->
-                <DataGrid Grid.Column="0" Height="250" Width="700" Margin="30,30,30,0" HorizontalAlignment="Left" VerticalAlignment="Top" ItemsSource="{Binding Prospects}" SelectedItem="{Binding ProspectSelectedItem, Mode=TwoWay}" AutoGenerateColumns="False" CanUserAddRows="False">
+                <DataGrid Grid.Column="0" Height="250" Width="400" Margin="30,30,30,0" HorizontalAlignment="Left" VerticalAlignment="Top" ItemsSource="{Binding Prospects}" SelectedItem="{Binding ProspectSelectedItem, Mode=TwoWay}" AutoGenerateColumns="False" CanUserAddRows="False">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="KundID" Binding="{Binding CustomerID}" Width="Auto"/>
                         <DataGridTextColumn Header="Telefonnummer" Binding="{Binding TelephoneNumber}" Width="Auto"/>
-                        <DataGridTextColumn Header="Personnummer" Binding="{Binding SSN}" Width="Auto"/>
-                        <DataGridTextColumn Header="Organisationsnummer" Binding="{Binding OrganisationNumber}" Width="Auto"/>
+                        <DataGridTextColumn Header="Personnummer" Binding="{Binding SSN}" Width="Auto" Visibility="{Binding IsPrivateColumnVisible, Converter={StaticResource BoolToVisConverter}}"/>
+                        <DataGridTextColumn Header="Organisationsnummer" Binding="{Binding OrganisationNumber}" Width="Auto" Visibility="{Binding IsCompanyColumnVisible, Converter={StaticResource BoolToVisConverter}}"/>
                     </DataGrid.Columns>
                 </DataGrid>
                 <!-- ScrollViewer -->
                 <ScrollViewer Grid.Column="1" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
-                    <!-- Innehåll här -->
                 </ScrollViewer>
             </Grid>
 
+            <!-- Radiobutton -->
+            <StackPanel Orientation="Horizontal">
+                <RadioButton Content="Alla" GroupName="UserType" IsChecked="{Binding IsAllSelected, Mode=TwoWay}" Margin="0,0,10,0"/>
+                <RadioButton Content="Företag" GroupName="UserType" IsChecked="{Binding IsCompanySelected, Mode=TwoWay}" Margin="0,0,10,0"/>
+                <RadioButton Content="Privat" GroupName="UserType" IsChecked="{Binding IsPrivateSelected, Mode=TwoWay}"/>
+            </StackPanel>
+
+            <!-- Buttons -->
             <StackPanel Orientation="Horizontal">
                 <Button Content="Huvudmeny" Margin="5" Command="{Binding ReturnCommand}"/>
                 <Button Content="Visa kundprospekt" Margin="5" Command="{Binding ShowProspectCommand}"/>

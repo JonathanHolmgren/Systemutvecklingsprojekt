@@ -1,0 +1,53 @@
+﻿<UserControl x:Class="PresentationLayer.Views.RegisterSoldInsuranceView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:PresentationLayer.Views"
+             xmlns:vm="clr-namespace:PresentationLayer.ViewModels"
+             xmlns:windowCloser="clr-namespace:PresentationLayer.Services"
+             windowCloser:WindowCloser.EnableWindowClosing="True"            
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+
+    <UserControl.DataContext>
+        <vm:RegisterSoldInsuranceViewModel/>
+    </UserControl.DataContext>
+
+    <Grid Background="White" Width="800" Height="450">
+        <Canvas Width="800" Height="450" Margin="-200,-112,-200,-113">
+            <Label x:Name="RegisterSoldInsuranceLabel" Content="Registrera såld försäkring" HorizontalAlignment="Center" Margin="0,10,0,0" VerticalAlignment="Top" FontSize="24" FontFamily="Times New Roman"/>
+
+            <TextBlock x:Name="SelectInsuranceTextBlock" HorizontalAlignment="Left" Margin="10,59,0,0" TextWrapping="Wrap" Text="Välj preliminär försärking" VerticalAlignment="Top"/>
+
+            <ListBox x:Name="PreliminaryInsurancesListBox" ItemsSource="{Binding Insurances, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding SelectedInsuranceRow}" Canvas.Left="10" Canvas.Top="103" Height="141" Width="780" HorizontalAlignment="Left" VerticalAlignment="Center">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal" Width="284">
+
+                            <TextBlock Text="{Binding InsuranceId}" Margin="5" />
+
+                            <TextBlock Text="{Binding InsuranceStatus}" Margin="5" />
+
+                            <TextBlock Text="{Binding Customer.FirstName}" Margin="5" />
+
+                            <TextBlock Text="{Binding Customer.LastName}" Margin="5" />
+
+                            <TextBlock Text="{Binding Customer.ContactPersonName}" Margin="5" />
+
+                            <TextBlock Text="{Binding Customer.OrganisationNumber}" Margin="5" />
+
+                        </StackPanel>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+
+            <Button x:Name="ConvertPreliminaryInsuranceButton" Content="Registrera som såld försäkring" Command="{Binding RegisterSoldInsuranceCommand}" HorizontalAlignment="Center" VerticalAlignment="Top" Canvas.Left="10" Canvas.Top="249"/>
+            
+
+
+
+        </Canvas>
+
+    </Grid>
+</UserControl>

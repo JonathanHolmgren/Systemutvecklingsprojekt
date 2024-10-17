@@ -5,9 +5,10 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Models
-  {
 
-        public class Customer
+  {
+    
+        public abstract class Customer
         {
             public int CustomerID { get; set; }
             public string TelephoneNumber { get; set; }

@@ -35,5 +35,9 @@ namespace ServiceLayer
                 throw new Exception($"Ett fel uppstod vid sparandet av kunden: {ex.Message}");
             }
         }
+        public IList<Customer> GetAll()
+        {
+            return unitOfWork.CustomerRepository.GetAll();
+        }
     }
 }

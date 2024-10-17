@@ -46,11 +46,11 @@
             <TextBox Text="{Binding SelectedEmployee.LastName, UpdateSourceTrigger=PropertyChanged}" Margin="20,0" Height="40" FontSize="16"/>
 
             <Label Content="Provision för period" HorizontalAlignment="Left" Margin="20,30,0,0" FontSize="14" Foreground="Black"/>
-            <TextBox Text="{Binding TotalCommission, Mode=OneWay}" Margin="20,0" Height="40" FontSize="16" IsReadOnly="True"/>
+            <TextBox Text="{Binding TotalCommission, Mode=OneWay,StringFormat=\{0\} SEK}" Margin="20,0" Height="40" FontSize="16" IsReadOnly="True"/>
 
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="20,70">
                 <Button Content="Avbryt" Height="20" Width="80" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="10,0"/>
-                <Button Content="Exportera" Height="20" Width="80" HorizontalAlignment="Right" VerticalAlignment="Bottom"/>
+                <Button Content="Exportera" Height="20" Width="80" HorizontalAlignment="Right" VerticalAlignment="Bottom" Command="{Binding ExportCommand}"/>
 
             </StackPanel>
         </StackPanel>

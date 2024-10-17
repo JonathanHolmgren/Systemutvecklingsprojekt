@@ -16,16 +16,13 @@ namespace ServiceLayer
 
         public double CalculateComission(Employee employee)
         {
-            // Hämta den totala premien för den senaste månaden
             double totalPremium = unitOfWork.InsuranceRepository.GetTotalPremiumForLastMonth(employee);
-            // Kontrollera om totalPremium är 0 för att undvika att multiplikationen ger 0 utan försäkringar
             if (totalPremium == 0)
             {
                 return 0;
             }
 
-            // Kontrollera om kommissionstakt är giltig
-            double commissionRate = employee.Commission?.CommisionRate ?? 0; // Sätt till 0 om null
+            double commissionRate = employee.Commission?.CommisionRate ?? 0; 
 
             return totalPremium * commissionRate;
         }
@@ -33,6 +30,23 @@ namespace ServiceLayer
         public List<Employee> GetEmployeesWithCommissions()
         {
             return unitOfWork.EmployeeRepository.GetEmployeesWithCommissions();
+        }
+
+        public void ExportToCsv(Employee employee, double totalCommission, string commissionPeriod)
+        {
+            var csvContent = new StringBuilder();
+            csvContent.AppendLine("Förnamn,Efternamn,Personnummer,Agentnummer,Provision för period,Provisionsperiod");
+            csvContent.AppendLine($"{employee.FirstName},{employee.LastName},{employee.SSN},{employee.AgentNumber},{totalCommission},{commissionPeriod}");
+
+            string filePath = "employee_commission.csv";
+            File.WriteAllText(filePath, csvContent.ToString());
+
+            // Öppna filen automatiskt
+            Process.Start(new ProcessStartInfo
+            {
+                FileName = filePath,
+                UseShellExecute = true // Detta gör att filen öppnas med standardprogrammet för CSV-filer
+            });
         }
     }
 }

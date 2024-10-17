@@ -10,6 +10,8 @@ using PresentationLayer.Command;
 using ServiceLayer;
 using Models;
 using System.Collections.ObjectModel;
+using System.Xml;
+using System.IO;
 
 namespace PresentationLayer.ViewModels
 {
@@ -55,11 +57,13 @@ namespace PresentationLayer.ViewModels
         }
 
 
+        public ICommand ExportCommand { get; }
 
         public CalculateComissionViewModel()
         {
             this.comissionRateController = comissionRateController;
             LoadEmployees();
+            ExportCommand = new RelayCommand(ExportToCsv);
         }
 
         private void LoadEmployees()
@@ -80,6 +84,14 @@ namespace PresentationLayer.ViewModels
                 var lastMonthStart = new DateTime(DateTime.Now.Year, DateTime.Now.Month - 1, 1);
                 var lastMonthEnd = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1).AddDays(-1);
                 CommissionPeriod = $"{lastMonthStart.ToString("yyyy-MM-dd")} till {lastMonthEnd.ToString("yyyy-MM-dd")}";
+            }
+        }
+
+        private void ExportToCsv()
+        {
+            if (SelectedEmployee != null)
+            {
+                comissionRateController.ExportToCsv(SelectedEmployee, TotalCommission, CommissionPeriod);
             }
         }
     }

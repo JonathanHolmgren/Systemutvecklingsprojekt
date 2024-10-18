@@ -12,13 +12,27 @@
         <vm:ExportInvoiceBasisViewModel/>
     </UserControl.DataContext>
 
+
     <Grid>
         <Canvas Background="White">
-            <Label x:Name="ExportInvoiceBasisLabel" Content="Exportera faktura" Canvas.Left="10" Canvas.Top="10" FontFamily="Times New Roman" FontSize="22" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-            <DataGrid x:Name="SalesDataGrid" Height="225" Width="780" d:ItemsSource="{d:SampleData ItemCount=5}" Canvas.Left="10" Canvas.Top="79" HorizontalAlignment="Center" VerticalAlignment="Top"/>
-            <TextBlock x:Name="SelectSaleTextBlock" Canvas.Left="10" TextWrapping="Wrap" Text="Välj en faktura att du vill exportera" Canvas.Top="61" HorizontalAlignment="Center" VerticalAlignment="Top" FontFamily="Times New Roman" FontSize="16"/>
-            <Button x:Name="ExportInvoiceBasisCSVButton" Content="Skapa CSV fil" Canvas.Left="10" Canvas.Top="319" HorizontalAlignment="Center" VerticalAlignment="Top" Width="113" Height="34"/>
-            <Button x:Name="ExportInvoiceBasisButtonJSONButton" Content="Skapa JSON fil" Canvas.Left="143" Canvas.Top="319" HorizontalAlignment="Left" VerticalAlignment="Center" Width="113" Height="34"/>
+
+            <Label x:Name="ExportInvoiceBasisLabel" Content="Exportera faktura" Canvas.Left="318" Canvas.Top="10" FontFamily="Times New Roman" FontSize="22" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+
+            <DataGrid x:Name="SalesDataGridPrivateInsurances" Height="225" Width="780" ItemsSource="{Binding PrivateInsurances}"  AutoGenerateColumns="True" Canvas.Left="10" Canvas.Top="166" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+
+
+            <DataGrid x:Name="SalesDataGridCompanyInsurances" Height="225" Width="780" ItemsSource="{Binding CompanyInsurances}"  AutoGenerateColumns="True" Canvas.Left="10" Canvas.Top="225" HorizontalAlignment="Center" VerticalAlignment="Top" Visibility="{Binding IsDataGridVisibleCompany}"/>
+
+
+            <TextBlock x:Name="SelectSaleTextBlock" Canvas.Left="10" TextWrapping="Wrap" Text="Välj en faktura att du vill exportera" Canvas.Top="143" HorizontalAlignment="Center" VerticalAlignment="Top" FontFamily="Times New Roman" FontSize="16"/>
+
+            <Button x:Name="ExportInvoiceBasisCSVButton" Content="Exportera" Canvas.Left="10" Canvas.Top="406" HorizontalAlignment="Center" VerticalAlignment="Top" Width="113" Height="34"/>
+
+            <Button x:Name="PrivateCustomersButton" Content="Privat kunder" Command="{Binding GetPrivateCustomersInsurancesCommand}" Canvas.Left="10" Canvas.Top="81" HorizontalAlignment="Left" VerticalAlignment="Top" Width="123" Height="29"/>
+
+            <Button x:Name="CompanyCustomersButton" Content="Företags kunder" Command="{Binding GetCompanyCustomersInsurancesCommand}" Canvas.Left="149" Canvas.Top="81" RenderTransformOrigin="-2.523,0.011" HorizontalAlignment="Left" Height="29" VerticalAlignment="Top" Width="123"/>
+
+            <TextBlock x:Name="ChoseCustomerTypeTextBlock" Canvas.Left="10" TextWrapping="Wrap" Text="Vilka kunder vill du hämta?" Canvas.Top="56" FontSize="16" FontFamily="Times New Roman"/>
 
         </Canvas>
     </Grid>

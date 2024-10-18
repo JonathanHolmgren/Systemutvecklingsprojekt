@@ -23,6 +23,13 @@ namespace PresentationLayer.ViewModels
             set { prospectNote = value; OnPropertyChanged(nameof(ProspectNote)); }
         }
 
+        private ObservableCollection<ProspectNote> prospectNotesList = null;
+        public ObservableCollection<ProspectNote> ProspectNotesList 
+        {
+            get { return prospectNotesList; } 
+            set { prospectNotesList = value; OnPropertyChanged(nameof(ProspectNotesList)); }
+        }
+
         private ObservableCollection<PrivateCustomer> privateCustomers = null;
         public ObservableCollection<PrivateCustomer> PrivateCustomers
         {
@@ -73,6 +80,7 @@ namespace PresentationLayer.ViewModels
             get { return isCompanySelected; }
             set
             {
+                PrivateProspectSelectedItem = null;
                 isCompanySelected = value;
                 OnPropertyChanged(nameof(IsCompanySelected));
                 OnPropertyChanged(nameof(IsCompanyColumnVisible));
@@ -87,6 +95,7 @@ namespace PresentationLayer.ViewModels
             get { return isPrivateSelected; }
             set
             {
+                CompanyProspectSelectedItem = null;
                 isPrivateSelected = value;
                 OnPropertyChanged(nameof(IsPrivateSelected));
                 OnPropertyChanged(nameof(IsCompanyColumnVisible));
@@ -103,7 +112,7 @@ namespace PresentationLayer.ViewModels
         { 
             get { return privateProspectSelectedItem; } 
             set
-            { 
+            {
                 privateProspectSelectedItem = value; 
                 OnPropertyChanged(nameof(PrivateProspectSelectedItem));
                 OnPropertyChanged(nameof(FullName));
@@ -172,7 +181,7 @@ namespace PresentationLayer.ViewModels
             ShowProspectCommand = new RelayCommand(ShowProspect);
             ReturnCommand = new RelayCommand(Return);
 
-            IsPrivateSelected = true;
+            IsCompanySelected = true;
         }
 
 
@@ -224,6 +233,24 @@ namespace PresentationLayer.ViewModels
             {                
                 PrivateProspects = FilterPrivateProspects();
             }
+        }
+        private ObservableCollection<ProspectNote> UpdateProspectNotes(Customer customer) 
+        {
+            ProspectNotesList.Clear();
+            if (customer.ProspectNotes != null)
+            {
+                foreach (var prospectNote in customer.ProspectNotes)
+                {
+                    ProspectNotesList.Add(prospectNote);
+                }
+            }
+            return ProspectNotesList;
+            
+        }
+
+        private void AddProspectNote()
+        {
+
         }
 
         //Show a more detailed view of the prospect

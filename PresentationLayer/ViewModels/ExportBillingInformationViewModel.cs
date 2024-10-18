@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using Models;
@@ -33,11 +34,24 @@ namespace PresentationLayer.ViewModels
                 OnPropertyChanged(nameof(CompanyCustomers));
             }
         }
+        private string premie;
+        public string Premie
+        {
+            get { return premie; }
+            set { premie = value; OnPropertyChanged(nameof(Premie)); }
+        }
         public ExportBillingInformationViewModel()
         {
             PrivateCustomers = new ObservableCollection<PrivateCustomer>(customerController.GetAllPrivateCustomers());
             CompanyCustomers = new ObservableCollection<CompanyCustomer>(customerController.GetAllCompanyCustomers());
-            
+            double test = customerController.GetCustomerTotalPremie(2);
+
         }
+        private void GetAllPrivateCustomerInsúrances()
+        {
+            
+
+        }
+
     }    
 }

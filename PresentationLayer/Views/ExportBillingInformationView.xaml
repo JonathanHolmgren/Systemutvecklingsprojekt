@@ -11,7 +11,7 @@
         <vm:ExportBillingInformationViewModel/>
     </UserControl.DataContext>
     <Grid>
-        
+
         <ListBox Height="200"
          Width="300"
          Margin="-300,0,100,0"
@@ -19,22 +19,52 @@
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <StackPanel>
-                        <TextBlock Text="{Binding TelephoneNumber}" />
-                        <TextBlock Text="{Binding LastName}" />
-                        <TextBlock Text="{Binding SSN}" />
-                        <TextBlock Text="{Binding StreetAddress}" />
-                        <TextBlock Text="{Binding PostalCodeCity.PostalCode}" />
-                        <TextBlock Text="{Binding PostalCodeCity.City}" />
+                        <!-- Information om PrivateCustomer visas här -->
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="{Binding FirstName}" Margin="0,0"/>
+                            <TextBlock Text="{Binding LastName}" Margin="3,0"/>
+                            <TextBlock Text="{Binding SSN}" Margin="3,0"/>
+                            <TextBlock Text="{Binding StreetAddress}" Margin="3,0"/>
+                            <TextBlock Text="{Binding PostalCodeCity.City}" Margin="3,0"/>
+                        </StackPanel>
+
+                        <!-- Lista med försäkringar för varje kund -->
+                        <ItemsControl ItemsSource="{Binding Insurances}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="Insurance: " FontWeight="Bold" Margin="0,0"/>
+                                        <TextBlock Text="{}" Margin="5,0"/>
+                                        <TextBlock Text="Premium: " FontWeight="Bold" Margin="10,0"/>
+                                        <TextBlock Text="{}" Margin="5,0"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
                     </StackPanel>
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
+
         <ListBox Height="200"
                  Width="300"
                  Margin="450,0,100,0"
                  ItemsSource="{Binding CompanyCustomers}">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                            <!-- Ändra till horisontell orientering -->
+                                <TextBlock Text="{Binding CompanyName}" Margin="0,0"/>
+                                <TextBlock Text="{Binding OrganisationNumber}" Margin="3,0"/>
+                                <TextBlock Text="{Binding ContactPersonName}" Margin="3,0"/>
+                                <TextBlock Text="{Binding StreetAddress}" Margin="3,0"/>
+                                <TextBlock Text="{Binding PostalCodeCity.City}" Margin="3,0"/>
+
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
         </ListBox>
-           
+
         <Label Content="Privata faktura uppgifter" FontSize="15" HorizontalAlignment="Left" Margin="56,39,0,0" VerticalAlignment="Top"/>
         <Label Content="Företag faktura uppgifter" FontSize="15" HorizontalAlignment="Left" Margin="430,39,0,0" VerticalAlignment="Top"/>
         <Button Content="Button" HorizontalAlignment="Left" Margin="645,392,0,0" VerticalAlignment="Top" Height="36" Width="112"/>

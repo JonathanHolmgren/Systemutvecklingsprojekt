@@ -16,23 +16,25 @@ namespace DataLayer.Repositories
             return Context.Set<Customer>()
                 .OfType<PrivateCustomer>()
                 .Include(p => p.PostalCodeCity)
-                .ToList(); // Returnerar hela objektet direkt, inklusive egenskaper från PrivateCustomer och Customer
+                .Include(i => i.Insurances)
+                .ToList();
         }
 
         public IList<CompanyCustomer> GetCompanyCustomers()
         {
             return Context.Set<Customer>()
-                .OfType<CompanyCustomer>()  // Filtrera endast CompanyCustomer-objekt
-                .Include(c => c.PostalCodeCity)  // Inkludera PostalCodeCity
-                .ToList(); // Konvertera till en lista
+                .OfType<CompanyCustomer>() 
+                .Include(c => c.PostalCodeCity)
+                .Include(i=>i.Insurances)
+                .ToList();
         }
 
         public CompanyCustomer GetSpecificCompanyCustomer(int customerId)
         {
           return Context.Set<Customer>()
-                .OfType<CompanyCustomer>()  // Filtrera endast CompanyCustomer-objekt
-                .Include(c => c.PostalCodeCity)  // Inkludera PostalCodeCity
-                .FirstOrDefault(); // Konvertera till en lista
+                .OfType<CompanyCustomer>()
+                .Include(c => c.PostalCodeCity) 
+                .FirstOrDefault();
         }
         public PrivateCustomer GetSpecificPrivateCustomer(int customerId)
         {

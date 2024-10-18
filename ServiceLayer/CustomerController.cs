@@ -1,4 +1,5 @@
 ﻿using DataLayer;
+using DataLayer.Repositories;
 using Models;
 using System;
 using System.Collections.Generic;
@@ -34,6 +35,18 @@ namespace ServiceLayer
             {
                 throw new Exception($"Ett fel uppstod vid sparandet av kunden: {ex.Message}");
             }
+        }
+
+        public void RemoveInactiveCustomers()
+        {
+            var inactiveCustomers = unitOfWork.CustomerRepository.GetInActiveCustomers();
+
+            foreach (var customer in inactiveCustomers)
+            {
+                unitOfWork.CustomerRepository.Remove(customer); 
+            }
+
+            unitOfWork.SaveChanges(); 
         }
     }
 }

@@ -8,6 +8,7 @@ using Models;
 using System.Diagnostics;
 using DataLayer.Repositories;
 
+
 namespace ServiceLayer
 {
     public class ComissionRateController
@@ -35,18 +36,22 @@ namespace ServiceLayer
         public void ExportToCsv(Employee employee, double totalCommission, string commissionPeriod)
         {
             var csvContent = new StringBuilder();
-            csvContent.AppendLine("Förnamn,Efternamn,Personnummer,Agentnummer,Provision för period,Provisionsperiod");
-            csvContent.AppendLine($"{employee.FirstName},{employee.LastName},{employee.SSN},{employee.AgentNumber},{totalCommission},{commissionPeriod}");
+            csvContent.AppendLine("Förnamn;Efternamn;Personnummer;Agentnummer;Provision för period;Provisionsperiod");
+            csvContent.AppendLine($"{employee.FirstName};{employee.LastName};{employee.SSN};{employee.AgentNumber};{totalCommission};{commissionPeriod}");
 
             string filePath = "employee_commission.csv";
-            File.WriteAllText(filePath, csvContent.ToString());
 
-            // Öppna filen automatiskt
+            File.WriteAllText(filePath, "\uFEFF" + csvContent.ToString(), Encoding.UTF8);
+
             Process.Start(new ProcessStartInfo
             {
                 FileName = filePath,
-                UseShellExecute = true // Detta gör att filen öppnas med standardprogrammet för CSV-filer
+                UseShellExecute = true
             });
         }
+
+
+
+
     }
 }

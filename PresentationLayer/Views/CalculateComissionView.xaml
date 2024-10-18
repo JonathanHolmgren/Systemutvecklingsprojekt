@@ -32,10 +32,13 @@
             <Label Content="Förnamn" HorizontalAlignment="Left" Margin="20,30,0,0" FontSize="14" Foreground="Black"/>
             <TextBox Text="{Binding SelectedEmployee.FirstName, UpdateSourceTrigger=PropertyChanged}" Margin="20,0" Height="40" FontSize="16"/>
 
-            <Label Content="Provisionsperiod" HorizontalAlignment="Left" Margin="20,30,0,0" FontSize="14" Foreground="Black"/>
-            <TextBox Text="{Binding CommissionPeriod, UpdateSourceTrigger=PropertyChanged}" Margin="20,0" Height="40" FontSize="16"/>
+            <Label Content="År" HorizontalAlignment="Left" Margin="20,30,0,0" FontSize="14" Foreground="Black"/>
+            <ComboBox Height="30" Width="150" HorizontalAlignment="Left" Margin="20,0" ItemsSource="{Binding Years}" SelectedItem="{Binding SelectedYear}"/>
 
-
+            <Label Content="Månad" HorizontalAlignment="Left" Margin="20,30,0,0" FontSize="14" Foreground="Black"/>
+            <ComboBox Height="30" Width="150" HorizontalAlignment="Left" Margin="20,0" ItemsSource="{Binding Months}" 
+          SelectedIndex="{Binding SelectedMonth, Mode=TwoWay}"/>
+            
         </StackPanel>
 
         <StackPanel HorizontalAlignment="Stretch" Width="400" Height="400" Grid.Column="1" Grid.Row="1">
@@ -46,11 +49,11 @@
             <TextBox Text="{Binding SelectedEmployee.LastName, UpdateSourceTrigger=PropertyChanged}" Margin="20,0" Height="40" FontSize="16"/>
 
             <Label Content="Provision för period" HorizontalAlignment="Left" Margin="20,30,0,0" FontSize="14" Foreground="Black"/>
-            <TextBox Text="{Binding TotalCommission, Mode=OneWay}" Margin="20,0" Height="40" FontSize="16" IsReadOnly="True"/>
+            <TextBox Text="{Binding TotalCommission, Mode=OneWay,StringFormat=\{0\} SEK}" Margin="20,0" Height="40" FontSize="16" IsReadOnly="True"/>
 
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="20,70">
                 <Button Content="Avbryt" Height="20" Width="80" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="10,0"/>
-                <Button Content="Exportera" Height="20" Width="80" HorizontalAlignment="Right" VerticalAlignment="Bottom"/>
+                <Button Content="Exportera" Height="20" Width="80" HorizontalAlignment="Right" VerticalAlignment="Bottom" Command="{Binding ExportCommand}"/>
 
             </StackPanel>
         </StackPanel>

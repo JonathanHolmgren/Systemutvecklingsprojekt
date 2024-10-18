@@ -36,10 +36,15 @@ namespace ServiceLayer
         public void ExportToCsv(Employee employee, double totalCommission, string commissionPeriod)
         {
             var csvContent = new StringBuilder();
-            csvContent.AppendLine("Förnamn;Efternamn;Personnummer;Agentnummer;Provision för period;Provisionsperiod");
-            csvContent.AppendLine($"{employee.FirstName};{employee.LastName};{employee.SSN};{employee.AgentNumber};{totalCommission};{commissionPeriod}");
+            csvContent.AppendLine($"Förnamn: {employee.FirstName}");
+            csvContent.AppendLine($"Efternamn: {employee.LastName}");
+            csvContent.AppendLine($"Personnummer: {employee.SSN}");
+            csvContent.AppendLine($"Agentnummer: {employee.AgentNumber}");
+            csvContent.AppendLine($"Provision för period: {totalCommission}");
+            csvContent.AppendLine($"Provisionsperiod: {commissionPeriod}");
 
-            string filePath = "employee_commission.csv";
+            string filePath = $"{employee.AgentNumber}_{employee.FirstName}_{commissionPeriod}commission.csv";
+
 
             File.WriteAllText(filePath, "\uFEFF" + csvContent.ToString(), Encoding.UTF8);
 
@@ -49,9 +54,5 @@ namespace ServiceLayer
                 UseShellExecute = true
             });
         }
-
-
-
-
     }
 }

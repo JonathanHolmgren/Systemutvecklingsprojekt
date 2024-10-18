@@ -5,44 +5,47 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:PresentationLayer.Views"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800" Background="White"
+             d:DesignHeight="450" d:DesignWidth="800" Background="White" 
              xmlns:vm="clr-namespace:PresentationLayer.ViewModels">
     <UserControl.DataContext>
         <vm:ExportBillingInformationViewModel/>
     </UserControl.DataContext>
 
     <Grid Margin="20">
-        <!-- Added Margin for the whole grid -->
+        <!-- Grid layout to divide sections -->
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
-            <!-- Set to Auto to fit content -->
             <RowDefinition Height="*"/>
-            <!-- Allow DataGrid to fill the remaining space -->
         </Grid.RowDefinitions>
 
+        <!-- StackPanel for RadioButtons -->
         <StackPanel Orientation="Vertical" Margin="0,0,0,20" Grid.Row="0">
-            <!-- Adjusted Margin -->
-            <!-- Radio Buttons to switch between views -->
             <RadioButton Content="Privata Kunder" IsChecked="{Binding IsPrivateCustomerSelected}" GroupName="CustomerType" Margin="5"/>
             <RadioButton Content="Företags Kunder" IsChecked="{Binding IsCompanyCustomerSelected}" GroupName="CustomerType" Margin="5"/>
         </StackPanel>
 
-        <!-- Content Control to switch between DataGrids -->
+        <!-- Button aligned to the right -->
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,0,0,10" Grid.Row="0">
+            <Button Content="Konvertera till Json" Width="120" Height="30" Command="{Binding ExportToJsonCommand}"/>
+        </StackPanel>
+
+        <!-- Content Control for DataGrids -->
         <ContentControl Margin="0" Grid.Row="1">
-            <!-- Adjusted Margin for ContentControl -->
             <ContentControl.Style>
                 <Style TargetType="ContentControl">
                     <Setter Property="Content">
                         <Setter.Value>
-                            <DataGrid ItemsSource="{Binding InsuranceInfoPrivateCustomer}" AutoGenerateColumns="False">
+                            <DataGrid ItemsSource="{Binding InsuranceInfoPrivateCustomer}" AutoGenerateColumns="False" 
+                                      CanUserResizeColumns="True" HorizontalScrollBarVisibility="Auto" Margin="0,10,0,0">
                                 <DataGrid.Columns>
-                                    <DataGridTextColumn Header="Namn" Binding="{Binding FullName}" />
-                                    <DataGridTextColumn Header="Personnummer" Binding="{Binding SSN}" />
-                                    <DataGridTextColumn Header="Address" Binding="{Binding Address}" />
-                                    <DataGridTextColumn Header="Postnummer" Binding="{Binding PostalCode}" />
-                                    <DataGridTextColumn Header="Ort" Binding="{Binding City}" />
-                                    <DataGridTextColumn Header="Total Premium" Binding="{Binding TotalPremium}" />
-                                    <DataGridTextColumn Header="Försäkringar" Binding="{Binding InsuranceSummary}" />
+                                    <DataGridTextColumn Header="Förnamn" Binding="{Binding FirstName}" Width="*" />
+                                    <DataGridTextColumn Header="Efternamn" Binding="{Binding LastName}" Width="*" />
+                                    <DataGridTextColumn Header="Personnummer" Binding="{Binding SSN}" Width="*" />
+                                    <DataGridTextColumn Header="Address" Binding="{Binding Address}" Width="*" />
+                                    <DataGridTextColumn Header="Postnummer" Binding="{Binding PostalCode}" Width="*" />
+                                    <DataGridTextColumn Header="Ort" Binding="{Binding City}" Width="*" />
+                                    <DataGridTextColumn Header="Total Premium" Binding="{Binding TotalPremium}" Width="*" />
+                                    <DataGridTextColumn Header="Försäkringar" Binding="{Binding InsuranceSummary}" Width="*" />
                                 </DataGrid.Columns>
                             </DataGrid>
                         </Setter.Value>
@@ -51,16 +54,17 @@
                         <DataTrigger Binding="{Binding IsCompanyCustomerSelected}" Value="True">
                             <Setter Property="Content">
                                 <Setter.Value>
-                                    <DataGrid ItemsSource="{Binding InsuranceInfoCompanyCustomer}" AutoGenerateColumns="False">
+                                    <DataGrid ItemsSource="{Binding InsuranceInfoCompanyCustomer}" AutoGenerateColumns="False" 
+                                              CanUserResizeColumns="True" HorizontalScrollBarVisibility="Auto" Margin="0,10,0,0">
                                         <DataGrid.Columns>
-                                            <DataGridTextColumn Header="Företagsnamn" Binding="{Binding CompanyName}" />
-                                            <DataGridTextColumn Header="Organisationsnummer" Binding="{Binding OrganisationNumber}" />
-                                            <DataGridTextColumn Header="Kontaktperson" Binding="{Binding ContactPerson}" />
-                                            <DataGridTextColumn Header="Address" Binding="{Binding Address}" />
-                                            <DataGridTextColumn Header="Postnummer" Binding="{Binding PostalCode}" />
-                                            <DataGridTextColumn Header="Ort" Binding="{Binding City}" />
-                                            <DataGridTextColumn Header="Total Premium" Binding="{Binding TotalPremium}" />
-                                            <DataGridTextColumn Header="Försäkringar" Binding="{Binding InsuranceSummary}" />
+                                            <DataGridTextColumn Header="Företagsnamn" Binding="{Binding CompanyName}" Width="*" />
+                                            <DataGridTextColumn Header="Organisationsnummer" Binding="{Binding OrganisationNumber}" Width="*" />
+                                            <DataGridTextColumn Header="Kontaktperson" Binding="{Binding ContactPerson}" Width="*" />
+                                            <DataGridTextColumn Header="Address" Binding="{Binding Address}" Width="*" />
+                                            <DataGridTextColumn Header="Postnummer" Binding="{Binding PostalCode}" Width="*" />
+                                            <DataGridTextColumn Header="Ort" Binding="{Binding City}" Width="*" />
+                                            <DataGridTextColumn Header="Total Premium" Binding="{Binding TotalPremium}" Width="*" />
+                                            <DataGridTextColumn Header="Försäkringar" Binding="{Binding InsuranceSummary}" Width="*" />
                                         </DataGrid.Columns>
                                     </DataGrid>
                                 </Setter.Value>

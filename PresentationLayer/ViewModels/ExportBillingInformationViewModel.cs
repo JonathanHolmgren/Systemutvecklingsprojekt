@@ -1,13 +1,20 @@
 ﻿using Models;
+using Newtonsoft.Json;
+using PresentationLayer.Command;
 using PresentationLayer.Models;
 using ServiceLayer;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.IO;
+using System.Windows.Input;
+
 
 namespace PresentationLayer.ViewModels
 {
+    
     internal class ExportBillingInformationViewModel:ObservableObject
     {
+        
         CustomerController customerController = new CustomerController();
         private ObservableCollection<PrivateCustomer> privateCustomer = null;
         public ObservableCollection<PrivateCustomer> PrivateCustomers
@@ -49,13 +56,6 @@ namespace PresentationLayer.ViewModels
                 OnPropertyChanged(nameof(InsuranceInfoCompanyCustomer));
             }
         }
-        private double premie;
-        public double Premie
-        {
-            get { return premie; }
-            set { premie = value; OnPropertyChanged(nameof(Premie)); }
-        }
-        
         private bool isPrivateCustomerSelected = true; // Default to private customers
 
         public bool IsPrivateCustomerSelected
@@ -83,36 +83,17 @@ namespace PresentationLayer.ViewModels
                 if (value) IsPrivateCustomerSelected = false;
             }
         }
+        public ICommand ExportToJsonCommand { get; private set; }
 
         public ExportBillingInformationViewModel()
         {
             PrivateCustomers = new ObservableCollection<PrivateCustomer>(customerController.GetAllPrivateCustomers());
             CompanyCustomers = new ObservableCollection<CompanyCustomer>(customerController.GetAllCompanyCustomers());
-            
+            ExportToJsonCommand = new RelayCommand<object>(execute => ConvertCustomerInformationIntoJson()); ;
             GetAllCompanyCustomerInsurances();
             GetAllPrivateCustomerInsurances();
         }
 
-
-        //private void GetAllPrivateCustomerInsúrances()
-        //{
-        //    //foreach (PrivateCustomer privateCustomer in PrivateCustomers)
-        //    //{
-        //    //    Premie = customerController.GetCustomerTotalPremie(privateCustomer.CustomerID);
-        //    //    InsuranceSpec insuranceSpecTot = new InsuranceSpec();
-        //    //    insuranceSpecTot.Value = Premie.ToString();
-        //    //    foreach (Insurance eachInsurance in privateCustomer.Insurances)
-        //    //    {
-        //    //        insuranceSpecTot.Insurance = eachInsurance; 
-
-        //    //        break;
-        //    //    }
-        //    //    InsuranceInfoPrivateCustomer.Add(insuranceSpecTot);
-        //    //    Debug.WriteLine(insuranceSpecTot.Insurance.InsuranceId);
-        //    //}
-
-
-        //}
         private void GetAllPrivateCustomerInsurances()
         {
             InsuranceInfoPrivateCustomer = new ObservableCollection<object>(); // Use object to hold anonymous types
@@ -132,7 +113,8 @@ namespace PresentationLayer.ViewModels
 
                 var customerInfo = new
                 {
-                    FullName = $"{privateCustomer.FirstName} {privateCustomer.LastName}",
+                    FirstName= privateCustomer.FirstName,
+                    LastName= privateCustomer.LastName,
                     SSN = privateCustomer.SSN,
                     Address = privateCustomer.StreetAddress,
                     PostalCode = privateCustomer.PostalCodeCity.PostalCode,
@@ -178,9 +160,16 @@ namespace PresentationLayer.ViewModels
                 InsuranceInfoCompanyCustomer.Add(companyInfo);
             }
         }
-
-
-
-
+        private void ConvertCustomerInformationIntoJson()
+        {
+            var customerDataToJson = new
+            {
+                PrivateCustomers = InsuranceInfoPrivateCustomer,
+                CompanyCustomers = InsuranceInfoCompanyCustomer
+            };
+            string jsonResult = JsonConvert.SerializeObject(customerDataToJson, Formatting.Indented);
+            string outputPath = @"C:\JsonTest\CustomerInformation.json";
+            File.WriteAllText(outputPath, jsonResult);
+        }
     }
 }

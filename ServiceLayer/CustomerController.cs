@@ -74,6 +74,10 @@ namespace ServiceLayer
         {
             return unitOfWork.CustomerRepository.GetSpecificPrivateCustomer(customerId);
         }
+        public string GetCustomerInsuranceTypes(int insuranceTypeId)
+        {
+            return unitOfWork.InsuranceTypeRepository.GetCustomerInsuranceType(insuranceTypeId);
+        }
         public double GetCustomerTotalPremie(int customerId)
         {
             double totalPremie = 0;
@@ -81,7 +85,6 @@ namespace ServiceLayer
             foreach (Insurance insurance in customerInsurances)
             {
                 int insuranceTypeAttributeID = unitOfWork.InsuranceTypeAttributeRepository.GetPremieTypeAttributeId(insurance.InsuranceType.InsuranceTypeId);
-                Debug.WriteLine(insuranceTypeAttributeID);
                 IList<InsuranceSpec> insuranceSpecs = unitOfWork.InsuranceSpecRepository.GetSpecsForInsurance(insurance.InsuranceId);
                 foreach (InsuranceSpec insuranceSpec in insuranceSpecs)
                 {
@@ -99,5 +102,6 @@ namespace ServiceLayer
             Debug.WriteLine(totalPremie);
             return totalPremie;
         }
+        
     }
 }

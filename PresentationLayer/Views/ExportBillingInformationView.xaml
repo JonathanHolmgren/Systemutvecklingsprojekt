@@ -10,64 +10,66 @@
     <UserControl.DataContext>
         <vm:ExportBillingInformationViewModel/>
     </UserControl.DataContext>
-    <Grid>
 
-        <ListBox Height="200"
-         Width="300"
-         Margin="-300,0,100,0"
-         ItemsSource="{Binding PrivateCustomers}">
-            <ListBox.ItemTemplate>
-                <DataTemplate>
-                    <StackPanel>
-                        <!-- Information om PrivateCustomer visas här -->
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="{Binding FirstName}" Margin="0,0"/>
-                            <TextBlock Text="{Binding LastName}" Margin="3,0"/>
-                            <TextBlock Text="{Binding SSN}" Margin="3,0"/>
-                            <TextBlock Text="{Binding StreetAddress}" Margin="3,0"/>
-                            <TextBlock Text="{Binding PostalCodeCity.City}" Margin="3,0"/>
-                        </StackPanel>
+    <Grid Margin="20">
+        <!-- Added Margin for the whole grid -->
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <!-- Set to Auto to fit content -->
+            <RowDefinition Height="*"/>
+            <!-- Allow DataGrid to fill the remaining space -->
+        </Grid.RowDefinitions>
 
-                        <!-- Lista med försäkringar för varje kund -->
-                        <ItemsControl ItemsSource="{Binding Insurances}">
-                            <ItemsControl.ItemTemplate>
-                                <DataTemplate>
-                                    <StackPanel Orientation="Horizontal">
-                                        <TextBlock Text="Insurance: " FontWeight="Bold" Margin="0,0"/>
-                                        <TextBlock Text="{}" Margin="5,0"/>
-                                        <TextBlock Text="Premium: " FontWeight="Bold" Margin="10,0"/>
-                                        <TextBlock Text="{}" Margin="5,0"/>
-                                    </StackPanel>
-                                </DataTemplate>
-                            </ItemsControl.ItemTemplate>
-                        </ItemsControl>
-                    </StackPanel>
-                </DataTemplate>
-            </ListBox.ItemTemplate>
-        </ListBox>
+        <StackPanel Orientation="Vertical" Margin="0,0,0,20" Grid.Row="0">
+            <!-- Adjusted Margin -->
+            <!-- Radio Buttons to switch between views -->
+            <RadioButton Content="Privata Kunder" IsChecked="{Binding IsPrivateCustomerSelected}" GroupName="CustomerType" Margin="5"/>
+            <RadioButton Content="Företags Kunder" IsChecked="{Binding IsCompanyCustomerSelected}" GroupName="CustomerType" Margin="5"/>
+        </StackPanel>
 
-        <ListBox Height="200"
-                 Width="300"
-                 Margin="450,0,100,0"
-                 ItemsSource="{Binding CompanyCustomers}">
-                    <ListBox.ItemTemplate>
-                        <DataTemplate>
-                            <StackPanel Orientation="Horizontal">
-                            <!-- Ändra till horisontell orientering -->
-                                <TextBlock Text="{Binding CompanyName}" Margin="0,0"/>
-                                <TextBlock Text="{Binding OrganisationNumber}" Margin="3,0"/>
-                                <TextBlock Text="{Binding ContactPersonName}" Margin="3,0"/>
-                                <TextBlock Text="{Binding StreetAddress}" Margin="3,0"/>
-                                <TextBlock Text="{Binding PostalCodeCity.City}" Margin="3,0"/>
-
-                            </StackPanel>
-                        </DataTemplate>
-                    </ListBox.ItemTemplate>
-        </ListBox>
-
-        <Label Content="Privata faktura uppgifter" FontSize="15" HorizontalAlignment="Left" Margin="56,39,0,0" VerticalAlignment="Top"/>
-        <Label Content="Företag faktura uppgifter" FontSize="15" HorizontalAlignment="Left" Margin="430,39,0,0" VerticalAlignment="Top"/>
-        <Button Content="Button" HorizontalAlignment="Left" Margin="645,392,0,0" VerticalAlignment="Top" Height="36" Width="112"/>
+        <!-- Content Control to switch between DataGrids -->
+        <ContentControl Margin="0" Grid.Row="1">
+            <!-- Adjusted Margin for ContentControl -->
+            <ContentControl.Style>
+                <Style TargetType="ContentControl">
+                    <Setter Property="Content">
+                        <Setter.Value>
+                            <DataGrid ItemsSource="{Binding InsuranceInfoPrivateCustomer}" AutoGenerateColumns="False">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header="Namn" Binding="{Binding FullName}" />
+                                    <DataGridTextColumn Header="Personnummer" Binding="{Binding SSN}" />
+                                    <DataGridTextColumn Header="Address" Binding="{Binding Address}" />
+                                    <DataGridTextColumn Header="Postnummer" Binding="{Binding PostalCode}" />
+                                    <DataGridTextColumn Header="Ort" Binding="{Binding City}" />
+                                    <DataGridTextColumn Header="Total Premium" Binding="{Binding TotalPremium}" />
+                                    <DataGridTextColumn Header="Försäkringar" Binding="{Binding InsuranceSummary}" />
+                                </DataGrid.Columns>
+                            </DataGrid>
+                        </Setter.Value>
+                    </Setter>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding IsCompanyCustomerSelected}" Value="True">
+                            <Setter Property="Content">
+                                <Setter.Value>
+                                    <DataGrid ItemsSource="{Binding InsuranceInfoCompanyCustomer}" AutoGenerateColumns="False">
+                                        <DataGrid.Columns>
+                                            <DataGridTextColumn Header="Företagsnamn" Binding="{Binding CompanyName}" />
+                                            <DataGridTextColumn Header="Organisationsnummer" Binding="{Binding OrganisationNumber}" />
+                                            <DataGridTextColumn Header="Kontaktperson" Binding="{Binding ContactPerson}" />
+                                            <DataGridTextColumn Header="Address" Binding="{Binding Address}" />
+                                            <DataGridTextColumn Header="Postnummer" Binding="{Binding PostalCode}" />
+                                            <DataGridTextColumn Header="Ort" Binding="{Binding City}" />
+                                            <DataGridTextColumn Header="Total Premium" Binding="{Binding TotalPremium}" />
+                                            <DataGridTextColumn Header="Försäkringar" Binding="{Binding InsuranceSummary}" />
+                                        </DataGrid.Columns>
+                                    </DataGrid>
+                                </Setter.Value>
+                            </Setter>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </ContentControl.Style>
+        </ContentControl>
 
     </Grid>
 </UserControl>

@@ -14,10 +14,11 @@ namespace DataLayer.Repositories
 
         public List<Employee> GetEmployeesWithCommissions()
         {
-            using (var context = new Context()) // Byt ut YourDbContext mot din faktiska DbContext
+            using (var context = new Context()) 
             {
                 var employeesWithCommissions = context.Employees
-                    .Include(e => e.Commission) // Inkludera relaterad kommission
+                    .Where(e => e.Role.Contains("Innesäljare") || e.Role.Contains("Utesäljare"))
+                    .Include(e => e.Commission) 
                     .ToList();
 
                 return employeesWithCommissions;

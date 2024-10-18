@@ -13,6 +13,8 @@ using System.Collections.ObjectModel;
 using System.Xml;
 using System.IO;
 using Microsoft.Win32;
+using System.Globalization;
+using Microsoft.IdentityModel.Tokens;
 
 namespace PresentationLayer.ViewModels
 {
@@ -57,14 +59,19 @@ namespace PresentationLayer.ViewModels
             }
         }
 
-
-        public ICommand ExportCommand { get; }
+        private ICommand exportCommand = null!;
+        public ICommand ExportCommand => exportCommand ??= new RelayCommand(() =>
+        {
+            ExportToCsv();
+        },()=> SelectedEmployee != null && SelectedYear != null && SelectedMonth != null);
 
         public CalculateComissionViewModel()
         {
+            LoadYears();
+            LoadMonths();
             this.comissionRateController = comissionRateController;
             LoadEmployees();
-            ExportCommand = new RelayCommand(ExportToCsv);
+            //ExportCommand = new RelayCommand(ExportToCsv);
         }
 
         private void LoadEmployees()
@@ -78,22 +85,94 @@ namespace PresentationLayer.ViewModels
 
         private void CalculateCommission()
         {
-            if (SelectedEmployee != null)
+            if (SelectedEmployee != null && SelectedMonth.HasValue && SelectedYear.HasValue)
             {
-                TotalCommission = comissionRateController.CalculateComission(SelectedEmployee);
+                int year = SelectedYear.Value;
+                int month = SelectedMonth.Value + 1; 
 
-                var lastMonthStart = new DateTime(DateTime.Now.Year, DateTime.Now.Month - 1, 1);
-                var lastMonthEnd = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1).AddDays(-1);
-                CommissionPeriod = $"{lastMonthStart.ToString("yyyy-MM-dd")} till {lastMonthEnd.ToString("yyyy-MM-dd")}";
+                var startDate = new DateTime(year, month, 1);
+                var endDate = startDate.AddMonths(1).AddDays(-1);
+
+                TotalCommission = comissionRateController.CalculateComission(SelectedEmployee, startDate, endDate);
+                CommissionPeriod = $"{startDate:yyyy-MM-dd} till {endDate:yyyy-MM-dd}";
             }
         }
+
+
+
 
         private void ExportToCsv()
         {
             if (SelectedEmployee != null)
             {
-                comissionRateController.ExportToCsv(SelectedEmployee, TotalCommission, CommissionPeriod);
+                string csvContent = comissionRateController.CreateCsvContent(SelectedEmployee, TotalCommission, CommissionPeriod);
+
+                var saveFileDialog = new SaveFileDialog
+                {
+                    Filter = "CSV file (*.csv)|*.csv",
+                    Title = "Spara CSV-fil",
+                    FileName = $"{SelectedEmployee.AgentNumber}_{SelectedEmployee.FirstName}_{CommissionPeriod}_commission.csv" 
+                };
+
+                if (saveFileDialog.ShowDialog() == true)
+                {
+                    File.WriteAllText(saveFileDialog.FileName, csvContent, Encoding.UTF8);
+                }
             }
+        }
+
+        private int? selectedYear;
+        public int? SelectedYear
+        {
+            get { return selectedYear; }
+            set
+            {
+                selectedYear = value;
+                OnPropertyChanged(nameof(SelectedYear));
+                CalculateCommission();
+            }
+        }
+
+        private int? selectedMonth;
+        public int? SelectedMonth
+        {
+            get { return selectedMonth; }
+            set
+            {
+                selectedMonth = value;
+                OnPropertyChanged(nameof(SelectedMonth));
+                CalculateCommission();
+            }
+        }
+
+        public ObservableCollection<int> Years { get; set; } = new ObservableCollection<int>();
+        public ObservableCollection<string> Months { get; set; } = new ObservableCollection<string>();
+
+        private void LoadYears()
+        {
+            for (int i = DateTime.Now.Year - 10; i <= DateTime.Now.Year; i++)
+            {
+                Years.Add(i);
+            }
+        }
+
+        private void LoadMonths()
+        {
+            Months = new ObservableCollection<string>
+            {
+                "Januari",
+                "Februari",
+                "Mars",
+                "April",
+                "Maj",
+                "Juni",
+                "Juli",
+                "Augusti",
+                "September",
+                "Oktober",
+                "November",
+                "December"
+            };
         }
     }
 

@@ -16,30 +16,41 @@ namespace PresentationLayer.ViewModels
     {
         private CustomerController customerController = new CustomerController();
 
-        private ObservableCollection<Customer> customers = null;
-        
-        public ObservableCollection<Customer> Customers
+        private ObservableCollection<PrivateCustomer> privateCustomers = null;
+        public ObservableCollection<PrivateCustomer> PrivateCustomers
         {
-            get { return customers; }
+            get { return privateCustomers; }
             set
             {
-                customers = value;
-                OnPropertyChanged(nameof(Customers));
+                privateCustomers = value;
+                OnPropertyChanged(nameof(PrivateCustomers));
             }
         }
 
-        private ObservableCollection<Customer> prospects = null;
-        public ObservableCollection<Customer> Prospects 
+        private ObservableCollection<CompanyCustomer> companyCustomers = null;
+        public ObservableCollection<CompanyCustomer> CompanyCustomers
         {
-            get { return prospects; } 
-            set 
-            { 
-                prospects = value; 
-                OnPropertyChanged(nameof(Prospects)); 
+            get { return companyCustomers; }
+            set
+            {
+                companyCustomers = value;
+                OnPropertyChanged(nameof(CompanyCustomers));
             }
         }
-        private ObservableCollection<Customer> privateProspects = null;
-        public ObservableCollection<Customer> PrivateProspects
+
+        //private ObservableCollection<Customer> prospects; 
+        //public ObservableCollection<Customer> Prospects
+        //{
+        //    get { return prospects; }
+        //    set
+        //    {
+        //        prospects = value;
+        //        OnPropertyChanged(nameof(Prospects));
+        //    }
+        //}
+
+        private ObservableCollection<PrivateCustomer> privateProspects;
+        public ObservableCollection<PrivateCustomer> PrivateProspects
         {
             get { return privateProspects; }
             set
@@ -48,8 +59,9 @@ namespace PresentationLayer.ViewModels
                 OnPropertyChanged(nameof(PrivateProspects));
             }
         }
-        private ObservableCollection<Customer> companyProspects = null;
-        public ObservableCollection<Customer> CompanyProspects
+
+        private ObservableCollection<CompanyCustomer> companyProspects;
+        public ObservableCollection<CompanyCustomer> CompanyProspects
         {
             get { return companyProspects; }
             set
@@ -59,17 +71,17 @@ namespace PresentationLayer.ViewModels
             }
         }
 
-        private bool isAllSelected;
-        public bool IsAllSelected
-        {
-            get { return isAllSelected; }
-            set
-            {
-                isAllSelected = value;
-                OnPropertyChanged(nameof(IsAllSelected));
-                UpdateProspectsList();
-            }
-        }
+        //private bool isAllSelected;
+        //public bool IsAllSelected
+        //{
+        //    get { return isAllSelected; }
+        //    set
+        //    {
+        //        isAllSelected = value;
+        //        OnPropertyChanged(nameof(IsAllSelected));
+        //        UpdateProspectsList();
+        //    }
+        //}
 
         private bool isCompanySelected;
         public bool IsCompanySelected
@@ -114,79 +126,69 @@ namespace PresentationLayer.ViewModels
 
         public ICommand ShowProspectCommand { get; private set; }
         public ICommand ReturnCommand { get; private set; }
+
         public ShowProspectsViewModel()
         {
-            Customers = new ObservableCollection<Customer>(customerController.GetAllCustomers());
-            
-            Prospects = new ObservableCollection<Customer>();
-            Prospects = FilterProspects();
-            PrivateProspects = new ObservableCollection<Customer>();
-            PrivateProspects = FilterPrivateProspects();
-            CompanyProspects = new ObservableCollection<Customer>();
-            CompanyProspects = FilterCompanyProspects();
+            PrivateCustomers = new ObservableCollection<PrivateCustomer>(customerController.GetPrivateCustomerList());
+            CompanyCustomers = new ObservableCollection<CompanyCustomer>(customerController.GetCompanyCustomerList());
+
+            PrivateProspects = new ObservableCollection<PrivateCustomer>(FilterPrivateProspects());
+            CompanyProspects = new ObservableCollection<CompanyCustomer>(FilterCompanyProspects());
 
             ShowProspectCommand = new RelayCommand(ShowProspect);
             ReturnCommand = new RelayCommand(Return);
+
+            IsPrivateSelected = true;
         }
+
+
 
         #region Methods
-        private ObservableCollection<Customer> FilterProspects()
-        {
-            Prospects.Clear();
-            foreach (var customer in Customers)
-            {
-                if (customer.Insurances != null && customer.Insurances.Count == 1)
-                {
-                    Prospects.Add(customer);
-                }
-            }
-            return Prospects;
-        }
 
-        private ObservableCollection<Customer> FilterPrivateProspects()
+        private ObservableCollection<PrivateCustomer> FilterPrivateProspects()
         {
-            PrivateProspects.Clear();
-            foreach (var customer in Customers)
-            {
-                if (customer is PrivateCustomer privateCustomer)
+            ObservableCollection<PrivateCustomer> filteredList = new ObservableCollection<PrivateCustomer>(customerController.GetPrivateCustomerList());
+
+            if (PrivateCustomers != null) 
+            { 
+                foreach (var privateCustomer in PrivateCustomers)
                 {
                     if (privateCustomer.Insurances != null && privateCustomer.Insurances.Count == 1)
                     {
-                        PrivateProspects.Add(privateCustomer);
+                        filteredList.Add(privateCustomer);
                     }
                 }
             }
-            return PrivateProspects;
+
+            return filteredList; 
+        }
+     
+        private ObservableCollection<CompanyCustomer> FilterCompanyProspects()
+        {
+            ObservableCollection<CompanyCustomer> filteredList = new ObservableCollection<CompanyCustomer>(customerController.GetCompanyCustomerList());
+
+            if (CompanyCustomers != null)
+            {
+                foreach (var companyCustomer in CompanyCustomers)
+                {
+                    if (companyCustomer.Insurances != null && companyCustomer.Insurances.Count == 1)
+                    {
+                        filteredList.Add(companyCustomer);
+                    }
+                }
+            }
+            return filteredList; 
         }
 
-        private ObservableCollection<Customer> FilterCompanyProspects()
-        {
-            CompanyProspects.Clear();
-            foreach (var customer in Customers)
-            {
-                if (customer is CompanyCustomer companyCustomer)
-                {
-                    if (customer.Insurances != null && customer.Insurances.Count == 1)
-                    {
-                        CompanyProspects.Add(companyCustomer);
-                    }
-                }
-            }
-            return CompanyProspects;
-        }
         private void UpdateProspectsList()
         {
             if (IsCompanySelected)
             {                
-                Prospects = FilterCompanyProspects();
+                CompanyProspects = FilterCompanyProspects();
             }
             else if (IsPrivateSelected)
             {                
-                Prospects = FilterPrivateProspects();
-            }
-            else if (IsAllSelected)
-            {                
-                Prospects = FilterProspects();
+                PrivateProspects = FilterPrivateProspects();
             }
         }
 

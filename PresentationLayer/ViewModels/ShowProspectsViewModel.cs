@@ -16,6 +16,13 @@ namespace PresentationLayer.ViewModels
     {
         private CustomerController customerController = new CustomerController();
 
+        private string prospectNote;
+        public string ProspectNote
+        {
+            get { return prospectNote; }
+            set { prospectNote = value; OnPropertyChanged(nameof(ProspectNote)); }
+        }
+
         private ObservableCollection<PrivateCustomer> privateCustomers = null;
         public ObservableCollection<PrivateCustomer> PrivateCustomers
         {
@@ -38,17 +45,6 @@ namespace PresentationLayer.ViewModels
             }
         }
 
-        //private ObservableCollection<Customer> prospects; 
-        //public ObservableCollection<Customer> Prospects
-        //{
-        //    get { return prospects; }
-        //    set
-        //    {
-        //        prospects = value;
-        //        OnPropertyChanged(nameof(Prospects));
-        //    }
-        //}
-
         private ObservableCollection<PrivateCustomer> privateProspects;
         public ObservableCollection<PrivateCustomer> PrivateProspects
         {
@@ -70,18 +66,6 @@ namespace PresentationLayer.ViewModels
                 OnPropertyChanged(nameof(CompanyProspects));
             }
         }
-
-        //private bool isAllSelected;
-        //public bool IsAllSelected
-        //{
-        //    get { return isAllSelected; }
-        //    set
-        //    {
-        //        isAllSelected = value;
-        //        OnPropertyChanged(nameof(IsAllSelected));
-        //        UpdateProspectsList();
-        //    }
-        //}
 
         private bool isCompanySelected;
         public bool IsCompanySelected
@@ -113,14 +97,64 @@ namespace PresentationLayer.ViewModels
         public bool IsPrivateColumnVisible => IsPrivateSelected;
         public bool IsCompanyColumnVisible => IsCompanySelected;
 
-        private Customer prospectSelectedItem;
-        public Customer ProspectSelectedItem 
+        
+        private PrivateCustomer privateProspectSelectedItem;
+        public PrivateCustomer PrivateProspectSelectedItem 
         { 
-            get { return prospectSelectedItem; } 
+            get { return privateProspectSelectedItem; } 
             set
             { 
-                prospectSelectedItem = value; 
-                OnPropertyChanged(nameof(ProspectSelectedItem));
+                privateProspectSelectedItem = value; 
+                OnPropertyChanged(nameof(PrivateProspectSelectedItem));
+                OnPropertyChanged(nameof(FullName));
+                OnPropertyChanged(nameof(PrivateSalesPersonAgentnumber));
+            }
+        }
+
+        private CompanyCustomer companyProspectSelectedItem;
+        public CompanyCustomer CompanyProspectSelectedItem
+        {
+            get { return companyProspectSelectedItem; }
+            set
+            {
+                companyProspectSelectedItem = value;
+                OnPropertyChanged(nameof(CompanyProspectSelectedItem));
+                OnPropertyChanged(nameof(CompanySalesPersonAgentnumber));
+            }
+        }
+
+        public string FullName
+        {
+            get
+            {
+                if (PrivateProspectSelectedItem != null)
+                {
+                    return $"{PrivateProspectSelectedItem.FirstName} {PrivateProspectSelectedItem.LastName}";
+                }
+                return string.Empty;
+            }
+        }
+
+        public string PrivateSalesPersonAgentnumber
+        {
+            get
+            {
+                if (PrivateProspectSelectedItem != null)
+                {
+                    return string.Join(", ", PrivateProspectSelectedItem.Insurances.Select(i => i.User.Employee.AgentNumber));
+                }
+                return string.Empty;
+            }
+        }
+        public string CompanySalesPersonAgentnumber
+        {
+            get
+            {
+                if (CompanyProspectSelectedItem != null)
+                {
+                    return string.Join(", ", CompanyProspectSelectedItem.Insurances.Select(u => u.User.Employee.AgentNumber));
+                }
+                return string.Empty;
             }
         }
 
@@ -153,7 +187,7 @@ namespace PresentationLayer.ViewModels
             { 
                 foreach (var privateCustomer in PrivateCustomers)
                 {
-                    if (privateCustomer.Insurances != null && privateCustomer.Insurances.Count == 1)
+                    if (privateCustomer.Insurances != null && privateCustomer.Insurances.Count == 1 && !filteredList.Any(p => p.CustomerID == privateCustomer.CustomerID))
                     {
                         filteredList.Add(privateCustomer);
                     }
@@ -171,7 +205,7 @@ namespace PresentationLayer.ViewModels
             {
                 foreach (var companyCustomer in CompanyCustomers)
                 {
-                    if (companyCustomer.Insurances != null && companyCustomer.Insurances.Count == 1)
+                    if (companyCustomer.Insurances != null && companyCustomer.Insurances.Count == 1 && !filteredList.Any(p => p.CustomerID == companyCustomer.CustomerID))
                     {
                         filteredList.Add(companyCustomer);
                     }

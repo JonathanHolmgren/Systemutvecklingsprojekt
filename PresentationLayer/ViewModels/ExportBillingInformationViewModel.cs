@@ -6,12 +6,13 @@ using ServiceLayer;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
+using System.Windows;
 using System.Windows.Input;
 
 
 namespace PresentationLayer.ViewModels
 {
-    
+    #region Initiation of objects
     internal class ExportBillingInformationViewModel:ObservableObject
     {
         
@@ -56,7 +57,37 @@ namespace PresentationLayer.ViewModels
                 OnPropertyChanged(nameof(InsuranceInfoCompanyCustomer));
             }
         }
-        private bool isPrivateCustomerSelected = true; // Default to private customers
+        private ObservableCollection<object> filteredListPrivate;
+        public ObservableCollection<object> FilteredListPrivate
+        {
+            get { return filteredListPrivate; }
+            set
+            {
+                filteredListPrivate = value;
+                OnPropertyChanged(nameof(FilteredListPrivate));
+            }
+        }
+        private ObservableCollection<object> filteredListCompany;
+        public ObservableCollection<object> FilteredListCompany
+        {
+            get { return filteredListCompany; }
+            set
+            {
+                filteredListCompany = value;
+                OnPropertyChanged(nameof(FilteredListCompany));
+            }
+        }
+        private object selectedCustomer;
+        public object SelectedCustomer
+        {
+            get { return selectedCustomer; }
+            set
+            {
+                selectedCustomer = value;
+                OnPropertyChanged(nameof(selectedCustomer));
+            }
+        }
+        private bool isPrivateCustomerSelected = true; 
 
         public bool IsPrivateCustomerSelected
         {
@@ -65,7 +96,6 @@ namespace PresentationLayer.ViewModels
             {
                 isPrivateCustomerSelected = value;
                 OnPropertyChanged(nameof(IsPrivateCustomerSelected));
-                // Set the other property to false when this one is set to true
                 if (value) IsCompanyCustomerSelected = false;
             }
         }
@@ -79,32 +109,52 @@ namespace PresentationLayer.ViewModels
             {
                 isCompanyCustomerSelected = value;
                 OnPropertyChanged(nameof(IsCompanyCustomerSelected));
-                // Set the other property to false when this one is set to true
                 if (value) IsPrivateCustomerSelected = false;
             }
         }
-        public ICommand ExportToJsonCommand { get; private set; }
+        private string filterText = null;
+        public string FilterText
+        {
+            get { return filterText; }
+            set
+            {
+                if (filterText != value)
+                {
+                    filterText = value;
+                    ApplyFilter();
+                    OnPropertyChanged(nameof(FilterText));
 
+                }
+
+            }
+        }
+        public ICommand ExportAllToJsonCommand { get; private set; }
+        public ICommand ExportSingleToJsonCommand { get; private set; }
+        #endregion
+        #region Constructor
         public ExportBillingInformationViewModel()
         {
             PrivateCustomers = new ObservableCollection<PrivateCustomer>(customerController.GetAllPrivateCustomers());
             CompanyCustomers = new ObservableCollection<CompanyCustomer>(customerController.GetAllCompanyCustomers());
-            ExportToJsonCommand = new RelayCommand<object>(execute => ConvertCustomerInformationIntoJson()); ;
+            ExportAllToJsonCommand = new RelayCommand<object>(execute => ExportAllToJson());
+            ExportSingleToJsonCommand = new RelayCommand<object>(execute => ExportSingleToJson());
+            
             GetAllCompanyCustomerInsurances();
             GetAllPrivateCustomerInsurances();
+            ApplyFilter();
         }
-
+        #endregion
+        #region Methods
         private void GetAllPrivateCustomerInsurances()
         {
-            InsuranceInfoPrivateCustomer = new ObservableCollection<object>(); // Use object to hold anonymous types
+            InsuranceInfoPrivateCustomer = new ObservableCollection<object>();
 
             foreach (PrivateCustomer privateCustomer in PrivateCustomers)
             {
                 
                 double totalPremie = customerController.GetCustomerTotalPremie(privateCustomer.CustomerID);
 
-                List<string> insuranceDetails = new List<string>();
-
+                ObservableCollection<string> insuranceDetails = new ObservableCollection<string>();
                 foreach (Insurance insurance in privateCustomer.Insurances)
                 {
                     string insuranceName = customerController.GetCustomerInsuranceTypes(insurance.InsuranceType.InsuranceTypeId);
@@ -120,30 +170,29 @@ namespace PresentationLayer.ViewModels
                     PostalCode = privateCustomer.PostalCodeCity.PostalCode,
                     City = privateCustomer.PostalCodeCity.City,
                     TotalPremium = totalPremie,
-                    InsuranceSummary = string.Join(", ", insuranceDetails)
+                    InsuranceSummary = insuranceDetails
                 };
                 InsuranceInfoPrivateCustomer.Add(customerInfo);
             }
         }
         private void GetAllCompanyCustomerInsurances()
         {
-            InsuranceInfoCompanyCustomer = new ObservableCollection<object>(); // Use object to hold anonymous types
+            InsuranceInfoCompanyCustomer = new ObservableCollection<object>(); //
 
             foreach (CompanyCustomer companyCustomer in CompanyCustomers)
             {
-                // Calculate total premium for the company's insurances
+                
                 double totalPremie = customerController.GetCustomerTotalPremie(companyCustomer.CustomerID);
 
-                // Create a list to hold insurance information
-                List<string> insuranceDetails = new List<string>();
-
+                
+                ObservableCollection<string> insuranceDetails = new ObservableCollection<string>();
                 foreach (Insurance insurance in companyCustomer.Insurances)
                 {
                     string insuranceName = customerController.GetCustomerInsuranceTypes(insurance.InsuranceType.InsuranceTypeId);
                     insuranceDetails.Add(insuranceName);
                 }
 
-                // Build an anonymous type to hold company info and insurance details
+                
                 var companyInfo = new
                 {
                     CompanyName = companyCustomer.CompanyName,
@@ -153,14 +202,20 @@ namespace PresentationLayer.ViewModels
                     PostalCode = companyCustomer.PostalCodeCity.PostalCode,
                     City = companyCustomer.PostalCodeCity.City,
                     TotalPremium = totalPremie,
-                    InsuranceSummary = string.Join(", ", insuranceDetails) // Join insurance names into a single string
+                    InsuranceSummary = insuranceDetails
                 };
 
-                // Add to the collection
+               
                 InsuranceInfoCompanyCustomer.Add(companyInfo);
             }
         }
-        private void ConvertCustomerInformationIntoJson()
+        private void ExportSingleToJson()
+        {
+            string jsonResult=JsonConvert.SerializeObject(SelectedCustomer, Formatting.Indented);
+            string outputPath = @"C:\JsonTest\CustomerInformationSingle.json";
+            //File.WriteAllText(outputPath, jsonResult);
+        }
+        private void ExportAllToJson()
         {
             var customerDataToJson = new
             {
@@ -169,7 +224,102 @@ namespace PresentationLayer.ViewModels
             };
             string jsonResult = JsonConvert.SerializeObject(customerDataToJson, Formatting.Indented);
             string outputPath = @"C:\JsonTest\CustomerInformation.json";
-            File.WriteAllText(outputPath, jsonResult);
+            //File.WriteAllText(outputPath, jsonResult);
         }
+        private void ApplyFilter()
+        {
+            
+            if (string.IsNullOrWhiteSpace(FilterText))
+            {
+                
+                    FilteredListCompany = new ObservableCollection<object>(InsuranceInfoCompanyCustomer);
+                    OnPropertyChanged(nameof(FilteredListCompany));
+                
+                    FilteredListPrivate = new ObservableCollection<object>(InsuranceInfoPrivateCustomer);
+                    OnPropertyChanged(nameof(FilteredListPrivate));
+            }
+
+  
+
+            if (IsCompanyCustomerSelected&&FilterText!=null)
+            {
+                FilteredListCompany.Clear();
+                foreach (CompanyCustomer companyCustomer in CompanyCustomers)
+                {
+                    if (companyCustomer.OrganisationNumber.Contains(FilterText, StringComparison.OrdinalIgnoreCase) ||
+                        companyCustomer.CompanyName.Contains(FilterText, StringComparison.OrdinalIgnoreCase))
+                    {
+                        
+                        double totalPremie = customerController.GetCustomerTotalPremie(companyCustomer.CustomerID);
+
+                        ObservableCollection<string> insuranceDetails = new ObservableCollection<string>();
+                        foreach (Insurance insurance in companyCustomer.Insurances)
+                        {
+                            string insuranceName = customerController.GetCustomerInsuranceTypes(insurance.InsuranceType.InsuranceTypeId);
+                            insuranceDetails.Add(insuranceName);
+                        }
+
+                        
+                        var companyInfo = new
+                        {
+                            CompanyName = companyCustomer.CompanyName,
+                            OrganisationNumber = companyCustomer.OrganisationNumber,
+                            ContactPerson = companyCustomer.ContactPersonName,
+                            Address = companyCustomer.StreetAddress,
+                            PostalCode = companyCustomer.PostalCodeCity.PostalCode,
+                            City = companyCustomer.PostalCodeCity.City,
+                            TotalPremium = totalPremie,
+                            InsuranceSummary = insuranceDetails
+                        };
+
+                        
+                        FilteredListCompany.Add(companyInfo);
+                    }
+                }
+            }
+            else if (IsPrivateCustomerSelected&&FilterText!=null)
+            {
+                FilteredListPrivate.Clear();
+                foreach (PrivateCustomer privateCustomer in PrivateCustomers)
+                {
+                    if (privateCustomer.FirstName.Contains(FilterText, StringComparison.OrdinalIgnoreCase) ||
+                        privateCustomer.LastName.Contains(FilterText, StringComparison.OrdinalIgnoreCase) ||
+                        privateCustomer.SSN.Contains(FilterText, StringComparison.OrdinalIgnoreCase))
+                    {
+                        
+                        double totalPremie = customerController.GetCustomerTotalPremie(privateCustomer.CustomerID);
+
+                        
+                        ObservableCollection<string> insuranceDetails = new ObservableCollection<string>();
+                        foreach (Insurance insurance in privateCustomer.Insurances)
+                        {
+                            string insuranceName = customerController.GetCustomerInsuranceTypes(insurance.InsuranceType.InsuranceTypeId);
+                            insuranceDetails.Add(insuranceName);
+                        }
+
+                        
+                        var privateInfo = new
+                        {
+                            FirstName = privateCustomer.FirstName,
+                            LastName = privateCustomer.LastName,
+                            SSN = privateCustomer.SSN,
+                            Address = privateCustomer.StreetAddress,
+                            PostalCode = privateCustomer.PostalCodeCity.PostalCode,
+                            City = privateCustomer.PostalCodeCity.City,
+                            TotalPremium = totalPremie,
+                            InsuranceSummary = insuranceDetails
+                        };
+
+                        
+                        FilteredListPrivate.Add(privateInfo);
+                    }
+                }
+            }
+
+            
+            OnPropertyChanged(nameof(FilteredListPrivate));
+        }
+        #endregion
+
     }
 }

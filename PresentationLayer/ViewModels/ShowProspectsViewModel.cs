@@ -167,7 +167,7 @@ namespace PresentationLayer.ViewModels
             }
         }
 
-        public ICommand ShowProspectCommand { get; private set; }
+        public ICommand AddProspectNoteCommand { get; private set; }
         public ICommand ReturnCommand { get; private set; }
 
         public ShowProspectsViewModel()
@@ -178,7 +178,7 @@ namespace PresentationLayer.ViewModels
             PrivateProspects = new ObservableCollection<PrivateCustomer>(FilterPrivateProspects());
             CompanyProspects = new ObservableCollection<CompanyCustomer>(FilterCompanyProspects());
 
-            ShowProspectCommand = new RelayCommand(ShowProspect);
+            AddProspectNoteCommand = new RelayCommand(AddProspectNote);
             ReturnCommand = new RelayCommand(Return);
 
             IsCompanySelected = true;
@@ -234,27 +234,9 @@ namespace PresentationLayer.ViewModels
                 PrivateProspects = FilterPrivateProspects();
             }
         }
-        private ObservableCollection<ProspectNote> UpdateProspectNotes(Customer customer) 
-        {
-            ProspectNotesList.Clear();
-            if (customer.ProspectNotes != null)
-            {
-                foreach (var prospectNote in customer.ProspectNotes)
-                {
-                    ProspectNotesList.Add(prospectNote);
-                }
-            }
-            return ProspectNotesList;
-            
-        }
 
+        //Add a note to the prospect
         private void AddProspectNote()
-        {
-
-        }
-
-        //Show a more detailed view of the prospect
-        private void ShowProspect()
         {
 
         }

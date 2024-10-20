@@ -72,11 +72,9 @@
                 <RadioButton Content="Privat" GroupName="UserType" IsChecked="{Binding IsPrivateSelected, Mode=TwoWay}" Margin="10"/>
             </StackPanel>
 
-            <!-- Buttons -->
-            <StackPanel Orientation="Horizontal">
-                <Button Content="Huvudmeny" Margin="10" Command="{Binding ReturnCommand}"/>
-                <Button Content="Visa kundprospekt" Margin="10" Command="{Binding ShowProspectCommand}"/>
-            </StackPanel>
+            <!-- ReturnButton -->
+            <Button Content="Huvudmeny" Margin="10" Command="{Binding ReturnCommand}" HorizontalAlignment="Left" Width="Auto"/>
+            
         </StackPanel>
         
         
@@ -134,25 +132,44 @@
                 </StackPanel>  
             </StackPanel>
 
-
-
+            <!-- Add notes -->
             <Label Content="Utfall" Width="130" HorizontalAlignment="Left"/>
             <TextBox Text="{Binding ProspectNote}" BorderBrush="Black" Width="320" Margin="5,0,10,0" HorizontalAlignment="Left"/>
             <Button Content="Lägg till notering" Width="100" Margin="5" HorizontalAlignment="Left"/>
 
+            <!-- Notes DataGrid -->
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
 
-                <!--  DataGrid  -->
-                <DataGrid Grid.Column="0" Height="100" Width="320" Margin="5" HorizontalAlignment="Left" VerticalAlignment="Top" AutoGenerateColumns="False" CanUserAddRows="False" BorderBrush="Black">
+                <!-- Private DataGrid -->
+                <DataGrid Grid.Column="0" Height="100" Width="320" Margin="5,10,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" 
+                    ItemsSource="{Binding PrivateProspectSelectedItem.ProspectNotes}"  
+                    AutoGenerateColumns="False" 
+                    CanUserAddRows="False"
+                    Visibility="{Binding IsPrivateSelected, Converter={StaticResource BoolToVisConverter}}"
+                    BorderBrush="Black">
                     <DataGrid.Columns>
-                        <DataGridTextColumn Header="Agentnummer" Width="90"/>
-                        <DataGridTextColumn Header="Notering" Width="230"/>
+                        <DataGridTextColumn Header="Agentnummer" Binding="{Binding User.Employee.AgentNumber}" Width="90"/>
+                        <DataGridTextColumn Header="Notering" Binding="{Binding Note}" Width="230"/>
                     </DataGrid.Columns>
                 </DataGrid>
+
+                <!-- Company DataGrid -->
+                <DataGrid Grid.Column="0" Height="100" Width="320" Margin="5,10,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" 
+                    ItemsSource="{Binding CompanyProspectSelectedItem.ProspectNotes}"  
+                    AutoGenerateColumns="False" 
+                    CanUserAddRows="False"
+                    Visibility="{Binding IsCompanySelected, Converter={StaticResource BoolToVisConverter}}"
+                    BorderBrush="Black">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Agentnummer" Binding="{Binding User.Employee.AgentNumber}" Width="90"/>
+                        <DataGridTextColumn Header="Notering" Binding="{Binding Note}" Width="230"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+
                 <!-- ScrollViewer -->
                 <ScrollViewer Grid.Column="1" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
                 </ScrollViewer>

@@ -35,6 +35,10 @@ namespace ServiceLayer
                 throw new Exception($"Ett fel uppstod vid sparandet av kunden: {ex.Message}");
             }
         }
+        public void AddPrivateProspectNote(ProspectNote prospectNote, PrivateCustomer privatecustomer)
+        {
+            
+        }
 
         public IList<PrivateCustomer> GetPrivateCustomerList()
         {

@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using PresentationLayer.Command;
 using System.Windows.Input;
+using System.Windows;
 
 namespace PresentationLayer.ViewModels
 {
@@ -16,17 +17,17 @@ namespace PresentationLayer.ViewModels
     {
         private CustomerController customerController = new CustomerController();
 
-        private string prospectNote;
-        public string ProspectNote
+        private string note;
+        public string Note
         {
-            get { return prospectNote; }
-            set { prospectNote = value; OnPropertyChanged(nameof(ProspectNote)); }
+            get { return note; }
+            set { note = value; OnPropertyChanged(nameof(Note)); }
         }
 
         private ObservableCollection<ProspectNote> prospectNotesList = null;
-        public ObservableCollection<ProspectNote> ProspectNotesList 
+        public ObservableCollection<ProspectNote> ProspectNotesList
         {
-            get { return prospectNotesList; } 
+            get { return prospectNotesList; }
             set { prospectNotesList = value; OnPropertyChanged(nameof(ProspectNotesList)); }
         }
 
@@ -117,6 +118,15 @@ namespace PresentationLayer.ViewModels
                 OnPropertyChanged(nameof(PrivateProspectSelectedItem));
                 OnPropertyChanged(nameof(FullName));
                 OnPropertyChanged(nameof(PrivateSalesPersonAgentnumber));
+                
+                if (privateProspectSelectedItem != null)
+                {
+                    ProspectNotesList = new ObservableCollection<ProspectNote>(privateProspectSelectedItem.ProspectNotes);
+                }
+                else
+                {
+                    ProspectNotesList?.Clear();
+                }
             }
         }
 
@@ -129,6 +139,14 @@ namespace PresentationLayer.ViewModels
                 companyProspectSelectedItem = value;
                 OnPropertyChanged(nameof(CompanyProspectSelectedItem));
                 OnPropertyChanged(nameof(CompanySalesPersonAgentnumber));
+                if (companyProspectSelectedItem != null)
+                {
+                    ProspectNotesList = new ObservableCollection<ProspectNote>(companyProspectSelectedItem.ProspectNotes);
+                }
+                else
+                {
+                    ProspectNotesList?.Clear();
+                }
             }
         }
 
@@ -167,7 +185,8 @@ namespace PresentationLayer.ViewModels
             }
         }
 
-        public ICommand AddProspectNoteCommand { get; private set; }
+        public ICommand AddPrivateProspectNoteCommand { get; private set; }
+        public ICommand AddCompanyProspectNoteCommand { get; private set; }
         public ICommand ReturnCommand { get; private set; }
 
         public ShowProspectsViewModel()
@@ -178,12 +197,12 @@ namespace PresentationLayer.ViewModels
             PrivateProspects = new ObservableCollection<PrivateCustomer>(FilterPrivateProspects());
             CompanyProspects = new ObservableCollection<CompanyCustomer>(FilterCompanyProspects());
 
-            AddProspectNoteCommand = new RelayCommand(AddProspectNote);
+            AddPrivateProspectNoteCommand = new RelayCommand(AddPrivateProspectNote);
+            AddCompanyProspectNoteCommand = new RelayCommand(AddCompanyProspectNote);
             ReturnCommand = new RelayCommand(Return);
 
             IsCompanySelected = true;
         }
-
 
 
         #region Methods
@@ -202,7 +221,6 @@ namespace PresentationLayer.ViewModels
                     }
                 }
             }
-
             return filteredList; 
         }
      
@@ -235,10 +253,46 @@ namespace PresentationLayer.ViewModels
             }
         }
 
-        //Add a note to the prospect
-        private void AddProspectNote()
+        //Add a note to the private prospect
+        private void AddPrivateProspectNote()
         {
+            if (!string.IsNullOrWhiteSpace(Note))
+            {
+                Insurance insurance = PrivateProspectSelectedItem.Insurances.FirstOrDefault(); //Gör om logiken så inloggad person blir user istället, endast tillfällig lösning
+                User user = insurance.User;
 
+                ProspectNote prospectNote = new ProspectNote(Note, DateTime.Now, user, PrivateProspectSelectedItem);
+                customerController.AddProspectNote(prospectNote);
+                PrivateProspectSelectedItem.ProspectNotes.Add(prospectNote);
+                ProspectNotesList.Add(prospectNote);
+                MessageBox.Show("Anteckning tillagd");
+                Note = string.Empty;
+            }
+            else
+            {
+                MessageBox.Show("Var god fyll i utfall");
+            }
+        }
+
+        //Add a note to the company prospect
+        private void AddCompanyProspectNote()
+        {
+            if (!string.IsNullOrWhiteSpace(Note))
+            {
+                Insurance insurance = CompanyProspectSelectedItem.Insurances.FirstOrDefault(); //Gör om logiken så inloggad person blir user istället, endast tillfällig lösning
+                User user = insurance.User;
+
+                ProspectNote prospectNote = new ProspectNote(Note, DateTime.Now, user, CompanyProspectSelectedItem);
+                customerController.AddProspectNote(prospectNote);
+                CompanyProspectSelectedItem.ProspectNotes.Add(prospectNote);
+                ProspectNotesList.Add(prospectNote);
+                MessageBox.Show("Anteckning tillagd");
+                Note = string.Empty;
+            }
+            else
+            {
+                MessageBox.Show("Var god fyll i utfall");
+            }
         }
 
         //Return to main menu

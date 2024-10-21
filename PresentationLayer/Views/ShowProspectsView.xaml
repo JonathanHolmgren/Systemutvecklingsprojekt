@@ -74,13 +74,8 @@
 
             <!-- ReturnButton -->
             <Button Content="Huvudmeny" Margin="10" Command="{Binding ReturnCommand}" HorizontalAlignment="Left" Width="Auto"/>
-            
         </StackPanel>
         
-        
-        
-        
-
         <!--  Dockpanel Right  -->
         <StackPanel DockPanel.Dock="Right" Orientation="Vertical">
             <Label Content="Kundinformation" FontSize="16"/>
@@ -105,9 +100,14 @@
                     <TextBox Text="{Binding PrivateProspectSelectedItem.Email, Mode=OneWay}" BorderBrush="Black" Width="150" Margin="5" IsReadOnly="True"/>
                 </StackPanel>
                 <TextBox Text="{Binding PrivateSalesPersonAgentnumber, Mode=OneWay}" BorderBrush="Black" Width="150" HorizontalAlignment="Left" Margin="5" IsReadOnly="True"/>
+
+                <!-- Add note -->
+                <Label Content="Utfall" Width="130" HorizontalAlignment="Left"/>
+                <TextBox Text="{Binding Note}" BorderBrush="Black" Width="320" Margin="5,0,10,0" HorizontalAlignment="Left"/>
+                <Button Content="Lägg till notering" Width="100" Margin="5" HorizontalAlignment="Left" Command="{Binding AddPrivateProspectNoteCommand}"/>
             </StackPanel>
 
-            <!-- För Företagskund -->
+            <!-- For Companyprospect -->
             <StackPanel x:Name="CompanyCustomerPanel" Visibility="{Binding IsCompanySelected, Converter={StaticResource BoolToVisConverter}}">
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
                     <TextBox Text="{Binding CompanyProspectSelectedItem.CompanyName, Mode=OneWay}" BorderBrush="Black" Width="150" Margin="5" IsReadOnly="True"/>
@@ -129,13 +129,13 @@
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
                     <TextBox Text="{Binding CompanyProspectSelectedItem.ContactPersonName}" BorderBrush="Black" Width="150" Margin="5" IsReadOnly="True"/>
                     <TextBox Text="{Binding CompanySalesPersonAgentnumber, Mode=OneWay}" BorderBrush="Black" Width="150" Margin="5" IsReadOnly="True"/>
-                </StackPanel>  
-            </StackPanel>
+                </StackPanel>
 
-            <!-- Add notes -->
-            <Label Content="Utfall" Width="130" HorizontalAlignment="Left"/>
-            <TextBox Text="{Binding ProspectNote}" BorderBrush="Black" Width="320" Margin="5,0,10,0" HorizontalAlignment="Left"/>
-            <Button Content="Lägg till notering" Width="100" Margin="5" HorizontalAlignment="Left"/>
+                <!-- Add note -->
+                <Label Content="Utfall" Width="130" HorizontalAlignment="Left"/>
+                <TextBox Text="{Binding Note}" BorderBrush="Black" Width="320" Margin="5,0,10,0" HorizontalAlignment="Left"/>
+                <Button Content="Lägg till notering" Width="100" Margin="5" HorizontalAlignment="Left" Command="{Binding AddCompanyProspectNoteCommand}"/>
+            </StackPanel>
 
             <!-- Notes DataGrid -->
             <Grid>
@@ -146,12 +146,13 @@
 
                 <!-- Private DataGrid -->
                 <DataGrid Grid.Column="0" Height="100" Width="320" Margin="5,10,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" 
-                    ItemsSource="{Binding PrivateProspectSelectedItem.ProspectNotes}"  
+                    ItemsSource="{Binding ProspectNotesList, UpdateSourceTrigger=PropertyChanged}"  
                     AutoGenerateColumns="False" 
                     CanUserAddRows="False"
                     Visibility="{Binding IsPrivateSelected, Converter={StaticResource BoolToVisConverter}}"
                     BorderBrush="Black">
                     <DataGrid.Columns>
+                        <DataGridTextColumn Header="Datum" Binding="{Binding Date}" Width="70"/>
                         <DataGridTextColumn Header="Agentnummer" Binding="{Binding User.Employee.AgentNumber}" Width="90"/>
                         <DataGridTextColumn Header="Notering" Binding="{Binding Note}" Width="230"/>
                     </DataGrid.Columns>
@@ -159,12 +160,13 @@
 
                 <!-- Company DataGrid -->
                 <DataGrid Grid.Column="0" Height="100" Width="320" Margin="5,10,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" 
-                    ItemsSource="{Binding CompanyProspectSelectedItem.ProspectNotes}"  
+                    ItemsSource="{Binding ProspectNotesList}"  
                     AutoGenerateColumns="False" 
                     CanUserAddRows="False"
                     Visibility="{Binding IsCompanySelected, Converter={StaticResource BoolToVisConverter}}"
                     BorderBrush="Black">
                     <DataGrid.Columns>
+                        <DataGridTextColumn Header="Datum" Binding="{Binding Date}" Width="70"/>
                         <DataGridTextColumn Header="Agentnummer" Binding="{Binding User.Employee.AgentNumber}" Width="90"/>
                         <DataGridTextColumn Header="Notering" Binding="{Binding Note}" Width="230"/>
                     </DataGrid.Columns>

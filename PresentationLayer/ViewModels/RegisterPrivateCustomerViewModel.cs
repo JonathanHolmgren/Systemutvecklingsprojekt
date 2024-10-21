@@ -167,7 +167,7 @@ namespace PresentationLayer.ViewModels
             {
                 PostalCodeCity postalCodeCity = AddPostalCodeCity(PostalCode, City);
                 PrivateCustomer privateCustomer = new PrivateCustomer(TelephoneNumber, Email, StreetAdress, postalCodeCity, SSN, FirstName, LastName, WorkTelephoneNumber);
-                customerController.AddCustomer(privateCustomer);
+                customerController.AddPrivateCustomer(privateCustomer);
                 MessageBox.Show("Kunden är tillagd");
             }
             catch (Exception ex)

@@ -20,13 +20,13 @@ namespace DataLayer.Repositories
                     .ThenInclude(b => b.Employee)
                         .ToList(); // Konvertera till en lista
         }
-        public ProspectNote GetSpecificCompanyCustomer(int prospectNoteId)
-        {
-            return Context.Set<ProspectNote>()
-                  .Include(c => c.User)
-                    .ThenInclude(b => b.Employee)
-                        .FirstOrDefault(); // Konvertera till ett objekt
-        }
+        //public ProspectNote GetSpecificProspectNote(int prospectNoteId)
+        //{
+        //    return Context.Set<ProspectNote>()
+        //          .Include(c => c.User)
+        //            .ThenInclude(b => b.Employee)
+        //                .FirstOrDefault(); // Konvertera till ett objekt
+        //}
 
     }
 }

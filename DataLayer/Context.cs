@@ -26,7 +26,8 @@ namespace DataLayer
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(@"Server=(localdb)\mssqllocaldb;Database=ToppFörsäkringar;Trusted_Connection=True;");
+            optionsBuilder.UseSqlServer(
+                @"Server=sqlutb2-db.hb.se,56077;Database=suht2410;User Id=suht2410;Password=VOB279;TrustServerCertificate=True;");
             base.OnConfiguring(optionsBuilder);
         }
 
@@ -35,7 +36,7 @@ namespace DataLayer
             //ConfigureInsurance(modelBuilder);
             ConfigureEmployeeRelations(modelBuilder);
             ConfigurePostalCodeCityRelations(modelBuilder);
-            ConfigureCustomerRelations(modelBuilder);
+            //ConfigureCustomerRelations(modelBuilder);
 
 
 

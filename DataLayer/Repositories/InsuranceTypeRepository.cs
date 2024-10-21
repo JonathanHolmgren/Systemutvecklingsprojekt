@@ -10,5 +10,10 @@ namespace DataLayer.Repositories
     public class InsuranceTypeRepository:Repository<InsuranceType>
     {
         public InsuranceTypeRepository(Context context) : base(context) { }
+        public string GetCustomerInsuranceType(int insuranceTypeId)
+        {
+            InsuranceType insuranceType = Context.Set<InsuranceType>().FirstOrDefault(c => c.InsuranceTypeId == insuranceTypeId);
+            return insuranceType.Type;
+        }
     }
 }

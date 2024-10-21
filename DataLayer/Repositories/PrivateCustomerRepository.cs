@@ -12,6 +12,7 @@ namespace DataLayer.Repositories
     {
         public PrivateCustomerRepository(Context context) : base(context) { }
 
+
         public List<PrivateCustomer> GetAllPrivateCustomers()
         {
             return Context.Set<PrivateCustomer>().Include(c => c.Insurances).ToList();

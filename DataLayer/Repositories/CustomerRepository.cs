@@ -16,6 +16,7 @@ namespace DataLayer.Repositories
             return Context.Set<Customer>()
                 .OfType<PrivateCustomer>()
                 .Include(p => p.PostalCodeCity)
+                .Include(i => i.Insurances)
                 .Include(p => p.ProspectNotes).ThenInclude(i => i.User).ThenInclude(u => u.Employee)
                 .Include(p => p.Insurances).ThenInclude(i => i.User).ThenInclude(u => u.Employee)
                 .ToList(); // Returnerar hela objektet direkt, inklusive egenskaper från PrivateCustomer och Customer
@@ -29,21 +30,25 @@ namespace DataLayer.Repositories
                 .Include(p => p.ProspectNotes).ThenInclude(i => i.User).ThenInclude(u => u.Employee)
                 .Include(c => c.Insurances).ThenInclude(a => a.User).ThenInclude(b => b.Employee)
                 .ToList(); // Konvertera till en lista
+
         }
 
         public CompanyCustomer GetSpecificCompanyCustomer(int customerId)
         {
-            return Context.Set<Customer>()
-                  .OfType<CompanyCustomer>()  // Filtrera endast CompanyCustomer-objekt
-                  .Include(c => c.PostalCodeCity)  // Inkludera PostalCodeCity
-                  .FirstOrDefault(); // Konvertera till en lista
+
+          return Context.Set<Customer>()
+                .OfType<CompanyCustomer>()
+                .Include(c => c.PostalCodeCity) 
+                .FirstOrDefault(c => c.CustomerID == customerId);
         }
         public PrivateCustomer GetSpecificPrivateCustomer(int customerId)
         {
             return Context.Set<Customer>()
-                  .OfType<PrivateCustomer>()  // Filtrera endast CompanyCustomer-objekt
-                  .Include(c => c.PostalCodeCity)  // Inkludera PostalCodeCity
-                  .FirstOrDefault(); // Konvertera till en lista
+                  .OfType<PrivateCustomer>() 
+                  .Include(c => c.PostalCodeCity)
+                  .FirstOrDefault(c=>c.CustomerID==customerId); 
         }
     }
+
 }
+

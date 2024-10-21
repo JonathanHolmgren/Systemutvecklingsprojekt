@@ -14,6 +14,7 @@ namespace PresentationLayer.ViewModels
 {
     internal class RegisterCompanyCustomerViewModel:ObservableObject
     {
+        #region Initiation of objects
         CustomerController customerController = new CustomerController();
         private string companyName;
         public string CompanyName
@@ -71,10 +72,14 @@ namespace PresentationLayer.ViewModels
             set { city = value; OnPropertyChanged(nameof(City)); }
         }
         public ICommand CreateCompanyCustomerCommand { get; private set; }
+        #endregion
+        #region Constructor
         public RegisterCompanyCustomerViewModel()
         {
             CreateCompanyCustomerCommand = new RelayCommand<object>(execute => CreateCompanyCustomer());;
         }
+        #endregion
+        #region Methods
         private void CreateCompanyCustomer()
         {
             
@@ -141,7 +146,7 @@ namespace PresentationLayer.ViewModels
         {
             try
             {
-                customerController.AddCustomer(companyCustomer);
+                customerController.AddCompanyCustomer(companyCustomer);
                 MessageBox.Show("Kunden har lagts till framgångsrikt!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
             }
             catch (Exception ex)
@@ -234,6 +239,7 @@ namespace PresentationLayer.ViewModels
             // All fields are correct
             return true;
         }
+        #endregion
 
 
     }

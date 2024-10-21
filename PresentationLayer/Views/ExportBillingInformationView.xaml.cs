@@ -22,6 +22,7 @@ namespace PresentationLayer.Views
     {
         public ExportBillingInformationView()
         {
+            
             InitializeComponent();
         }
     }

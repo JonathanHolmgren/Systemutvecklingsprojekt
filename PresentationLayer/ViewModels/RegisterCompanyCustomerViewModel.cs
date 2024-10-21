@@ -146,7 +146,7 @@ namespace PresentationLayer.ViewModels
         {
             try
             {
-                customerController.AddCustomer(companyCustomer);
+                customerController.AddCompanyCustomer(companyCustomer);
                 MessageBox.Show("Kunden har lagts till framgångsrikt!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
             }
             catch (Exception ex)

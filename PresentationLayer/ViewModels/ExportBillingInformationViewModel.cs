@@ -121,7 +121,7 @@ namespace PresentationLayer.ViewModels
                 if (filterText != value)
                 {
                     filterText = value;
-                    ApplyFilter();
+                    ApplyFilter(filterText);
                     OnPropertyChanged(nameof(FilterText));
 
                 }
@@ -139,28 +139,33 @@ namespace PresentationLayer.ViewModels
             ExportAllToJsonCommand = new RelayCommand<object>(execute => ExportAllToJson());
             ExportSingleToJsonCommand = new RelayCommand<object>(execute => ExportSingleToJson());
             
-            GetAllCompanyCustomerInsurances();
-            GetAllPrivateCustomerInsurances();
-            ApplyFilter();
+            ConvertCompanyCustomerInsurancesToInfo(CompanyCustomers);
+            ConvertPrivateCustomerInsurancesToInfo(PrivateCustomers);
+            ApplyFilter(null);
         }
         #endregion
         #region Methods
-        private void GetAllPrivateCustomerInsurances()
+        private void ConvertPrivateCustomerInsurancesToInfo(IList<PrivateCustomer> privateCustomers) //Converting and adding insurance and customer object into one object
         {
             InsuranceInfoPrivateCustomer = new ObservableCollection<object>();
 
             foreach (PrivateCustomer privateCustomer in PrivateCustomers)
             {
+
+                double totalPremie = 0;
+                totalPremie += customerController.GetCustomerPremie(privateCustomer.CustomerID);
                 
-                double totalPremie = customerController.GetCustomerTotalPremie(privateCustomer.CustomerID);
-
                 ObservableCollection<string> insuranceDetails = new ObservableCollection<string>();
-                foreach (Insurance insurance in privateCustomer.Insurances)
-                {
-                    string insuranceName = customerController.GetCustomerInsuranceTypes(insurance.InsuranceType.InsuranceTypeId);
-                    insuranceDetails.Add(insuranceName);
-                }
-
+                    foreach (Insurance insurance in privateCustomer.Insurances)
+                    {
+                        if(customerController.CalculatePremiePerInsurance(insurance)>0) 
+                        {
+                        string insuranceName = customerController.GetCustomerInsuranceTypes(insurance.InsuranceId);
+                        insuranceDetails.Add(insuranceName);
+                        }
+                        
+                    }
+                
                 var customerInfo = new
                 {
                     FirstName= privateCustomer.FirstName,
@@ -172,26 +177,34 @@ namespace PresentationLayer.ViewModels
                     TotalPremium = totalPremie,
                     InsuranceSummary = insuranceDetails
                 };
-                InsuranceInfoPrivateCustomer.Add(customerInfo);
+                if(totalPremie>0)
+                {
+                    InsuranceInfoPrivateCustomer.Add(customerInfo);
+                }
+                    
+                
             }
         }
-        private void GetAllCompanyCustomerInsurances()
+        private void ConvertCompanyCustomerInsurancesToInfo(IList<CompanyCustomer> companyCustomers)//Converting and adding insurance and customer object into one object
         {
-            InsuranceInfoCompanyCustomer = new ObservableCollection<object>(); //
+            InsuranceInfoCompanyCustomer = new ObservableCollection<object>(); 
 
             foreach (CompanyCustomer companyCustomer in CompanyCustomers)
             {
                 
-                double totalPremie = customerController.GetCustomerTotalPremie(companyCustomer.CustomerID);
+                double totalPremie = 0;
 
-                
+                totalPremie += customerController.GetCustomerPremie(companyCustomer.CustomerID);
                 ObservableCollection<string> insuranceDetails = new ObservableCollection<string>();
                 foreach (Insurance insurance in companyCustomer.Insurances)
                 {
-                    string insuranceName = customerController.GetCustomerInsuranceTypes(insurance.InsuranceType.InsuranceTypeId);
-                    insuranceDetails.Add(insuranceName);
+                    
+                    if(customerController.CalculatePremiePerInsurance(insurance)>0)
+                    {
+                        string insuranceName = customerController.GetCustomerInsuranceTypes(insurance.InsuranceId);
+                        insuranceDetails.Add(insuranceName);
+                    }
                 }
-
                 
                 var companyInfo = new
                 {
@@ -205,31 +218,37 @@ namespace PresentationLayer.ViewModels
                     InsuranceSummary = insuranceDetails
                 };
 
-               
-                InsuranceInfoCompanyCustomer.Add(companyInfo);
+                if (totalPremie > 0)
+                {
+                    InsuranceInfoCompanyCustomer.Add(companyInfo);
+                }
+                
             }
         }
-        private void ExportSingleToJson()
+        
+        private void ExportSingleToJson() //Exporting a single selected customer to Json
         {
             string jsonResult=JsonConvert.SerializeObject(SelectedCustomer, Formatting.Indented);
             string outputPath = @"C:\JsonTest\CustomerInformationSingle.json";
-            //File.WriteAllText(outputPath, jsonResult);
+            File.WriteAllText(outputPath, jsonResult);
         }
         private void ExportAllToJson()
         {
             var customerDataToJson = new
             {
+                
                 PrivateCustomers = InsuranceInfoPrivateCustomer,
                 CompanyCustomers = InsuranceInfoCompanyCustomer
             };
+            
             string jsonResult = JsonConvert.SerializeObject(customerDataToJson, Formatting.Indented);
             string outputPath = @"C:\JsonTest\CustomerInformation.json";
-            //File.WriteAllText(outputPath, jsonResult);
-        }
-        private void ApplyFilter()
+            File.WriteAllText(outputPath, jsonResult);
+        } //Exporting all due customer to Json
+        private void ApplyFilter(string filterText)
         {
             
-            if (string.IsNullOrWhiteSpace(FilterText))
+            if (string.IsNullOrWhiteSpace(filterText))
             {
                 
                     FilteredListCompany = new ObservableCollection<object>(InsuranceInfoCompanyCustomer);
@@ -241,22 +260,26 @@ namespace PresentationLayer.ViewModels
 
   
 
-            if (IsCompanyCustomerSelected&&FilterText!=null)
+            if (IsCompanyCustomerSelected&&filterText!=null)
             {
                 FilteredListCompany.Clear();
                 foreach (CompanyCustomer companyCustomer in CompanyCustomers)
                 {
-                    if (companyCustomer.OrganisationNumber.Contains(FilterText, StringComparison.OrdinalIgnoreCase) ||
-                        companyCustomer.CompanyName.Contains(FilterText, StringComparison.OrdinalIgnoreCase))
+                    if (companyCustomer.OrganisationNumber.Contains(filterText, StringComparison.OrdinalIgnoreCase) ||
+                        companyCustomer.CompanyName.Contains(filterText, StringComparison.OrdinalIgnoreCase))
                     {
                         
-                        double totalPremie = customerController.GetCustomerTotalPremie(companyCustomer.CustomerID);
+                        double totalPremie = customerController.GetCustomerPremie(companyCustomer.CustomerID);
 
                         ObservableCollection<string> insuranceDetails = new ObservableCollection<string>();
                         foreach (Insurance insurance in companyCustomer.Insurances)
                         {
-                            string insuranceName = customerController.GetCustomerInsuranceTypes(insurance.InsuranceType.InsuranceTypeId);
-                            insuranceDetails.Add(insuranceName);
+                            if (customerController.CalculatePremiePerInsurance(insurance) > 0)
+                            {
+                                string insuranceName = customerController.GetCustomerInsuranceTypes(insurance.InsuranceId);
+                                insuranceDetails.Add(insuranceName);
+                            }
+
                         }
 
                         
@@ -272,29 +295,35 @@ namespace PresentationLayer.ViewModels
                             InsuranceSummary = insuranceDetails
                         };
 
-                        
-                        FilteredListCompany.Add(companyInfo);
+                        if(totalPremie>0)
+                        {
+                            FilteredListCompany.Add(companyInfo);
+                        }
                     }
                 }
             }
-            else if (IsPrivateCustomerSelected&&FilterText!=null)
+            else if (IsPrivateCustomerSelected&&filterText!=null)
             {
                 FilteredListPrivate.Clear();
                 foreach (PrivateCustomer privateCustomer in PrivateCustomers)
                 {
-                    if (privateCustomer.FirstName.Contains(FilterText, StringComparison.OrdinalIgnoreCase) ||
-                        privateCustomer.LastName.Contains(FilterText, StringComparison.OrdinalIgnoreCase) ||
-                        privateCustomer.SSN.Contains(FilterText, StringComparison.OrdinalIgnoreCase))
+                    if (privateCustomer.FirstName.Contains(filterText, StringComparison.OrdinalIgnoreCase) ||
+                        privateCustomer.LastName.Contains(filterText, StringComparison.OrdinalIgnoreCase) ||
+                        privateCustomer.SSN.Contains(filterText, StringComparison.OrdinalIgnoreCase))
                     {
                         
-                        double totalPremie = customerController.GetCustomerTotalPremie(privateCustomer.CustomerID);
+                        double totalPremie = customerController.GetCustomerPremie(privateCustomer.CustomerID);
 
                         
                         ObservableCollection<string> insuranceDetails = new ObservableCollection<string>();
                         foreach (Insurance insurance in privateCustomer.Insurances)
                         {
-                            string insuranceName = customerController.GetCustomerInsuranceTypes(insurance.InsuranceType.InsuranceTypeId);
-                            insuranceDetails.Add(insuranceName);
+                            if(customerController.CalculatePremiePerInsurance(insurance)>0)
+                            {
+                                string insuranceName = customerController.GetCustomerInsuranceTypes(insurance.InsuranceId);
+                                insuranceDetails.Add(insuranceName);
+                            }
+                            
                         }
 
                         
@@ -310,16 +339,18 @@ namespace PresentationLayer.ViewModels
                             InsuranceSummary = insuranceDetails
                         };
 
+                        if(totalPremie>0)
+                        {
+                            FilteredListPrivate.Add(privateInfo);
+                        }
                         
-                        FilteredListPrivate.Add(privateInfo);
                     }
                 }
             }
 
             
             OnPropertyChanged(nameof(FilteredListPrivate));
-        }
-        #endregion
-
+        } //Applying filter with search function
     }
+    #endregion
 }

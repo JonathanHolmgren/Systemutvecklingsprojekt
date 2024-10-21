@@ -18,5 +18,11 @@ namespace DataLayer.Repositories
                           .Include(i=>i.InsuranceType)
                           .ToList();
         }
+        public Insurance GetInsurance(int insuranceId)
+        {
+            return Context.Set<Insurance>()
+                          .Include(i => i.InsuranceType)
+                          .FirstOrDefault(i => i.InsuranceId == insuranceId);
+        }
     }
 }

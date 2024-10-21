@@ -34,14 +34,14 @@ namespace DataLayer.Repositories
           return Context.Set<Customer>()
                 .OfType<CompanyCustomer>()
                 .Include(c => c.PostalCodeCity) 
-                .FirstOrDefault();
+                .FirstOrDefault(c => c.CustomerID == customerId);
         }
         public PrivateCustomer GetSpecificPrivateCustomer(int customerId)
         {
             return Context.Set<Customer>()
                   .OfType<PrivateCustomer>()  // Filtrera endast CompanyCustomer-objekt
                   .Include(c => c.PostalCodeCity)  // Inkludera PostalCodeCity
-                  .FirstOrDefault(); // Konvertera till en lista
+                  .FirstOrDefault(c=>c.CustomerID==customerId); // Konvertera till en lista
         }
 
 

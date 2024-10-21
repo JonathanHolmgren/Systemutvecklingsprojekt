@@ -203,6 +203,11 @@ public class Seed
         );
         #endregion
 
+        #region ProspectNote
+        ProspectNote prospectNote1 = new ProspectNote("Kunden gick inte med på avtal", DateTime.Now.AddDays(-20), user1, privateCustomer1);
+        ProspectNote prospectNote2 = new ProspectNote("Kunden vill att vi ringer upp imorgon", DateTime.Now.AddDays(-10), user2, companyCustomer1);
+        #endregion
+
         #region InsuredPerson
         InsuredPerson insuredPerson1 = new InsuredPerson("Inga-Lill Bengtsson", "1952/06/10");
         InsuredPerson insuredPerson2 = new InsuredPerson("Klas Persson", "1974/03/19");
@@ -221,7 +226,6 @@ public class Seed
         InsuranceType insuranceType5 = new InsuranceType("Fordonsförsäkring");
         InsuranceType insuranceType6 = new InsuranceType("Ansvarsförsäkring");
         #endregion
-
 
         #region InsuranceTypeAttribute
         InsuranceTypeAttribute insuranceTypeAttribute1 = new InsuranceTypeAttribute(
@@ -358,6 +362,8 @@ public class Seed
         );
 
         context.Users.AddRange(user1, user2, user3, user4);
+
+        context.ProspectNotes.AddRange(prospectNote1, prospectNote2 ); //Nya notesen
 
         context.CompanyCustomers.Add(companyCustomer1);
 

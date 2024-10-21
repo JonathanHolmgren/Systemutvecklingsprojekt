@@ -230,7 +230,7 @@ namespace PresentationLayer.ViewModels
         {
             string jsonResult=JsonConvert.SerializeObject(SelectedCustomer, Formatting.Indented);
             string outputPath = @"C:\JsonTest\CustomerInformationSingle.json";
-            File.WriteAllText(outputPath, jsonResult);
+           // File.WriteAllText(outputPath, jsonResult);
         }
         private void ExportAllToJson()
         {
@@ -242,8 +242,8 @@ namespace PresentationLayer.ViewModels
             };
             
             string jsonResult = JsonConvert.SerializeObject(customerDataToJson, Formatting.Indented);
-            string outputPath = @"C:\JsonTest\CustomerInformation.json";
-            File.WriteAllText(outputPath, jsonResult);
+          string outputPath = @"C:\JsonTest\CustomerInformation.json";
+          //  File.WriteAllText(outputPath, jsonResult);
         } //Exporting all due customer to Json
         private void ApplyFilter(string filterText)
         {

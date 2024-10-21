@@ -11,11 +11,12 @@ namespace DataLayer.Repositories
     public class PrivateCustomerRepository : Repository<PrivateCustomer>
     {
         public PrivateCustomerRepository(Context context) : base(context) { }
-        public IList<PrivateCustomer>GetAll()
+
+
+        public List<PrivateCustomer> GetAllPrivateCustomers()
         {
-            return Context.Set<PrivateCustomer>().
-                Include(i => i.Insurances).
-                Include(p => p.PostalCodeCity).ToList();
+            return Context.Set<PrivateCustomer>().Include(c => c.Insurances).ToList();
         }
     }
+
 }

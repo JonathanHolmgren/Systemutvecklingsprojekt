@@ -152,7 +152,7 @@
                     Visibility="{Binding IsPrivateSelected, Converter={StaticResource BoolToVisConverter}}"
                     BorderBrush="Black">
                     <DataGrid.Columns>
-                        <DataGridTextColumn Header="Datum" Binding="{Binding Date}" Width="70"/>
+                        <DataGridTextColumn Header="Datum" Binding="{Binding Date}" Width="60"/>
                         <DataGridTextColumn Header="Agentnummer" Binding="{Binding User.Employee.AgentNumber}" Width="90"/>
                         <DataGridTextColumn Header="Notering" Binding="{Binding Note}" Width="230"/>
                     </DataGrid.Columns>

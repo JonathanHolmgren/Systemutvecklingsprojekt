@@ -204,7 +204,6 @@ namespace PresentationLayer.ViewModels
             IsCompanySelected = true;
         }
 
-
         #region Methods
 
         private ObservableCollection<PrivateCustomer> FilterPrivateProspects()

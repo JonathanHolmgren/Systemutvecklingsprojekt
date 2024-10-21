@@ -1,4 +1,5 @@
 ﻿using DataLayer;
+using DataLayer.Repositories;
 using Models;
 using System;
 using System.Collections.Generic;
@@ -34,6 +35,18 @@ namespace ServiceLayer
             {
                 throw new Exception($"Ett fel uppstod vid sparandet av kunden: {ex.Message}");
             }
+        }
+        public PrivateCustomer GetSpecificPrivateCustomer(int customerId)
+        {
+            PrivateCustomer privateCustomer = unitOfWork.CustomerRepository.GetSpecificPrivateCustomer(customerId);
+
+            return privateCustomer;
+        }
+        public CompanyCustomer GetSpecificCompanyCustomer(int customerId)
+        {
+            CompanyCustomer companyCustomer = unitOfWork.CustomerRepository.GetSpecificCompanyCustomer(customerId);
+
+            return companyCustomer;
         }
     }
 }

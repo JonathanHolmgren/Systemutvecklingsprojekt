@@ -19,13 +19,14 @@ namespace PresentationLayer
 
         protected override void OnStartup(StartupEventArgs e)
         {
-            var services = new ServiceCollection();
-            ConfigureServices(services);
-            ServiceProvider = services.BuildServiceProvider();
+            //var services = new ServiceCollection();
+            //ConfigureServices(services);
+            //ServiceProvider = services.BuildServiceProvider();
 
             // Skapa MainWindow från DI-container och visa det
-            var mainWindow = ServiceProvider.GetRequiredService<MainWindow>();
-            mainWindow.Show();
+            //var mainWindow = ServiceProvider.GetRequiredService<MainWindow>();
+            //mainWindow.Show();
+            base.OnStartup(e);
         }
 
         //private void ConfigureServices(ServiceCollection services)

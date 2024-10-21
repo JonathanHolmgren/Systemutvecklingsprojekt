@@ -1,4 +1,5 @@
-﻿using System.Windows.Input;
+﻿using System.Windows;
+using System.Windows.Input;
 using Models;
 using PresentationLayer.Command;
 using PresentationLayer.Models;
@@ -17,6 +18,17 @@ public class LoginViewModel : ObservableObject
         set
         {
             userSelected = value;
+            OnPropertyChanged();
+        }
+    }
+
+    private string errorMessage = null!;
+    public string ErrorMessage
+    {
+        get { return errorMessage; }
+        set
+        {
+            errorMessage = value;
             OnPropertyChanged();
         }
     }
@@ -47,6 +59,14 @@ public class LoginViewModel : ObservableObject
     public ICommand LoginBtn =>
         loginBtn ??= new RelayCommand(() =>
         {
-            userSelected = loginUser.ValidateUser(userNameInput, passwordInput);
+            try
+            {
+                User user = loginUser.ValidateUser(userNameInput, passwordInput);
+                userSelected = user;
+            }
+            catch (Exception ex)
+            {
+                ErrorMessage = ex.Message;
+            }
         });
 }

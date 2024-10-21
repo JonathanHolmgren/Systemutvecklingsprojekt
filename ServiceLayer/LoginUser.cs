@@ -1,4 +1,5 @@
-﻿using DataLayer;
+using System.Security.Cryptography;
+using DataLayer;
 using Models;
 
 namespace ServiceLayer;
@@ -14,14 +15,14 @@ public class LoginUser
 
         if (user is null)
         {
-            throw new Exception("User was not found");
+            throw new Exception("Ogiltigt användarnamn eller lösenord");
         }
 
         bool verified = passwordHasher.Verify(password, user.Password);
 
         if (!verified)
         {
-            throw new Exception("Invalid password");
+            throw new Exception("Ogiltigt användarnamn eller lösenord");
         }
 
         return user;

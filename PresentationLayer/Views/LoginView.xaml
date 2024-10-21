@@ -18,13 +18,14 @@
             <TextBlock FontSize="20" Text="Login" Margin="0,0,0,20" HorizontalAlignment="Center"/>
             
             <Label Content="Username:"/>
-            <TextBox Name="UsernameTextBox" Width="250" Margin="0,0,0,10"/>
+            <TextBox Name="UsernameTextBox" Text="{Binding UserNameInput, Mode=TwoWay}" Width="250" Margin="0,0,0,10"/>
             
             <Label Content="Password:"/>
-            <PasswordBox Name="PasswordBox" Width="250" Margin="0,0,0,20"/>
+            <TextBox  Name="PasswordBox" Text="{Binding PasswordInput, Mode=TwoWay}" Width="250" Margin="0,0,0,20"/>
             
-            <Button Name="LoginButton" Content="Login" Width="100" Command="{Binding AddUserCommand}"/>
-            <TextBlock TextAlignment="{Binding UserSelected.UserName}" FontSize="20" Margin="0,0,0,20" HorizontalAlignment="Center"/>
+            <Button Name="LoginButton" Content="Login" Width="100" Command="{Binding LoginBtn}"/>
+            <TextBlock Text="{Binding ErrorMessage}" FontSize="20" Margin="0,0,0,20" HorizontalAlignment="Center"/>
+            
         </StackPanel>
          
         

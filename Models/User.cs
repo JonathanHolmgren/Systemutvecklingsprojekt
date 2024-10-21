@@ -10,6 +10,7 @@ namespace Models
     public class User
     {
         public int UserID { get; set; }
+        public String UserName { get; set; }
         public string Password { get; set; }
         public AuthorizationLevel AuthorizationLevel { get; set; }
 
@@ -19,11 +20,17 @@ namespace Models
 
         public User() { }
 
-        public User(string password, AuthorizationLevel authorizationLevel, Employee employee)
+        public User(
+            string password,
+            AuthorizationLevel authorizationLevel,
+            Employee employee,
+            string userName
+        )
         {
             Password = password;
             AuthorizationLevel = authorizationLevel;
             Employee = employee;
+            UserName = userName;
         }
     }
 }

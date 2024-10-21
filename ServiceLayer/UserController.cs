@@ -1,11 +1,13 @@
 ﻿using DataLayer;
 using Models;
+using ServiceLayer.services;
 
 namespace ServiceLayer;
 
 public class UserController
 {
     UnitOfWork unitOfWork = new UnitOfWork();
+    AcronymForPermissionLevel acronymForPermissionLevel = new AcronymForPermissionLevel();
 
     public Employee GetEmployee(string agentNumber)
     {
@@ -25,8 +27,12 @@ public class UserController
     {
         PasswordHasher passwordHasher = new PasswordHasher();
         string hashPassoword = passwordHasher.Hash(password);
+        string userName = acronymForPermissionLevel.GenereateAcronym(
+            employee.AgentNumber,
+            authorizationLevel
+        );
 
-        User user = new User(hashPassoword, authorizationLevel, employee);
+        User user = new User(hashPassoword, authorizationLevel, employee, userName);
 
         unitOfWork.UserRepository.Add(user);
         unitOfWork.SaveChanges();

@@ -36,19 +36,19 @@
                 <!-- Search for Employee -->
                 <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
                     <Label Content="Find Employee:" Width="100"/>
-                    <TextBox Name="employeeSearchTextBox" Width="200" Margin="0,0,10,0" />
-                    <Button Content="Search" Width="75"/>
+                    <TextBox Name="employeeInput" Text="{Binding EmployeeInput, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="200" Margin="0,0,10,0" />
+                    <Button Content="Search" Width="75" Command="{Binding SearchEmployee}"/>
+                    <TextBlock Text="{Binding EmployeeSelected.FirstName}" Width="200" Margin="0,0,10,0" />
                 </StackPanel>
 
-                <!-- Generate Password -->
+                <!-- Password -->
                 <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
-                    <Label Content="Generated Password:" Width="100"/>
-                    <TextBox Name="passwordTextBox" 
+                    <Label Content="Password:" Width="100"/>
+                    <TextBox Name="passwordInput" 
                              Width="200" 
-                             IsReadOnly="True" 
                              Margin="0,0,10,0" 
-                             Text="{Binding PasswordInput, UpdateSourceTrigger=PropertyChanged}"/>
-                    <Button Content="Generate" Width="75" Command="{Binding GeneratePasswordCommand}"/>
+                             Text="{Binding PasswordInput, Mode=TwoWay}"/>
+                    <!-- <Button Content="Generate" Width="75" Command="{Binding GeneratePasswordCommand}"/> -->
                 </StackPanel>
 
                 <!-- Role/Permission Level -->
@@ -63,15 +63,6 @@
 
                 <!-- Add User Button -->
                 <Button Content="Add User" Width="100" HorizontalAlignment="Left" Command="{Binding AddUserCommand}"/>
-
-                <!-- Display Password in Real Time -->
-                <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
-                    <Label Content="Password Display:" Width="100"/>
-                    <TextBox Name="passwordDisplayTextBox" 
-                             Width="200" 
-                             Margin="0,0,10,0" 
-                             Text="{Binding PasswordInput, UpdateSourceTrigger=PropertyChanged}" />
-                </StackPanel>
             </StackPanel>
         </GroupBox>
 
@@ -81,12 +72,25 @@
                 <!-- Search for User -->
                 <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
                     <Label Content="Find User:" Width="100"/>
-                    <TextBox Name="userSearchTextBox" Width="200" Margin="0,0,10,0"/>
-                    <Button Content="Search" Width="75"/>
+                    <TextBox Text="{Binding EmployeeInput, Mode=TwoWay}" Width="200" Margin="0,0,10,0"/>
+                    <Button Command="{Binding SearchUser}" Content="Search" Width="75"/>
                 </StackPanel>
 
+                <ListBox ItemsSource="{Binding Users}" SelectedItem="{Binding UserSelected, Mode=TwoWay}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="200" Height="150">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <!-- Visar UserID -->
+                                <TextBlock Text="{Binding UserID}" Width="100"/>
+                        
+                                <!-- Visar Employee's AgentNumber -->
+                                <TextBlock Text="{Binding AuthorizationLevel}" Width="150"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
                 <!-- Remove User Button -->
-                <Button Content="Remove User" Width="100" HorizontalAlignment="Left"/>
+                <Button Content="Remove User" Command="{Binding RemoveUser}" Width="100" HorizontalAlignment="Left"/>
             </StackPanel>
         </GroupBox>
     </Grid>

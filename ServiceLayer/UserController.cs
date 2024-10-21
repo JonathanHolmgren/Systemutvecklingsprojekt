@@ -7,33 +7,41 @@ public class UserController
 {
     UnitOfWork unitOfWork = new UnitOfWork();
 
-    public void CreateUser(string password)
+    public Employee GetEmployee(string agentNumber)
     {
-        PostalCodeCity postalCodeCity3 = new PostalCodeCity("50333", "Borås");
+        return unitOfWork.EmployeeRepository.FirstOrDefault(e => e.AgentNumber == agentNumber);
+    }
 
-        Employee employee1 = new Employee(
-            "3432",
-            "19540314-3243",
-            "Kalle",
-            "Ben",
-            "Vasagatan 12",
-            postalCodeCity3,
-            "Kalle.Ben@exempel.se",
-            "Turist",
-            "070-123 45 67"
-        );
+    public List<User> GetUsers(string agentNumber)
+    {
+        return unitOfWork.UserRepository.GetUsersByAgentNumber(agentNumber);
+    }
 
+    public void CreateUser(
+        string password,
+        Employee employee,
+        AuthorizationLevel authorizationLevel
+    )
+    {
         PasswordHasher passwordHasher = new PasswordHasher();
         string hashPassoword = passwordHasher.Hash(password);
 
-        User user = new User(hashPassoword, AuthorizationLevel.Admin, employee1);
+        User user = new User(hashPassoword, authorizationLevel, employee);
 
         unitOfWork.UserRepository.Add(user);
         unitOfWork.SaveChanges();
     }
 
-    // public List<User> GetAllUsers()
-    // {
-    //     //    unitOfWork.UserRepository.GetAll(u => u.Employee).ToString();
-    // }
+    public void RemoveUserById(int userSelectedUserId)
+    {
+        User userToRemove = unitOfWork.UserRepository.FirstOrDefault(x =>
+            x.UserID == userSelectedUserId
+        );
+
+        if (userToRemove != null)
+        {
+            unitOfWork.UserRepository.Remove(userToRemove);
+            unitOfWork.SaveChanges();
+        }
+    }
 }

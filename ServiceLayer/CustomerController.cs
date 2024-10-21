@@ -13,27 +13,41 @@ namespace ServiceLayer
     public class CustomerController
     {
         UnitOfWork unitOfWork = new UnitOfWork();
-        public void AddCustomer(Customer customer)
+        public void AddPrivateCustomer(PrivateCustomer privateCustomer)
         {
             try
             {
-                PostalCodeCity existingPostalCodeCity = unitOfWork.PostalCodeCityRepository.GetSpecificPostalCode(customer.PostalCodeCity.PostalCode);
+                PostalCodeCity existingPostalCodeCity = unitOfWork.PostalCodeCityRepository.GetSpecificPostalCode(privateCustomer.PostalCodeCity.PostalCode);
 
                 if (existingPostalCodeCity == null)
                 {
-                    unitOfWork.PostalCodeCityRepository.Add(customer.PostalCodeCity);
+                    unitOfWork.PrivateCustomerRepository.Add(privateCustomer);
                 }
                 else
                 {
-                    customer.PostalCodeCity = existingPostalCodeCity;
+                    privateCustomer.PostalCodeCity = existingPostalCodeCity;
                 }
-                unitOfWork.CustomerRepository.Add(customer);
+                unitOfWork.PrivateCustomerRepository.Add(privateCustomer);
                 unitOfWork.SaveChanges();
             }
             catch (Exception ex)
             {
                 throw new Exception($"Ett fel uppstod vid sparandet av kunden: {ex.Message}");
             }
+        }
+        public void AddProspectNote(ProspectNote prospectNote)
+        {
+            unitOfWork.ProspectNoteRepository.Add(prospectNote);
+            unitOfWork.SaveChanges();
+        }
+
+        public IList<PrivateCustomer> GetPrivateCustomerList()
+        {
+            return unitOfWork.CustomerRepository.GetPrivateCustomers();
+        }
+        public IList<CompanyCustomer> GetCompanyCustomerList()
+        {
+            return unitOfWork.CustomerRepository.GetCompanyCustomers();
         }
     }
 }

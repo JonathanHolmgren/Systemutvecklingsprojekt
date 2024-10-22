@@ -26,21 +26,46 @@ namespace PresentationLayer.ViewModels
         {
             insuranceController = new InsuranceController();
             customerController = new CustomerController();
-            LoadCustomerData();
+            //LoadCustomerData();
             LoadInsuranceTypeOptions();
             LoadBillingIntervalOptions();
             LoadAddOnOptions1();
             LoadAddOnOptions2();
-            CreateUser();
+            LoadUserData();
         }
 
+        #region Users
+        private User loggedInUser;
+        public User LoggedInUser
+        {
+            get { return loggedInUser; }
+            set
+            {
+                if (loggedInUser != value)
+                {
+                    loggedInUser = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+        #endregion
+
         #region Customer
-        private 
+        private string inputSocialSecurityNumber;
+        public string InputSocialSecurityNumber
+        {
+            get { return inputSocialSecurityNumber; }
+            set
+            {
+                inputSocialSecurityNumber = value;
+                OnPropertyChanged();
+            }
+        }
 
         private PrivateCustomer selectedPrivateCustomer;
         public PrivateCustomer SelectedPrivateCustomer
         {
-            get => selectedPrivateCustomer = customerController.GetSpecificPrivateCustomer(inputID);
+            get => selectedPrivateCustomer;
             set
             {
                 selectedPrivateCustomer = value;
@@ -48,25 +73,25 @@ namespace PresentationLayer.ViewModels
             }
         }
 
-        private PostalCodeCity postalCodeCity = new PostalCodeCity
-        {
-            City = "Borås",
-            PostalCode = "50630"
-        };
+        //private PostalCodeCity postalCodeCity = new PostalCodeCity
+        //{
+        //    City = "Borås",
+        //    PostalCode = "50630"
+        //};
 
-        private void LoadCustomerData()
-        {
-            SelectedPrivateCustomer = new PrivateCustomer(
-                "0706689932",
-                "ingalillblommor52@emial.com",
-                "Gatuvägen 21",
-                postalCodeCity,
-                "19521019-1234",
-                "Inga-Lill",
-                "Bengtsson",
-                "0346-58948"
-            );
-        }
+        //private void LoadCustomerData()
+        //{
+        //    SelectedPrivateCustomer = new PrivateCustomer(
+        //        "0706689932",
+        //        "ingalillblommor52@emial.com",
+        //        "Gatuvägen 21",
+        //        postalCodeCity,
+        //        "19521019-1234",
+        //        "Inga-Lill",
+        //        "Bengtsson",
+        //        "0346-58948"
+        //    );
+        //}
         #endregion
 
         #region InsuredPerson
@@ -353,6 +378,11 @@ namespace PresentationLayer.ViewModels
         #endregion
 
         #region Methods
+        public void LoadUserData()
+        {
+            LoggedInUser = insuranceController.GetUser(1);
+        }
+
         DateTime cutoffDate = new DateTime(2024, 1, 1);
 
         private string insuranceType1 =
@@ -483,7 +513,6 @@ namespace PresentationLayer.ViewModels
         {
             double totalPremie = 0;
 
-            // Beräkna de olika delarna och addera dem till totalen
             totalPremie += CalculateBasePrice();
             totalPremie += CalculateAddOnPrice1();
             totalPremie += CalculateAddOnPrice2();
@@ -536,13 +565,25 @@ namespace PresentationLayer.ViewModels
                 case BillingInterval.År:
                     return totalPremie * 12;
                 default:
-                    return totalPremie; 
+                    return totalPremie;
             }
         }
 
         #endregion
 
         #region Commands
+        private ICommand searchCommand = null!;
+        public ICommand SearchCommand =>
+            searchCommand ??= searchCommand = new RelayCommand(
+                () =>
+                {
+                    SelectedPrivateCustomer = customerController.GetSpecificPrivateCustomer(
+                        inputSocialSecurityNumber
+                    );
+                },
+                () => InputSocialSecurityNumber != null
+            );
+
         private ICommand addCommand = null!;
         public ICommand AddCommand =>
             addCommand ??= addCommand = new RelayCommand(
@@ -557,36 +598,36 @@ namespace PresentationLayer.ViewModels
                 () => true
             );
 
-        private User CreateUser() //Ska bli GetSpecific User; 
-        {
-            User user1;
+        //private User CreateUser() //Ska bli GetSpecific User där man tar den som är inloggad;
+        //{
+        //    User user;
 
-            Commission commissionRate1 = new Commission(0.12);
-            PostalCodeCity postalCodeCity1 = new PostalCodeCity("50693", "Borås");
+        //    Commission commissionRate = new Commission(0.12);
+        //    PostalCodeCity postalCodeCity = new PostalCodeCity("60548", "Falkenberg");
 
-            Employee employee9 = new Employee(
-                "2153",
-                "19930710-1234",
-                "Ginda",
-                "Lonsson",
-                "Hamngatan 9",
-                postalCodeCity1,
-                "viktor.nystrom@exempel.se",
-                "Utesäljare",
-                "070-789 01 23",
-                commissionRate1
-            );
-            user1 = new User("12345", AuthorizationLevel.SalesPerson, employee9);
-            return user1;
-        }
+        //    Employee employee = new Employee(
+        //        "2153",
+        //        "19930710-1234",
+        //        "Ginda",
+        //        "Lonsson",
+        //        "Hamngatan 9",
+        //        postalCodeCity,
+        //        "viktor.nystrom@exempel.se",
+        //        "Utesäljare",
+        //        "070-789 01 23",
+        //        commissionRate
+        //    );
+        //    user = new User("12345", AuthorizationLevel.SalesPerson, employee);
+        //    return user;
+        //}
 
-        private InsuranceType CreateInsuranceType()
-        {
-            InsuranceType insuranceType;
-            insuranceType = new InsuranceType(selectedInsuranceType);
-            //CreateInsuranceTypeAttribute(insuranceType);
-            return insuranceType;
-        }
+        //Denna behövs inte
+        //private InsuranceType CreateInsuranceType()
+        //{
+        //    InsuranceType insuranceType;
+        //    insuranceType = new InsuranceType(selectedInsuranceType);
+        //    return insuranceType;
+        //}
 
         private List<InsuranceTypeAttribute> CreateInsuranceTypeAttribute(
             InsuranceType insuranceType
@@ -621,14 +662,18 @@ namespace PresentationLayer.ViewModels
                 );
                 insuranceTypeAttributesList.Add(addOn2);
             }
-
+            AddAllInsuranceTypeAttribute(insuranceTypeAttributesList);
             return insuranceTypeAttributesList;
         }
 
         public void CreateInsuranceFromInput()
         {
-            User user = CreateUser(); //Tabort denna och köra GetSpecificUser() baserat på vem som är inloggad
-            InsuranceType insuranceType = CreateInsuranceType();
+            //User user = CreateUser();
+            //MessageBox.Show(user.Employee.PostalCodeCity.PostalCode.ToString());
+
+            InsuranceType insuranceType = insuranceController.GetInsuranceType(
+                selectedInsuranceType
+            );
             List<InsuranceTypeAttribute> insuranceTypeAttributesList = CreateInsuranceTypeAttribute(
                 insuranceType
             );
@@ -642,7 +687,7 @@ namespace PresentationLayer.ViewModels
             newInsurance = new Insurance(
                 arrivingDate,
                 selectedInterval,
-                user,
+                LoggedInUser,
                 insuranceType,
                 notes,
                 selectedPrivateCustomer,
@@ -678,6 +723,16 @@ namespace PresentationLayer.ViewModels
             insuranceController.AddInsurance(newInsurance);
         }
 
+        public void AddAllInsuranceTypeAttribute(
+            IList<InsuranceTypeAttribute> insuranceTypeAttribute
+        )
+        {
+            foreach (InsuranceTypeAttribute item in insuranceTypeAttribute)
+            {
+                insuranceController.AddInsuranceTypeAttribute(item);
+            }
+        }
+
         public void CreateInsuranceSpec(
             InsuranceTypeAttribute insuranceTypeAttribute,
             Insurance insurance,
@@ -689,6 +744,7 @@ namespace PresentationLayer.ViewModels
                 insurance,
                 insuranceTypeAttribute
             );
+            insuranceController.AddInsuranceSpec(insuranceSpec);
         }
         #endregion
     }

@@ -8,6 +8,7 @@ namespace Models
 {
     public class PostalCodeCity
     {
+        public int ID { get; set; }
         public string PostalCode { get; set; }
         public string City { get; set; }
         public PostalCodeCity()
@@ -20,7 +21,7 @@ namespace Models
             this.City = city;
         }
 
-        // public ICollection<Customer> Customers { get; set; } = new List<Customer>();
+        public ICollection<Customer> Customers { get; set; } = new List<Customer>();
         public ICollection<Employee> Employees { get; set; } = new List<Employee>();
     }
 }

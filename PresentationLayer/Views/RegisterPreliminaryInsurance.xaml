@@ -18,8 +18,8 @@
         <TextBlock Text="Registrera preliminär försäkring" VerticalAlignment="Top" HorizontalAlignment="Center" FontSize="24"/>
         <!--CustomerInformation-->
         <Label Content="Försäkringstagare uppgifter" HorizontalAlignment="Left" Margin="22,18,0,400" FontWeight="Bold"/>
-        <Button Content="Sök" Height="20" Width="70" Margin="155,1,575,429"/>
-        <TextBox Height="20"  Margin="25,1,675,429"/>
+        <Button Content="Sök" Command="{Binding SearchCommand}" Height="20" Width="70" Margin="155,1,575,429"/>
+        <TextBox Height="20" Text="{Binding InputSocialSecurityNumber, UpdateSourceTrigger=PropertyChanged}" Margin="25,1,675,429"/>
 
         <Label Content="Förnamn" Height="25" HorizontalAlignment="Left" Margin="25,34,0,391"/>
         <TextBox x:Name="FirstNameTextbox" Text="{Binding SelectedPrivateCustomer.FirstName,UpdateSourceTrigger=PropertyChanged}" BorderBrush="Black" HorizontalAlignment="Left" Width="200" Margin="24,55,0,367"/>
@@ -67,20 +67,20 @@
         <DatePicker SelectedDate="{Binding ArrivingDate}" Margin="316,284,330,136"/>
 
         <Label Content="Grundbelopp" HorizontalAlignment="Right" Margin="0,259,132,166"/>
-        <ComboBox x:Name="BasePriceComboBox" ItemsSource="{Binding BasePriceOptions}" SelectedItem="{Binding SelectedBasePrize}" Height="30" Width="200" HorizontalAlignment="Right" Margin="0,284,16,136"/>
+        <ComboBox x:Name="BasePriceComboBox" ItemsSource="{Binding BasePriceOptions}" SelectedItem="{Binding SelectedBasePrice}" Height="30" Width="200" HorizontalAlignment="Right" Margin="0,284,16,136"/>
 
         <!--AddOns-->
         <Label Content="Tillval 1" HorizontalAlignment="Left" Margin="29,319,0,99" RenderTransformOrigin="1.609,0.375"/>
         <ComboBox x:Name="AddOnCombobox1" SelectedIndex="0" ItemsSource="{Binding AddOnOptions1}" SelectedItem="{Binding SelectedAddOnOption1, Mode=TwoWay}" Height="30" Width="200" HorizontalAlignment="Right" Margin="0,321,516,99"/>
 
         <Label Content="Grundbelopp&#xD;&#xA; tillval" HorizontalAlignment="Left" Margin="311,317,0,85" Width="124"/>
-        <ComboBox x:Name="BasePriceAddOnTextBox" ItemsSource="{Binding AddOnBasePriceOptions1}" SelectedItem="{Binding SelectedAddOnBasePrize1, Mode=TwoWay}" Height="30" Width="200" HorizontalAlignment="Right" Margin="0,325,196,95"/>
+        <ComboBox x:Name="BasePriceAddOnTextBox" ItemsSource="{Binding AddOnBasePriceOptions1}" SelectedItem="{Binding SelectedAddOnBasePrice1, Mode=TwoWay}" Height="30" Width="200" HorizontalAlignment="Right" Margin="0,325,196,95"/>
 
         <Label Content="Tillval 2" HorizontalAlignment="Left" Margin="25,368,0,50" RenderTransformOrigin="1.609,0.375"/>
         <ComboBox x:Name="AddOnCombobox2" SelectedIndex="0" ItemsSource="{Binding AddOnOptions2}" SelectedItem="{Binding SelectedAddOnOption2, Mode=TwoWay}" Height="30" Width="200" HorizontalAlignment="Right" Margin="0,0368,516,52"/>
 
         <Label Content="Grundbelopp&#xD;&#xA; tillval" HorizontalAlignment="Left" Margin="311,359,0,43" Width="124"/>
-        <ComboBox x:Name="BasePriceAddOnTextBox2" ItemsSource="{Binding AddOnBasePriceOptions2}" SelectedItem="{Binding SelectedAddOnBasePrize2, Mode=TwoWay}" Height="30" Width="200" HorizontalAlignment="Right" Margin="0,368,196,52"/>
+        <ComboBox x:Name="BasePriceAddOnTextBox2" ItemsSource="{Binding AddOnBasePriceOptions2}" SelectedItem="{Binding SelectedAddOnBasePrice2, Mode=TwoWay}" Height="30" Width="200" HorizontalAlignment="Right" Margin="0,368,196,52"/>
 
         <!--InformationInsurance-->
         <Label Content="Betalningsinterval" HorizontalAlignment="Right" Margin="0,414,690,10" RenderTransformOrigin="0.536,-0.52" Width="110"/>

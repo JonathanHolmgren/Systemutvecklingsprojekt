@@ -41,6 +41,34 @@ namespace ServiceLayer
             }
         }
 
+
+        
+        public void RemoveInactiveCustomers()
+        {
+            var inactiveCustomers = unitOfWork.CustomerRepository.GetInActiveCustomersWithInsurances();
+
+            foreach (var customer in inactiveCustomers)
+            {
+                foreach (var insurance in customer.Insurances)
+                {
+                    var insuranceSpecs = unitOfWork.InsuranceSpecRepository
+                        .GetInsuranceSpecsByInsuranceId(insurance.InsuranceId);
+
+                    foreach (var spec in insuranceSpecs)
+                    {
+                        unitOfWork.InsuranceSpecRepository.Remove(spec);
+                    }
+
+                    unitOfWork.InsuranceRepository.Remove(insurance);
+                }
+
+                unitOfWork.CustomerRepository.Remove(customer);
+            }
+
+            unitOfWork.SaveChanges();
+        }
+
+
         public void RemovePrivateCustomer(PrivateCustomer privateCustomer)
         {
             unitOfWork.CustomerRepository.Remove(privateCustomer);

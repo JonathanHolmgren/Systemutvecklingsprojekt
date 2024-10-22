@@ -16,6 +16,7 @@ namespace Models
         // Navigation property
         public Employee Employee { get; set; }
         public ICollection<Insurance> Insurances { get; set; }
+        public ICollection<ProspectNote> ProspectNotes { get; set; }
 
         public User() { }
 

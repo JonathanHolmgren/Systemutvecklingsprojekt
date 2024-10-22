@@ -26,7 +26,7 @@
         </StackPanel>
 
         <!--  Dockpanel Left  -->
-        <StackPanel>
+        <StackPanel DockPanel.Dock="Left">
             <Label Content="Personnummer (10 siffror)" Height="25"/>
             <TextBox Width="150" HorizontalAlignment="Left" Margin="10,0,10,0" Text="{Binding SSN, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 

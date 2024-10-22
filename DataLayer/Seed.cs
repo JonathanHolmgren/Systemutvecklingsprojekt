@@ -204,8 +204,8 @@ public class Seed
         #endregion
 
         #region InsuredPerson
-        InsuredPerson insuredPerson1 = new InsuredPerson("Inga-Lill Bengtsson", "1952/06/10");
-        InsuredPerson insuredPerson2 = new InsuredPerson("Klas Persson", "1974/03/19");
+        InsuredPerson insuredPerson1 = new InsuredPerson("Inga-Lill", "Bengtsson", "1952/06/10");
+        InsuredPerson insuredPerson2 = new InsuredPerson("Klas", "Persson", "1974/03/19");
         #endregion
 
         #region InsuranceType

@@ -274,5 +274,17 @@ namespace ServiceLayer
         {
             return unitOfWork.CustomerRepository.GetCompanyCustomers();
         }
+        public PrivateCustomer GetSpecificPrivateCustomer(string sSN)
+        {
+            PrivateCustomer privateCustomer = unitOfWork.CustomerRepository.GetSpecificPrivateCustomer(sSN);
+
+            return privateCustomer;
+        }
+        public CompanyCustomer GetSpecificCompanyCustomer(string organisationNumber)
+        {
+            CompanyCustomer companyCustomer = unitOfWork.CustomerRepository.GetSpecificCompanyCustomer(organisationNumber);
+
+            return companyCustomer;
+        }
     }
 }

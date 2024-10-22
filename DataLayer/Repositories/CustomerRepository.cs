@@ -19,34 +19,38 @@ namespace DataLayer.Repositories
                 .Include(i => i.Insurances)
                 .Include(p => p.ProspectNotes).ThenInclude(i => i.User).ThenInclude(u => u.Employee)
                 .Include(p => p.Insurances).ThenInclude(i => i.User).ThenInclude(u => u.Employee)
-                .ToList(); // Returnerar hela objektet direkt, inklusive egenskaper från PrivateCustomer och Customer
+                .ToList(); 
         }
 
         public IList<CompanyCustomer> GetCompanyCustomers()
         {
             return Context.Set<Customer>()
-                .OfType<CompanyCustomer>()  // Filtrera endast CompanyCustomer-objekt
-                .Include(c => c.PostalCodeCity)  // Inkludera PostalCodeCity
+                .OfType<CompanyCustomer>()  
+                .Include(c => c.PostalCodeCity)  
                 .Include(p => p.ProspectNotes).ThenInclude(i => i.User).ThenInclude(u => u.Employee)
                 .Include(c => c.Insurances).ThenInclude(a => a.User).ThenInclude(b => b.Employee)
-                .ToList(); // Konvertera till en lista
+                .ToList(); 
 
         }
 
-        public CompanyCustomer GetSpecificCompanyCustomer(int customerId)
+        public CompanyCustomer GetSpecificCompanyCustomer(string organisationNumber)
         {
 
-          return Context.Set<Customer>()
-                .OfType<CompanyCustomer>()
-                .Include(c => c.PostalCodeCity) 
-                .FirstOrDefault(c => c.CustomerID == customerId);
+            return Context.Set<Customer>()
+                  .OfType<CompanyCustomer>()  
+                  .Include(c => c.PostalCodeCity)  
+                  .Include(p => p.ProspectNotes).ThenInclude(i => i.User).ThenInclude(u => u.Employee)
+                  .Include(c => c.Insurances).ThenInclude(a => a.User).ThenInclude(b => b.Employee)
+                  .FirstOrDefault(c => c.OrganisationNumber == organisationNumber); 
         }
-        public PrivateCustomer GetSpecificPrivateCustomer(int customerId)
+        public PrivateCustomer GetSpecificPrivateCustomer(string sSN)
         {
             return Context.Set<Customer>()
-                  .OfType<PrivateCustomer>() 
-                  .Include(c => c.PostalCodeCity)
-                  .FirstOrDefault(c=>c.CustomerID==customerId); 
+                  .OfType<PrivateCustomer>()  
+                  .Include(c => c.PostalCodeCity)  
+                  .Include(p => p.ProspectNotes).ThenInclude(i => i.User).ThenInclude(u => u.Employee)
+                  .Include(c => c.Insurances).ThenInclude(a => a.User).ThenInclude(b => b.Employee)
+                  .FirstOrDefault(c => c.SSN == sSN); 
         }
     }
 

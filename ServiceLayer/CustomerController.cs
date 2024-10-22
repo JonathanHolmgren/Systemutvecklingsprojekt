@@ -1,5 +1,7 @@
 ﻿using DataLayer;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Models;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -149,7 +151,12 @@ namespace ServiceLayer
             }
             return premie;
         }
-       
+       public void ExportObjectToJson(object objects)
+        {
+            string jsonResult = JsonConvert.SerializeObject(objects, Formatting.Indented);
+            string outputPath = @"C:\JsonTest\CustomerInformation.json";
+            File.WriteAllText(outputPath, jsonResult);
+        }
             
 
         public void AddProspectNote(ProspectNote prospectNote)

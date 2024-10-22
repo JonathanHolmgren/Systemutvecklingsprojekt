@@ -15,7 +15,7 @@ namespace SeedData // Note: actual namespace depends on the project name.
             
             if (Console.ReadKey().Key == ConsoleKey.Y)
             {
-                context.Database.EnsureDeleted();
+                //context.Database.EnsureDeleted();
                 context.Database.EnsureCreated();
                 Seed.Populate(context);
 

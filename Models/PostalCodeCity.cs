@@ -20,7 +20,7 @@ namespace Models
             this.City = city;
         }
 
-        // public ICollection<Customer> Customers { get; set; } = new List<Customer>();
+        public ICollection<Customer> Customers { get; set; } = new List<Customer>();
         public ICollection<Employee> Employees { get; set; } = new List<Employee>();
     }
 }

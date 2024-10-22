@@ -37,23 +37,7 @@ namespace ServiceLayer
             }
         }
 
-        //public void RemoveInactiveCustomers()
-        //{
-        //    var inactiveCustomers = unitOfWork.CustomerRepository.GetInActiveCustomersWithInsurances();
-
-        //    foreach (var customer in inactiveCustomers)
-        //    {
-        //        foreach (var insurance in customer.Insurances)
-        //        {
-        //            unitOfWork.InsuranceRepository.Remove(insurance);
-        //        }
-
-        //        unitOfWork.CustomerRepository.Remove(customer); 
-        //    }
-
-        //    unitOfWork.SaveChanges(); 
-        //}
-
+        
         public void RemoveInactiveCustomers()
         {
             var inactiveCustomers = unitOfWork.CustomerRepository.GetInActiveCustomersWithInsurances();
@@ -62,7 +46,6 @@ namespace ServiceLayer
             {
                 foreach (var insurance in customer.Insurances)
                 {
-                    // Hämta InsuranceSpecs kopplade till varje insurance och ta bort dem
                     var insuranceSpecs = unitOfWork.InsuranceSpecRepository
                         .GetInsuranceSpecsByInsuranceId(insurance.InsuranceId);
 
@@ -71,15 +54,12 @@ namespace ServiceLayer
                         unitOfWork.InsuranceSpecRepository.Remove(spec);
                     }
 
-                    // Ta bort försäkringen
                     unitOfWork.InsuranceRepository.Remove(insurance);
                 }
 
-                // Ta bort kunden
                 unitOfWork.CustomerRepository.Remove(customer);
             }
 
-            // Spara ändringar
             unitOfWork.SaveChanges();
         }
 

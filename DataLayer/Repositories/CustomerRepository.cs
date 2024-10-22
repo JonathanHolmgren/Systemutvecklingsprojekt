@@ -21,17 +21,7 @@ namespace DataLayer.Repositories
                 .ToList();
         }
 
-        //public List<Customer> GetInActiveCustomersWithInsurances()
-        //{
-        //    DateTime oneYearAgo = DateTime.Now.AddYears(-1);
-
-        //    // Hämta inaktiva kunder tillsammans med deras försäkringar
-        //    return Context.Set<Customer>()
-        //        .Where(c => !c.Insurances.Any(i => i.ExpiryDate > oneYearAgo && i.InsuranceStatus == InsuranceStatus.Inactive))
-        //        .Include(c => c.Insurances) 
-        //        .ToList();
-        //}
-
+       
         public List<Customer> GetInActiveCustomersWithInsurances()
         {
             DateTime oneYearAgo = DateTime.Now.AddYears(-1);

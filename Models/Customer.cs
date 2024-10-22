@@ -17,6 +17,7 @@ namespace Models
 
             // Navigation property
             public ICollection<Insurance> Insurances { get; set; }
+            public ICollection<ProspectNote> ProspectNotes { get; set; }
             public PostalCodeCity PostalCodeCity { get; set; }
             //Constructors
             public Customer() { }

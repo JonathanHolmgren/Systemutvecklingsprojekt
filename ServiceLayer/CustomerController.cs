@@ -14,21 +14,21 @@ namespace ServiceLayer
     public class CustomerController
     {
         UnitOfWork unitOfWork = new UnitOfWork();
-        public void AddCustomer(Customer customer)
+        public void AddPrivateCustomer(PrivateCustomer privateCustomer)
         {
             try
             {
-                PostalCodeCity existingPostalCodeCity = unitOfWork.PostalCodeCityRepository.GetSpecificPostalCode(customer.PostalCodeCity.PostalCode);
+                PostalCodeCity existingPostalCodeCity = unitOfWork.PostalCodeCityRepository.GetSpecificPostalCode(privateCustomer.PostalCodeCity.PostalCode);
 
                 if (existingPostalCodeCity == null)
                 {
-                    unitOfWork.PostalCodeCityRepository.Add(customer.PostalCodeCity);
+                    unitOfWork.PrivateCustomerRepository.Add(privateCustomer);
                 }
                 else
                 {
-                    customer.PostalCodeCity = existingPostalCodeCity;
+                    privateCustomer.PostalCodeCity = existingPostalCodeCity;
                 }
-                unitOfWork.CustomerRepository.Add(customer);
+                unitOfWork.PrivateCustomerRepository.Add(privateCustomer);
                 unitOfWork.SaveChanges();
             }
             catch (Exception ex)
@@ -36,15 +36,29 @@ namespace ServiceLayer
                 throw new Exception($"Ett fel uppstod vid sparandet av kunden: {ex.Message}");
             }
         }
-        public PrivateCustomer GetSpecificPrivateCustomer(int customerId)
+        public void AddProspectNote(ProspectNote prospectNote)
         {
-            PrivateCustomer privateCustomer = unitOfWork.CustomerRepository.GetSpecificPrivateCustomer(customerId);
+            unitOfWork.ProspectNoteRepository.Add(prospectNote);
+            unitOfWork.SaveChanges();
+        }
+
+        public IList<PrivateCustomer> GetPrivateCustomerList()
+        {
+            return unitOfWork.CustomerRepository.GetPrivateCustomers();
+        }
+        public IList<CompanyCustomer> GetCompanyCustomerList()
+        {
+            return unitOfWork.CustomerRepository.GetCompanyCustomers();
+        }
+        public PrivateCustomer GetSpecificPrivateCustomer(string sSN)
+        {
+            PrivateCustomer privateCustomer = unitOfWork.CustomerRepository.GetSpecificPrivateCustomer(sSN);
 
             return privateCustomer;
         }
-        public CompanyCustomer GetSpecificCompanyCustomer(int customerId)
+        public CompanyCustomer GetSpecificCompanyCustomer(string organisationNumber)
         {
-            CompanyCustomer companyCustomer = unitOfWork.CustomerRepository.GetSpecificCompanyCustomer(customerId);
+            CompanyCustomer companyCustomer = unitOfWork.CustomerRepository.GetSpecificCompanyCustomer(organisationNumber);
 
             return companyCustomer;
         }

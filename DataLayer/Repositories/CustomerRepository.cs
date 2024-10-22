@@ -16,7 +16,6 @@ namespace DataLayer.Repositories
         {
             DateTime oneYearAgo = DateTime.Now.AddYears(-1);
 
-            // Hämta inaktiva kunder vars alla försäkringar är inaktiva och äldre än ett år
             return Context.Set<Customer>()
                 .Where(c => c.Insurances.All(i => i.InsuranceStatus == InsuranceStatus.Inactive && i.ExpiryDate <= oneYearAgo) &&
                             !c.Insurances.Any(i => i.InsuranceStatus != InsuranceStatus.Inactive))

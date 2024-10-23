@@ -17,12 +17,12 @@ namespace DataLayer.Repositories
             return Context.Set<InsuranceSpec>()
                 .Where(spec => spec.Insurance.InsuranceId == insuranceId)
                 .ToList();
-
+        }
         public IList<InsuranceSpec> GetSpecsForInsurance(int insuranceId)
         {
             return Context.Set<InsuranceSpec>()
                           .Where(insuranceSpec => insuranceSpec.Insurance.InsuranceId == insuranceId)
-                          .Include(i=>i.InsuranceTypeAttribute)
+                          .Include(i => i.InsuranceTypeAttribute)
                           .ToList();
 
         }

@@ -18,13 +18,11 @@
     
     <StackPanel Background="White">
         
-        
-        
-        <!--Popup companycustomer-->
-        
-        <Popup x:Name="EditCompanyCustomerPopup" Width="700" Height="400" IsOpen="{Binding IsPopUpOpen}" HorizontalAlignment="Center" VerticalAlignment="Center" Placement="Center">
+               
+        <!--Popup companycustomer-->        
+        <Popup x:Name="EditCompanyCustomerPopup" Width="700" Height="400" IsOpen="{Binding IsCompanyPopUpOpen}" HorizontalAlignment="Center" VerticalAlignment="Center" Placement="Center">
             <Border BorderBrush="Black" BorderThickness="3" Background="White">
-                <StackPanel>
+                <StackPanel HorizontalAlignment="Center">
 
                     <StackPanel>
                         <Border Width="300" Height="50">
@@ -76,15 +74,68 @@
                         </StackPanel>
 
                         <Button Content="Spara ändringar" Width="100" Height="30" Command="{Binding SaveEditedCompanyCustomerCommand}"/>
+                        
                     </StackPanel>
-                    
                 </StackPanel>
             </Border>
         </Popup>
 
-        
-        
-        
+
+
+        <!--Popup privatecustomer-->
+        <Popup x:Name="EditPrivateCustomerPopup" Width="700" Height="400" IsOpen="{Binding IsPrivatePopUpOpen}" HorizontalAlignment="Center" VerticalAlignment="Center" Placement="Center">
+            <Border BorderBrush="Black" BorderThickness="3" Background="White">
+                <StackPanel HorizontalAlignment="Center">
+
+                    <StackPanel>
+                        <Border Width="300" Height="50">
+                            <TextBlock Text="Redigera kund" FontSize="30" FontFamily="Roboto-Light" HorizontalAlignment="Left" Margin="15,15,10,0" Width="400"/>
+                        </Border>
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal">
+                        <Label Content="Namn" Width="100" Margin="5"/>
+                        <Label Content="Personnummer" Width="100" Margin="5"/>
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal">
+                        <TextBox Text="{Binding FullName, Mode=OneWay}" Width="100" Margin="5"/>
+                        <TextBox Text="{Binding ViewedPrivateCustomer.SSN, Mode=TwoWay}" Width="100" Margin="5"/>
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal">
+                        <Label Content="Adress" Width="100" Margin="5"/>
+                        <Label Content="Postkod" Width="100" Margin="5"/>
+                        <Label Content="Ort" Width="100" Margin="5"/>
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal">
+                        <TextBox Text="{Binding ViewedPrivateCustomer.StreetAddress, Mode=TwoWay}" Width="100" Margin="5"/>
+                        <TextBox Text="{Binding ViewedPrivateCustomer.PostalCodeCity.PostalCode, Mode=TwoWay}" Width="100" Margin="5"/>
+                        <TextBox Text="{Binding ViewedPrivateCustomer.PostalCodeCity.City, Mode=TwoWay}" Width="100" Margin="5"/>
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal">
+                        <Label Content="Email" Width="100" Margin="5"/>
+                        <Label Content="Telefonnummer" Width="100" Margin="5"/>
+                        <Label Content="Telefonnummer arbete" Width="100" Margin="5"/>
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal">
+                        <TextBox Text="{Binding ViewedPrivateCustomer.Email}" Width="100" Margin="5"/>
+                        <TextBox Text="{Binding ViewedPrivateCustomer.TelephoneNumber}" Width="100" Margin="5"/>
+                        <TextBox Text="{Binding ViewedPrivateCustomer.WorkTelephoneNumber}" Width="100" Margin="5"/>
+                    </StackPanel>
+
+                    <Button Content="Spara ändringar" Width="100" Height="30" Command="{Binding SaveEditedPrivateCustomerCommand}"/>
+
+                </StackPanel>
+            </Border>
+        </Popup>
+
+
+
+
         <!--  Window and Search  -->
         <StackPanel Orientation="Vertical">
             <Border Width="525" Height="50">
@@ -131,8 +182,8 @@
             </StackPanel>
             
             <StackPanel Orientation="Horizontal">
-                <TextBox Text="{Binding FullName, Mode=OneWay}" Width="100" Margin="5"/>
-                <TextBox Text="{Binding ViewedPrivateCustomer.SSN, Mode=TwoWay}" Width="100" Margin="5"/>
+                <TextBox Text="{Binding FullName, Mode=OneWay}" Width="100" Margin="5" IsReadOnly="True"/>
+                <TextBox Text="{Binding ViewedPrivateCustomer.SSN, Mode=TwoWay}" Width="100" Margin="5" IsReadOnly="True"/>
             </StackPanel>
 
             <StackPanel Orientation="Horizontal">
@@ -142,9 +193,9 @@
             </StackPanel>
 
             <StackPanel Orientation="Horizontal">
-                <TextBox Text="{Binding ViewedPrivateCustomer.StreetAddress, Mode=TwoWay}" Width="100" Margin="5"/>
-                <TextBox Text="{Binding ViewedPrivateCustomer.PostalCodeCity.PostalCode, Mode=TwoWay}" Width="100" Margin="5"/>
-                <TextBox Text="{Binding ViewedPrivateCustomer.PostalCodeCity.City, Mode=TwoWay}" Width="100" Margin="5"/>
+                <TextBox Text="{Binding ViewedPrivateCustomer.StreetAddress, Mode=TwoWay}" Width="100" Margin="5" IsReadOnly="True"/>
+                <TextBox Text="{Binding ViewedPrivateCustomer.PostalCodeCity.PostalCode, Mode=TwoWay}" Width="100" Margin="5" IsReadOnly="True"/>
+                <TextBox Text="{Binding ViewedPrivateCustomer.PostalCodeCity.City, Mode=TwoWay}" Width="100" Margin="5" IsReadOnly="True"/>
             </StackPanel>
             
             <StackPanel Orientation="Horizontal">
@@ -154,9 +205,9 @@
             </StackPanel>
 
             <StackPanel Orientation="Horizontal">
-                <TextBox Text="{Binding ViewedPrivateCustomer.Email}" Width="100" Margin="5"/>
-                <TextBox Text="{Binding ViewedPrivateCustomer.TelephoneNumber}" Width="100" Margin="5"/>
-                <TextBox Text="{Binding ViewedPrivateCustomer.WorkTelephoneNumber}" Width="100" Margin="5"/>
+                <TextBox Text="{Binding ViewedPrivateCustomer.Email}" Width="100" Margin="5" IsReadOnly="True"/>
+                <TextBox Text="{Binding ViewedPrivateCustomer.TelephoneNumber}" Width="100" Margin="5" IsReadOnly="True"/>
+                <TextBox Text="{Binding ViewedPrivateCustomer.WorkTelephoneNumber}" Width="100" Margin="5" IsReadOnly="True"/>
             </StackPanel>
 
             <!-- Notes DataGrid -->
@@ -196,8 +247,8 @@
             </StackPanel>
             
             <StackPanel Orientation="Horizontal">
-                <TextBox Text="{Binding ViewedCompanyCustomer.CompanyName, Mode=OneWay}" Width="100" Margin="5"/>
-                <TextBox Text="{Binding ViewedCompanyCustomer.OrganisationNumber, Mode=TwoWay}" Width="100" Margin="5"/>
+                <TextBox Text="{Binding ViewedCompanyCustomer.CompanyName, Mode=OneWay}" Width="100" Margin="5" IsReadOnly="True"/>
+                <TextBox Text="{Binding ViewedCompanyCustomer.OrganisationNumber, Mode=TwoWay}" Width="100" Margin="5" IsReadOnly="True"/>
             </StackPanel>
 
             <StackPanel Orientation="Horizontal">
@@ -207,9 +258,9 @@
             </StackPanel>
             
             <StackPanel Orientation="Horizontal">
-                <TextBox Text="{Binding ViewedCompanyCustomer.StreetAddress, Mode=TwoWay}" Width="100" Margin="5"/>
-                <TextBox Text="{Binding ViewedCompanyCustomer.PostalCodeCity.PostalCode, Mode=TwoWay}" Width="100" Margin="5"/>
-                <TextBox Text="{Binding ViewedCompanyCustomer.PostalCodeCity.City, Mode=TwoWay}" Width="100" Margin="5"/>
+                <TextBox Text="{Binding ViewedCompanyCustomer.StreetAddress, Mode=TwoWay}" Width="100" Margin="5" IsReadOnly="True"/>
+                <TextBox Text="{Binding ViewedCompanyCustomer.PostalCodeCity.PostalCode, Mode=TwoWay}" Width="100" Margin="5" IsReadOnly="True"/>
+                <TextBox Text="{Binding ViewedCompanyCustomer.PostalCodeCity.City, Mode=TwoWay}" Width="100" Margin="5" IsReadOnly="True"/>
             </StackPanel>
 
             <StackPanel Orientation="Horizontal">
@@ -218,8 +269,8 @@
             </StackPanel>
             
             <StackPanel Orientation="Horizontal">
-                <TextBox Text="{Binding ViewedCompanyCustomer.Email}" Width="100" Margin="5"/>
-                <TextBox Text="{Binding ViewedCompanyCustomer.TelephoneNumber}" Width="100" Margin="5"/>
+                <TextBox Text="{Binding ViewedCompanyCustomer.Email}" Width="100" Margin="5" IsReadOnly="True"/>
+                <TextBox Text="{Binding ViewedCompanyCustomer.TelephoneNumber}" Width="100" Margin="5" IsReadOnly="True"/>
             </StackPanel>
 
             <StackPanel Orientation="Horizontal">
@@ -228,8 +279,8 @@
             </StackPanel>
 
             <StackPanel Orientation="Horizontal">
-                <TextBox Text="{Binding ViewedCompanyCustomer.ContactPersonName, Mode=OneWay}" Width="100" Margin="5"/>
-                <TextBox Text="{Binding ViewedCompanyCustomer.CompanyPersonTelephoneNumber, Mode=TwoWay}" Width="100" Margin="5"/>
+                <TextBox Text="{Binding ViewedCompanyCustomer.ContactPersonName, Mode=OneWay}" Width="100" Margin="5" IsReadOnly="True"/>
+                <TextBox Text="{Binding ViewedCompanyCustomer.CompanyPersonTelephoneNumber, Mode=TwoWay}" Width="100" Margin="5" IsReadOnly="True"/>
             </StackPanel>
 
             <!-- Notes DataGrid -->
@@ -258,11 +309,14 @@
         </StackPanel>
         
         
-        <!--Edit Customer button-->
-         <Button Content="Redigera kund" Width="100" Height="30" Margin="10" HorizontalAlignment="Left" Command="{Binding OnEditCustomerClickedCommand}"/>
-                    
+        <!--Edit Company Customer button-->
+        <Button Content="Redigera kund" Width="100" Height="30" Margin="10" HorizontalAlignment="Left" Command="{Binding OnEditCompanyCustomerClickedCommand}" Visibility="{Binding IsCompanySelected, Converter={StaticResource BoolToVisConverter}}"/>
+        
+        <!--Edit Private Customer button-->
+        <Button Content="Redigera kund" Width="100" Height="30" Margin="10" HorizontalAlignment="Left" Command="{Binding OnEditPrivateCustomerClickedCommand}" Visibility="{Binding IsPrivateSelected, Converter={StaticResource BoolToVisConverter}}"/>
+
         <!--Show insurances-->
-         <Button Content="Visa avtal" Width="100" Height="30" Margin="10" Command="{Binding GoToInsurancesCommand}"/>
+        <Button Content="Visa avtal" Width="100" Height="30" Margin="10" Command="{Binding GoToInsurancesCommand}"/>
 
 
     </StackPanel>

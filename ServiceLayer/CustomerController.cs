@@ -79,6 +79,44 @@ namespace ServiceLayer
             unitOfWork.Update(companyCustomerToEdit);
             unitOfWork.SaveChanges();
         }
+        public void UpdatePrivateCustomer(PrivateCustomer privateCustomer)
+        {
+            PrivateCustomer privateCustomerToEdit = unitOfWork.CustomerRepository.GetSpecificPrivateCustomer(privateCustomer.SSN);
+
+            if (privateCustomerToEdit == null)
+            {
+                throw new Exception("Kund ej hittad");
+            }
+
+            privateCustomerToEdit.FirstName = privateCustomer.FirstName;
+            privateCustomerToEdit.LastName = privateCustomer.LastName;
+            privateCustomerToEdit.TelephoneNumber = privateCustomer.TelephoneNumber;
+            privateCustomerToEdit.Email = privateCustomer.Email;
+            privateCustomerToEdit.WorkTelephoneNumber = privateCustomer.WorkTelephoneNumber;
+            privateCustomerToEdit.StreetAddress = privateCustomer.StreetAddress;
+            privateCustomerToEdit.PostalCodeCity.PostalCode = privateCustomer.PostalCodeCity.PostalCode;
+
+            try
+            {
+                PostalCodeCity existingPostalCodeCity = unitOfWork.PostalCodeCityRepository.GetSpecificPostalCode(privateCustomerToEdit.PostalCodeCity.PostalCode);
+
+                if (existingPostalCodeCity == null)
+                {
+                    unitOfWork.PostalCodeCityRepository.Add(privateCustomerToEdit.PostalCodeCity);
+                }
+                else
+                {
+                    privateCustomerToEdit.PostalCodeCity = existingPostalCodeCity;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Ett fel uppstod vid sparandet av kunden: {ex.Message}");
+            }
+
+            unitOfWork.Update(privateCustomerToEdit);
+            unitOfWork.SaveChanges();
+        }
 
 
         public void RemoveInactiveCustomers()

@@ -32,11 +32,18 @@ namespace PresentationLayer.ViewModels
             set { note = value; OnPropertyChanged(nameof(Note)); }
         }
 
-        private bool isPopUpOpen;
-        public bool IsPopUpOpen
+        private bool isPrivatePopUpOpen;
+        public bool IsPrivatePopUpOpen
         {
-            get { return isPopUpOpen; }
-            set { isPopUpOpen = value; OnPropertyChanged(nameof(IsPopUpOpen));}
+            get { return isPrivatePopUpOpen; }
+            set { isPrivatePopUpOpen = value; OnPropertyChanged(nameof(IsPrivatePopUpOpen));}
+        }
+
+        private bool isCompanyPopUpOpen;
+        public bool IsCompanyPopUpOpen
+        {
+            get { return isCompanyPopUpOpen; }
+            set { isCompanyPopUpOpen = value; OnPropertyChanged(nameof(IsCompanyPopUpOpen)); }
         }
 
         private ObservableCollection<ProspectNote> prospectNotesList = null;
@@ -136,8 +143,10 @@ namespace PresentationLayer.ViewModels
         public ICommand AddCompanyProspectNoteCommand { get; private set; }
         public ICommand ReturnCommand { get; private set; }
         public ICommand GoToInsurancesCommand { get; private set; }
-        public ICommand OnEditCustomerClickedCommand { get; private set; }
+        public ICommand OnEditCompanyCustomerClickedCommand { get; private set; }
+        public ICommand OnEditPrivateCustomerClickedCommand { get; private set; }
         public ICommand SaveEditedCompanyCustomerCommand { get; private set; }
+        public ICommand SaveEditedPrivateCustomerCommand { get; private set; }
         public CustomerProfileViewModel()
         {
             FindPrivateCustomerCommand = new RelayCommand(FindPrivateCustomer);
@@ -146,25 +155,42 @@ namespace PresentationLayer.ViewModels
             AddCompanyProspectNoteCommand = new RelayCommand(AddCompanyProspectNote);
             GoToInsurancesCommand = new RelayCommand(GoToInsurances);
             ReturnCommand = new RelayCommand(Return);
-            OnEditCustomerClickedCommand = new RelayCommand(OnEditCustomerClicked);
+            OnEditCompanyCustomerClickedCommand = new RelayCommand(OnEditCompanyCustomerClicked);
+            OnEditPrivateCustomerClickedCommand = new RelayCommand(OnEditPrivateCustomerClicked);
             SaveEditedCompanyCustomerCommand = new RelayCommand(SaveEditedCompanyCustomer);
+            SaveEditedPrivateCustomerCommand = new RelayCommand(SaveEditedPrivateCustomer);
 
             IsCompanySelected = true;
-            IsPopUpOpen = false;
+            IsPrivatePopUpOpen = false;
+            IsCompanyPopUpOpen = false;
         }
 
-        #region Methods
-
-        private void OnEditCustomerClicked()
+        #region methods
+        private void OnEditPrivateCustomerClicked()
         {
-            IsPopUpOpen = true;
+            IsPrivatePopUpOpen = true;
+        }
+
+        private void OnEditCompanyCustomerClicked()
+        {
+            IsCompanyPopUpOpen = true;
         }
         private void SaveEditedCompanyCustomer()
         {
             if (ViewedCompanyCustomer != null)
             {
                 customerController.UpdateCompanyCustomer(ViewedCompanyCustomer);
-                IsPopUpOpen = false;
+                IsCompanyPopUpOpen = false;
+                MessageBox.Show("Ändringar är sparade");
+            }
+        }
+        private void SaveEditedPrivateCustomer()
+        {
+            if (ViewedPrivateCustomer != null)
+            {
+                customerController.UpdatePrivateCustomer(ViewedPrivateCustomer);
+                IsPrivatePopUpOpen = false;
+                MessageBox.Show("Ändringar är sparade");
             }
         }
         private void FindCompanyCustomer()

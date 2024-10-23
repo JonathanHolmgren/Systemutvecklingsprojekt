@@ -3,10 +3,66 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:PresentationLayer"
+        xmlns:local="clr-namespace:PresentationLayer.Services"
+        xmlns:vm="clr-namespace:PresentationLayer.ViewModels"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="700" Width="1350"
+        MinWidth ="1100"
+        MinHeight="600"
+        WindowStyle="None"
+        AllowsTransparency="True"
+        ResizeMode="CanResizeWithGrip"
+        WindowStartupLocation="CenterScreen"
+        Background="Transparent">
+
+    <Window.Resources>
+        <ResourceDictionary>
+            <!-- BooleanToVisibilityConverter -->
+            <BooleanToVisibilityConverter x:Key="BooleanToVisibility"/>
+
+            <!-- Merged dictionaries -->
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="DataTemplatesAndStyles/DataTemplates.xaml"/>
+                <ResourceDictionary Source="DataTemplatesAndStyles/Styles.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+
+
+    <Window.DataContext>
+        <vm:MainWindowViewModel/>
+    </Window.DataContext>    
+    
     <Grid>
+ 
+        <!--Responsive Layouts-->
+        <ContentControl Content="{Binding}">
+            <ContentControl.Style>
+                <Style TargetType="ContentControl">
+                    
+                    <!--Default Layout-->
+                    <Setter Property="ContentTemplate"
+                            Value="{StaticResource Laptop_Layout}"/>
+
+                    <Style.Triggers>
+
+                        <!--Desktop Layout-->
+                        <DataTrigger Binding="{Binding Path=ActualWidth, RelativeSource={RelativeSource AncestorType=Window},Converter={x:Static local:IsGreaterThanConverter.Instance},ConverterParameter=1400}"
+                                     Value="True">
+                            <Setter Property="ContentTemplate" Value="{StaticResource Desktop_Layout}"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+                
+            </ContentControl.Style>
+            
+        </ContentControl>
+        <Button Command="{Binding CloseAppCommand}"
+                CommandParameter="{Binding ElementName=ResponsiveWindow}"
+                Style="{StaticResource CloseAppStyle}"/>
+
+
+
 
     </Grid>
 </Window>

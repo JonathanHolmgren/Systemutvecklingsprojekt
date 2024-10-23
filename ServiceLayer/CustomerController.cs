@@ -27,7 +27,7 @@ namespace ServiceLayer
 
                 if (existingPostalCodeCity == null)
                 {
-                    unitOfWork.PrivateCustomerRepository.Add(privateCustomer);
+                    unitOfWork.PostalCodeCityRepository.Add(privateCustomer.PostalCodeCity);
                 }
                 else
                 {
@@ -41,7 +41,44 @@ namespace ServiceLayer
                 throw new Exception($"Ett fel uppstod vid sparandet av kunden: {ex.Message}");
             }
         }
+        public void UpdateCompanyCustomer(CompanyCustomer companyCustomer)
+        {
+            CompanyCustomer companyCustomerToEdit = unitOfWork.CustomerRepository.GetSpecificCompanyCustomer(companyCustomer.OrganisationNumber);
 
+            if (companyCustomerToEdit == null)
+            {
+                throw new Exception("Kund ej hittad");
+            }
+           
+            companyCustomerToEdit.CompanyName = companyCustomer.CompanyName;
+            companyCustomerToEdit.TelephoneNumber = companyCustomer.TelephoneNumber;
+            companyCustomerToEdit.Email = companyCustomer.Email;
+            companyCustomerToEdit.StreetAddress = companyCustomer.StreetAddress;
+            companyCustomerToEdit.PostalCodeCity.PostalCode = companyCustomer.PostalCodeCity.PostalCode;
+            
+            try
+            {
+                PostalCodeCity existingPostalCodeCity = unitOfWork.PostalCodeCityRepository.GetSpecificPostalCode(companyCustomerToEdit.PostalCodeCity.PostalCode);
+
+                if (existingPostalCodeCity == null)
+                {
+                    unitOfWork.PostalCodeCityRepository.Add(companyCustomerToEdit.PostalCodeCity);
+                }
+                else
+                {
+                    companyCustomerToEdit.PostalCodeCity = existingPostalCodeCity;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Ett fel uppstod vid sparandet av kunden: {ex.Message}");
+            }
+            companyCustomerToEdit.ContactPersonName = companyCustomer.ContactPersonName;
+            companyCustomerToEdit.CompanyPersonTelephoneNumber = companyCustomer.CompanyPersonTelephoneNumber;
+
+            unitOfWork.Update(companyCustomerToEdit);
+            unitOfWork.SaveChanges();
+        }
 
 
         public void RemoveInactiveCustomers()

@@ -10,11 +10,13 @@ using System.Windows.Input;
 using System.Collections.ObjectModel;
 using PresentationLayer.Command;
 using System.Windows;
+using Microsoft.Identity.Client;
 
 namespace PresentationLayer.ViewModels
 {
     internal class CustomerProfileViewModel : ObservableObject
     {
+        
         private CustomerController customerController = new CustomerController();
 
         private string searchValue;
@@ -28,6 +30,13 @@ namespace PresentationLayer.ViewModels
         {
             get { return note; }
             set { note = value; OnPropertyChanged(nameof(Note)); }
+        }
+
+        private bool isPopUpOpen;
+        public bool IsPopUpOpen
+        {
+            get { return isPopUpOpen; }
+            set { isPopUpOpen = value; OnPropertyChanged(nameof(IsPopUpOpen));}
         }
 
         private ObservableCollection<ProspectNote> prospectNotesList = null;
@@ -127,6 +136,8 @@ namespace PresentationLayer.ViewModels
         public ICommand AddCompanyProspectNoteCommand { get; private set; }
         public ICommand ReturnCommand { get; private set; }
         public ICommand GoToInsurancesCommand { get; private set; }
+        public ICommand OnEditCustomerClickedCommand { get; private set; }
+        public ICommand SaveEditedCompanyCustomerCommand { get; private set; }
         public CustomerProfileViewModel()
         {
             FindPrivateCustomerCommand = new RelayCommand(FindPrivateCustomer);
@@ -135,11 +146,27 @@ namespace PresentationLayer.ViewModels
             AddCompanyProspectNoteCommand = new RelayCommand(AddCompanyProspectNote);
             GoToInsurancesCommand = new RelayCommand(GoToInsurances);
             ReturnCommand = new RelayCommand(Return);
+            OnEditCustomerClickedCommand = new RelayCommand(OnEditCustomerClicked);
+            SaveEditedCompanyCustomerCommand = new RelayCommand(SaveEditedCompanyCustomer);
 
             IsCompanySelected = true;
+            IsPopUpOpen = false;
         }
 
         #region Methods
+
+        private void OnEditCustomerClicked()
+        {
+            IsPopUpOpen = true;
+        }
+        private void SaveEditedCompanyCustomer()
+        {
+            if (ViewedCompanyCustomer != null)
+            {
+                customerController.UpdateCompanyCustomer(ViewedCompanyCustomer);
+                IsPopUpOpen = false;
+            }
+        }
         private void FindCompanyCustomer()
         {
             ViewedCompanyCustomer = customerController.GetSpecificCompanyCustomer(SearchValue);

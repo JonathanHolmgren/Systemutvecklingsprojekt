@@ -19,14 +19,14 @@ namespace Models
         public PrivateCustomer(
             string telephoneNumber,
             string email,
-            string streetName,
+            string streetAddress,
             PostalCodeCity postalCodeCity,
             string sSN,
             string firstName,
             string lastName,
             string workTelephoneNumber
         )
-            : base(telephoneNumber, email, streetName, postalCodeCity)
+            : base(telephoneNumber, email, streetAddress, postalCodeCity)
         {
             SSN = sSN;
             FirstName = firstName;
@@ -37,13 +37,13 @@ namespace Models
         public PrivateCustomer(
             string telephoneNumber,
             string email,
-            string streetName,
+            string streetAddress,
             PostalCodeCity postalCodeCity,
             string sSN,
             string firstName,
             string lastName
         )
-            : base(telephoneNumber, email, streetName, postalCodeCity)
+            : base(telephoneNumber, email, streetAddress, postalCodeCity)
         {
             SSN = sSN;
             FirstName = firstName;

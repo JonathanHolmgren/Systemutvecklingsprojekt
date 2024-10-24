@@ -1,4 +1,5 @@
 ﻿using Models;
+using System;
 
 namespace DataLayer;
 
@@ -204,6 +205,7 @@ public class Seed
         #endregion
 
         #region InsuredPerson
+
         InsuredPerson insuredPerson1 = new InsuredPerson("Inga-Lill", "Bengtsson", "1952/06/10");
         InsuredPerson insuredPerson2 = new InsuredPerson("Klas", "Persson", "1974/03/19");
         #endregion
@@ -265,7 +267,7 @@ public class Seed
         #region Insurance
         Insurance insurance1 = new Insurance(
             DateTime.Today,
-            BillingInterval.Monthly,
+            BillingInterval.Månad,
             InsuranceStatus.Preliminary,
             "Snäll kund, ge rabbat",
             user1,
@@ -275,7 +277,7 @@ public class Seed
         );
         Insurance insurance2 = new Insurance(
             DateTime.Today,
-            BillingInterval.Yearly,
+            BillingInterval.År,
             InsuranceStatus.Active,
             "Stor kund, vill hålla kvar",
             user2,

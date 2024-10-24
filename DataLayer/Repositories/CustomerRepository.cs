@@ -11,6 +11,7 @@ namespace DataLayer.Repositories
     public class CustomerRepository : Repository<Customer>
     {
         public CustomerRepository(Context context) : base(context) { }
+ 
        
         public List<Customer> GetInActiveCustomersWithInsurances()
         {
@@ -33,7 +34,17 @@ namespace DataLayer.Repositories
                 .Include(p => p.Insurances).ThenInclude(i => i.User).ThenInclude(u => u.Employee)
                 .ToList(); 
         }
+ 
 
+        public PrivateCustomer GetSpecificPrivateCustomerForInsuranceBySSN(string sSN)
+        {
+            return Context
+                .Set<Customer>()
+                .OfType<PrivateCustomer>()
+                .Include(c => c.PostalCodeCity)
+                .FirstOrDefault(c => c.SSN == sSN);
+        }
+ 
         public IList<CompanyCustomer> GetCompanyCustomers()
         {
             return Context.Set<Customer>()
@@ -64,7 +75,7 @@ namespace DataLayer.Repositories
                   .Include(c => c.Insurances).ThenInclude(a => a.User).ThenInclude(b => b.Employee)
                   .FirstOrDefault(c => c.SSN == sSN); 
         }
-
+ 
     }
 
 }

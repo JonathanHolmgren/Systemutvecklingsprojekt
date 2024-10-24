@@ -12,7 +12,6 @@ namespace PresentationLayer
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
-
             // Skapa och visa huvudfönstret
 
 

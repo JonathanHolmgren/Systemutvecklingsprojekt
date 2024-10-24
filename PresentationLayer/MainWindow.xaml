@@ -5,9 +5,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PresentationLayer.Services"
         xmlns:vm="clr-namespace:PresentationLayer.ViewModels"
+        xmlns:views="clr-namespace:PresentationLayer.Views"
         mc:Ignorable="d"
         Title="MainWindow" Height="700" Width="1350"
-        MinWidth ="1100"
+        MinWidth="1100"
         MinHeight="600"
         WindowStyle="None"
         AllowsTransparency="True"
@@ -28,41 +29,30 @@
         </ResourceDictionary>
     </Window.Resources>
 
-
     <Window.DataContext>
         <vm:MainWindowViewModel/>
-    </Window.DataContext>    
-    
+        
+    </Window.DataContext>
+
     <Grid>
- 
-        <!--Responsive Layouts-->
+         <!--Responsive Layouts--> 
         <ContentControl Content="{Binding}">
             <ContentControl.Style>
                 <Style TargetType="ContentControl">
+                     <!--Default Layout (Laptop)--> 
+                    <Setter Property="ContentTemplate" Value="{DynamicResource Laptop_Layout}" />
+
                     
-                    <!--Default Layout-->
-                    <Setter Property="ContentTemplate"
-                            Value="{StaticResource Laptop_Layout}"/>
-
-                    <Style.Triggers>
-
-                        <!--Desktop Layout-->
-                        <DataTrigger Binding="{Binding Path=ActualWidth, RelativeSource={RelativeSource AncestorType=Window},Converter={x:Static local:IsGreaterThanConverter.Instance},ConverterParameter=1400}"
-                                     Value="True">
-                            <Setter Property="ContentTemplate" Value="{StaticResource Desktop_Layout}"/>
-                        </DataTrigger>
-                    </Style.Triggers>
                 </Style>
-                
             </ContentControl.Style>
-            
         </ContentControl>
+
+         <!--Close Button--> 
         <Button Command="{Binding CloseAppCommand}"
                 CommandParameter="{Binding ElementName=ResponsiveWindow}"
                 Style="{StaticResource CloseAppStyle}"/>
-
-
-
-
     </Grid>
+   
+
+
 </Window>

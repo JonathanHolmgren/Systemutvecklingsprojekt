@@ -20,16 +20,18 @@ namespace PresentationLayer.ViewModels
 
         // Close App
 
-        private UserControl _currentView;
+        private object _currentView;
 
-        public UserControl CurrentView
+        public object CurrentView
         {
             get { return _currentView; }
             set
             {
-                _currentView = value;
-                
-                OnPropertyChanged(nameof(CurrentView));
+                if (_currentView != value)
+                {
+                    _currentView = value;
+                    OnPropertyChanged(nameof(CurrentView)); // Viktigt för att uppdatera UI
+                }
             }
         }
 
@@ -48,6 +50,7 @@ namespace PresentationLayer.ViewModels
                 return _closeCommand;
             }
         }
+
         public ICommand ChangeViewCommand { get; }
         public MainWindowViewModel()
         {
@@ -57,25 +60,26 @@ namespace PresentationLayer.ViewModels
 
         }
         // Maximize App
-        public void MaxApp(object obj)
-        {
-            MainWindow win = obj as MainWindow;
+        //public void MaxApp(object obj)
+        //{
+        //    MainWindow win = obj as MainWindow;
 
-            if (win.WindowState == WindowState.Normal)
-            {
-                win.WindowState = WindowState.Maximized;
-            }
-            else if (win.WindowState == WindowState.Maximized)
-            {
-                win.WindowState = WindowState.Normal;
-            }
-        }
+        //    if (win.WindowState == WindowState.Normal)
+        //    {
+        //        win.WindowState = WindowState.Maximized;
+        //    }
+        //    else if (win.WindowState == WindowState.Maximized)
+        //    {
+        //        win.WindowState = WindowState.Normal;
+        //    }
+        //}
         private void ChangeViewByType(Type viewType)
         {
+
             if (viewType != null)
             {
                 CurrentView = (UserControl)Activator.CreateInstance(viewType);
-                Debug.WriteLine($"New view loaded: {viewType.Name}");
+                Debug.WriteLine($"Nu kör vi: {viewType.Name}");
             }
         }
         public void ChangeView(UserControl newView)
@@ -85,18 +89,18 @@ namespace PresentationLayer.ViewModels
 
 
         // Maximize App Command
-        private ICommand _maxCommand;
-        public ICommand MaxAppCommand
-        {
-            get
-            {
-                if (_maxCommand == null)
-                {
-                    _maxCommand = new RelayCommand<object>(execute => MaxApp(execute));
-                }
-                return _maxCommand;
-            }
-        }
+        //private ICommand _maxCommand;
+        //public ICommand MaxAppCommand
+        //{
+        //    get
+        //    {
+        //        if (_maxCommand == null)
+        //        {
+        //            _maxCommand = new RelayCommand<object>(execute => MaxApp(execute));
+        //        }
+        //        return _maxCommand;
+        //    }
+        //}
 
 
         public void CloseApp(object obj)
@@ -106,9 +110,10 @@ namespace PresentationLayer.ViewModels
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
-        private void OnPropertyChanged(string propName)
+
+        protected void OnPropertyChanged(string propertyName)
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propName));
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
     }

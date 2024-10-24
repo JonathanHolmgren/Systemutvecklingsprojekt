@@ -321,21 +321,23 @@
             <Grid>
 
                 <StackPanel Style="{StaticResource MenuStackPanelStyle}">
-
                     <Button Style="{StaticResource MenuButtonRegisterCustomer}"
                             Command="{Binding ChangeViewCommand}"
-                            CommandParameter="{x:Type views:RegisterCompanyCustomer }"/>
+                            CommandParameter="{x:Type views:RegisterCompanyCustomer}" />
+
                     <Button Style="{StaticResource MenuButtonAddInsurance}" />
+
                     <Button Style="{StaticResource MenuButtonShowCustomers}"
                             Command="{Binding ChangeViewCommand}"
-                            CommandParameter="{x:Type views:ShowProspectsView }"/>
+                            CommandParameter="{x:Type views:ShowProspectsView}" />
+
                     <Button Style="{StaticResource MenuButtonExportBillingInfo}"
                             Command="{Binding ChangeViewCommand}"
-                            CommandParameter="{x:Type views:ExportBillingInformationView }"/>
+                            CommandParameter="{x:Type views:ExportBillingInformationView}" />
+
                     <Button Style="{StaticResource MenuButtonCalculateCommision}"
                             Command="{Binding ChangeViewCommand}"
-                            CommandParameter="{x:Type views:CalculateComissionView }"/>
-
+                            CommandParameter="{x:Type views:CalculateComissionView}" />
                 </StackPanel>
 
                 <TextBlock Text="Inloggad som*******"
@@ -351,13 +353,6 @@
 
     </ControlTemplate>
     
-    <ImageBrush x:Key="close_def"
-                ImageSource="Assets/close_menu_def.png"
-                Stretch="None" />
-
-    <ImageBrush x:Key="close_mo"
-                ImageSource="Assets/close_menu_mo.png"
-                Stretch="None" />
 
     <Style x:Key="CloseMenuButton"
            TargetType="{x:Type Button}">
@@ -373,46 +368,6 @@
         <Setter Property="Margin"
                 Value="0,10,10,0" />
 
-        <Setter Property="Template">
-
-            <Setter.Value>
-
-                <ControlTemplate TargetType="{x:Type Button}">
-
-                    <Border x:Name="border"
-                            BorderThickness="0"
-                            Background="{StaticResource close_def}">
-
-                    </Border>
-
-                    <ControlTemplate.Triggers>
-
-                        <Trigger Property="IsMouseOver"
-                                 Value="True">
-
-                            <Setter Property="Background"
-                                    TargetName="border"
-                                    Value="{StaticResource close_mo}" />
-
-                        </Trigger>
-
-                        <Trigger Property="IsPressed"
-                                 Value="True">
-
-                            <Setter Property="Background"
-                                    TargetName="border"
-                                    Value="{StaticResource close_mo}" />
-
-                        </Trigger>
-
-                    </ControlTemplate.Triggers>
-
-                </ControlTemplate>
-
-            </Setter.Value>
-
-        </Setter>
-
     </Style>
 
     <DataTemplate x:Key="MainMenuTemplate">
@@ -425,22 +380,25 @@
                         Style="{StaticResource CloseMenuButton}" />
 
                 <StackPanel Style="{StaticResource MenuStackPanelStyle}">
-
                     <Button Style="{StaticResource MenuButtonRegisterCustomer}"
-                            Command="{Binding ChangeViewCommand}"
-                            CommandParameter="{x:Type views:RegisterCompanyCustomer }"/>
-                    <Button Style="{StaticResource MenuButtonAddInsurance}" />
-                    <Button Style="{StaticResource MenuButtonShowCustomers}"
-                            Command="{Binding ChangeViewCommand}"
-                            CommandParameter="{x:Type views:ShowProspectsView }"/>
-                    <Button Style="{StaticResource MenuButtonExportBillingInfo}"
-                            Command="{Binding ChangeViewCommand}"
-                            CommandParameter="{x:Type views:ExportBillingInformationView }"/>
-                    <Button Style="{StaticResource MenuButtonCalculateCommision}"
-                            Command="{Binding ChangeViewCommand}"
-                            CommandParameter="{x:Type views:CalculateComissionView }"/>
+                            Command="{Binding DataContext.ChangeViewCommand, RelativeSource={RelativeSource AncestorType=Window}}"
+                            CommandParameter="{x:Type views:RegisterCompanyCustomer}" />
 
+                    <Button Style="{StaticResource MenuButtonAddInsurance}" />
+
+                    <Button Style="{StaticResource MenuButtonShowCustomers}"
+                            Command="{Binding DataContext.ChangeViewCommand, RelativeSource={RelativeSource AncestorType=Window}}"
+                            CommandParameter="{x:Type views:ShowProspectsView}" />
+
+                    <Button Style="{StaticResource MenuButtonExportBillingInfo}"
+                            Command="{Binding DataContext.ChangeViewCommand, RelativeSource={RelativeSource AncestorType=Window}}"
+                            CommandParameter="{x:Type views:ExportBillingInformationView}" />
+
+                    <Button Style="{StaticResource MenuButtonCalculateCommision}"
+                            Command="{Binding DataContext.ChangeViewCommand, RelativeSource={RelativeSource AncestorType=Window}}"
+                CommandParameter="{x:Type views:CalculateComissionView}" />
                 </StackPanel>
+
 
                 <TextBlock Text="Inloggad som*******"
                            FontFamily="Fonts/#Saira SemiBold"

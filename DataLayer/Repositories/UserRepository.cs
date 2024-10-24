@@ -15,7 +15,7 @@ namespace DataLayer.Repositories
 
         public User GetUser(int iD)
         {
-            return Context.Set<User>().AsNoTracking().FirstOrDefault(user => user.UserID == iD);
+            return Context.Set<User>().FirstOrDefault(user => user.UserID == iD);
         }
     }
 }

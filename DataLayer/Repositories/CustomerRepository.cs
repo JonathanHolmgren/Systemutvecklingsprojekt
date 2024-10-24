@@ -37,13 +37,22 @@ namespace DataLayer.Repositories
         //          .Include(c => c.PostalCodeCity)  // Inkludera PostalCodeCity
         //          .FirstOrDefault(); // Konvertera till en lista
         //}
-        public PrivateCustomer GetSpecificPrivateCustomer(string sSN)
+        //public PrivateCustomer GetSpecificPrivateCustomer(string sSN)
+        //{
+        //    return Context.Set<Customer>()
+        //          .OfType<PrivateCustomer>()
+        //          .Include(c => c.PostalCodeCity)
+        //          .Include(c => c.Insurances).ThenInclude(a => a.User).ThenInclude(b => b.Employee)
+        //          .FirstOrDefault(c => c.SSN == sSN);
+        //}
+
+        public PrivateCustomer GetSpecificPrivateCustomerForInsurance(string sSN)
         {
-            return Context.Set<Customer>()
-                  .OfType<PrivateCustomer>()  
-                  .Include(c => c.PostalCodeCity)  
-                  .Include(c => c.Insurances).ThenInclude(a => a.User).ThenInclude(b => b.Employee)
-                  .FirstOrDefault(c => c.SSN == sSN);
+            return Context
+                .Set<Customer>()
+                .OfType<PrivateCustomer>()
+                .Include(c => c.PostalCodeCity)
+                .FirstOrDefault(c => c.SSN == sSN);
         }
     }
 }

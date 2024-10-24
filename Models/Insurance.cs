@@ -15,7 +15,7 @@ namespace Models
         public string? Notes { get; set; }
 
         // Navigation property
-        public User User { get; set; }
+        public User? User { get; set; }
         public InsuredPerson InsuredPerson { get; set; }
         public Customer Customer { get; set; }
         public InsuranceType InsuranceType { get; set; }

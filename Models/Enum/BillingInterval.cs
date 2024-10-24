@@ -8,6 +8,6 @@ namespace Models
 {
     public enum BillingInterval
     {
-        Monthly, Quartly, HalfYear, Yearly
+        Månad, Kvartal, Halvår, År
     }
 }

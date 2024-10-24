@@ -12,7 +12,19 @@ namespace DataLayer.Repositories
     {
         public InsuranceRepository(Context context) : base(context) { }
 
-
+        public IList<Insurance> GetCustomerInsurances(int customerId)
+        {
+            return Context.Set<Insurance>()
+                          .Where(insurance => insurance.Customer.CustomerID == customerId)
+                          .Include(i=>i.InsuranceType)
+                          .ToList();
+        }
+        public Insurance GetInsurance(int insuranceId)
+        {
+            return Context.Set<Insurance>()
+                          .Include(i => i.InsuranceType)
+                          .FirstOrDefault(i => i.InsuranceId == insuranceId);
+        }
         public double GetTotalPremiumForPeriod(Employee employee, DateTime startDate, DateTime endDate)
         {
             using (var context = new Context())

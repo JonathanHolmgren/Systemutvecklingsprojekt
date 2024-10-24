@@ -62,5 +62,24 @@ namespace Models
             Customer = customer;
             InsuranceType = insuranceType;
         }
+        public Insurance(
+            DateTime expiryDate,
+            BillingInterval billingInterval,
+            User user,
+            InsuranceType insuranceType,
+            string notes,
+            Customer customer,
+            InsuredPerson insuredPerson)
+        {
+            ExpiryDate = expiryDate;
+            BillingingInterval = billingInterval;
+            User = user;
+            InsuranceStatus = InsuranceStatus.Preliminary;
+            InsuranceType = insuranceType;
+            Notes = notes;
+            Customer = customer;
+            InsuredPerson = insuredPerson;
+
+        }
     }
 }

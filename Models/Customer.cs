@@ -5,8 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Models
-  {
 
+  {
+    
         public class Customer
         {
             public int CustomerID { get; set; }
@@ -16,6 +17,7 @@ namespace Models
 
             // Navigation property
             public ICollection<Insurance> Insurances { get; set; }
+            public ICollection<ProspectNote> ProspectNotes { get; set; }
             public PostalCodeCity PostalCodeCity { get; set; }
             //Constructors
             public Customer() { }

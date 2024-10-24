@@ -33,6 +33,7 @@ namespace DataLayer
         public PostalCodeCityRepository PostalCodeCityRepository { get; private set; }
         public PrivateCustomerRepository PrivateCustomerRepository { get; private set; }
         public UserRepository UserRepository { get; private set; }
+        public ProspectNoteRepository ProspectNoteRepository { get; private set; }
 
         public UnitOfWork(Context context)
         {
@@ -50,6 +51,7 @@ namespace DataLayer
             PostalCodeCityRepository = new PostalCodeCityRepository(context);
             PrivateCustomerRepository = new PrivateCustomerRepository(context);
             UserRepository = new UserRepository(context);
+            ProspectNoteRepository = new ProspectNoteRepository(context);
         }
 
         public UnitOfWork()

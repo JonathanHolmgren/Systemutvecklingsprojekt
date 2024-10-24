@@ -35,9 +35,9 @@ namespace ServiceLayer
                 throw new Exception($"Ett fel uppstod vid sparandet av kunden: {ex.Message}");
             }
         }
-        public PrivateCustomer GetSpecificPrivateCustomerForInsurance(string sSN)
+        public PrivateCustomer GetSpecificPrivateCustomerForInsuranceBySSN(string sSN)
         {
-            return unitOfWork.CustomerRepository.GetSpecificPrivateCustomerForInsurance(sSN);
+            return unitOfWork.CustomerRepository.GetSpecificPrivateCustomerForInsuranceBySSN(sSN);
         }
     }
 }

@@ -13,7 +13,7 @@ namespace DataLayer.Repositories
     {
         public UserRepository(Context context) : base(context) { }
 
-        public User GetUser(int iD)
+        public User GetUserByID(int iD)
         {
             return Context.Set<User>().FirstOrDefault(user => user.UserID == iD);
         }

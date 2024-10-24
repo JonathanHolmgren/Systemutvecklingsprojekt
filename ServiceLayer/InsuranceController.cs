@@ -55,7 +55,7 @@ namespace ServiceLayer
             string selectedAddOnOption2
         )
         {
-            User user = GetUser(1); //denna ska hämta den användaren som är inloggad!
+            User user = GetUserByID(1); //denna ska hämta den användaren som är inloggad!
             InsuranceType insuranceType = GetInsuranceType(selectedInsuranceType);
 
             List<InsuranceTypeAttribute> insuranceTypeAttributesList =
@@ -229,9 +229,9 @@ namespace ServiceLayer
         }
 
         //Ska nog ligga i UserControllern
-        public User GetUser(int iD)
+        public User GetUserByID(int iD)
         {
-            return unitOfWork.UserRepository.GetUser(iD);
+            return unitOfWork.UserRepository.GetUserByID(iD);
         }
 
         //Kan ligga i insuredPersonController om vi vill ha en sån

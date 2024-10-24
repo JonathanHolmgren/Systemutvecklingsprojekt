@@ -46,7 +46,7 @@ namespace DataLayer.Repositories
         //          .FirstOrDefault(c => c.SSN == sSN);
         //}
 
-        public PrivateCustomer GetSpecificPrivateCustomerForInsurance(string sSN)
+        public PrivateCustomer GetSpecificPrivateCustomerForInsuranceBySSN(string sSN)
         {
             return Context
                 .Set<Customer>()

@@ -551,7 +551,7 @@ namespace PresentationLayer.ViewModels
                 () =>
                 {
                     SelectedPrivateCustomer =
-                        customerController.GetSpecificPrivateCustomerForInsurance(
+                        customerController.GetSpecificPrivateCustomerForInsuranceBySSN(
                             inputSocialSecurityNumber
                         );
                 },

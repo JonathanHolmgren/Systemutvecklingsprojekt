@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:PresentationLayer.Views"
              xmlns:vm="clr-namespace:PresentationLayer.ViewModels"
              mc:Ignorable="d" 
-             d:DesignHeight="600" d:DesignWidth="800">
+             d:DesignHeight="1920" d:DesignWidth="1080">
 
     <UserControl.Resources>
         <BooleanToVisibilityConverter x:Key="BoolToVisConverter" />
@@ -16,7 +16,7 @@
         <vm:CustomerProfileViewModel/>
     </UserControl.DataContext>
     
-    <StackPanel Background="White">
+    <StackPanel Background="White" Margin="0,0,0,-62">
         
                
         <!--Popup companycustomer-->        
@@ -80,7 +80,7 @@
             </Border>
         </Popup>
 
-
+        
 
         <!--Popup privatecustomer-->
         <Popup x:Name="EditPrivateCustomerPopup" Width="700" Height="400" IsOpen="{Binding IsPrivatePopUpOpen}" HorizontalAlignment="Center" VerticalAlignment="Center" Placement="Center">
@@ -133,7 +133,20 @@
             </Border>
         </Popup>
 
-
+        <!-- Popup for removing customer -->
+        <Popup x:Name="DeleteInactiveInsurancePopup" IsOpen="{Binding IsRemoveCustomerPopupOpen}" HorizontalAlignment="Center" VerticalAlignment="Center" Placement="Center">
+            <Border BorderBrush="Black" BorderThickness="1" Background="White">
+                <StackPanel Background="White" HorizontalAlignment="Center">
+                    <TextBlock Text="Denna kunden har inaktiva avtal kopplade till sig, vill du ta bort dem också?" />
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                        <Button Content="Avbryt" Command="{Binding CancelCommand}"  />
+                        <Button Content="Ja" Command="{Binding ContinueCommand}" Margin="10,0,0,0"/>
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+        </Popup>
+        
+        
 
 
         <!--  Window and Search  -->
@@ -284,11 +297,12 @@
             </StackPanel>
 
             <!-- Notes DataGrid -->
-            <Grid>
-                <Grid.ColumnDefinitions>
+            <StackPanel>
+                <Grid>
+                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="Auto" />
-                </Grid.ColumnDefinitions>
+                 </Grid.ColumnDefinitions>
 
                 <DataGrid Grid.Column="0" Height="100" Width="320" Margin="5,10,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" 
                      ItemsSource="{Binding ProspectNotesList, UpdateSourceTrigger=PropertyChanged}"  
@@ -301,9 +315,12 @@
                         <DataGridTextColumn Header="Notering" Binding="{Binding Note}" Width="230"/>
                     </DataGrid.Columns>
                 </DataGrid>
-            </Grid>
 
-            <Label Content="Notering"/>
+                </Grid>
+                
+           </StackPanel>
+
+        <Label Content="Notering"/>
             <TextBox Text="{Binding Note}" BorderBrush="Black" Width="320" Margin="5,0,10,0" HorizontalAlignment="Left"/>
             <Button Content="Lägg till notering" Width="100" Margin="5" HorizontalAlignment="Left" Command="{Binding AddCompanyProspectNoteCommand}"/>
         </StackPanel>
@@ -315,8 +332,35 @@
         <!--Edit Private Customer button-->
         <Button Content="Redigera kund" Width="100" Height="30" Margin="10" HorizontalAlignment="Left" Command="{Binding OnEditPrivateCustomerClickedCommand}" Visibility="{Binding IsPrivateSelected, Converter={StaticResource BoolToVisConverter}}"/>
 
+        <!-- Remove customer-->
+        <Button Content="Ta bort kund" Width="100" Height="30" Margin="10" HorizontalAlignment="Left" Command="{Binding RemoveCustomerFromDataBase}"/>
+
         <!--Show insurances-->
-        <Button Content="Visa avtal" Width="100" Height="30" Margin="10" Command="{Binding GoToInsurancesCommand}"/>
+        
+        <DataGrid ItemsSource="{Binding CustomerInsurances}" SelectedItem="{Binding SelectedInsurance}" AutoGenerateColumns="False" Margin="115,-196,3,-26" RenderTransformOrigin="0.5,0.5" Width="739" Height="131" HorizontalAlignment="Right">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Försäkrings Id" Binding="{Binding InsuranceId}" Width="60"/>
+                <DataGridTextColumn Header="Utgånsdatum" Binding="{Binding ExpiryDate}" Width="90"/>
+                <DataGridTextColumn Header="Betalnings intervall" Binding="{Binding BillingingInterval}" Width="230"/>
+                <DataGridTextColumn Header="Status" Binding="{Binding InsuranceStatus}" Width="230"/>
+                <DataGridTextColumn Header="Ansvarig agent" Binding="{Binding User.Employee.AgentNumber}" Width="230"/>
+                <DataGridTextColumn Header="Försäkrad person förnamn" Binding="{Binding InsuredPerson.FirstName}" Width="230"/>
+                <DataGridTextColumn Header="Försäkrad person efternamn" Binding="{Binding InsuredPerson.LastName}" Width="230"/>
+                <DataGridTextColumn Header="Försäkrad person personnummer" Binding="{Binding InsuredPerson.SSN}" Width="230"/>
+                <DataGridTextColumn Header="Försäkrings typ" Binding="{Binding InsuranceType.Type}" Width="230"/>
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+            <TextBlock Text="Välj status:" Visibility="{Binding IsInsuranceSelected, Converter={StaticResource BoolToVisConverter}}"/>
+            <RadioButton Content="Active" Margin="5" Visibility="{Binding IsInsuranceSelected, Converter={StaticResource BoolToVisConverter}}"/>
+            <RadioButton Content="Inactive" Margin="5" Visibility="{Binding IsInsuranceSelected, Converter={StaticResource BoolToVisConverter}}"/>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+
+            <Button Width="100" Content="Ändra status" Margin="10" Padding="5" Command="{Binding ChangeInsuranceStatusCommand}"/>
+            <Button Width="100" Content="Ta bort" Margin="10" Command="{Binding RemoveInsuranceCommand}"/>
+        </StackPanel>
 
 
     </StackPanel>

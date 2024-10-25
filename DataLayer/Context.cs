@@ -26,10 +26,12 @@ namespace DataLayer
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
+            //optionsBuilder.UseSqlServer(
+            //  @"Server=sqlutb2-db.hb.se,56077;Database=suht2410;User Id=suht2410;Password=VOB279;TrustServerCertificate=True;");
+
             optionsBuilder.UseSqlServer(
-              @"Server=sqlutb2-db.hb.se,56077;Database=suht2410;User Id=suht2410;Password=VOB279;TrustServerCertificate=True;");
-              
-            //optionsBuilder.UseSqlServer(@"Server=(localdb)\mssqllocaldb;Database=ToppFörsäkringar;Trusted_Connection=True;");
+                @"Server=(localdb)\mssqllocaldb;Database=ToppFörsäkringar;Trusted_Connection=True;"
+            );
             base.OnConfiguring(optionsBuilder);
         }
 
@@ -103,15 +105,18 @@ namespace DataLayer
             // så mappas bas-klassen Customer inte till någon tabell
 
             // Konfigurera PrivateCustomer så att den mappas till en egen tabell och innehåller alla egenskaper från Customer
-            modelBuilder.Entity<PrivateCustomer>()
+            modelBuilder
+                .Entity<PrivateCustomer>()
                 .ToTable("PrivateCustomers")
                 .HasBaseType<Customer>(); // Detta säkerställer att alla Customer-fält inkluderas i PrivateCustomer-tabellen
 
             // Konfigurera CompanyCustomer så att den mappas till en egen tabell och innehåller alla egenskaper från Customer
-            modelBuilder.Entity<CompanyCustomer>()
+            modelBuilder
+                .Entity<CompanyCustomer>()
                 .ToTable("CompanyCustomers")
                 .HasBaseType<Customer>(); // Detta säkerställer att alla Customer-fält inkluderas i CompanyCustomer-tabellensäkerställer att alla Customer-fält inkluderas i CompanyCustomer-tabellen
         }
+
         //
         // private void ConfigureInsuranceTypeAttributes(ModelBuilder modelBuilder)
         // {

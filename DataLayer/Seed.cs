@@ -183,6 +183,16 @@ public class Seed
             "Inga-Lill",
             "Bengtsson"
         );
+
+        PrivateCustomer privateCustomer2 = new PrivateCustomer(
+            "0706689932",
+            "jollebolle52@emial.com",
+            "Gatanärhård 69",
+            postalCodeCity2,
+            "19990902-2173",
+            "Jolle",
+            "Alestrom"
+        );
         #endregion
 
         #region CompanyCustomer
@@ -196,11 +206,43 @@ public class Seed
             "0710192844",
             "Tesla"
         );
+
+        CompanyCustomer companyCustomer2 = new CompanyCustomer(
+            "07061111222",
+            "buggan3@email.com",
+            "Gatukanten 4",
+            postalCodeCity1,
+            "741202-5434",
+            "Buggan Buggster",
+            "0740568646",
+            "Warwick Inc"
+        );
+
+        CompanyCustomer companyCustomer3 = new CompanyCustomer(
+            "07061783521",
+            "kalle63@email.com",
+            "Hejsandär 94",
+            postalCodeCity1,
+            "590222-2496",
+            "Karl Karlsson",
+            "0700101010",
+            "Bolaget AB"
+        );
         #endregion
 
         #region ProspectNote
-        ProspectNote prospectNote1 = new ProspectNote("Kunden gick inte med på avtal", DateTime.Now.AddDays(-20), user1, privateCustomer1);
-        ProspectNote prospectNote2 = new ProspectNote("Kunden vill att vi ringer upp imorgon", DateTime.Now.AddDays(-10), user2, companyCustomer1);
+        ProspectNote prospectNote1 = new ProspectNote(
+            "Kunden gick inte med på avtal",
+            DateTime.Now.AddDays(-20),
+            user1,
+            privateCustomer1
+        );
+        ProspectNote prospectNote2 = new ProspectNote(
+            "Kunden vill att vi ringer upp imorgon",
+            DateTime.Now.AddDays(-10),
+            user2,
+            companyCustomer1
+        );
         #endregion
 
         #region InsuredPerson
@@ -283,6 +325,50 @@ public class Seed
             companyCustomer1,
             insuranceType2
         );
+
+        Insurance insurance3 = new Insurance(
+            DateTime.Today,
+            BillingInterval.Yearly,
+            InsuranceStatus.Inactive,
+            "Tuff kund",
+            user2,
+            insuredPerson2,
+            companyCustomer2,
+            insuranceType2
+        );
+
+        Insurance insurance4 = new Insurance(
+            DateTime.Today,
+            BillingInterval.Yearly,
+            InsuranceStatus.Inactive,
+            "Legend",
+            user2,
+            insuredPerson2,
+            privateCustomer2,
+            insuranceType2
+        );
+
+        Insurance insurance5 = new Insurance(
+            DateTime.Today,
+            BillingInterval.Yearly,
+            InsuranceStatus.Inactive,
+            "Gammalförsäkring",
+            user2,
+            insuredPerson2,
+            companyCustomer3,
+            insuranceType2
+        );
+
+        Insurance insurance6 = new Insurance(
+            DateTime.Today,
+            BillingInterval.Yearly,
+            InsuranceStatus.Active,
+            "Aktiv just nu",
+            user2,
+            insuredPerson2,
+            companyCustomer3,
+            insuranceType2
+        );
         #endregion
 
         #region InsuranceSpec
@@ -358,13 +444,20 @@ public class Seed
 
         context.Users.AddRange(user1, user2, user3, user4);
 
-        context.ProspectNotes.AddRange(prospectNote1, prospectNote2 ); //Nya notesen
+        context.ProspectNotes.AddRange(prospectNote1, prospectNote2); //Nya notesen
 
-        context.CompanyCustomers.Add(companyCustomer1);
+        context.CompanyCustomers.AddRange(companyCustomer1, companyCustomer2, companyCustomer3);
 
-        context.PrivateCustomers.Add(privateCustomer1);
+        context.PrivateCustomers.AddRange(privateCustomer1, privateCustomer2);
 
-        context.Insurances.AddRange(insurance1, insurance2);
+        context.Insurances.AddRange(
+            insurance1,
+            insurance2,
+            insurance3,
+            insurance4,
+            insurance5,
+            insurance6
+        );
 
         context.InsuranceSpecs.AddRange(
             insuranceSpec1,

@@ -94,42 +94,23 @@ namespace ServiceLayer
             unitOfWork.SaveChanges();
         }
 
-        //Hitta lösning senare på att uppdatera postkod.
-        public void UpdatePrivateCustomer(PrivateCustomer privateCustomer)
+        //Hitta lï¿½sning senare pï¿½ att uppdatera postkod.
+        public void UpdatePrivateCustomer(PrivateCustomer updatedPrivateCustomer)
         {
-            int counter = 0;
-            PostalCodeCity postalCodeCity =
-                unitOfWork.PostalCodeCityRepository.GetSpecificPostalCode(
-                    privateCustomer.PostalCodeCity.PostalCode
-                );
+            // PrivateCustomer test = unitOfWork.CustomerRepository.GetSpecificPrivateCustomer(
+            //     updatedPrivateCustomer.SSN
+            // );
+            //
+            // test.PostalCodeCity.PostalCode = updatedPrivateCustomer.PostalCodeCity.PostalCode;
 
-            if (postalCodeCity == null)
-            {
-                unitOfWork.PostalCodeCityRepository.Add(privateCustomer.PostalCodeCity);
-            }
-            else
-            {
-                privateCustomer.PostalCodeCity = postalCodeCity;
-                unitOfWork.Update(privateCustomer.PostalCodeCity);
-                unitOfWork.Update(privateCustomer);
-            }
+            // unitOfWork.Update(test.PostalCodeCity);
+            // unitOfWork.SaveChanges();
+            // unitOfWork.Update(test);
 
-            //foreach (PostalCodeCity postalCodeCity in allPostalCodeCitys)
-            //{
-            //    if (postalCodeCity.PostalCode.Equals(privateCustomer.PostalCodeCity.PostalCode))
-            //    {
-            //        counter++;
-            //    }
-            //}
-
-            //if (counter < 1)
-            //{
-            //    unitOfWork.PostalCodeCityRepository.Add(privateCustomerToEdit.PostalCodeCity);
-            //}
-            //unitOfWork.Update(privateCustomer.PostalCodeCity);
-            //unitOfWork.Update(privateCustomer);
-
-            unitOfWork.SaveChanges();
+            unitOfWork.CustomerRepository.Changepostalcode(
+                updatedPrivateCustomer.CustomerID,
+                updatedPrivateCustomer.PostalCodeCity.PostalCode
+            );
         }
 
         public void RemoveInactiveCustomers()

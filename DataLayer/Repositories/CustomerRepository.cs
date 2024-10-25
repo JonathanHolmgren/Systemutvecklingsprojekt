@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Models;
 
@@ -94,6 +95,15 @@ namespace DataLayer.Repositories
                 .Include(c => c.Insurances)
                 .ThenInclude(a => a.InsuredPerson)
                 .FirstOrDefault(c => c.SSN == sSN);
+        }
+
+        public void Changepostalcode(int customerId, string postalCode)
+        {
+            var sql =
+                $"Update Customer Set PostalCodeCityPostalCode = '{postalCode}' Where CustomerID = {customerId} ";
+
+            int rowsAffected = Context.Database.ExecuteSqlRaw(sql);
+            Console.WriteLine($"This work! {rowsAffected} records were affected.");
         }
     }
 }

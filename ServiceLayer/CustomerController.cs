@@ -224,12 +224,12 @@ namespace ServiceLayer
                 {
                     if (insurance.InsuranceStatus == InsuranceStatus.Active)
                     {
-                        if (insurance.BillingingInterval == BillingInterval.Monthly)
+                        if (insurance.BillingingInterval == BillingInterval.Månad)
                         {
                             totalPremie += CalculatePremiePerInsurance(insurance);
 
                         }
-                        if (insurance.BillingingInterval == BillingInterval.Quartly)
+                        if (insurance.BillingingInterval == BillingInterval.Kvartal)
                         {
                             if ((DateTime.Now.Month - insurance.ExpiryDate.Month) % 3 == 0 &&
                                  DateTime.Now >= insurance.ExpiryDate)
@@ -239,7 +239,7 @@ namespace ServiceLayer
                             }
 
                         }
-                        if (insurance.BillingingInterval == BillingInterval.HalfYear)
+                        if (insurance.BillingingInterval == BillingInterval.Halvår)
                         {
 
                             if ((DateTime.Now.Month - insurance.ExpiryDate.Month) % 6 == 0 &&
@@ -249,7 +249,7 @@ namespace ServiceLayer
 
                             }
                         }
-                        if (insurance.BillingingInterval == BillingInterval.Yearly)
+                        if (insurance.BillingingInterval == BillingInterval.År)
                         {
                             if ((DateTime.Now.Month == insurance.ExpiryDate.Month) &&
                                  DateTime.Now >= insurance.ExpiryDate)
@@ -281,14 +281,7 @@ namespace ServiceLayer
                 }
                 return premie;
             }
-            public void ExportObjectToJson(object objects)
-            {
-                string jsonResult = JsonConvert.SerializeObject(objects, Formatting.Indented);
-                string outputPath = @"C:\JsonTest\CustomerInformation.json";
-                File.WriteAllText(outputPath, jsonResult);
-            }
-
-
+           
             public void AddProspectNote(ProspectNote prospectNote)
             {
                 unitOfWork.ProspectNoteRepository.Add(prospectNote);

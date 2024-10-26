@@ -201,8 +201,27 @@ namespace PresentationLayer.ViewModels
 
             if (singleCustomer != null)
             {
+                string fileName = "BillingInformation_Unknown.json";
+
+                var properties = singleCustomer.GetType().GetProperties();
+                var organisationNumberProperty = properties.FirstOrDefault(p => p.Name.Equals("OrganisationNumber", StringComparison.OrdinalIgnoreCase));
+                var ssnProperty = properties.FirstOrDefault(p => p.Name.Equals("SSN", StringComparison.OrdinalIgnoreCase));
+
+                string identifier = organisationNumberProperty?.GetValue(singleCustomer)?.ToString();
+
+                if (string.IsNullOrEmpty(identifier) && ssnProperty != null)
+                {
+                    identifier = ssnProperty.GetValue(singleCustomer)?.ToString();
+                }
+
+                if (!string.IsNullOrEmpty(identifier))
+                {
+                    fileName = $"BillingInformation_{identifier}.json";
+                }
+
                 string jsonContent = JsonConvert.SerializeObject(singleCustomer, Formatting.Indented);
-                SaveJsonToFile($"{singleCustomer.GetType().Name}.json", jsonContent);
+
+                SaveJsonToFile(fileName, jsonContent);
             }
         }
 

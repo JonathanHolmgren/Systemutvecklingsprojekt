@@ -39,18 +39,32 @@
         <ContentControl Content="{Binding}">
             <ContentControl.Style>
                 <Style TargetType="ContentControl">
-                     <!--Default Layout (Laptop)--> 
+                     <!--Default Layout (Laptop)-->
                     <Setter Property="ContentTemplate" Value="{DynamicResource Laptop_Layout}" />
+                    <Style.Triggers>
 
-                    
+                        <!--// Desktop Layout // {width > 1400px}-->
+
+                        <DataTrigger Binding="{Binding Path=ActualWidth, RelativeSource={RelativeSource AncestorType=Window}, Converter={x:Static local:IsGreaterThanConverter.Instance}, ConverterParameter=1400}"
+                                     Value="True">
+
+                            <Setter Property="ContentTemplate"
+                                    Value="{StaticResource Desktop_Layout}" />
+
+                        </DataTrigger>
+                    </Style.Triggers>
+
                 </Style>
             </ContentControl.Style>
         </ContentControl>
 
          <!--Close Button--> 
-        <Button Command="{Binding CloseAppCommand}"
-                CommandParameter="{Binding ElementName=ResponsiveWindow}"
+        <Button Command="{Binding ExitCommand}"
                 Style="{StaticResource CloseAppStyle}"/>
+        <!--Max App Button--> 
+        <Button Command="{Binding MaxAppCommand}"
+                CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}"
+                Style="{StaticResource MaxAppStyle}" />
     </Grid>
    
 

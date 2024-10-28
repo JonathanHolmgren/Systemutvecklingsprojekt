@@ -113,6 +113,16 @@
                 </Style>
             </Setter.Value>
         </Setter>
+        
+        <Setter Property="CellStyle">
+        <Setter.Value>
+            <Style TargetType="DataGridCell">
+                    <Setter Property="BorderThickness" Value="0"/>
+                    <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+                    <Setter Property="Padding" Value="5,2"/>
+                </Style>
+        </Setter.Value>
+    </Setter>
 
         <Setter Property="RowStyle">
             <Setter.Value>
@@ -126,15 +136,14 @@
                         <Trigger Property="IsMouseOver" Value="True">
                             <Setter Property="Background" Value="#F0F0F0"/>
                         </Trigger>
-                        <Trigger Property="IsSelected" Value="True">
-                            <Setter Property="Background" Value="#A8E6CE"/>
-                            <!-- Funkar inte kolla om isSelectedCompanyCustomer påverkar -->
-                            <Setter Property="Foreground" Value="#A8E6CE"/>
-                        </Trigger>
                     </Style.Triggers>
                 </Style>
             </Setter.Value>
         </Setter>
+        <Style.Resources>
+            <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="#D0D8E3"/>
+            <SolidColorBrush x:Key="{x:Static SystemColors.HighlightTextBrushKey}" Color="#333333"/>
+        </Style.Resources>
     </Style>
 
 

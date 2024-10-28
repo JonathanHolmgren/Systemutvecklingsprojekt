@@ -14,6 +14,7 @@
         AllowsTransparency="True"
         ResizeMode="CanResizeWithGrip"
         WindowStartupLocation="CenterScreen"
+    
         Background="Transparent">
 
     <Window.Resources>
@@ -31,15 +32,22 @@
 
     <Window.DataContext>
         <vm:MainWindowViewModel/>
-        
-    </Window.DataContext>
 
-    <Grid>
-         <!--Responsive Layouts--> 
+    </Window.DataContext>
+    <Border CornerRadius="7"
+            Background="LightGray"
+            BorderBrush="Gray"
+            Padding="0"
+            BorderThickness="1"
+            >
+        
+        <Grid>
+            
+        <!--Responsive Layouts-->
         <ContentControl Content="{Binding}">
             <ContentControl.Style>
                 <Style TargetType="ContentControl">
-                     <!--Default Layout (Laptop)-->
+                    <!--Default Layout (Laptop)-->
                     <Setter Property="ContentTemplate" Value="{DynamicResource Laptop_Layout}" />
                     <Style.Triggers>
 
@@ -58,15 +66,40 @@
             </ContentControl.Style>
         </ContentControl>
 
-         <!--Close Button--> 
-        <Button Command="{Binding ExitCommand}"
-                Style="{StaticResource CloseAppStyle}"/>
-        <!--Max App Button--> 
-        <Button Command="{Binding MaxAppCommand}"
-                CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}"
-                Style="{StaticResource MaxAppStyle}" />
+        <StackPanel Orientation="Horizontal"
+                    VerticalAlignment="Top"
+                    HorizontalAlignment="Right">
+            <TextBlock FontFamily="Fonts/#Saira SemiBold"
+                       FontSize="10"
+                        VerticalAlignment="Top"
+                        HorizontalAlignment="Left"
+                        Foreground="#959FAC"
+                         Margin="5,10,10,0">
+                <TextBlock.Text>
+                    <MultiBinding StringFormat="{}{0}, {1} {2}">
+                        <Binding Path="User.AuthorizationLevel" />
+                        <Binding Path="Employee.FirstName" />
+                        <Binding Path="Employee.LastName" />
+                    </MultiBinding>
+                </TextBlock.Text>
+            </TextBlock>
+
+            <!--Minimize button-->
+            <Button Command="{Binding MinAppCommand}" 
+                    CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}"
+                    Style="{StaticResource MinmizeButton}"/>
+            <!--Max App Button-->
+            <Button Command="{Binding MaxAppCommand}"
+                    CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}"
+                    Style="{StaticResource MaximizeButton}" />
+            <!--Close Button-->
+            <Button Command="{Binding ExitCommand}"
+            Style="{StaticResource CloseButton}"/>
+
+        </StackPanel>
+
     </Grid>
-   
 
 
+    </Border>
 </Window>

@@ -91,6 +91,20 @@ namespace PresentationLayer.ViewModels
                 return _maxCommand;
             }
         }
+        private ICommand _minCommand;
+        public ICommand MinAppCommand
+        {
+            get
+            {
+                if (_minCommand == null)
+                {
+                    _minCommand = new RelayCommand<object>(execute => MinApp(execute));
+                }
+                return _minCommand;
+            }
+        }
+
+       
 
         // Close App Command
 
@@ -98,10 +112,10 @@ namespace PresentationLayer.ViewModels
         public ICommand ChangeViewCommand { get; }
         public MainWindowViewModel()
         {
-            TempController tempController= new TempController();
+            TempController tempController = new TempController();
             CurrentView = new ExportBillingInformationView(); // Startvy 
             ChangeViewCommand = new RelayCommand<Type>(ChangeViewByType);
-            User = tempController.GetUserTemp(1);
+            User = tempController.GetUser(1);
             Employee = user.Employee;
         }
         private void MaxApp(object parameter)
@@ -135,10 +149,18 @@ namespace PresentationLayer.ViewModels
             CurrentView = newView;
         }
 
-
-        
        
-        
+
+        private void MinApp(object parameter)
+        {
+            if (parameter is Window window)
+            {
+                window.WindowState = WindowState.Minimized;
+            }
+        }
+
+
+
 
         public event PropertyChangedEventHandler PropertyChanged;
 

@@ -20,151 +20,76 @@
 
     </Style>
 
-    <Style x:Key="PopupStyleCreatePrivateCustomer" TargetType="Popup">
-        <Setter Property="AllowsTransparency" Value="True" />
-        <Setter Property="Focusable" Value="False" />
-        <Setter Property="HorizontalOffset" Value="-2" />
-        <Setter Property="Placement" Value="Right" />
-        <Setter Property="PopupAnimation" Value="None" />
-        <Setter Property="VerticalOffset" Value="0" />
-        <Setter Property="Child">
+    <Style x:Key="MenuButtonRegisterPrivateCustomer"
+        TargetType="Button">
+
+        <Setter Property="Template">
+
             <Setter.Value>
-                <Border x:Name="PopupBorder"
-                    Background="DarkGray"
-                    BorderThickness="0"
-                    Height="50"
-                    Width="220">
+
+                <ControlTemplate TargetType="Button">
+
                     <Grid>
-                        <Border Background="#333333"
-                            Width="1"
-                            VerticalAlignment="Stretch"
-                            HorizontalAlignment="Left" />
-                        <Button x:Name="PopupButton"
-                            Background="Transparent"
-                            BorderThickness="0"
-                            VerticalAlignment="Stretch"
-                            HorizontalAlignment="Stretch"
-                                 Command="{Binding ChangeViewCommand}"
-                                 CommandParameter="{x:Type views:RegisterPrivateCustomerView}">
-                            <Button.Style>
-                                <Style TargetType="Button">
-                                    <Setter Property="Background" Value="Transparent"/>
-                                    <Setter Property="Foreground" Value="Black"/>
-                                    <Setter Property="Cursor" Value="Hand"/>
-                                    <Setter Property="Template">
-                                        <Setter.Value>
-                                            <ControlTemplate TargetType="Button">
-                                                <Border x:Name="ButtonBorder" Background="{TemplateBinding Background}">
-                                                    <ContentPresenter />
-                                                </Border>
-                                                <ControlTemplate.Triggers>
-                                                    <Trigger Property="IsMouseOver" Value="True">
-                                                        <Setter TargetName="ButtonBorder" Property="Background" Value="#E9EBED" />
-                                                    </Trigger>
-                                                    <Trigger Property="IsPressed" Value="True">
-                                                        <Setter TargetName="ButtonBorder" Property="Background" Value="#C1C1C1" />
-                                                    </Trigger>
-                                                </ControlTemplate.Triggers>
-                                            </ControlTemplate>
-                                        </Setter.Value>
-                                    </Setter>
-                                </Style>
-                            </Button.Style>
-                            <Grid Margin="1,0,0,0">
-                                <Image Source="Assets/register_company.png"
-                                   HorizontalAlignment="Left"
-                                   VerticalAlignment="Center"
-                                   Margin="10,0,0,0"
-                                   Stretch="None" />
-                                <TextBlock Foreground="Black"
-                                       VerticalAlignment="Center"
-                                       HorizontalAlignment="Left"
-                                       FontSize="18"
-                                       Text="Privatkunder"
-                                       FontFamily="Fonts/#Open Sans Regular"
-                                       Margin="70,0,0,0" />
-                            </Grid>
-                        </Button>
-                    </Grid>
-                </Border>
-            </Setter.Value>
-        </Setter>
-    </Style>
-    
-    <Style x:Key="PopupStyleCreateCompanyCustomer" TargetType="Popup">
-        <Setter Property="AllowsTransparency" Value="True" />
-        <Setter Property="Focusable" Value="False" />
-        <Setter Property="HorizontalOffset" Value="-2" />
-        <Setter Property="Placement" Value="Right" />
-        <Setter Property="PopupAnimation" Value="None" />
-        <Setter Property="VerticalOffset" Value="0" />
-        <Setter Property="Child">
-            <Setter.Value>
-                <Border x:Name="PopupBorder"
-                Background="DarkGray"
-                BorderThickness="0"
-                Height="50"
-                Width="220">
-                    <Grid>
-                        <Border Background="#333333"
-                        Width="1"
-                        VerticalAlignment="Stretch"
-                        HorizontalAlignment="Left" />
-                        <Button x:Name="PopupButton"
-                        Background="Transparent"
-                        BorderThickness="0"
-                        VerticalAlignment="Stretch"
-                        HorizontalAlignment="Stretch"
-                             Command="{Binding ChangeViewCommand}"
-                             CommandParameter="{x:Type views:RegisterCompanyCustomer}">
-                            <Button.Style>
-                                <Style TargetType="Button">
-                                    <Setter Property="Background" Value="Transparent"/>
-                                    <Setter Property="Foreground" Value="Black"/>
-                                    <Setter Property="Cursor" Value="Hand"/>
-                                    <Setter Property="Template">
-                                        <Setter.Value>
-                                            <ControlTemplate TargetType="Button">
-                                                <Border x:Name="ButtonBorder" Background="{TemplateBinding Background}">
-                                                    <ContentPresenter />
-                                                </Border>
-                                                <ControlTemplate.Triggers>
-                                                    <Trigger Property="IsMouseOver" Value="True">
-                                                        <Setter TargetName="ButtonBorder" Property="Background" Value="#E9EBED" />
-                                                    </Trigger>
-                                                    <Trigger Property="IsPressed" Value="True">
-                                                        <Setter TargetName="ButtonBorder" Property="Background" Value="#C1C1C1" />
-                                                    </Trigger>
-                                                </ControlTemplate.Triggers>
-                                            </ControlTemplate>
-                                        </Setter.Value>
-                                    </Setter>
-                                </Style>
-                            </Button.Style>
-                            <Grid Margin="1,0,0,0">
+                        <Border x:Name="border"
+                                 Background="LightGray"
+                                 Height="55"
+                                 Width="55"
+                                 VerticalAlignment="Top"
+                                 HorizontalAlignment="Left"
+                                 CornerRadius="5"
+                                 Margin="5">
+                            <StackPanel Height="55"
+                                        Width="55"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        Margin="0,0,0,0">
+
                                 <Image Source="Assets/register_customer.png"
-                               HorizontalAlignment="Left"
-                               VerticalAlignment="Center"
-                               Margin="10,0,0,0"
-                               Stretch="None" />
+                                         Height="25"
+                                         Width="25"
+                                         HorizontalAlignment="Center"
+                                         VerticalAlignment="Bottom"
+                                         Margin="0,7,0,0"
+                                         Stretch="Fill" />  
+
                                 <TextBlock Foreground="Black"
-                                   VerticalAlignment="Center"
-                                   HorizontalAlignment="Left"
-                                   FontSize="18"
-                                   Text="Företagskunder"
-                                   FontFamily="Fonts/#Open Sans Regular"
-                                   Margin="70,0,0,0" />
-                            </Grid>
-                        </Button>
+                                             VerticalAlignment="Center"
+                                             HorizontalAlignment="Center"
+                                             FontSize="8"
+                                             Text="Registera privatkund"
+                                             FontFamily="Fonts/#Open Sans Regular"
+                                             Margin="0,2,0,0" 
+                                             TextWrapping="Wrap"/>
+
+                            </StackPanel>
+                        </Border>
+                       
+
                     </Grid>
-                </Border>
+
+                    <ControlTemplate.Triggers>
+
+                        <Trigger Property="IsMouseOver"
+                      Value="True">
+                            <Setter Property="Background"
+                         TargetName="border"
+                         Value="#E9EBED" />
+                        </Trigger>
+                        <Trigger Property="IsPressed"
+                      Value="True">
+                            <Setter Property="Background"
+                         TargetName="border"
+                         Value="#C1C1C1" />
+
+                        </Trigger>
+
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
             </Setter.Value>
         </Setter>
     </Style>
 
-
-
-    <Style x:Key="MenuButtonRegisterCustomer"
+    <Style x:Key="MenuButtonRegisterCompanyCustomer"
            TargetType="Button">
 
         <Setter Property="Template">
@@ -174,48 +99,56 @@
                 <ControlTemplate TargetType="Button">
 
                     <Grid>
-                        <Border x:Name="SubMenuBorder"
-                                Background="DarkGray"
-                                Height="50"
-                                VerticalAlignment="Top">
-                            
-                            <ContentPresenter />
+                        <Border x:Name="border"
+                                Background="LightGray"
+                                Height="55"
+                                Width="55"
+                                VerticalAlignment="Top"
+                                HorizontalAlignment="Left"
+                                CornerRadius="5"
+                                Margin="5">
+                            <StackPanel Height="55"
+                                         Width="55"
+                                         HorizontalAlignment="Center"
+                                         VerticalAlignment="Center"
+                                         Margin="0,0,0,0">
+
+                                <Image Source="Assets/register_company.png"
+                                        Height="25"
+                                        Width="25"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        Margin="0,7,0,0"
+                                        Stretch="Fill" />
+
+                                <TextBlock Foreground="Black"
+                                            VerticalAlignment="Center"
+                                            HorizontalAlignment="Center"
+                                            FontSize="8"
+                                            Text="Registera företagskund"
+                                            FontFamily="Fonts/#Open Sans Regular"
+                                            Margin="0,2,0,0" 
+                                            TextWrapping="Wrap"/>
+
+                            </StackPanel>
                         </Border>
-                        <Image Source="Assets/arrow.png"
-                               HorizontalAlignment="Right"
+                       
 
-                               VerticalAlignment="Center"
-                               Margin="0,0,5,0"
-                               Stretch="None" />
-
-                        <Image Source="Assets/register_customer.png"
-                               HorizontalAlignment="Left"
-                               VerticalAlignment="Center"
-                               Margin="10,0,0,0"
-                               Stretch="None" />
-
-                        <TextBlock Foreground="Black"
-                                   VerticalAlignment="Center"
-                                   HorizontalAlignment="Left"
-                                   FontSize="18"
-                                   Text="Register Customer"
-                                   FontFamily="Fonts/#Open Sans Regular"
-                                   Margin="70,0,0,0" />
                     </Grid>
 
                     <ControlTemplate.Triggers>
 
                         <Trigger Property="IsMouseOver"
-                                 Value="True">
+                         Value="True">
                             <Setter Property="Background"
-                                    TargetName="SubMenuBorder"
-                                    Value="#E9EBED" />
+                            TargetName="border"
+                            Value="#E9EBED" />
                         </Trigger>
                         <Trigger Property="IsPressed"
-                                 Value="True">
+                         Value="True">
                             <Setter Property="Background"
-                                    TargetName="SubMenuBorder"
-                                    Value="#C1C1C1" />
+                            TargetName="border"
+                            Value="#C1C1C1" />
 
                         </Trigger>
 
@@ -236,40 +169,55 @@
 
                     <Grid>
                         <Border x:Name="border"
-                                Background="DarkGray"
-                                Height="50"
-                                VerticalAlignment="Top">
-                            <ContentPresenter />
+                                Background="LightGray"
+                                Height="55"
+                                Width="55"
+                                VerticalAlignment="Top"
+                                HorizontalAlignment="Left"
+                                CornerRadius="5"
+                                Margin="5">
+                            <StackPanel Height="55"
+                                         Width="55"
+                                         HorizontalAlignment="Left"
+                                         VerticalAlignment="Top"
+                                         Margin="0,0,0,0">
+
+                                <Image Source="Assets/insurance_icon.png"
+                                        Height="25"
+                                        Width="25"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Bottom"
+                                        Margin="0,7,0,0"
+                                        Stretch="Fill" />
+
+                                <TextBlock Foreground="Black"
+                                            VerticalAlignment="Center"
+                                            HorizontalAlignment="Center"
+                                            FontSize="8"
+                                            Text="Lägg till försäkring"
+                                            FontFamily="Fonts/#Open Sans Regular"
+                                            Margin="0,2,0,0" 
+                                            TextWrapping="Wrap"/>
+
+                            </StackPanel>
+
                         </Border>
-
-                        <Image Source="Assets/insurance_icon.png"
-                               HorizontalAlignment="Left"
-                               VerticalAlignment="Center"
-                               Margin="10,0,0,0"
-                               Stretch="None" />
-
-                        <TextBlock Foreground="Black"
-                                   VerticalAlignment="Center"
-                                   HorizontalAlignment="Left"
-                                   FontSize="18"
-                                   Text="Add insurance"
-                                   FontFamily="Fonts/#Open Sans Regular"
-                                   Margin="70,0,0,0" />
+                       
                     </Grid>
 
                     <ControlTemplate.Triggers>
 
                         <Trigger Property="IsMouseOver"
-                                 Value="True">
+                         Value="True">
                             <Setter Property="Background"
-                                    TargetName="border"
-                                    Value="#C1C1C1" />
+                            TargetName="border"
+                            Value="#E9EBED" />
                         </Trigger>
                         <Trigger Property="IsPressed"
-                                 Value="True">
+                         Value="True">
                             <Setter Property="Background"
-                                    TargetName="border"
-                                    Value="#C1C1C1" />
+                            TargetName="border"
+                            Value="#C1C1C1" />
 
                         </Trigger>
 
@@ -280,7 +228,7 @@
 
     </Style>
 
-    <Style x:Key="MenuButtonShowCustomers"
+    <Style x:Key="MenuButtonShowProspects"
            TargetType="Button">
 
         <Setter Property="Template">
@@ -291,40 +239,55 @@
 
                     <Grid>
                         <Border x:Name="border"
-                                Background="DarkGray"
-                                Height="50"
-                                VerticalAlignment="Top">
-                            <ContentPresenter />
+                                Background="LightGray"
+                                Height="55"
+                                Width="55"
+                                VerticalAlignment="Top"
+                                HorizontalAlignment="Left"
+                                CornerRadius="5"
+                                Margin="5">
+                            <StackPanel Height="55"
+                                          Width="55"
+                                          HorizontalAlignment="Left"
+                                          VerticalAlignment="Top"
+                                          Margin="0,0,0,0">
+
+                                <Image Source="Assets/show_prospects.png"
+                                         Height="25"
+                                         Width="25"
+                                         HorizontalAlignment="Center"
+                                         VerticalAlignment="Center"
+                                         Margin="0,7,0,0"
+                                         Stretch="Fill" />
+
+                                <TextBlock Foreground="Black"
+                                             VerticalAlignment="Center"
+                                             HorizontalAlignment="Center"
+                                             FontSize="8"
+                                             Text="Visa prospekt"
+                                             FontFamily="Fonts/#Open Sans Regular"
+                                             Margin="0,2,0,0" 
+                                             TextWrapping="Wrap"/>
+
+                            </StackPanel>
                         </Border>
+                      
 
-                        <Image Source="Assets/show_prospects.png"
-                               HorizontalAlignment="Left"
-                               VerticalAlignment="Center"
-                               Margin="10,0,0,0"
-                               Stretch="None" />
-
-                        <TextBlock Foreground="Black"
-                                   VerticalAlignment="Center"
-                                   HorizontalAlignment="Left"
-                                   FontSize="18"
-                                   Text="Show Prospects"
-                                   FontFamily="Fonts/#Open Sans Regular"
-                                   Margin="70,0,0,0" />
                     </Grid>
 
                     <ControlTemplate.Triggers>
 
                         <Trigger Property="IsMouseOver"
-                                 Value="True">
+                         Value="True">
                             <Setter Property="Background"
-                                    TargetName="border"
-                                    Value="#E9EBED" />
+                            TargetName="border"
+                            Value="#E9EBED" />
                         </Trigger>
                         <Trigger Property="IsPressed"
-                                 Value="True">
+                         Value="True">
                             <Setter Property="Background"
-                                    TargetName="border"
-                                    Value="#C1C1C1" />
+                            TargetName="border"
+                            Value="#C1C1C1" />
 
                         </Trigger>
 
@@ -346,25 +309,41 @@
 
                     <Grid>
                         <Border x:Name="border"
-                                Background="DarkGray"
-                                Height="50"
-                                VerticalAlignment="Top">
-                            <ContentPresenter />
+                                Background="LightGray"
+                                Height="55"
+                                Width="55"
+                                VerticalAlignment="Top"
+                                HorizontalAlignment="Left"
+                                CornerRadius="5"
+                                Margin="5">
+                            <StackPanel Height="55"
+                                         Width="55"
+                                         HorizontalAlignment="Center"
+                                         VerticalAlignment="Center"
+                                         Margin="0,0,0,0">
+
+                                <Image Source="Assets/export_bill.png"
+                                        Height="25"
+                                        Width="25"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        Margin="0,7,0,0"
+                                        Stretch="Fill" />
+
+                                <TextBlock Foreground="Black"
+                                            VerticalAlignment="Center"
+                                            HorizontalAlignment="Center"
+                                            FontSize="8"
+                                            Text="Faktura uppgifter"
+                                            FontFamily="Fonts/#Open Sans Regular"
+                                            Margin="0,2,0,0" 
+                                            TextWrapping="Wrap"/>
+
+                            </StackPanel>
+
+
                         </Border>
-
-                        <Image Source="Assets/export_bill.png"
-                               HorizontalAlignment="Left"
-                               VerticalAlignment="Center"
-                               Margin="10,0,0,0"
-                               Stretch="None" />
-
-                        <TextBlock Foreground="Black"
-                                   VerticalAlignment="Center"
-                                   HorizontalAlignment="Left"
-                                   FontSize="18"
-                                   Text="Billing Information"
-                                   FontFamily="Fonts/#Open Sans Regular"
-                                   Margin="70,0,0,0" />
+                       
                     </Grid>
 
                     <ControlTemplate.Triggers>
@@ -401,25 +380,40 @@
 
                     <Grid>
                         <Border x:Name="border"
-                                Background="DarkGray"
-                                Height="50"
-                                VerticalAlignment="Top">
-                            <ContentPresenter />
+                                Background="LightGray"
+                                Height="55"
+                                Width="55"
+                                VerticalAlignment="Top"
+                                HorizontalAlignment="Left"
+                                CornerRadius="5"
+                                Margin="5,0,0,0">
+                            <StackPanel Height="55"
+                                          Width="55"
+                                          HorizontalAlignment="Center"
+                                          VerticalAlignment="Center"
+                                          Margin="0,0,0,0">
+                                <Image Source="Assets/calculate_commision.png"
+                                         Height="25"
+                                         Width="25"
+                                         HorizontalAlignment="Center"
+                                         VerticalAlignment="Center"
+                                         Margin="0,9,0,0"
+                                         Stretch="Fill" />
+
+                                <TextBlock Foreground="Black"
+                                         VerticalAlignment="Center"
+                                         HorizontalAlignment="Center"
+                                         FontSize="8"
+                                         Text="Provision"
+                                         FontFamily="Fonts/#Open Sans Regular"
+                                         Margin="0,2,0,0"
+                                         TextWrapping="Wrap"/>
+
+                            </StackPanel>
+
                         </Border>
-
-                        <Image Source="Assets/calculate_commision.png"
-                               HorizontalAlignment="Left"
-                               VerticalAlignment="Center"
-                               Margin="13,0,0,0"
-                               Stretch="None" />
-
-                        <TextBlock Foreground="Black"
-                                   VerticalAlignment="Center"
-                                   HorizontalAlignment="Left"
-                                   FontSize="18"
-                                   Text="Calculate commision"
-                                   FontFamily="Fonts/#Open Sans Regular"
-                                   Margin="70,0,0,0" />
+                      
+                       
                     </Grid>
 
                     <ControlTemplate.Triggers>
@@ -444,6 +438,262 @@
         </Setter>
 
     </Style>
+    <Style x:Key="MenuButtonLogOut"
+       TargetType="Button">
+
+        <Setter Property="Template">
+
+            <Setter.Value>
+
+                <ControlTemplate TargetType="Button">
+
+                    <Grid>
+                        <Border x:Name="border"
+                            Background="LightGray"
+                            Height="55"
+                            Width="55"
+                            VerticalAlignment="Bottom"
+                            HorizontalAlignment="Left"
+                            CornerRadius="5"
+                            Margin="5">
+                            
+                            <StackPanel Height="55"
+                                         Width="55"
+                                         HorizontalAlignment="Center"
+                                         VerticalAlignment="Center"
+                                         Margin="0,0,0,0">  
+
+                                <Image Source="Assets/log_out.png"
+                                        Height="25"
+                                        Width="25"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        Margin="0,7,0,0"
+                                        Stretch="Fill" />
+
+                                <TextBlock Foreground="Black"
+                                            VerticalAlignment="Center"
+                                            HorizontalAlignment="Center"
+                                            FontSize="8"
+                                            Text="Logga ut"
+                                            FontFamily="Fonts/#Open Sans Regular"
+                                            Margin="0,2,0,0" 
+                                            TextWrapping="Wrap"/>
+
+                            </StackPanel>
+                        </Border>
+                       
+
+                    </Grid>
+
+                    <ControlTemplate.Triggers>
+
+                        <Trigger Property="IsMouseOver"
+                             Value="True">
+                            <Setter Property="Background"
+                                TargetName="border"
+                                Value="#E9EBED" />
+                        </Trigger>
+                        <Trigger Property="IsPressed"
+                             Value="True">
+                            <Setter Property="Background"
+                                TargetName="border"
+                                Value="#C1C1C1" />
+
+                        </Trigger>
+
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+
+    </Style>
+    <Style x:Key="CloseButton" TargetType="Button">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Grid>
+                        <Border x:Name="border"
+                            Background="LightGray"
+                            Height="30"
+                            Width="40"
+                            CornerRadius="0,7,0,0"
+                            VerticalAlignment="Top"
+                            HorizontalAlignment="Right"
+                            Margin="0,0,0,0">
+
+                            <StackPanel Height="20"
+                                    Width="20"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    Margin="0,0,0,0">
+
+                                <!-- Stäng-ikon -->
+                                <Image x:Name="closeImage"
+                                   Source="Assets/cross.png"
+                                   Height="20"
+                                   Width="20"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   Margin="0,0,0,0"
+                                   Stretch="Fill" />
+                            </StackPanel>
+                        </Border>
+                    </Grid>
+
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" TargetName="border" Value="#E9EBED" />
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter Property="Background" TargetName="border" Value="#C1C1C1" />
+                        </Trigger>
+
+                        <!-- DataTrigger för att ändra ikonens placering vid maximerat fönster -->
+                        <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=Window}, Path=WindowState}" Value="Maximized">
+                            <Setter TargetName="closeImage" Property="Margin" Value="0,3,0,0" />
+                            <!-- Justerar margin när maximerat -->
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=Window}, Path=WindowState}" Value="Normal">
+                            <Setter TargetName="closeImage" Property="Margin" Value="0,0,0,0" />
+                            <!-- Standardmargin för normal state -->
+                        </DataTrigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+
+    <Style x:Key="MaximizeButton"
+       TargetType="Button">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Grid>
+                        <Border x:Name="border"
+                            Background="LightGray"
+                            Height="30"
+                            Width="40"
+                            VerticalAlignment="Top"
+                            HorizontalAlignment="Right"
+                            Margin="0,0,0,0">
+                            <StackPanel Height="20"
+                                    Width="20"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center">
+                                
+                                <Image x:Name="IconImage"
+                                   Source="Assets/maximize.png"
+                                   Height="15"
+                                   Width="15"
+                                       Margin="0,2,0,0"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   Stretch="Fill" />
+                            </StackPanel>
+                        </Border>
+                    </Grid>
+
+                    <ControlTemplate.Triggers>
+                        
+                        <Trigger Property="IsMouseOver"
+                             Value="True">
+                            <Setter Property="Background"
+                                TargetName="border"
+                                Value="#E9EBED" />
+                        </Trigger>
+                        <Trigger Property="IsPressed"
+                             Value="True">
+                            <Setter Property="Background"
+                                TargetName="border"
+                                Value="#C1C1C1" />
+                        </Trigger>
+
+                        
+                        <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=Window}, Path=WindowState}"
+                                 Value="Maximized">
+                            
+                            <Setter Property="Source"
+                                TargetName="IconImage"
+                                Value="Assets/maximized.png" />
+                            <Setter Property="Width"
+                                    TargetName="IconImage"
+                                    Value="12" />
+                            <Setter Property="Margin"
+                                    TargetName="IconImage"
+                                    Value="0,5,0,0"/>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=Window}, Path=WindowState}"
+                                 Value="Normal">
+                            
+                            <Setter Property="Source"
+                                TargetName="IconImage"
+                                Value="Assets/maximize.png" />
+                        </DataTrigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+
+    <Style x:Key="MinmizeButton" TargetType="Button">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Grid>
+                        <Border x:Name="border"
+                            Background="LightGray"
+                            Height="30"
+                            Width="40"
+                            VerticalAlignment="Top"
+                            HorizontalAlignment="Right"
+                            Margin="0,0,0,0">
+                            <!-- Behåll standardmarginalen på border -->
+
+                            <StackPanel Height="20"
+                                    Width="20"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    Margin="0,0,0,0">
+
+                                <!-- Minimera-ikon -->
+                                <Image x:Name="minimizeImage"
+                                   Source="Assets/minimize.png"
+                                   Height="13"
+                                   Width="18"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   Margin="0,4,0,0"
+                                   Stretch="Fill" />
+                            </StackPanel>
+                        </Border>
+                    </Grid>
+
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" TargetName="border" Value="#E9EBED" />
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter Property="Background" TargetName="border" Value="#C1C1C1" />
+                        </Trigger>
+
+                        <!-- DataTrigger för att ändra ikonens placering vid maximerat fönster -->
+                        <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=Window}, Path=WindowState}" Value="Maximized">
+                            <Setter TargetName="minimizeImage" Property="Margin" Value="0,6,0,0" />
+                            <!-- Justera marginalen för maximized state -->
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=Window}, Path=WindowState}" Value="Normal">
+                            <Setter TargetName="minimizeImage" Property="Margin" Value="0,4,0,0" />
+                            <!-- Standardmarginal för normal state -->
+                        </DataTrigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
 
     <Style x:Key="MenuStackPanelStyle"
            TargetType="StackPanel">
@@ -451,13 +701,17 @@
         <Setter Property="Orientation"
                 Value="Vertical" />
         <Setter Property="Height"
-                Value="250" />
+                Value="700" />
+        <Setter Property="Width"
+                Value="70"/>
         <Setter Property="Background"
-                Value="#2E333A" />
+                Value="LightGray" />
         <Setter Property="VerticalAlignment"
                 Value="Top" />
+        <Setter Property="HorizontalAlignment"
+                Value="Left"/>
         <Setter Property="Margin"
-                Value="0,180,0,0" />
+                Value="0,30,0,0" />
 
     </Style>
 
@@ -471,33 +725,20 @@
 
             <Grid>
                 
-                <StackPanel Style="{StaticResource MenuStackPanelStyle}">
+                <StackPanel Style="{StaticResource MenuStackPanelStyle}"
+                            Margin="-4,0,0,0">
 
-                    <Button Style="{StaticResource MenuButtonRegisterCustomer}"
-                            Command="{Binding ShowSubMenuCommand}" />
+                    <Button Style="{StaticResource MenuButtonRegisterCompanyCustomer}"
+                            Command="{Binding ChangeViewCommand}"
+                            CommandParameter="{x:Type views:RegisterCompanyCustomer}"/>
 
-                    <Popup x:Name="PART_Popup"
-                           
-               Style="{StaticResource PopupStyleCreatePrivateCustomer}"  
-               IsOpen="{Binding IsSubmenuOpen}">
-                    <!-- Content for the first popup -->
-                    </Popup>
-
-                    <Popup x:Name="PART_SecondPopup"
-                           
-                            Style="{StaticResource PopupStyleCreateCompanyCustomer}"  
-                            IsOpen="{Binding IsSubmenuOpen}"
-                            HorizontalOffset="-2"  
-                            VerticalOffset="50"> 
-                      
-                        
-                    </Popup>
-
-
+                    <Button Style="{StaticResource MenuButtonRegisterPrivateCustomer}"
+                            Command="{Binding ChangeViewCommand}"
+                            CommandParameter="{x:Type views:RegisterPrivateCustomerView}"/>
 
                     <Button Style="{StaticResource MenuButtonAddInsurance}" />
 
-                    <Button Style="{StaticResource MenuButtonShowCustomers}"
+                    <Button Style="{StaticResource MenuButtonShowProspects}"
                             Command="{Binding ChangeViewCommand}"
                             CommandParameter="{x:Type views:ShowProspectsView}" />
 
@@ -508,39 +749,17 @@
                     <Button Style="{StaticResource MenuButtonCalculateCommision}"
                             Command="{Binding ChangeViewCommand}"
                             CommandParameter="{x:Type views:CalculateComissionView}" />
+                    
                 </StackPanel>
                 
-                <StackPanel Orientation="Horizontal">
-                    <Image Source="Assets/user_mini.png"
-                           VerticalAlignment="Top"
-                           Stretch="None"
-                           Margin="5,8,0,0"/>
-                    <TextBlock FontFamily="Fonts/#Saira SemiBold"
-                               FontSize="10"
-                               VerticalAlignment="Top"
-                               HorizontalAlignment="Left"
-                               Foreground="#959FAC"
-                                Margin="5,10,10,0">
-                        <TextBlock.Text>
-                            <MultiBinding StringFormat="{}{0}, {1} {2}">
-                                <Binding Path="User.AuthorizationLevel" />
-                                <Binding Path="Employee.FirstName" />
-                                <Binding Path="Employee.LastName" />
-                            </MultiBinding>
-                        </TextBlock.Text>
-                    </TextBlock>
-                    <Button Width="30"
-                            Height="30" 
-                            Background="Transparent" 
-                            BorderBrush="Transparent"
-                            HorizontalAlignment="Left"
+                 
+                    
+                    <Button Style="{StaticResource MenuButtonLogOut}"
+                            Command="{Binding ExitCommand}"
+                            Margin="-4,0,0,0"
                             VerticalAlignment="Bottom"
-                            Margin="-143,0,0,7"
-                            Command="{Binding ExitCommand}"> <!--Fixa till logout när den är implementerad-->
-                        <Image Source="Assets/log_out.png" Stretch="Fill"/>
-
-                    </Button>
-                </StackPanel>
+                            HorizontalAlignment="Left"/>
+                
                 
 
 
@@ -580,7 +799,7 @@
 
                     <Button Style="{StaticResource MenuButtonAddInsurance}" />
 
-                    <Button Style="{StaticResource MenuButtonShowCustomers}"
+                    <Button Style="{StaticResource MenuButtonShowProspects}"
                         Command="{Binding DataContext.ChangeViewCommand, RelativeSource={RelativeSource AncestorType=Window}}"
                         CommandParameter="{x:Type views:ShowProspectsView}" />
 
@@ -592,13 +811,7 @@
                         Command="{Binding DataContext.ChangeViewCommand, RelativeSource={RelativeSource AncestorType=Window}}"
                         CommandParameter="{x:Type views:CalculateComissionView}" />
                 </StackPanel>
-                <TextBlock Text="{Binding User}"
-           FontFamily="Fonts/#Saira SemiBold"
-           FontSize="10"
-           VerticalAlignment="Top"
-           HorizontalAlignment="Center"
-           Foreground="#959FAC"
-           Margin="0,10,10,0" />
+               
 
 
             </Grid>
@@ -636,137 +849,12 @@
     </DataTemplate>
     
 
-    <!--#endregion-->
-
-    <ImageBrush x:Key="close_app_def"
-                ImageSource="Assets/shutdown_def.png"
-                Stretch="None" />
-
-    <ImageBrush x:Key="close_app_mo"
-                ImageSource="Assets/shutdown_mo.png"
-                Stretch="None" />
-
-    <Style x:Key="CloseAppStyle"
-           TargetType="{x:Type Button}">
-
-        <Setter Property="Height"
-                Value="20" />
-        <Setter Property="Width"
-                Value="20" />
-        <Setter Property="HorizontalAlignment"
-                Value="Right" />
-        <Setter Property="VerticalAlignment"
-                Value="Top" />
-        <Setter Property="Margin"
-                Value="0,13,13,0" />
-
-        <Setter Property="Template">
-
-            <Setter.Value>
-
-                <ControlTemplate TargetType="{x:Type Button}">
-
-                    <Border x:Name="border"
-                            BorderThickness="0"
-                            Background="{StaticResource close_app_def}">
-
-                    </Border>
-
-                    <ControlTemplate.Triggers>
-
-                        <Trigger Property="IsMouseOver"
-                                 Value="True">
-
-                            <Setter Property="Background"
-                                    TargetName="border"
-                                    Value="{StaticResource close_app_mo}" />
-
-                        </Trigger>
-
-                        <Trigger Property="IsPressed"
-                                 Value="True">
-
-                            <Setter Property="Background"
-                                    TargetName="border"
-                                    Value="{StaticResource close_app_mo}" />
-
-                        </Trigger>
-
-                    </ControlTemplate.Triggers>
-
-                </ControlTemplate>
-
-            </Setter.Value>
-
-        </Setter>
-
-    </Style>
+    
 
 
-    <ImageBrush x:Key="max_app_def"
-                ImageSource="Assets/max_mo.png"
-                Stretch="None" />
+   
 
-    <ImageBrush x:Key="max_app_mo"
-                ImageSource="Assets/max_def.png"
-                Stretch="None" />
-
-    <Style x:Key="MaxAppStyle"
-           TargetType="{x:Type Button}">
-
-        <Setter Property="Height"
-                Value="20" />
-        <Setter Property="Width"
-                Value="20" />
-        <Setter Property="HorizontalAlignment"
-                Value="Right" />
-        <Setter Property="VerticalAlignment"
-                Value="Top" />
-        <Setter Property="Margin"
-                Value="0,13,43,0" />
-
-        <Setter Property="Template">
-
-            <Setter.Value>
-
-                <ControlTemplate TargetType="{x:Type Button}">
-
-                    <Border x:Name="border"
-                            BorderThickness="0"
-                            Background="{StaticResource max_app_def}">
-
-                    </Border>
-
-                    <ControlTemplate.Triggers>
-
-                        <Trigger Property="IsMouseOver"
-                                 Value="True">
-
-                            <Setter Property="Background"
-                                    TargetName="border"
-                                    Value="{StaticResource max_app_mo}" />
-
-                        </Trigger>
-
-                        <Trigger Property="IsPressed"
-                                 Value="True">
-
-                            <Setter Property="Background"
-                                    TargetName="border"
-                                    Value="{StaticResource max_app_mo}" />
-
-                        </Trigger>
-
-                    </ControlTemplate.Triggers>
-
-                </ControlTemplate>
-
-            </Setter.Value>
-
-        </Setter>
-
-    </Style>
-
+    
 
     <!--#region Scrollbar Style -->
 
@@ -818,6 +906,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ScrollBar}">
+                    
                     <Grid x:Name="GridRoot"
                           Width="8"
                           Background="{TemplateBinding Background}">

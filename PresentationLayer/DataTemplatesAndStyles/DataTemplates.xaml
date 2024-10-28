@@ -9,105 +9,93 @@
     </ResourceDictionary.MergedDictionaries>
 
 
-    <DataTemplate x:Key="Desktop_Layout"
-                      >
-
+    <DataTemplate x:Key="Desktop_Layout">
         <Grid x:Name="BaseGrid"
-                  Background="White"
-                  Margin="8">
+        Background="LightGray"
+        Margin="8">
 
             <Grid.ColumnDefinitions>
 
                 <ColumnDefinition x:Name="SideMenuColumn"
-                                      Width="0.22*"
-                                      MaxWidth="240" />
+                            Width="0.22*"
+                            MaxWidth="65" />
 
                 <ColumnDefinition x:Name="col2"
-                                      Width="1*" />
+                            Width="1*" />
 
             </Grid.ColumnDefinitions>
 
             <Grid.RowDefinitions>
 
                 <RowDefinition x:Name="row1"
-                                   Height="0.1*"
-                                   MinHeight="60"
-                                   MaxHeight="68" />
+                         Height="0.1*"
+                         MinHeight="22"
+                         MaxHeight="22" />
 
                 <RowDefinition x:Name="row2"
-                                   Height="0.8*" />
+                         Height="0.8*" />
 
-                <RowDefinition x:Name="row3"
-                                   Height="0.02*" />
 
             </Grid.RowDefinitions>
 
-            
-            <Grid Grid.Row="0"
-                      Grid.Column="1"
-                      Height="100"
-                      Width="400"
-                      VerticalAlignment="Top"
-                      HorizontalAlignment="Left"
-                      Margin="20,20,0,0">
-               
-
-                <Border>
-                    <Grid>
-                        
-                        <Image Source="Assets/toppforsakringar_logo.png"
-                                   HorizontalAlignment="Stretch"
-                                   VerticalAlignment="Stretch"
-                                   Stretch="Uniform" />
-
-                        
 
 
-                    </Grid>
+
+            <Grid Grid.Row="1"
+                Grid.Column="0"
+Grid.ColumnSpan="2" 
+VerticalAlignment="Top"
+HorizontalAlignment="Stretch"
+Background="LightGray"
+Height="30">
+
+
+                <Border BorderBrush="Gray"
+      BorderThickness="0,0,0,1" 
+              VerticalAlignment="Bottom"
+      HorizontalAlignment="Stretch">
+
+
 
                 </Border>
-                
             </Grid>
 
-
+            <!-- Side Menu -->
             <ContentControl Grid.Row="0"
-                                Grid.RowSpan="3"
-                                Grid.Column="0"
-                                Template="{DynamicResource SideMenuTemplate}" />
+                        Grid.RowSpan="3"
+                        Grid.Column="0"
+                            Margin="0,30,0,0"
+                        Template="{DynamicResource SideMenuTemplate}" />
 
+            <!-- Main content area with ScrollViewer -->
             <ScrollViewer Grid.Row="1"
-                              Grid.Column="1"
-                              VerticalScrollBarVisibility="Auto">
-                <!-- The Grid to hold the UserControl -->
+                      Grid.Column="1"
+                      VerticalScrollBarVisibility="Auto">
                 <Grid x:Name="MainContentGrid">
-                     
                     <!-- Placeholder for UserControl -->
                     <ContentControl Content="{Binding CurrentView, UpdateSourceTrigger=PropertyChanged}"
-                    HorizontalAlignment="Stretch"
-                    VerticalAlignment="Stretch"/>
-
-                   
-                    
+                                HorizontalAlignment="Stretch"
+                                VerticalAlignment="Stretch"/>
                 </Grid>
             </ScrollViewer>
 
         </Grid>
-
     </DataTemplate>
+
 
     <!--// Laptop //-->
 
     <DataTemplate x:Key="Laptop_Layout">
 
         <Grid x:Name="BaseGrid"
-              Background="White"
+              Background="LightGray"
               Margin="8">
 
             <Grid.ColumnDefinitions>
 
                 <ColumnDefinition x:Name="SideMenuColumn"
                                   Width="0.22*"
-                                  MaxWidth="240" />
+                                  MaxWidth="65" />
 
                 <ColumnDefinition x:Name="col2"
                                   Width="1*" />
@@ -118,63 +106,61 @@
 
                 <RowDefinition x:Name="row1"
                                Height="0.1*"
-                               MinHeight="65"
-                               MaxHeight="75" />
+                               MinHeight="22"
+                               MaxHeight="22" />
 
                 <RowDefinition x:Name="row2"
                                Height="0.8*" />
 
-                <RowDefinition x:Name="row3"
-                               Height="0.02*" />
 
             </Grid.RowDefinitions>
 
-          
 
-            <Grid Grid.Row="0"
-                  Grid.Column="1"
-                  Height="100"
-                  Width="400"
-                  VerticalAlignment="Top"
-                  HorizontalAlignment="Left"
-                  Margin="20,20,0,0">
 
-                <Border>
-                    <Grid>
 
-                        <Image Source="Assets/toppforsakringar_logo.png"
-                               HorizontalAlignment="Stretch"
-                               VerticalAlignment="Stretch"
-                               Stretch="Uniform" />
-                      
-                    </Grid>
+            <Grid Grid.Row="1"
+      Grid.Column="0"
+      Grid.ColumnSpan="2" 
+      VerticalAlignment="Top"
+      HorizontalAlignment="Stretch"
+      Background="LightGray"
+      Height="30">
+
+                
+                <Border BorderBrush="Gray"
+            BorderThickness="0,0,0,1" 
+                    VerticalAlignment="Bottom"
+            HorizontalAlignment="Stretch">
+
+                    
 
                 </Border>
-
             </Grid>
 
-            <ContentControl x:Name="SideMenuPanel"
-                            Grid.Row="0"
-                            Grid.RowSpan="3"
-                            Grid.Column="0"
-                            Template="{DynamicResource SideMenuTemplate}" />
 
+
+
+
+            <!-- Side Menu -->
+            <ContentControl Grid.Row="0"
+            Grid.RowSpan="3"
+            Grid.Column="0"
+                Margin="0,30,0,0"
+            Template="{DynamicResource SideMenuTemplate}" />
+
+            <!-- Main content area with ScrollViewer -->
             <ScrollViewer Grid.Row="1"
-                          Grid.Column="1"
-                          VerticalScrollBarVisibility="Auto">
-            <!-- The Grid to hold the UserControl -->
+                        Grid.Column="1"
+          VerticalScrollBarVisibility="Auto"
+                          Background="Transparent">
+                
                 <Grid x:Name="MainContentGrid">
-
-                    <!--Placeholder for UserControl-->
-                    
-                  
-                        <ContentControl Content="{Binding CurrentView}"
-                                        HorizontalAlignment="Stretch"
-                                        VerticalAlignment="Stretch"/>
-                    
+                    <!-- Placeholder for UserControl -->
+                    <ContentControl Content="{Binding CurrentView, UpdateSourceTrigger=PropertyChanged}"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Stretch"/>
                 </Grid>
             </ScrollViewer>
-
         </Grid>
 
     </DataTemplate>

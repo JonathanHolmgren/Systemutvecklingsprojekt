@@ -29,14 +29,5 @@ namespace PresentationLayer
             _myService = myService;
         }
 
-        private void ContentControl_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
-        {
-
-        }
-
-        private void ContentControl_SourceUpdated(object sender, DataTransferEventArgs e)
-        {
-
-        }
     }
 }

@@ -13,10 +13,5 @@ namespace ServiceLayer
         UnitOfWork unitOfWork = new UnitOfWork();
 
         public InsuranceTypeAttributeController() { }
-
-        public void RemoveInsuranceTypeAttribute(InsuranceTypeAttribute insuranceTypeAttribute)
-        {
-            unitOfWork.InsuranceTypeAttributeRepository.Remove(insuranceTypeAttribute);
-        }
     }
 }

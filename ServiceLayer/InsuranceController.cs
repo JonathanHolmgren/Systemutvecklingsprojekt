@@ -58,8 +58,8 @@ namespace ServiceLayer
 
             foreach (InsuranceSpec insuranceSpec in insuranceSpecs)
             {
-                insuranceSpecController.RemoveInsuranceSpec(insuranceSpec);
-                insuranceTypeAttributeController.RemoveInsuranceTypeAttribute(
+                unitOfWork.InsuranceSpecRepository.Remove(insuranceSpec);
+                unitOfWork.InsuranceTypeAttributeRepository.Remove(
                     insuranceSpec.InsuranceTypeAttribute
                 );
             }

@@ -281,7 +281,6 @@ public class Seed
             "Tillval",
             insuranceType1
         );
-
         InsuranceTypeAttribute insuranceTypeAttribute5 = new InsuranceTypeAttribute(
             "Datum",
             insuranceType2
@@ -300,7 +299,7 @@ public class Seed
         );
         InsuranceTypeAttribute insuranceTypeAttribute9 = new InsuranceTypeAttribute(
             "Tillval 2",
-            insuranceType2
+            insuranceType3
         );
         #endregion
 
@@ -345,7 +344,7 @@ public class Seed
             user2,
             insuredPerson2,
             privateCustomer2,
-            insuranceType2
+            insuranceType3
         );
 
         Insurance insurance5 = new Insurance(
@@ -416,7 +415,7 @@ public class Seed
         );
         InsuranceSpec insuranceSpec9 = new InsuranceSpec(
             "500",
-            insurance2,
+            insurance4,
             insuranceTypeAttribute9
         );
         #endregion

@@ -94,12 +94,14 @@
                     </StackPanel>
 
                     <StackPanel Orientation="Horizontal">
-                        <Label Content="Namn" Width="100" Margin="5"/>
+                        <Label Content="Förnman" Width="100" Margin="5"/>
+                        <Label Content="Efternamn" Width="100" Margin="5"/>
                         <Label Content="Personnummer" Width="100" Margin="5"/>
                     </StackPanel>
 
                     <StackPanel Orientation="Horizontal">
-                        <TextBox Text="{Binding FullName, Mode=OneWay}" Width="100" Margin="5"/>
+                        <TextBox Text="{Binding ViewedPrivateCustomer.FirstName, Mode=TwoWay}" Width="100" Margin="5"/>
+                        <TextBox Text="{Binding ViewedPrivateCustomer.LastName, Mode=TwoWay}" Width="100" Margin="5"/>
                         <TextBox Text="{Binding ViewedPrivateCustomer.SSN, Mode=TwoWay}" Width="100" Margin="5"/>
                     </StackPanel>
 
@@ -337,7 +339,7 @@
 
         <!--Show insurances-->
         
-        <DataGrid ItemsSource="{Binding CustomerInsurances}" SelectedItem="{Binding SelectedInsurance}" AutoGenerateColumns="False" Margin="115,-196,3,-26" RenderTransformOrigin="0.5,0.5" Width="739" Height="131" HorizontalAlignment="Right">
+        <DataGrid ItemsSource="{Binding CustomerInsurances}" SelectedItem="{Binding InsuranceToRemove}" AutoGenerateColumns="False" Margin="115,-196,3,-26" RenderTransformOrigin="0.5,0.5" Width="739" Height="131" HorizontalAlignment="Right">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Försäkrings Id" Binding="{Binding InsuranceId}" Width="60"/>
                 <DataGridTextColumn Header="Utgånsdatum" Binding="{Binding ExpiryDate}" Width="90"/>

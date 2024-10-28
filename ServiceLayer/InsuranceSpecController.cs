@@ -13,10 +13,5 @@ namespace ServiceLayer
         UnitOfWork unitOfWork = new UnitOfWork();
 
         public InsuranceSpecController() { }
-
-        public void RemoveInsuranceSpec(InsuranceSpec insuranceSpec)
-        {
-            unitOfWork.InsuranceSpecRepository.Remove(insuranceSpec);
-        }
     }
 }

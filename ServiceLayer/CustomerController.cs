@@ -46,71 +46,47 @@ namespace ServiceLayer
             }
         }
 
-        public void UpdateCompanyCustomer(CompanyCustomer companyCustomer)
+        public void UpdateCompanyCustomer(CompanyCustomer updatedCompanyCustomer)
         {
-            CompanyCustomer companyCustomerToEdit =
-                unitOfWork.CustomerRepository.GetSpecificCompanyCustomer(
-                    companyCustomer.OrganisationNumber
+            bool isFound = unitOfWork.PostalCodeCityRepository.IsPostalCodeRegistered(
+                updatedCompanyCustomer.PostalCodeCity.PostalCode
+            );
+
+            if (isFound == true)
+            {
+                unitOfWork.CustomerRepository.Changepostalcode(
+                    updatedCompanyCustomer.CustomerID,
+                    updatedCompanyCustomer.PostalCodeCity.PostalCode
                 );
-
-            if (companyCustomerToEdit == null)
-            {
-                throw new Exception("Kund ej hittad");
             }
-
-            companyCustomerToEdit.CompanyName = companyCustomer.CompanyName;
-            companyCustomerToEdit.TelephoneNumber = companyCustomer.TelephoneNumber;
-            companyCustomerToEdit.Email = companyCustomer.Email;
-            companyCustomerToEdit.StreetAddress = companyCustomer.StreetAddress;
-            companyCustomerToEdit.PostalCodeCity.PostalCode = companyCustomer
-                .PostalCodeCity
-                .PostalCode;
-
-            try
+            else if (isFound == false)
             {
-                PostalCodeCity existingPostalCodeCity =
-                    unitOfWork.PostalCodeCityRepository.GetSpecificPostalCode(
-                        companyCustomerToEdit.PostalCodeCity.PostalCode
-                    );
-
-                if (existingPostalCodeCity == null)
-                {
-                    unitOfWork.PostalCodeCityRepository.Add(companyCustomerToEdit.PostalCodeCity);
-                }
-                else if (existingPostalCodeCity != null)
-                {
-                    companyCustomerToEdit.PostalCodeCity = existingPostalCodeCity;
-                }
+                unitOfWork.PostalCodeCityRepository.Add(updatedCompanyCustomer.PostalCodeCity);
+                unitOfWork.Update(updatedCompanyCustomer);
             }
-            catch (Exception ex)
-            {
-                throw new Exception($"Ett fel uppstod vid sparandet av kunden: {ex.Message}");
-            }
-            companyCustomerToEdit.ContactPersonName = companyCustomer.ContactPersonName;
-            companyCustomerToEdit.CompanyPersonTelephoneNumber =
-                companyCustomer.CompanyPersonTelephoneNumber;
-
-            unitOfWork.Update(companyCustomerToEdit);
+            unitOfWork.Update(updatedCompanyCustomer);
             unitOfWork.SaveChanges();
         }
 
-        //Hitta l�sning senare p� att uppdatera postkod.
         public void UpdatePrivateCustomer(PrivateCustomer updatedPrivateCustomer)
         {
-            // PrivateCustomer test = unitOfWork.CustomerRepository.GetSpecificPrivateCustomer(
-            //     updatedPrivateCustomer.SSN
-            // );
-            //
-            // test.PostalCodeCity.PostalCode = updatedPrivateCustomer.PostalCodeCity.PostalCode;
-
-            // unitOfWork.Update(test.PostalCodeCity);
-            // unitOfWork.SaveChanges();
-            // unitOfWork.Update(test);
-
-            unitOfWork.CustomerRepository.Changepostalcode(
-                updatedPrivateCustomer.CustomerID,
+            bool isFound = unitOfWork.PostalCodeCityRepository.IsPostalCodeRegistered(
                 updatedPrivateCustomer.PostalCodeCity.PostalCode
             );
+
+            if (isFound == true)
+            {
+                unitOfWork.CustomerRepository.Changepostalcode(
+                    updatedPrivateCustomer.CustomerID,
+                    updatedPrivateCustomer.PostalCodeCity.PostalCode
+                );
+            }
+            else if (isFound == false)
+            {
+                unitOfWork.PostalCodeCityRepository.Add(updatedPrivateCustomer.PostalCodeCity);
+                unitOfWork.Update(updatedPrivateCustomer);
+            }
+            unitOfWork.SaveChanges();
         }
 
         public void RemoveInactiveCustomers()

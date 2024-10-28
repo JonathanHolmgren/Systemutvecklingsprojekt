@@ -1,56 +1,76 @@
-﻿using PresentationLayer.Models;
-using ServiceLayer;
-using Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Input;
-using System.Collections.ObjectModel;
-using PresentationLayer.Command;
 using System.Windows;
+using System.Windows.Input;
 using Microsoft.Identity.Client;
+using Models;
+using PresentationLayer.Command;
+using PresentationLayer.Models;
+using ServiceLayer;
 
 namespace PresentationLayer.ViewModels
 {
     internal class CustomerProfileViewModel : ObservableObject
     {
-        
         private CustomerController customerController = new CustomerController();
+        private InsuranceController insuranceController = new InsuranceController();
 
         private string searchValue;
         public string SearchValue
         {
             get { return searchValue; }
-            set { searchValue = value; OnPropertyChanged(nameof(SearchValue)); }
+            set
+            {
+                searchValue = value;
+                OnPropertyChanged(nameof(SearchValue));
+            }
         }
         private string note;
         public string Note
         {
             get { return note; }
-            set { note = value; OnPropertyChanged(nameof(Note)); }
+            set
+            {
+                note = value;
+                OnPropertyChanged(nameof(Note));
+            }
         }
 
         private bool isPrivatePopUpOpen;
         public bool IsPrivatePopUpOpen
         {
             get { return isPrivatePopUpOpen; }
-            set { isPrivatePopUpOpen = value; OnPropertyChanged(nameof(IsPrivatePopUpOpen));}
+            set
+            {
+                isPrivatePopUpOpen = value;
+                OnPropertyChanged(nameof(IsPrivatePopUpOpen));
+            }
         }
 
         private bool isCompanyPopUpOpen;
         public bool IsCompanyPopUpOpen
         {
             get { return isCompanyPopUpOpen; }
-            set { isCompanyPopUpOpen = value; OnPropertyChanged(nameof(IsCompanyPopUpOpen)); }
+            set
+            {
+                isCompanyPopUpOpen = value;
+                OnPropertyChanged(nameof(IsCompanyPopUpOpen));
+            }
         }
 
         private ObservableCollection<ProspectNote> prospectNotesList = null;
         public ObservableCollection<ProspectNote> ProspectNotesList
         {
             get { return prospectNotesList; }
-            set { prospectNotesList = value; OnPropertyChanged(nameof(ProspectNotesList)); }
+            set
+            {
+                prospectNotesList = value;
+                OnPropertyChanged(nameof(ProspectNotesList));
+            }
         }
         private bool isCompanySelected;
         public bool IsCompanySelected
@@ -84,7 +104,6 @@ namespace PresentationLayer.ViewModels
         public bool IsPrivateColumnVisible => IsPrivateSelected;
         public bool IsCompanyColumnVisible => IsCompanySelected;
 
-
         private PrivateCustomer viewedPrivateCustomer;
         public PrivateCustomer ViewedPrivateCustomer
         {
@@ -97,7 +116,9 @@ namespace PresentationLayer.ViewModels
 
                 if (viewedPrivateCustomer != null)
                 {
-                    ProspectNotesList = new ObservableCollection<ProspectNote>(viewedPrivateCustomer.ProspectNotes);
+                    ProspectNotesList = new ObservableCollection<ProspectNote>(
+                        viewedPrivateCustomer.ProspectNotes
+                    );
                 }
                 else
                 {
@@ -117,7 +138,9 @@ namespace PresentationLayer.ViewModels
 
                 if (viewedCompanyCustomer != null)
                 {
-                    ProspectNotesList = new ObservableCollection<ProspectNote>(viewedCompanyCustomer.ProspectNotes);
+                    ProspectNotesList = new ObservableCollection<ProspectNote>(
+                        viewedCompanyCustomer.ProspectNotes
+                    );
                 }
                 else
                 {
@@ -125,6 +148,30 @@ namespace PresentationLayer.ViewModels
                 }
             }
         }
+
+        private ObservableCollection<Insurance> customerInsurances;
+        public ObservableCollection<Insurance> CustomerInsurances
+        {
+            get => customerInsurances;
+            set
+            {
+                customerInsurances = value;
+                OnPropertyChanged(nameof(CustomerInsurances));
+            }
+        }
+
+        private Insurance insuranceToRemove;
+        public Insurance InsuranceToRemove
+        {
+            get => insuranceToRemove;
+            set
+            {
+                insuranceToRemove = value;
+                OnPropertyChanged(nameof(InsuranceToRemove));
+            }
+        }
+
+        private string fullName;
         public string FullName
         {
             get
@@ -134,6 +181,11 @@ namespace PresentationLayer.ViewModels
                     return $"{ViewedPrivateCustomer.FirstName} {ViewedPrivateCustomer.LastName}";
                 }
                 return string.Empty;
+            }
+            set
+            {
+                fullName = value;
+                OnPropertyChanged();
             }
         }
 
@@ -147,6 +199,8 @@ namespace PresentationLayer.ViewModels
         public ICommand OnEditPrivateCustomerClickedCommand { get; private set; }
         public ICommand SaveEditedCompanyCustomerCommand { get; private set; }
         public ICommand SaveEditedPrivateCustomerCommand { get; private set; }
+        public ICommand RemoveInsuranceCommand { get; private set; }
+
         public CustomerProfileViewModel()
         {
             FindPrivateCustomerCommand = new RelayCommand(FindPrivateCustomer);
@@ -159,6 +213,9 @@ namespace PresentationLayer.ViewModels
             OnEditPrivateCustomerClickedCommand = new RelayCommand(OnEditPrivateCustomerClicked);
             SaveEditedCompanyCustomerCommand = new RelayCommand(SaveEditedCompanyCustomer);
             SaveEditedPrivateCustomerCommand = new RelayCommand(SaveEditedPrivateCustomer);
+            RemoveInsuranceCommand = new RelayCommand(RemoveChosenInsurance);
+
+            CustomerInsurances = new ObservableCollection<Insurance>();
 
             IsCompanySelected = true;
             IsPrivatePopUpOpen = false;
@@ -175,6 +232,7 @@ namespace PresentationLayer.ViewModels
         {
             IsCompanyPopUpOpen = true;
         }
+
         private void SaveEditedCompanyCustomer()
         {
             if (ViewedCompanyCustomer != null)
@@ -184,6 +242,7 @@ namespace PresentationLayer.ViewModels
                 MessageBox.Show("Ändringar är sparade");
             }
         }
+
         private void SaveEditedPrivateCustomer()
         {
             if (ViewedPrivateCustomer != null)
@@ -191,16 +250,27 @@ namespace PresentationLayer.ViewModels
                 customerController.UpdatePrivateCustomer(ViewedPrivateCustomer);
                 IsPrivatePopUpOpen = false;
                 MessageBox.Show("Ändringar är sparade");
+                FullName = $"{ViewedPrivateCustomer.FirstName} {ViewedPrivateCustomer.LastName}";
             }
         }
+
         private void FindCompanyCustomer()
         {
             ViewedCompanyCustomer = customerController.GetSpecificCompanyCustomer(SearchValue);
+
+            CustomerInsurances.Clear();
+            CustomerInsurances = new ObservableCollection<Insurance>(
+                ViewedCompanyCustomer.Insurances
+            );
         }
 
         private void FindPrivateCustomer()
         {
             ViewedPrivateCustomer = customerController.GetSpecificPrivateCustomer(SearchValue);
+            CustomerInsurances.Clear();
+            CustomerInsurances = new ObservableCollection<Insurance>(
+                ViewedPrivateCustomer.Insurances
+            );
         }
 
         //Add a note to the private prospect
@@ -211,7 +281,12 @@ namespace PresentationLayer.ViewModels
                 Insurance insurance = ViewedPrivateCustomer.Insurances.FirstOrDefault(); //Gör om logiken så inloggad person blir user istället, endast tillfällig lösning
                 User user = insurance.User;
 
-                ProspectNote prospectNote = new ProspectNote(Note, DateTime.Now, user, ViewedPrivateCustomer);
+                ProspectNote prospectNote = new ProspectNote(
+                    Note,
+                    DateTime.Now,
+                    user,
+                    ViewedPrivateCustomer
+                );
                 customerController.AddProspectNote(prospectNote);
                 ViewedPrivateCustomer.ProspectNotes.Add(prospectNote);
                 ProspectNotesList.Add(prospectNote);
@@ -232,7 +307,12 @@ namespace PresentationLayer.ViewModels
                 Insurance insurance = ViewedCompanyCustomer.Insurances.FirstOrDefault(); //Gör om logiken så inloggad person blir user istället, endast tillfällig lösning
                 User user = insurance.User;
 
-                ProspectNote prospectNote = new ProspectNote(Note, DateTime.Now, user, ViewedCompanyCustomer);
+                ProspectNote prospectNote = new ProspectNote(
+                    Note,
+                    DateTime.Now,
+                    user,
+                    ViewedCompanyCustomer
+                );
                 customerController.AddProspectNote(prospectNote);
                 ViewedCompanyCustomer.ProspectNotes.Add(prospectNote);
                 ProspectNotesList.Add(prospectNote);
@@ -242,6 +322,28 @@ namespace PresentationLayer.ViewModels
             else
             {
                 MessageBox.Show("Var god fyll i utfall");
+            }
+        }
+
+        private void RemoveChosenInsurance()
+        {
+            if (ViewedCompanyCustomer != null)
+            {
+                insuranceController.RemoveInsurance(InsuranceToRemove);
+                CustomerInsurances.Clear();
+                CustomerInsurances = new ObservableCollection<Insurance>(
+                    ViewedCompanyCustomer.Insurances
+                );
+                InsuranceToRemove = null;
+            }
+            else if (ViewedPrivateCustomer != null)
+            {
+                insuranceController.RemoveInsurance(InsuranceToRemove);
+                CustomerInsurances.Clear();
+                CustomerInsurances = new ObservableCollection<Insurance>(
+                    ViewedPrivateCustomer.Insurances
+                );
+                InsuranceToRemove = null;
             }
         }
 

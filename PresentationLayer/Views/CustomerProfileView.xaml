@@ -20,7 +20,7 @@
         
                
         <!--Popup companycustomer-->        
-        <Popup x:Name="EditCompanyCustomerPopup" Width="700" Height="400" IsOpen="{Binding IsCompanyPopUpOpen}" HorizontalAlignment="Center" VerticalAlignment="Center" Placement="Center">
+        <Popup x:Name="EditCompanyCustomerPopup" Width="700" Height="400" IsOpen="{Binding IsEditCompanyPopUpOpen}" HorizontalAlignment="Center" VerticalAlignment="Center" Placement="Center">
             <Border BorderBrush="Black" BorderThickness="3" Background="White">
                 <StackPanel HorizontalAlignment="Center">
 
@@ -83,7 +83,7 @@
         
 
         <!--Popup privatecustomer-->
-        <Popup x:Name="EditPrivateCustomerPopup" Width="700" Height="400" IsOpen="{Binding IsPrivatePopUpOpen}" HorizontalAlignment="Center" VerticalAlignment="Center" Placement="Center">
+        <Popup x:Name="EditPrivateCustomerPopup" Width="700" Height="400" IsOpen="{Binding IsEditPrivatePopUpOpen}" HorizontalAlignment="Center" VerticalAlignment="Center" Placement="Center">
             <Border BorderBrush="Black" BorderThickness="3" Background="White">
                 <StackPanel HorizontalAlignment="Center">
 
@@ -133,20 +133,33 @@
             </Border>
         </Popup>
 
-        <!-- Popup for removing customer -->
-        <Popup x:Name="DeleteInactiveInsurancePopup" IsOpen="{Binding IsRemoveCustomerPopupOpen}" HorizontalAlignment="Center" VerticalAlignment="Center" Placement="Center">
+        <!-- Popup for removing privatecustomer -->
+        <Popup x:Name="DeletePrivateInactiveInsurancePopup" IsOpen="{Binding IsRemovePrivateCustomerPopupOpen}" HorizontalAlignment="Center" VerticalAlignment="Center" Placement="Center" Height="150" Width="300">
             <Border BorderBrush="Black" BorderThickness="1" Background="White">
-                <StackPanel Background="White" HorizontalAlignment="Center">
-                    <TextBlock Text="Denna kunden har inaktiva avtal kopplade till sig, vill du ta bort dem också?" />
+                <StackPanel Background="White" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <TextBlock Text="Denna kunden har inaktiva avtal kopplade till sig som kommer att raderas, vill du fortsätta?" TextWrapping="Wrap"/>
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                        <Button Content="Avbryt" Command="{Binding CancelCommand}"  />
-                        <Button Content="Ja" Command="{Binding ContinueCommand}" Margin="10,0,0,0"/>
+                        <Button Content="Avbryt" Command="{Binding CancelCommand}" Width="70" Height="30" />
+                        <Button Content="Ja" Command="{Binding ContinueCommand}" Width="70" Height="30" Margin="10,0,0,0"/>
                     </StackPanel>
                 </StackPanel>
             </Border>
         </Popup>
-        
-        
+
+        <!-- Popup for removing companycustomer -->
+        <Popup x:Name="DeleteCompanyInactiveInsurancePopup" IsOpen="{Binding IsRemoveCompanyCustomerPopupOpen}" HorizontalAlignment="Center" VerticalAlignment="Center" Placement="Center" Height="150" Width="300">
+            <Border BorderBrush="Black" BorderThickness="1" Background="White">
+                <StackPanel Background="White" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <TextBlock Text="Denna kunden har inaktiva avtal kopplade till sig som kommer att raderas, vill du fortsätta?" TextWrapping="Wrap"/>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                        <Button Content="Avbryt" Command="{Binding CancelCommand}" Width="70" Height="30"/>
+                        <Button Content="Ja" Command="{Binding ContinueCommand}" Width="70" Height="30" Margin="10,0,0,0"/>
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+        </Popup>
+
+
 
 
         <!--  Window and Search  -->
@@ -332,9 +345,12 @@
         <!--Edit Private Customer button-->
         <Button Content="Redigera kund" Width="100" Height="30" Margin="10" HorizontalAlignment="Left" Command="{Binding OnEditPrivateCustomerClickedCommand}" Visibility="{Binding IsPrivateSelected, Converter={StaticResource BoolToVisConverter}}"/>
 
-        <!-- Remove customer-->
-        <Button Content="Ta bort kund" Width="100" Height="30" Margin="10" HorizontalAlignment="Left" Command="{Binding RemoveCustomerFromDataBase}"/>
+        <!-- Remove Company customer button-->
+        <Button Content="Ta bort kund" Width="100" Height="30" Margin="10" HorizontalAlignment="Left" Command="{Binding RemoveCompanyCustomerCommand}" Visibility="{Binding IsCompanySelected, Converter={StaticResource BoolToVisConverter}}"/> 
 
+        <!-- Remove Private customer button-->
+        <Button Content="Ta bort kund" Width="100" Height="30" Margin="10" HorizontalAlignment="Left" Command="{Binding RemovePrivateCustomerCommand}" Visibility="{Binding IsPrivateSelected, Converter={StaticResource BoolToVisConverter}}"/>
+        
         <!--Show insurances-->
         
         <DataGrid ItemsSource="{Binding CustomerInsurances}" SelectedItem="{Binding SelectedInsurance}" AutoGenerateColumns="False" Margin="115,-196,3,-26" RenderTransformOrigin="0.5,0.5" Width="739" Height="131" HorizontalAlignment="Right">

@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore.Query.Internal;
+using Microsoft.Win32;
 using Models;
 using Newtonsoft.Json;
 using PresentationLayer.Command;
@@ -7,6 +8,7 @@ using ServiceLayer;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
+using System.Text;
 using System.Windows;
 using System.Windows.Input;
 
@@ -88,6 +90,7 @@ namespace PresentationLayer.ViewModels
                 OnPropertyChanged(nameof(selectedCustomer));
             }
         }
+       
         private bool isPrivateCustomerSelected = true; 
 
         public bool IsPrivateCustomerSelected
@@ -131,6 +134,8 @@ namespace PresentationLayer.ViewModels
         }
         public ICommand ExportAllToJsonCommand { get; private set; }
         public ICommand ExportSingleToJsonCommand { get; private set; }
+
+
         #endregion
         #region Constructor
         public ExportBillingInformationViewModel()
@@ -177,23 +182,66 @@ namespace PresentationLayer.ViewModels
                 }
             }
         }
-        
-        private void ExportSingleToJson() //Exporting a single selected customer to Json
-        {
-            string jsonResult=JsonConvert.SerializeObject(SelectedCustomer, Formatting.Indented);
-            customerController.ExportObjectToJson(jsonResult);
-        }
+
         private void ExportAllToJson()
         {
-            var customerDataToJson = new
+            var allCustomers = new
             {
-                
                 PrivateCustomers = InsuranceInfoPrivateCustomer,
                 CompanyCustomers = InsuranceInfoCompanyCustomer
             };
 
-            customerController.ExportObjectToJson(customerDataToJson);
-        } //Exporting all due customer to Json
+            string jsonContent = JsonConvert.SerializeObject(allCustomers, Formatting.Indented);
+            SaveJsonToFile("AllCustomers_BillingInformation.json", jsonContent);
+        }
+
+        private void ExportSingleToJson()
+        {
+            var singleCustomer = SelectedCustomer;
+
+            if (singleCustomer != null)
+            {
+                string fileName = "BillingInformation_Unknown.json";
+
+                var properties = singleCustomer.GetType().GetProperties();
+                var organisationNumberProperty = properties.FirstOrDefault(p => p.Name.Equals("OrganisationNumber", StringComparison.OrdinalIgnoreCase));
+                var ssnProperty = properties.FirstOrDefault(p => p.Name.Equals("SSN", StringComparison.OrdinalIgnoreCase));
+
+                string identifier = organisationNumberProperty?.GetValue(singleCustomer)?.ToString();
+
+                if (string.IsNullOrEmpty(identifier) && ssnProperty != null)
+                {
+                    identifier = ssnProperty.GetValue(singleCustomer)?.ToString();
+                }
+
+                if (!string.IsNullOrEmpty(identifier))
+                {
+                    fileName = $"BillingInformation_{identifier}.json";
+                }
+
+                string jsonContent = JsonConvert.SerializeObject(singleCustomer, Formatting.Indented);
+
+                SaveJsonToFile(fileName, jsonContent);
+            }
+        }
+
+        private void SaveJsonToFile(string fileName, string jsonContent)
+        {
+            var saveFileDialog = new SaveFileDialog
+            {
+                FileName = fileName,
+                DefaultExt = ".json",
+                Filter = "JSON files (*.json)|*.json|All files (*.*)|*.*"
+            };
+
+            // Visa dialogrutan och kolla om användaren tryckte på OK
+            if (saveFileDialog.ShowDialog() == true)
+            {
+                File.WriteAllText(saveFileDialog.FileName, jsonContent, Encoding.UTF8);
+                MessageBox.Show("Fil sparad: " + saveFileDialog.FileName);
+            }
+        }
+       
         private void ApplyFilter(string filterText) //Apply filter method to chceck what to show 
         {
             if (string.IsNullOrWhiteSpace(filterText))
@@ -292,12 +340,11 @@ namespace PresentationLayer.ViewModels
                 Address = companyCustomer.StreetAddress,
                 PostalCode = companyCustomer.PostalCodeCity.PostalCode,
                 City = companyCustomer.PostalCodeCity.City,
-                TotalPremium = totalPremie,
+                TotalPremium = totalPremie + " SEK",
                 InsuranceSummary = insuranceDetails
             };
         }
-
-
+      
         private ObservableCollection<string> GetInsuranceDetails(Customer customer) //Getting the extra insurances details that is not connected to the customer
         {
             ObservableCollection<string> insuranceDetails = new ObservableCollection<string>();

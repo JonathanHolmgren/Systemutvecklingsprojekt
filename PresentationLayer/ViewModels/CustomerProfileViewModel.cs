@@ -40,25 +40,47 @@ namespace PresentationLayer.ViewModels
             }
         }
 
-        private bool isPrivatePopUpOpen;
-        public bool IsPrivatePopUpOpen
+        private bool isEditPrivatePopUpOpen;
+        public bool IsEditPrivatePopUpOpen
         {
-            get { return isPrivatePopUpOpen; }
+            get { return isEditPrivatePopUpOpen; }
             set
             {
-                isPrivatePopUpOpen = value;
-                OnPropertyChanged(nameof(IsPrivatePopUpOpen));
+                isEditPrivatePopUpOpen = value;
+                OnPropertyChanged(nameof(IsEditPrivatePopUpOpen));
             }
         }
 
-        private bool isCompanyPopUpOpen;
-        public bool IsCompanyPopUpOpen
+        private bool isEditCompanyPopUpOpen;
+        public bool IsEditCompanyPopUpOpen
         {
-            get { return isCompanyPopUpOpen; }
+            get { return isEditCompanyPopUpOpen; }
             set
             {
-                isCompanyPopUpOpen = value;
-                OnPropertyChanged(nameof(IsCompanyPopUpOpen));
+                isEditCompanyPopUpOpen = value;
+                OnPropertyChanged(nameof(IsEditCompanyPopUpOpen));
+            }
+        }
+
+        private bool isRemovePrivateCustomerPopupOpen;
+        public bool IsRemovePrivateCustomerPopupOpen
+        {
+            get { return isRemovePrivateCustomerPopupOpen; }
+            set
+            {
+                isRemovePrivateCustomerPopupOpen = value;
+                OnPropertyChanged(nameof(IsRemovePrivateCustomerPopupOpen));
+            }
+        }
+
+        private bool isRemoveCompanyCustomerPopupOpen;
+        public bool IsRemoveCompanyCustomerPopupOpen
+        {
+            get { return isRemoveCompanyCustomerPopupOpen; }
+            set
+            {
+                isRemoveCompanyCustomerPopupOpen = value;
+                OnPropertyChanged(nameof(IsRemoveCompanyCustomerPopupOpen));
             }
         }
 
@@ -199,6 +221,11 @@ namespace PresentationLayer.ViewModels
         public ICommand OnEditPrivateCustomerClickedCommand { get; private set; }
         public ICommand SaveEditedCompanyCustomerCommand { get; private set; }
         public ICommand SaveEditedPrivateCustomerCommand { get; private set; }
+        public ICommand RemoveCompanyCustomerCommand { get; private set; }
+        public ICommand RemovePrivateCustomerCommand { get; private set; }
+        public ICommand ContinueCommand { get; set; }
+        public ICommand CancelCommand { get; set; }
+
         public ICommand RemoveInsuranceCommand { get; private set; }
 
         public CustomerProfileViewModel()
@@ -213,24 +240,30 @@ namespace PresentationLayer.ViewModels
             OnEditPrivateCustomerClickedCommand = new RelayCommand(OnEditPrivateCustomerClicked);
             SaveEditedCompanyCustomerCommand = new RelayCommand(SaveEditedCompanyCustomer);
             SaveEditedPrivateCustomerCommand = new RelayCommand(SaveEditedPrivateCustomer);
+            RemoveCompanyCustomerCommand = new RelayCommand(RemoveCompanyCustomer);
+            RemovePrivateCustomerCommand = new RelayCommand(RemovePrivateCustomer);
+            ContinueCommand = new RelayCommand(OnContinueClicked);
+            CancelCommand = new RelayCommand(OnCancelClicked);
             RemoveInsuranceCommand = new RelayCommand(RemoveChosenInsurance);
 
             CustomerInsurances = new ObservableCollection<Insurance>();
 
             IsCompanySelected = true;
-            IsPrivatePopUpOpen = false;
-            IsCompanyPopUpOpen = false;
+            IsEditPrivatePopUpOpen = false;
+            IsEditCompanyPopUpOpen = false;
+            IsRemoveCompanyCustomerPopupOpen = false;
+            IsRemovePrivateCustomerPopupOpen = false;
         }
 
         #region methods
         private void OnEditPrivateCustomerClicked()
         {
-            IsPrivatePopUpOpen = true;
+            IsEditPrivatePopUpOpen = true;
         }
 
         private void OnEditCompanyCustomerClicked()
         {
-            IsCompanyPopUpOpen = true;
+            IsEditCompanyPopUpOpen = true;
         }
 
         private void SaveEditedCompanyCustomer()
@@ -238,7 +271,7 @@ namespace PresentationLayer.ViewModels
             if (ViewedCompanyCustomer != null)
             {
                 customerController.UpdateCompanyCustomer(ViewedCompanyCustomer);
-                IsCompanyPopUpOpen = false;
+                IsEditCompanyPopUpOpen = false;
                 MessageBox.Show("Ändringar är sparade");
             }
         }
@@ -248,7 +281,7 @@ namespace PresentationLayer.ViewModels
             if (ViewedPrivateCustomer != null)
             {
                 customerController.UpdatePrivateCustomer(ViewedPrivateCustomer);
-                IsPrivatePopUpOpen = false;
+                IsEditPrivatePopUpOpen = false;
                 MessageBox.Show("Ändringar är sparade");
                 FullName = $"{ViewedPrivateCustomer.FirstName} {ViewedPrivateCustomer.LastName}";
             }
@@ -323,6 +356,122 @@ namespace PresentationLayer.ViewModels
             {
                 MessageBox.Show("Var god fyll i utfall");
             }
+        }
+
+        private void RemovePrivateCustomer()
+        {
+            int checker = 0;
+
+            if (ViewedPrivateCustomer != null)
+            {
+                if (ViewedPrivateCustomer.Insurances.Count < 1)
+                {
+                    customerController.RemovePrivateCustomer(ViewedPrivateCustomer);
+                    ViewedPrivateCustomer = null;
+                    MessageBox.Show("Kunden är nu borttagen ur systemet.");
+                }
+                else if (ViewedPrivateCustomer.Insurances.Count > 0)
+                {
+                    foreach (Insurance insurance in ViewedPrivateCustomer.Insurances)
+                    {
+                        if (
+                            insurance.InsuranceStatus == InsuranceStatus.Active
+                            || insurance.InsuranceStatus == InsuranceStatus.Preliminary
+                        )
+                        {
+                            checker++;
+                        }
+                    }
+
+                    if (checker > 0)
+                    {
+                        MessageBox.Show(
+                            $"Tyvärr kan du inte ta bort kunden: \"{ViewedPrivateCustomer.FirstName} {ViewedPrivateCustomer.LastName}\", det finns aktiva eller preliminära försäkringar kopplad till kunden. Hantera dem först."
+                        );
+                    }
+                    else if (checker == 0)
+                    {
+                        IsRemovePrivateCustomerPopupOpen = true;
+                    }
+                }
+            }
+        }
+
+        private void RemoveCompanyCustomer()
+        {
+            int checker = 0;
+            if (ViewedCompanyCustomer != null)
+            {
+                if (ViewedCompanyCustomer.Insurances.Count < 1)
+                {
+                    customerController.RemoveCompanyCustomer(ViewedCompanyCustomer);
+                    ViewedCompanyCustomer = null;
+                    MessageBox.Show("Kunden är nu borttagen ur systemet.");
+                }
+                else if (ViewedCompanyCustomer.Insurances.Count > 0)
+                {
+                    foreach (Insurance insurance in ViewedCompanyCustomer.Insurances)
+                    {
+                        if (
+                            insurance.InsuranceStatus == InsuranceStatus.Active
+                            || insurance.InsuranceStatus == InsuranceStatus.Preliminary
+                        )
+                        {
+                            checker++;
+                        }
+                    }
+
+                    if (checker > 0)
+                    {
+                        MessageBox.Show(
+                            $"Tyvärr kan du inte ta bort kunden: \"{ViewedCompanyCustomer.CompanyName}\", det finns aktiva eller preliminära försäkringar kopplad till kunden. Hantera dem först."
+                        );
+                    }
+                    else if (checker == 0)
+                    {
+                        IsRemoveCompanyCustomerPopupOpen = true;
+                    }
+                }
+            }
+        }
+
+        public void OnContinueClicked()
+        {
+            IsRemovePrivateCustomerPopupOpen = false;
+            IsRemoveCompanyCustomerPopupOpen = false;
+
+            if (ViewedPrivateCustomer != null)
+            {
+                customerController.RemovePrivateCustomerAndInactiveInsurances(
+                    ViewedPrivateCustomer
+                );
+                ViewedPrivateCustomer = null;
+
+                MessageBox.Show("Kunden är nu borttagen ur systemet.");
+            }
+            else if (ViewedCompanyCustomer != null)
+            {
+                customerController.RemoveCompanyCustomerAndInactiveInsurances(
+                    ViewedCompanyCustomer
+                );
+                ViewedCompanyCustomer = null;
+
+                MessageBox.Show("Kunden är nu borttagen ur systemet.");
+            }
+        }
+
+        public void OnCancelClicked()
+        {
+            IsRemovePrivateCustomerPopupOpen = false;
+            IsRemoveCompanyCustomerPopupOpen = false;
+            //if (ViewedPrivateCustomer != null)
+            //{
+            //    ViewedPrivateCustomer = null;
+            //}
+            //else if (ViewedCompanyCustomer != null)
+            //{
+            //    ViewedCompanyCustomer = null;
+            //}
         }
 
         private void RemoveChosenInsurance()

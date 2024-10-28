@@ -6,13 +6,19 @@
              xmlns:local="clr-namespace:PresentationLayer.Views"
              xmlns:vm="clr-namespace:PresentationLayer.ViewModels"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800" Background="Gray">
+             d:DesignHeight="450" d:DesignWidth="800">
 
     <UserControl.DataContext>
         <vm:CalculateComissionViewModel/>
     </UserControl.DataContext>
-   
-    <Grid>
+    <Border CornerRadius="10"         
+     Background="White"
+     
+     
+     Padding="10"
+     
+     Margin="0">
+        <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="400"/>
             <ColumnDefinition Width="400"/>
@@ -59,4 +65,5 @@
         </StackPanel>
       
     </Grid>
+    </Border>
 </UserControl>

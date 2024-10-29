@@ -52,21 +52,25 @@ namespace ServiceLayer
 
         public void RemoveInsurance(Insurance selectedInsurance)
         {
-            //IList<InsuranceSpec> insuranceSpecs =
-            //    unitOfWork.InsuranceSpecRepository.GetSpecsForInsurance(
-            //        selectedInsurance.InsuranceId
-            //    );
+            IList<InsuranceSpec> insuranceSpecsToRemove = unitOfWork.InsuranceSpecRepository.GetSpecsForInsurance(selectedInsurance.InsuranceId);
 
-            unitOfWork.InsuranceSpecRepository.Remove(9);
-            unitOfWork.Update(
-                unitOfWork.InsuranceTypeRepository.FirstOrDefault(m => m.InsuranceTypeId == 3)
-            );
-            unitOfWork.InsuranceTypeAttributeRepository.Remove(9);
-            //foreach (InsuranceSpec insuranceSpec in insuranceSpecs)
-            //{
-            //    unitOfWork.InsuranceSpecRepository.Remove(9);
-            //    unitOfWork.InsuranceTypeAttributeRepository.Remove(9);
-            //}
+            foreach (InsuranceSpec insuranceSpec in insuranceSpecsToRemove)
+            {
+                unitOfWork.InsuranceSpecRepository.Remove(insuranceSpec.InsuranceSpecId);
+                //unitOfWork.Remove(unitOfWork.InsuranceTypeAttributeRepository.FirstOrDefault(a => a.InsuranceTypeAttributeId = insuranceSpec.InsuranceTypeAttribute.InsuranceTypeAttributeID));
+                unitOfWork.InsuranceTypeAttributeRepository.Remove(insuranceSpec.InsuranceTypeAttribute.InsuranceTypeAttributeId);
+            }
+            //unitOfWork.InsuranceSpecRepository.Remove(9);
+
+            //unitOfWork.Update(unitOfWork.InsuranceTypeRepository.FirstOrDefault(m => m.InsuranceTypeId == selectedInsurance.InsuranceType.InsuranceTypeId));
+
+            //unitOfWork.Update(unitOfWork.InsuranceTypeRepository.FirstOrDefault(m => m.InsuranceTypeId == 3));
+
+            
+
+            //unitOfWork.InsuranceTypeAttributeRepository.Remove(9);
+
+
 
             unitOfWork.InsuranceRepository.Remove(selectedInsurance);
             unitOfWork.SaveChanges();

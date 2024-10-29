@@ -165,8 +165,7 @@ namespace PresentationLayer.ViewModels
 
             try
             {
-                PostalCodeCity postalCodeCity = AddPostalCodeCity(PostalCode, City);
-                PrivateCustomer privateCustomer = new PrivateCustomer(TelephoneNumber, Email, StreetAdress, postalCodeCity, SSN, FirstName, LastName, WorkTelephoneNumber);
+                PrivateCustomer privateCustomer = new PrivateCustomer(TelephoneNumber, Email, StreetAdress, PostalCode, City, SSN, FirstName, LastName, WorkTelephoneNumber);
                 customerController.AddPrivateCustomer(privateCustomer);
                 MessageBox.Show("Kunden är tillagd");
             }
@@ -177,11 +176,7 @@ namespace PresentationLayer.ViewModels
             }
 
         }
-        private PostalCodeCity AddPostalCodeCity(string postalcode, string city)
-        {
-            PostalCodeCity newpostalCodeCity = new PostalCodeCity(postalcode, city);
-            return newpostalCodeCity;
-        }
+
 
         public event PropertyChangedEventHandler PropertyChanged;
         protected virtual void OnPropertyChanged(string propertyName)

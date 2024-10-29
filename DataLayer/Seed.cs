@@ -11,12 +11,6 @@ public class Seed
 
         #endregion
 
-        #region PostalCodeCity
-        PostalCodeCity postalCodeCity1 = new PostalCodeCity("50331", "Borås");
-        PostalCodeCity postalCodeCity2 = new PostalCodeCity("50251", "Borås");
-        PostalCodeCity postalCodeCity3 = new PostalCodeCity("50321", "Borås");
-
-        #endregion
 
         #region Employee
 
@@ -26,7 +20,8 @@ public class Seed
             "Sten",
             "Hård",
             "Vasagatan 12",
-            postalCodeCity3,
+            "50100",
+            "Borås",
             "Sten.Hård@exempel.se",
             "VD",
             "070-123 45 67"
@@ -37,7 +32,8 @@ public class Seed
             "Ann-Sofie",
             "Larsson",
             "Storgatan 45",
-            postalCodeCity1,
+            "52298",
+            "Borås",
             "Ann-Sofie.Larsson@exempel.se",
             "Ekonomiassistent",
             "070-234 56 78"
@@ -48,7 +44,8 @@ public class Seed
             "Iren",
             "Panik",
             "Kungsgatan 5",
-            postalCodeCity2,
+            "51111",
+            "Borås",
             "Iren.Panik@exempel.se",
             "Försäljningschef",
             "070-345 67 89"
@@ -60,7 +57,8 @@ public class Seed
             "Karin",
             "Sundberg",
             "Sveavägen 23",
-            postalCodeCity1,
+            "50109",
+            "Borås",
             "maria.lindgren@exempel.se",
             "Försäljningsassistent, Innesäljare",
             "070-456 78 90",
@@ -72,7 +70,8 @@ public class Seed
             "Irene",
             "Johansson",
             "Norrlandsgatan 8",
-            postalCodeCity3,
+            "50555",
+            "Borås",
             "oskar.berg@exempel.se",
             "Innesäljare",
             "070-567 89 01",
@@ -84,7 +83,8 @@ public class Seed
             "Vigo",
             "Persson",
             "Drottninggatan 14",
-            postalCodeCity2,
+            "51234",
+            "Borås",
             "sofia.eriksson@exempel.se",
             "Innesäljare",
             "070-678 90 12",
@@ -97,7 +97,8 @@ public class Seed
             "Birgitta",
             "Frisk",
             "Norrlandsgatan 8",
-            postalCodeCity1,
+            "50101",
+            "Borås",
             "oskar.berg@exempel.se",
             "Utesäljare",
             "070-567 89 01",
@@ -109,7 +110,8 @@ public class Seed
             "Boris",
             "Alm",
             "Drottninggatan 14",
-            postalCodeCity2,
+            "58992",
+            "Borås",
             "sofia.eriksson@exempel.se",
             "Utesäljare",
             "070-678 90 12",
@@ -121,7 +123,8 @@ public class Seed
             "Linda",
             "Jonsson",
             "Hamngatan 9",
-            postalCodeCity1,
+            "50567",
+            "Borås",
             "viktor.nystrom@exempel.se",
             "Utesäljare",
             "070-789 01 23",
@@ -133,7 +136,8 @@ public class Seed
             "Malin",
             "Nilsdotter",
             "Norrlandsgatan 8",
-            postalCodeCity2,
+            "54321",
+            "Borås",
             "oskar.berg@exempel.se",
             "Utesäljare",
             "070-567 89 01",
@@ -145,7 +149,8 @@ public class Seed
             "Mikael",
             "Lund",
             "Drottninggatan 14",
-            postalCodeCity1,
+            "50251",
+            "Borås",
             "sofia.eriksson@exempel.se",
             "Utesäljare",
             "070-678 90 12",
@@ -157,7 +162,8 @@ public class Seed
             "Patrik",
             "Hedman",
             "Hamngatan 9",
-            postalCodeCity3,
+            "50331",
+            "Borås",
             "viktor.nystrom@exempel.se",
             "Utesäljare",
             "070-789 01 23",
@@ -178,7 +184,8 @@ public class Seed
             "0706689932",
             "ingalillblommor52@emial.com",
             "Gatuvägen 21",
-            postalCodeCity2,
+            "50433",
+            "Borås",
             "19521019-1234",
             "Inga-Lill",
             "Bengtsson"
@@ -188,7 +195,8 @@ public class Seed
             "0706689932",
             "jollebolle52@emial.com",
             "Gatanärhård 69",
-            postalCodeCity2,
+            "50213",
+            "Borås",
             "19990902-2173",
             "Jolle",
             "Alestrom"
@@ -200,7 +208,8 @@ public class Seed
             "0705102355",
             "klas123@email.com",
             "Vägkanten 54",
-            postalCodeCity1,
+            "50331",
+            "Borås",
             "771122-1234",
             "Klas Persson",
             "0710192844",
@@ -211,7 +220,8 @@ public class Seed
             "07061111222",
             "buggan3@email.com",
             "Gatukanten 4",
-            postalCodeCity1,
+            "50251",
+            "Borås",
             "741202-5434",
             "Buggan Buggster",
             "0740568646",
@@ -222,7 +232,8 @@ public class Seed
             "07061783521",
             "kalle63@email.com",
             "Hejsandär 94",
-            postalCodeCity1,
+            "50136",
+            "Borås",
             "590222-2496",
             "Karl Karlsson",
             "0700101010",
@@ -422,9 +433,7 @@ public class Seed
 
         context.CommissionRates.Add(commissionRate1);
 
-        context.PostalCodeCities.Add(postalCodeCity1);
-        context.PostalCodeCities.Add(postalCodeCity2);
-        context.PostalCodeCities.Add(postalCodeCity3);
+
 
         context.Employees.AddRange(
             employee1,

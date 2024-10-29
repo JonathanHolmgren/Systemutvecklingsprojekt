@@ -12,11 +12,13 @@ namespace Models
         public string TelephoneNumber { get; set; }
         public string Email { get; set; }
         public string StreetAddress { get; set; }
+        public string PostalCode { get; set; }
+        public string City { get; set; }
 
         // Navigation property
         public ICollection<Insurance> Insurances { get; set; }
         public ICollection<ProspectNote> ProspectNotes { get; set; }
-        public PostalCodeCity? PostalCodeCity { get; set; }
+        
 
         //Constructors
         public Customer() { }
@@ -25,13 +27,15 @@ namespace Models
             string telephoneNumber,
             string email,
             string streetAddress,
-            PostalCodeCity postalCodeCity
+            string postalCode,
+            string city
         )
         {
             TelephoneNumber = telephoneNumber;
             Email = email;
             StreetAddress = streetAddress;
-            PostalCodeCity = postalCodeCity;
+            PostalCode = postalCode;
+            City = city;
         }
     }
 }

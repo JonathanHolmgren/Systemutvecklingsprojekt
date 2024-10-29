@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -51,18 +52,21 @@ namespace ServiceLayer
 
         public void RemoveInsurance(Insurance selectedInsurance)
         {
-            IList<InsuranceSpec> insuranceSpecs =
-                unitOfWork.InsuranceSpecRepository.GetSpecsForInsurance(
-                    selectedInsurance.InsuranceId
-                );
+            //IList<InsuranceSpec> insuranceSpecs =
+            //    unitOfWork.InsuranceSpecRepository.GetSpecsForInsurance(
+            //        selectedInsurance.InsuranceId
+            //    );
 
-            foreach (InsuranceSpec insuranceSpec in insuranceSpecs)
-            {
-                unitOfWork.InsuranceSpecRepository.Remove(insuranceSpec);
-                unitOfWork.InsuranceTypeAttributeRepository.Remove(
-                    insuranceSpec.InsuranceTypeAttribute
-                );
-            }
+            unitOfWork.InsuranceSpecRepository.Remove(9);
+            unitOfWork.Update(
+                unitOfWork.InsuranceTypeRepository.FirstOrDefault(m => m.InsuranceTypeId == 3)
+            );
+            unitOfWork.InsuranceTypeAttributeRepository.Remove(9);
+            //foreach (InsuranceSpec insuranceSpec in insuranceSpecs)
+            //{
+            //    unitOfWork.InsuranceSpecRepository.Remove(9);
+            //    unitOfWork.InsuranceTypeAttributeRepository.Remove(9);
+            //}
 
             unitOfWork.InsuranceRepository.Remove(selectedInsurance);
             unitOfWork.SaveChanges();

@@ -49,8 +49,8 @@
 
                         <StackPanel Orientation="Horizontal">
                             <TextBox Text="{Binding ViewedCompanyCustomer.StreetAddress, Mode=TwoWay}" Width="100" Margin="5"/>
-                            <TextBox Text="{Binding ViewedCompanyCustomer.PostalCodeCity.PostalCode, Mode=TwoWay}" Width="100" Margin="5"/>
-                            <TextBox Text="{Binding ViewedCompanyCustomer.PostalCodeCity.City, Mode=TwoWay}" Width="100" Margin="5"/>
+                            <TextBox Text="{Binding ViewedCompanyCustomer.PostalCode, Mode=TwoWay}" Width="100" Margin="5"/>
+                            <TextBox Text="{Binding ViewedCompanyCustomer.City, Mode=TwoWay}" Width="100" Margin="5"/>
                         </StackPanel>
 
                         <StackPanel Orientation="Horizontal">
@@ -113,8 +113,8 @@
 
                     <StackPanel Orientation="Horizontal">
                         <TextBox Text="{Binding ViewedPrivateCustomer.StreetAddress, Mode=TwoWay}" Width="100" Margin="5"/>
-                        <TextBox Text="{Binding ViewedPrivateCustomer.PostalCodeCity.PostalCode, Mode=TwoWay}" Width="100" Margin="5"/>
-                        <TextBox Text="{Binding ViewedPrivateCustomer.PostalCodeCity.City, Mode=TwoWay}" Width="100" Margin="5"/>
+                        <TextBox Text="{Binding ViewedPrivateCustomer.PostalCode, Mode=TwoWay}" Width="100" Margin="5"/>
+                        <TextBox Text="{Binding ViewedPrivateCustomer.City, Mode=TwoWay}" Width="100" Margin="5"/>
                     </StackPanel>
 
                     <StackPanel Orientation="Horizontal">
@@ -222,8 +222,8 @@
 
             <StackPanel Orientation="Horizontal">
                 <TextBox Text="{Binding ViewedPrivateCustomer.StreetAddress, Mode=TwoWay}" Width="100" Margin="5" IsReadOnly="True"/>
-                <TextBox Text="{Binding ViewedPrivateCustomer.PostalCodeCity.PostalCode, Mode=TwoWay}" Width="100" Margin="5" IsReadOnly="True"/>
-                <TextBox Text="{Binding ViewedPrivateCustomer.PostalCodeCity.City, Mode=TwoWay}" Width="100" Margin="5" IsReadOnly="True"/>
+                <TextBox Text="{Binding ViewedPrivateCustomer.PostalCode, Mode=TwoWay}" Width="100" Margin="5" IsReadOnly="True"/>
+                <TextBox Text="{Binding ViewedPrivateCustomer.City, Mode=TwoWay}" Width="100" Margin="5" IsReadOnly="True"/>
             </StackPanel>
             
             <StackPanel Orientation="Horizontal">
@@ -287,8 +287,8 @@
             
             <StackPanel Orientation="Horizontal">
                 <TextBox Text="{Binding ViewedCompanyCustomer.StreetAddress, Mode=TwoWay}" Width="100" Margin="5" IsReadOnly="True"/>
-                <TextBox Text="{Binding ViewedCompanyCustomer.PostalCodeCity.PostalCode, Mode=TwoWay}" Width="100" Margin="5" IsReadOnly="True"/>
-                <TextBox Text="{Binding ViewedCompanyCustomer.PostalCodeCity.City, Mode=TwoWay}" Width="100" Margin="5" IsReadOnly="True"/>
+                <TextBox Text="{Binding ViewedCompanyCustomer.PostalCode, Mode=TwoWay}" Width="100" Margin="5" IsReadOnly="True"/>
+                <TextBox Text="{Binding ViewedCompanyCustomer.City, Mode=TwoWay}" Width="100" Margin="5" IsReadOnly="True"/>
             </StackPanel>
 
             <StackPanel Orientation="Horizontal">

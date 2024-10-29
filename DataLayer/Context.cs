@@ -21,7 +21,6 @@ namespace DataLayer
         //public DbSet<Customer> Customers { get; set; }
         public DbSet<PrivateCustomer> PrivateCustomers { get; set; }
         public DbSet<CompanyCustomer> CompanyCustomers { get; set; }
-        public DbSet<PostalCodeCity> PostalCodeCities { get; set; }
         public DbSet<ProspectNote> ProspectNotes { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -39,7 +38,6 @@ namespace DataLayer
         {
             //ConfigureInsurance(modelBuilder);
             ConfigureEmployeeRelations(modelBuilder);
-            ConfigurePostalCodeCityRelations(modelBuilder);
             //ConfigureCustomerRelations(modelBuilder);
 
 
@@ -88,17 +86,9 @@ namespace DataLayer
             // .HasForeignKey(i => i.PostalCode);
         }
 
-        private void ConfigurePostalCodeCityRelations(ModelBuilder modelBuilder)
-        {
-            modelBuilder.Entity<PostalCodeCity>().HasKey(e => e.PostalCode);
 
-            // modelBuilder.Entity<Employee>()
-            //     .HasOne(e => e.PostalCodeCity)
-            //     .WithMany(pc => pc.Employees)
-            // .HasForeignKey(i => i.PostalCode);
-        }
 
-        //
+        
         private void ConfigureCustomerRelations(ModelBuilder modelBuilder)
         {
             // Eftersom vi vill att information från Customer ska finnas i både PrivateCustomer och CompanyCustomer

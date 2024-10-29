@@ -22,71 +22,25 @@ namespace ServiceLayer
 
         public void AddPrivateCustomer(PrivateCustomer privateCustomer)
         {
-            try
-            {
-                PostalCodeCity existingPostalCodeCity =
-                    unitOfWork.PostalCodeCityRepository.GetSpecificPostalCode(
-                        privateCustomer.PostalCodeCity.PostalCode
-                    );
-
-                if (existingPostalCodeCity == null)
-                {
-                    unitOfWork.PostalCodeCityRepository.Add(privateCustomer.PostalCodeCity);
-                }
-                else
-                {
-                    privateCustomer.PostalCodeCity = existingPostalCodeCity;
-                }
                 unitOfWork.PrivateCustomerRepository.Add(privateCustomer);
                 unitOfWork.SaveChanges();
-            }
-            catch (Exception ex)
-            {
-                throw new Exception($"Ett fel uppstod vid sparandet av kunden: {ex.Message}");
-            }
+        }
+        public void AddCompanyCustomer(CompanyCustomer companyCustomer)
+        {
+                unitOfWork.CustomerRepository.Add(companyCustomer);
+                unitOfWork.SaveChanges();
         }
 
         public void UpdateCompanyCustomer(CompanyCustomer updatedCompanyCustomer)
         {
-            bool isFound = unitOfWork.PostalCodeCityRepository.IsPostalCodeRegistered(
-                updatedCompanyCustomer.PostalCodeCity.PostalCode
-            );
-
-            if (isFound == true)
-            {
-                unitOfWork.CustomerRepository.Changepostalcode(
-                    updatedCompanyCustomer.CustomerID,
-                    updatedCompanyCustomer.PostalCodeCity.PostalCode
-                );
-            }
-            else if (isFound == false)
-            {
-                unitOfWork.PostalCodeCityRepository.Add(updatedCompanyCustomer.PostalCodeCity);
                 unitOfWork.Update(updatedCompanyCustomer);
-            }
-            unitOfWork.Update(updatedCompanyCustomer);
-            unitOfWork.SaveChanges();
+                unitOfWork.SaveChanges();            
         }
 
         public void UpdatePrivateCustomer(PrivateCustomer updatedPrivateCustomer)
         {
-            bool isFound = unitOfWork.PostalCodeCityRepository.IsPostalCodeRegistered(
-                updatedPrivateCustomer.PostalCodeCity.PostalCode
-            );
-
-            if (isFound == true)
-            {
-                unitOfWork.CustomerRepository.Changepostalcode(
-                    updatedPrivateCustomer.CustomerID,
-                    updatedPrivateCustomer.PostalCodeCity.PostalCode
-                );
-            }
-            else if (isFound == false)
-            {
-                unitOfWork.PostalCodeCityRepository.Add(updatedPrivateCustomer.PostalCodeCity);
                 unitOfWork.Update(updatedPrivateCustomer);
-            }
-            unitOfWork.SaveChanges();
+                unitOfWork.SaveChanges();
         }
 
         public void RemoveInactiveCustomers()
@@ -212,42 +166,7 @@ namespace ServiceLayer
             }
         }
 
-        public void AddCompanyCustomer(CompanyCustomer companyCustomer)
-        {
-            try
-            {
-                PostalCodeCity existingPostalCodeCity =
-                    unitOfWork.PostalCodeCityRepository.GetSpecificPostalCode(
-                        companyCustomer.PostalCodeCity.PostalCode
-                    );
-                if (
-                    companyCustomer.OrganisationNumber
-                    == unitOfWork
-                        .CustomerRepository.GetSpecificCompanyCustomer(
-                            companyCustomer.OrganisationNumber
-                        )
-                        .OrganisationNumber
-                )
-                {
-                    throw new Exception("Organisationsnummer finns redan");
-                }
 
-                if (existingPostalCodeCity == null)
-                {
-                    unitOfWork.PostalCodeCityRepository.Add(companyCustomer.PostalCodeCity);
-                }
-                else
-                {
-                    companyCustomer.PostalCodeCity = existingPostalCodeCity;
-                }
-                unitOfWork.CustomerRepository.Add(companyCustomer);
-                unitOfWork.SaveChanges();
-            }
-            catch (Exception ex)
-            {
-                throw new Exception($"Ett fel uppstod vid sparandet av kunden: {ex.Message}");
-            }
-        }
 
         public IList<PrivateCustomer> GetAllPrivateCustomers()
         {

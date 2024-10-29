@@ -486,7 +486,6 @@ namespace PresentationLayer.ViewModels
                 CustomerInsurances = new ObservableCollection<Insurance>(
                     ViewedCompanyCustomer.Insurances
                 );
-                InsuranceToRemove = null;
             }
             else if (ViewedPrivateCustomer != null)
             {
@@ -495,8 +494,8 @@ namespace PresentationLayer.ViewModels
                 CustomerInsurances = new ObservableCollection<Insurance>(
                     ViewedPrivateCustomer.Insurances
                 );
-                InsuranceToRemove = null;
             }
+            InsuranceToRemove = null;
         }
 
         //Return to main menu

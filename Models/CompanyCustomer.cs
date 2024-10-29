@@ -21,13 +21,14 @@ namespace Models
             string telephoneNumber,
             string email,
             string streetAddress,
-            PostalCodeCity postalCodeCity,
+            string postalCode,
+            string city,
             string organisationNumber,
             string contactPersonName,
             string companyPersonTelephoneNumber,
             string companyName
         )
-            : base(telephoneNumber, email, streetAddress, postalCodeCity)
+            : base(telephoneNumber, email, streetAddress, postalCode, city)
         {
             OrganisationNumber = organisationNumber;
             ContactPersonName = contactPersonName;

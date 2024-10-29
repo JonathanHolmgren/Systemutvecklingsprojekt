@@ -72,8 +72,8 @@ namespace DataLayer.Repositories
                 .ThenInclude(a => a.User)
                 .ThenInclude(b => b.Employee)
                 .Include(c => c.Insurances)
-                .ThenInclude(a => a.InsuranceType)
-                .ThenInclude(b => b.InsuranceTypeAttributes)
+                //.ThenInclude(a => a.InsuranceType)
+                //.ThenInclude(b => b.InsuranceTypeAttributes)
                 .FirstOrDefault(c => c.OrganisationNumber == organisationNumber);
         }
 
@@ -90,8 +90,8 @@ namespace DataLayer.Repositories
                 .ThenInclude(a => a.User)
                 .ThenInclude(b => b.Employee)
                 .Include(c => c.Insurances)
-                .ThenInclude(a => a.InsuranceType)
-                .ThenInclude(b => b.InsuranceTypeAttributes)
+                //.ThenInclude(a => a.InsuranceType)
+                //.ThenInclude(b => b.InsuranceTypeAttributes)
                 .Include(c => c.Insurances)
                 .ThenInclude(a => a.InsuredPerson)
                 .FirstOrDefault(c => c.SSN == sSN);

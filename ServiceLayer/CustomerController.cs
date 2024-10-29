@@ -52,20 +52,19 @@ namespace ServiceLayer
                 updatedCompanyCustomer.PostalCodeCity.PostalCode
             );
 
-            if (isFound == true)
+            if (isFound)
             {
                 unitOfWork.CustomerRepository.Changepostalcode(
                     updatedCompanyCustomer.CustomerID,
                     updatedCompanyCustomer.PostalCodeCity.PostalCode
                 );
             }
-            else if (isFound == false)
+            else
             {
                 unitOfWork.PostalCodeCityRepository.Add(updatedCompanyCustomer.PostalCodeCity);
                 unitOfWork.Update(updatedCompanyCustomer);
+                unitOfWork.SaveChanges();
             }
-            unitOfWork.Update(updatedCompanyCustomer);
-            unitOfWork.SaveChanges();
         }
 
         public void UpdatePrivateCustomer(PrivateCustomer updatedPrivateCustomer)
@@ -73,20 +72,19 @@ namespace ServiceLayer
             bool isFound = unitOfWork.PostalCodeCityRepository.IsPostalCodeRegistered(
                 updatedPrivateCustomer.PostalCodeCity.PostalCode
             );
-
-            if (isFound == true)
+            if (isFound)
             {
                 unitOfWork.CustomerRepository.Changepostalcode(
                     updatedPrivateCustomer.CustomerID,
                     updatedPrivateCustomer.PostalCodeCity.PostalCode
                 );
             }
-            else if (isFound == false)
+            else
             {
                 unitOfWork.PostalCodeCityRepository.Add(updatedPrivateCustomer.PostalCodeCity);
                 unitOfWork.Update(updatedPrivateCustomer);
+                unitOfWork.SaveChanges();
             }
-            unitOfWork.SaveChanges();
         }
 
         public void RemoveInactiveCustomers()

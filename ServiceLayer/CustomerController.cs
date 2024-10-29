@@ -142,7 +142,7 @@ namespace ServiceLayer
             foreach (int insuranceId in insuranceIds)
             {
                 IList<InsuranceSpec> temporaryInsuranceSpecs =
-                    unitOfWork.InsuranceSpecRepository.GetInsuranceSpecsByInsuranceId(insuranceId);
+                    unitOfWork.InsuranceSpecRepository.GetSpecsForInsurance(insuranceId);
 
                 for (int i = 0; i < temporaryInsuranceSpecs.Count; i++)
                 {
@@ -169,7 +169,7 @@ namespace ServiceLayer
             foreach (int insuranceId in insuranceIds)
             {
                 IList<InsuranceSpec> temporaryInsuranceSpecs =
-                    unitOfWork.InsuranceSpecRepository.GetInsuranceSpecsByInsuranceId(insuranceId);
+                    unitOfWork.InsuranceSpecRepository.GetSpecsForInsurance(insuranceId);
 
                 for (int i = 0; i < temporaryInsuranceSpecs.Count; i++)
                 {
@@ -183,7 +183,7 @@ namespace ServiceLayer
             unitOfWork.SaveChanges();
         }
 
-        public void RemoveAllInsuranceSpecsAndInsuranceTypeAttributes(
+        public void RemoveAllInsuranceSpecsAndInsuranceTypeAttributes( //Denna jobbar vi med!!!!
             IList<InsuranceSpec> insuranceSpecs
         )
         {

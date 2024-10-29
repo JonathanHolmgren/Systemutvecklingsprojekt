@@ -52,7 +52,7 @@ namespace ServiceLayer
         public void RemoveInsurance(Insurance selectedInsurance)
         {
             IList<InsuranceSpec> insuranceSpecs =
-                unitOfWork.InsuranceSpecRepository.GetInsuranceSpecsByInsuranceId(
+                unitOfWork.InsuranceSpecRepository.GetSpecsForInsurance(
                     selectedInsurance.InsuranceId
                 );
 

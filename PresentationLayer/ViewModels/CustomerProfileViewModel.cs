@@ -368,7 +368,9 @@ namespace PresentationLayer.ViewModels
                 {
                     customerController.RemovePrivateCustomer(ViewedPrivateCustomer);
                     ViewedPrivateCustomer = null;
+                    CustomerInsurances = null;
                     MessageBox.Show("Kunden är nu borttagen ur systemet.");
+                    
                 }
                 else if (ViewedPrivateCustomer.Insurances.Count > 0)
                 {
@@ -406,6 +408,7 @@ namespace PresentationLayer.ViewModels
                 {
                     customerController.RemoveCompanyCustomer(ViewedCompanyCustomer);
                     ViewedCompanyCustomer = null;
+                    CustomerInsurances = null;
                     MessageBox.Show("Kunden är nu borttagen ur systemet.");
                 }
                 else if (ViewedCompanyCustomer.Insurances.Count > 0)

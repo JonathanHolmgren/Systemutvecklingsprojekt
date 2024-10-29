@@ -11,12 +11,16 @@
   <ItemGroup>
     <None Remove="DataTemplatesAndStyles\Assets\arrow.png" />
     <None Remove="DataTemplatesAndStyles\Assets\calculate_commision.png" />
+    <None Remove="DataTemplatesAndStyles\Assets\cross.png" />
     <None Remove="DataTemplatesAndStyles\Assets\export_bill.png" />
     <None Remove="DataTemplatesAndStyles\Assets\icons8-customer-100.png" />
     <None Remove="DataTemplatesAndStyles\Assets\insurance_icon.png" />
     <None Remove="DataTemplatesAndStyles\Assets\log_out.png" />
+    <None Remove="DataTemplatesAndStyles\Assets\maximize.png" />
+    <None Remove="DataTemplatesAndStyles\Assets\maximized.png" />
     <None Remove="DataTemplatesAndStyles\Assets\max_def.png" />
     <None Remove="DataTemplatesAndStyles\Assets\max_mo.png" />
+    <None Remove="DataTemplatesAndStyles\Assets\minimize.png" />
     <None Remove="DataTemplatesAndStyles\Assets\register_company.png" />
     <None Remove="DataTemplatesAndStyles\Assets\register_customer.png" />
     <None Remove="DataTemplatesAndStyles\Assets\show_prospects.png" />
@@ -30,6 +34,7 @@
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="9.0.0-rc.2.24473.5" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="9.0.0-rc.2.24473.5" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="9.0.0-rc.2.24473.5" />
+    <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.135" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
   </ItemGroup>
 
@@ -40,13 +45,17 @@
 
   <ItemGroup>
     <Resource Include="DataTemplatesAndStyles\Assets\calculate_commision.png" />
+    <Resource Include="DataTemplatesAndStyles\Assets\cross.png" />
     <Resource Include="DataTemplatesAndStyles\Assets\export_bill.png" />
     <Resource Include="DataTemplatesAndStyles\Assets\arrow.png" />
     <Resource Include="DataTemplatesAndStyles\Assets\icons8-customer-100.png" />
     <Resource Include="DataTemplatesAndStyles\Assets\insurance_icon.png" />
     <Resource Include="DataTemplatesAndStyles\Assets\log_out.png" />
+    <Resource Include="DataTemplatesAndStyles\Assets\maximize.png" />
+    <Resource Include="DataTemplatesAndStyles\Assets\maximized.png" />
     <Resource Include="DataTemplatesAndStyles\Assets\max_def.png" />
     <Resource Include="DataTemplatesAndStyles\Assets\max_mo.png" />
+    <Resource Include="DataTemplatesAndStyles\Assets\minimize.png" />
     <Resource Include="DataTemplatesAndStyles\Assets\register_company.png" />
     <Resource Include="DataTemplatesAndStyles\Assets\register_customer.png" />
     <Resource Include="DataTemplatesAndStyles\Assets\show_prospects.png" />

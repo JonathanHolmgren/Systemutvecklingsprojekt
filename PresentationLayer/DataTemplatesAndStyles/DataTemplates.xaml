@@ -1,5 +1,6 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
                     xmlns:views="clr-namespace:PresentationLayer.Views"
                     xmlns:vm="clr-namespace:PresentationLayer.ViewModels">
 
@@ -43,21 +44,22 @@
 
             <Grid Grid.Row="1"
                 Grid.Column="0"
-Grid.ColumnSpan="2" 
+Grid.ColumnSpan="1" 
 VerticalAlignment="Top"
 HorizontalAlignment="Stretch"
 Background="LightGray"
 Height="30">
 
 
-                <Border BorderBrush="Gray"
+                <Border BorderBrush="#C5C5C5"
       BorderThickness="0,0,0,1" 
-              VerticalAlignment="Bottom"
-      HorizontalAlignment="Stretch">
+              VerticalAlignment="Top"
+      HorizontalAlignment="Stretch"
+                         Margin="0,3,0,0"/>
+               
 
 
 
-                </Border>
             </Grid>
 
             <!-- Side Menu -->
@@ -72,10 +74,23 @@ Height="30">
                       Grid.Column="1"
                       VerticalScrollBarVisibility="Auto">
                 <Grid x:Name="MainContentGrid">
+
+
+                    <Border BorderBrush="#C5C5C5"
+BorderThickness="0,0,0,1" 
+        VerticalAlignment="Top"
+HorizontalAlignment="Stretch"
+                   Margin="0,3,0,0"/>
+                    <Border BorderBrush="#C5C5C5"
+BorderThickness="1,0,0,0"
+VerticalAlignment="Stretch"
+HorizontalAlignment="Left"
+Margin="0,3,0,0" />
                     <!-- Placeholder for UserControl -->
                     <ContentControl Content="{Binding CurrentView, UpdateSourceTrigger=PropertyChanged}"
                                 HorizontalAlignment="Stretch"
-                                VerticalAlignment="Stretch"/>
+                                VerticalAlignment="Stretch"
+                                    Margin="4,7,0,0"/>
                 </Grid>
             </ScrollViewer>
 
@@ -115,8 +130,20 @@ Height="30">
 
             </Grid.RowDefinitions>
 
+            <Grid Grid.Row="0"
+                    Grid.Column="0"
+                    Grid.ColumnSpan="3">
+                <Rectangle Height="30" Fill="Transparent" HorizontalAlignment="Stretch">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="MouseDown">
+                        <i:InvokeCommandAction Command="{Binding DragWindowCommand}"
+                                           CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}" />
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+                </Rectangle>
 
-
+            </Grid>
+            
 
             <Grid Grid.Row="1"
       Grid.Column="0"
@@ -127,18 +154,16 @@ Height="30">
       Height="30">
 
                 
-                <Border BorderBrush="Gray"
-            BorderThickness="0,0,0,1" 
-                    VerticalAlignment="Bottom"
-            HorizontalAlignment="Stretch">
 
-                    
+                <Border BorderBrush="#C5C5C5"
+BorderThickness="0,0,0,1" 
+        VerticalAlignment="Top"
+HorizontalAlignment="Stretch"
+                   Margin="0,3,0,0"/>
 
-                </Border>
+
+                
             </Grid>
-
-
-
 
 
             <!-- Side Menu -->
@@ -155,10 +180,21 @@ Height="30">
                           Background="Transparent">
                 
                 <Grid x:Name="MainContentGrid">
+                    <Border BorderBrush="#C5C5C5"
+BorderThickness="0,0,0,1" 
+        VerticalAlignment="Top"
+HorizontalAlignment="Stretch"
+                   Margin="0,3,0,0"/>
+                    <Border BorderBrush="#C5C5C5"
+            BorderThickness="1,0,0,0"
+            VerticalAlignment="Stretch"
+            HorizontalAlignment="Left"
+            Margin="0,3,0,0" />
                     <!-- Placeholder for UserControl -->
                     <ContentControl Content="{Binding CurrentView, UpdateSourceTrigger=PropertyChanged}"
                     HorizontalAlignment="Stretch"
-                    VerticalAlignment="Stretch"/>
+                    VerticalAlignment="Stretch"
+                                    Margin="4,7,0,0"/>
                 </Grid>
             </ScrollViewer>
         </Grid>

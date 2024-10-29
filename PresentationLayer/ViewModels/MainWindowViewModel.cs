@@ -104,7 +104,14 @@ namespace PresentationLayer.ViewModels
             }
         }
 
-       
+        public ICommand DragWindowCommand { get; }
+
+        
+
+        private void OnDragWindow(Window window)
+        {
+            window?.DragMove();
+        }
 
         // Close App Command
 
@@ -117,6 +124,7 @@ namespace PresentationLayer.ViewModels
             ChangeViewCommand = new RelayCommand<Type>(ChangeViewByType);
             User = tempController.GetUser(1);
             Employee = user.Employee;
+            DragWindowCommand = new RelayCommand<Window>(OnDragWindow);
         }
         private void MaxApp(object parameter)
         {

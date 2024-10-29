@@ -694,6 +694,70 @@
         </Setter>
     </Style>
 
+    <Style x:Key="UserButton" TargetType="Button">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Grid>
+                        <Border x:Name="border"
+                            Background="LightGray"
+                            Height="30"
+                            Width="85"
+                            VerticalAlignment="Top"
+                            HorizontalAlignment="Right">
+                            <StackPanel Height="30"
+                                    Width="85"
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Center"
+                                    Orientation="Horizontal">
+
+                                <!-- Använd en Wrapper för att ändra margin baserat på WindowState -->
+                                <Image x:Name="userIcon"
+                                   Source="Assets/user_mini.png"
+                                   Height="10"
+                                   Width="10"
+                                   HorizontalAlignment="Left"
+                                   VerticalAlignment="Center"
+                                   Margin="2,3,0,0"
+                                   Stretch="Fill" />
+
+                                <TextBlock x:Name="userText"
+                                       FontFamily="Fonts/#Saira SemiBold"
+                                       FontSize="10"
+                                       VerticalAlignment="Top"
+                                       HorizontalAlignment="Left"
+                                       Foreground="#959FAC"
+                                       Margin="3,10,0,0">
+                                    <TextBlock.Text>
+                                        <MultiBinding StringFormat="{}{0}, {1}">
+                                            <Binding Path="Employee.FirstName" />
+                                            <Binding Path="Employee.LastName" />
+                                        </MultiBinding>
+                                    </TextBlock.Text>
+                                </TextBlock>
+                            </StackPanel>
+                        </Border>
+                    </Grid>
+
+                    <ControlTemplate.Triggers>
+                        <!-- Trigger för MouseOver och IsPressed -->
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" TargetName="border" Value="#E9EBED" />
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter Property="Background" TargetName="border" Value="#C1C1C1" />
+                        </Trigger>
+
+                        <!-- Trigger för maximerat fönster -->
+                        <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=Window}, Path=WindowState}" Value="Maximized">
+                            <Setter TargetName="userIcon" Property="Margin" Value="2,6,0,0"/>
+                            <Setter TargetName="userText" Property="Margin" Value="3,13,0,0"/>
+                        </DataTrigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
 
     <Style x:Key="MenuStackPanelStyle"
            TargetType="StackPanel">

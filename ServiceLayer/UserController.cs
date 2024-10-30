@@ -49,17 +49,5 @@ public class UserController
             unitOfWork.UserRepository.Remove(userToRemove);
             unitOfWork.SaveChanges();
         }
-      
-       public AuthorizationLevel GetAuthorizationLevelForUser(string username, string password)
-        {
-            var user = unitOfWork.UserRepository.GetUserByCredentials(username, password);
-            if (user != null)
-            {
-                return user.AuthorizationLevel;
-            }
-
-            throw new Exception("Invalid login credentials.");
-        }
-
     }
 }

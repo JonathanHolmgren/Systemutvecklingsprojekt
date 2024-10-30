@@ -1,7 +1,7 @@
+
 ﻿using Microsoft.EntityFrameworkCore;
 using Models;
 using System;
-
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Intrinsics.X86;
@@ -13,13 +13,14 @@ namespace DataLayer.Repositories
 {
     public class UserRepository : Repository<User>
     {
- 
+
         public UserRepository(Context context) : base(context) { }
 
         public User GetUserByID(int iD)
         {
             return Context.Set<User>().FirstOrDefault(user => user.UserID == iD);
  
+
         public UserRepository(Context context)
             : base(context) { }
 
@@ -28,6 +29,8 @@ namespace DataLayer.Repositories
             return Context
                 .Set<User>()
                 .Where(user => user.Employee.AgentNumber == agentNumber)
+                .ToList();
+
         }
     }
 }

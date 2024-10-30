@@ -4,8 +4,8 @@
              xmlns:local="clr-namespace:PresentationLayer"
              xmlns:models="clr-namespace:Models;assembly=Models"
              xmlns:sys="clr-namespace:System;assembly=System.Runtime"
-            >
-
+             StartupUri="MainWindow.xaml">
+  
     <Application.Resources>
             <ObjectDataProvider MethodName="GetValues" ObjectType="{x:Type sys:Enum}" x:Key="AuthorizationLevelEnumValues">
                 <ObjectDataProvider.MethodParameters>

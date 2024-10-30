@@ -3,17 +3,178 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:PresentationLayer"
-
-        xmlns:service="clr-namespace:PresentationLayer.Services"
-        xmlns:view="clr-namespace:PresentationLayer.Views"
-
+        xmlns:local="clr-namespace:PresentationLayer.Services"
+        xmlns:vm="clr-namespace:PresentationLayer.ViewModels"
+        xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+        xmlns:views="clr-namespace:PresentationLayer.Views"
         mc:Ignorable="d"
-        Title="MainWindow" Height="600" Width="850">
-        <!-- Background="Transparent"> -->
-        
-    <Grid>
-        <view:RegisterPreliminaryInsurance/>
-    </Grid>
+        Title="MainWindow" Height="700" Width="1350"
+        MinWidth="1100"
+        MinHeight="600"
+        WindowStyle="None"
+        AllowsTransparency="True"
+        ResizeMode="CanResizeWithGrip"
+        WindowStartupLocation="CenterScreen"
     
+        Background="Transparent">
+
+    <Window.Resources>
+        <ResourceDictionary>
+            <!-- BooleanToVisibilityConverter -->
+            <BooleanToVisibilityConverter x:Key="BooleanToVisibility"/>
+            
+            <!-- Merged dictionaries -->
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="DataTemplatesAndStyles/DataTemplates.xaml"/>
+                <ResourceDictionary Source="DataTemplatesAndStyles/Styles.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+
+    <Window.DataContext>
+        <vm:MainWindowViewModel/>
+
+    </Window.DataContext>
+    <Border CornerRadius="7"
+            Background="LightGray"
+            BorderBrush="Gray"
+            Padding="0"
+            BorderThickness="0"
+            >
+       
+
+        <Grid>
+            
+            <!--Responsive Layouts-->
+        <ContentControl Content="{Binding}">
+            <ContentControl.Style>
+                <Style TargetType="ContentControl">
+                    <!--Default Layout (Laptop)-->
+                    <Setter Property="ContentTemplate" Value="{DynamicResource Laptop_Layout}" />
+                    <Style.Triggers>
+
+                        <!--// Desktop Layout // {width > 1400px}-->
+
+                        <DataTrigger Binding="{Binding Path=ActualWidth, RelativeSource={RelativeSource AncestorType=Window}, Converter={x:Static local:IsGreaterThanConverter.Instance}, ConverterParameter=1400}"
+                                     Value="True">
+
+                            <Setter Property="ContentTemplate"
+                                    Value="{StaticResource Desktop_Layout}" />
+
+                        </DataTrigger>
+                    </Style.Triggers>
+
+                </Style>
+            </ContentControl.Style>
+        </ContentControl>
+
+            
+        <StackPanel Orientation="Horizontal"
+                    VerticalAlignment="Top"
+                    HorizontalAlignment="Right">
+            
+                <Button x:Name="ShowUserInfo"
+                        Command="{Binding ShowSubMenuCommand}"
+                        Style="{StaticResource UserButton}"/>
+                <Border>
+                    
+                </Border>    
+            <Popup x:Name="UserInfoPopup" 
+                        IsOpen="{Binding IsSubmenuOpen}"
+                        Placement="Bottom" 
+                        StaysOpen="False" 
+                        AllowsTransparency="True"
+                        Focusable="False"
+                   
+                       >
+
+                    <!-- Popup innehåll -->
+                    <Border Background="White"
+                            Height="140"
+                            Width="205"
+                            BorderBrush="LightGray"
+                            BorderThickness="1"
+                            CornerRadius="3"
+                            Padding="10" >
+                        
+                        <StackPanel>
+                            <StackPanel Orientation="Horizontal"
+                                        Height="20">
+                                <TextBlock Text="Toppförsäkringar" 
+                                           FontSize="16" 
+                                           FontFamily="Fonts/#Saira SemiBold"
+                                           Margin="0,0,0,0"/>
+                                <Button Style="{StaticResource PopOutButtonLogOut}"
+                                        Command="{Binding ExitCommand}"
+                                        Margin="6,0,0,0">
+                                </Button>
+
+                            </StackPanel>
+
+                            <StackPanel Orientation="Horizontal"
+                                        Margin="0,12,0,0">
+                                <Image Source="/user_information.png"
+                                       Height="35"
+                                       Width="35"
+                                       VerticalAlignment="Top"
+                                       HorizontalAlignment="Center"
+                                       Stretch="Fill"
+                                       Margin="0,10,0,0"/>
+                                <StackPanel
+                                    Margin="3,0,0,0">
+                                    <TextBlock FontFamily="Fonts/#Saira Bold"
+                                                 FontSize="15"
+                                                 VerticalAlignment="Top"
+                                                 HorizontalAlignment="Left"
+                                                 Foreground="Black"
+                                                 Margin="0,5,0,0">
+                                        <TextBlock.Text>
+                                            <MultiBinding StringFormat="{}{0} {1}">
+                                                <Binding Path="Employee.FirstName" />
+                                                <Binding Path="Employee.LastName" />
+                                            </MultiBinding>
+                                        </TextBlock.Text>
+                                    </TextBlock>
+                                    <TextBlock Text="{Binding Employee.AgentNumber, StringFormat='Agentnummer: {0}'}" 
+                                         FontSize="12" 
+                                         FontFamily="Fonts/#Saira SemiBold"
+                                         Margin="0,3,0,0"/>
+                                                            <TextBlock Text="{Binding Employee.Email}" 
+                                         FontSize="12" 
+                                         FontFamily="Fonts/#Saira SemiBold"
+                                         Margin="0,3,0,0"/>
+                                                            <TextBlock Text="{Binding User.AuthorizationLevel}" 
+                                         FontSize="12" 
+                                         FontFamily="Fonts/#Saira SemiBold"
+                                         Margin="0,3,0,0"/>
+                                </StackPanel>
+                            </StackPanel>
+                           
+                              
+                        </StackPanel>
+
+                    </Border>
+                </Popup>
+
+                <!--Minimize button-->
+            <Button Command="{Binding MinAppCommand}" 
+                    CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}"
+                    Style="{StaticResource MinmizeButton}"/>
+            <!--Max App Button-->
+            <Button Command="{Binding MaxAppCommand}"
+                    CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}"
+                    Style="{StaticResource MaximizeButton}" />
+            <!--Close Button-->
+            <Button Command="{Binding ExitCommand}"
+            Style="{StaticResource CloseButton}"/>
+                
+
+
+            </StackPanel>
+
+    </Grid>
+
+
+    </Border>
+
 </Window>

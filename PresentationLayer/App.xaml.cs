@@ -13,13 +13,20 @@ namespace PresentationLayer
     {
         protected override void OnStartup(StartupEventArgs e)
         {
-            base.OnStartup(e);
+            var services = new ServiceCollection();
+            ConfigureServices(services);
+            ServiceProvider = services.BuildServiceProvider();
 
-            // Skapa och visa huvudfönstret
+            // Skapa MainWindow från DI-container och visa det
+            var mainWindow = ServiceProvider.GetRequiredService<MainWindow>();
+            
+        }
 
-
-            MainWindow mainWindow = new MainWindow();
-            mainWindow.Show();
+        private void ConfigureServices(ServiceCollection services)
+        {
+        
+            // Registrera MainWindow
+            services.AddTransient<MainWindow>();
         }
     }
 }

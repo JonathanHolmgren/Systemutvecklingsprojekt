@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 
 namespace Models
 {
-    public enum BillingInterval
+    public class CommisionRate
     {
-        Månad, Kvartal, Halvår, År
+        public int CommisionrateID { get; set; }
+        public double CommisionrateRate { get; set; }
     }
 }

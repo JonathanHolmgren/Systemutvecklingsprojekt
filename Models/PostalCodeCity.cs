@@ -8,6 +8,7 @@ namespace Models
 {
     public class PostalCodeCity
     {
+        public int ID { get; set; }
         public string PostalCode { get; set; }
         public string City { get; set; }
         public PostalCodeCity()

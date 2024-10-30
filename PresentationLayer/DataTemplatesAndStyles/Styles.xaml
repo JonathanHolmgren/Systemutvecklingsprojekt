@@ -2,8 +2,9 @@
 
 <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:views="clr-namespace:PresentationLayer.Views">
-
+                    xmlns:views="clr-namespace:PresentationLayer.Views"
+                    xmlns:local="clr-namespace:PresentationLayer.Services">
+    <local:ViewTypeToImageSourceConverter x:Key="ViewTypeToImageSourceConverter"/>
     <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
     <!--Sidemenu-->
     <Style x:Key="SideMenuStyle"
@@ -20,144 +21,195 @@
 
     </Style>
 
-    <Style x:Key="MenuButtonRegisterPrivateCustomer"
-        TargetType="Button">
-
+    <Style x:Key="MenuButtonRegisterPrivateCustomer" TargetType="Button">
         <Setter Property="Template">
-
             <Setter.Value>
-
                 <ControlTemplate TargetType="Button">
-
                     <Grid>
                         <Border x:Name="border"
-                                 Background="LightGray"
-                                 Height="55"
-                                 Width="55"
-                                 VerticalAlignment="Top"
-                                 HorizontalAlignment="Left"
-                                 CornerRadius="5"
-                                 Margin="5">
-                            <StackPanel Height="55"
+                            Background="LightGray"
+                            Height="55"
+                            Width="55"
+                            VerticalAlignment="Top"
+                            HorizontalAlignment="Left"
+                            CornerRadius="5"
+                            Margin="5">
+                            <StackPanel Orientation="Horizontal">
+                                <!-- Extra bild, visas endast när CurrentView är specificerad -->
+                                <Image x:Name="extraImage"
+                                   Height="45"
+                                   Width="25"
+                                   HorizontalAlignment="Left"
+                                   VerticalAlignment="Center"
+                                   Margin="-8,0,0,0"
+                                   Stretch="Fill"
+                                   Source="Assets/select_line.png"
+                                   Visibility="Collapsed"/>
+
+                                <!-- Ikon och textblock -->
+                                <StackPanel x:Name="iconStackPanel"
+                                        Height="55"
                                         Width="55"
                                         HorizontalAlignment="Center"
                                         VerticalAlignment="Center"
+                                        Orientation="Vertical"
                                         Margin="0,0,0,0">
 
-                                <Image Source="Assets/register_customer.png"
-                                         Height="25"
-                                         Width="25"
-                                         HorizontalAlignment="Center"
-                                         VerticalAlignment="Bottom"
-                                         Margin="0,7,0,0"
-                                         Stretch="Fill" />  
+                                    <!-- Standardikon som visas när ingen specifik vy är aktiv -->
+                                    <Image x:Name="iconImage"
+                                       Height="25"
+                                       Width="25"
+                                       HorizontalAlignment="Center"
+                                       VerticalAlignment="Bottom"
+                                       Margin="0,7,0,0"
+                                       Stretch="Fill"
+                                       Source="Assets/register_customer.png"
+                                       Visibility="Visible"/>
 
-                                <TextBlock Foreground="Black"
-                                             VerticalAlignment="Center"
-                                             HorizontalAlignment="Center"
-                                             FontSize="8"
-                                             Text="Registera privatkund"
-                                             FontFamily="Fonts/#Open Sans Regular"
-                                             Margin="0,2,0,0" 
-                                             TextWrapping="Wrap"/>
+                                    <!-- Alternativ ikon som visas när specifik vy är aktiv -->
+                                    <Image x:Name="selectedImage"
+                                       Height="25"
+                                       Width="25"
+                                       HorizontalAlignment="Center"
+                                       VerticalAlignment="Bottom"
+                                       Margin="0,7,0,0"
+                                       Stretch="Fill"
+                                       Source="{Binding CurrentView, Converter={StaticResource ViewTypeToImageSourceConverter}}" 
+                                        Visibility="Collapsed"/>
 
+                                        <TextBlock Foreground="Black"
+                                           VerticalAlignment="Bottom"
+                                           HorizontalAlignment="Center"
+                                           FontSize="8"
+                                           Text="Registera privatkund"
+                                           FontFamily="Fonts/#Open Sans Regular"
+                                           Margin="0,2,0,0" 
+                                           TextWrapping="Wrap"/>
+                                </StackPanel>
                             </StackPanel>
                         </Border>
-                       
-
                     </Grid>
 
                     <ControlTemplate.Triggers>
-
-                        <Trigger Property="IsMouseOver"
-                      Value="True">
-                            <Setter Property="Background"
-                         TargetName="border"
-                         Value="#E9EBED" />
-                        </Trigger>
-                        <Trigger Property="IsPressed"
-                      Value="True">
-                            <Setter Property="Background"
-                         TargetName="border"
-                         Value="#C1C1C1" />
-
+                        <!-- Hover-effekt -->
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" TargetName="border" Value="#E9EBED" />
                         </Trigger>
 
+                        <!-- Tryck-effekt -->
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter Property="Background" TargetName="border" Value="#C1C1C1" />
+                        </Trigger>
+
+                        <!-- DataTrigger för att visa extraImage och selectedImage, samt dölja iconImage -->
+                        <DataTrigger Binding="{Binding CurrentView, Converter={StaticResource ViewTypeToImageSourceConverter}}" 
+                                 Value="Assets/register_customer_pressed.png">
+                            <Setter TargetName="extraImage" Property="Visibility" Value="Visible"/>
+                            <Setter TargetName="iconImage" Property="Visibility" Value="Collapsed"/>
+                            <Setter TargetName="selectedImage" Property="Visibility" Value="Visible"/>
+                            <Setter TargetName="iconStackPanel" Property="Margin" Value="-16,0,0,0"/>
+                        </DataTrigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
     </Style>
 
-    <Style x:Key="MenuButtonRegisterCompanyCustomer"
-           TargetType="Button">
 
+    <Style x:Key="MenuButtonRegisterCompanyCustomer" TargetType="Button">
         <Setter Property="Template">
-
             <Setter.Value>
-
                 <ControlTemplate TargetType="Button">
-
                     <Grid>
                         <Border x:Name="border"
-                                Background="LightGray"
-                                Height="55"
-                                Width="55"
-                                VerticalAlignment="Top"
+                         Background="LightGray"
+                         Height="55"
+                         Width="55"
+                         VerticalAlignment="Top"
+                         HorizontalAlignment="Left"
+                         CornerRadius="5"
+                         Margin="5">
+                            <StackPanel Orientation="Horizontal">
+                                <!-- Extra bild, visas endast när CurrentView är specificerad -->
+                                <Image x:Name="extraImage"
+                                Height="45"
+                                Width="25"
                                 HorizontalAlignment="Left"
-                                CornerRadius="5"
-                                Margin="5">
-                            <StackPanel Height="55"
-                                         Width="55"
-                                         HorizontalAlignment="Center"
-                                         VerticalAlignment="Center"
-                                         Margin="0,0,0,0">
+                                VerticalAlignment="Center"
+                                Margin="-8,0,0,0"
+                                Stretch="Fill"
+                                Source="Assets/select_line.png"
+                                Visibility="Collapsed"/>
 
-                                <Image Source="Assets/register_company.png"
-                                        Height="25"
-                                        Width="25"
+                                <!-- Ikon och textblock -->
+                                <StackPanel x:Name="iconStackPanel"
+                                     Height="55"
+                                     Width="55"
+                                     HorizontalAlignment="Center"
+                                     VerticalAlignment="Center"
+                                     Orientation="Vertical"
+                                     Margin="0,0,0,0">
+
+                                    <!-- Standardikon som visas när ingen specifik vy är aktiv -->
+                                    <Image x:Name="iconImage"
+                                    Height="25"
+                                    Width="25"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Bottom"
+                                    Margin="0,7,0,0"
+                                    Stretch="Fill"
+                                    Source="Assets/register_company.png"
+                                    Visibility="Visible"/>
+
+                                    <!-- Alternativ ikon som visas när specifik vy är aktiv -->
+                                    <Image x:Name="selectedImage"
+                                    Height="25"
+                                    Width="25"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Bottom"
+                                    Margin="0,7,0,0"
+                                    Stretch="Fill"
+                                    Source="{Binding CurrentView, Converter={StaticResource ViewTypeToImageSourceConverter}}" 
+                                     Visibility="Collapsed"/>
+
+                                    <TextBlock Foreground="Black"
+                                        VerticalAlignment="Bottom"
                                         HorizontalAlignment="Center"
-                                        VerticalAlignment="Center"
-                                        Margin="0,7,0,0"
-                                        Stretch="Fill" />
-
-                                <TextBlock Foreground="Black"
-                                            VerticalAlignment="Center"
-                                            HorizontalAlignment="Center"
-                                            FontSize="8"
-                                            Text="Registera företagskund"
-                                            FontFamily="Fonts/#Open Sans Regular"
-                                            Margin="0,2,0,0" 
-                                            TextWrapping="Wrap"/>
-
+                                        FontSize="8"
+                                        Text="Registera privatkund"
+                                        FontFamily="Fonts/#Open Sans Regular"
+                                        Margin="0,2,0,0" 
+                                        TextWrapping="Wrap"/>
+                                </StackPanel>
                             </StackPanel>
                         </Border>
-                       
-
                     </Grid>
 
                     <ControlTemplate.Triggers>
-
-                        <Trigger Property="IsMouseOver"
-                         Value="True">
-                            <Setter Property="Background"
-                            TargetName="border"
-                            Value="#E9EBED" />
-                        </Trigger>
-                        <Trigger Property="IsPressed"
-                         Value="True">
-                            <Setter Property="Background"
-                            TargetName="border"
-                            Value="#C1C1C1" />
-
+                        <!-- Hover-effekt -->
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" TargetName="border" Value="#E9EBED" />
                         </Trigger>
 
+                        <!-- Tryck-effekt -->
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter Property="Background" TargetName="border" Value="#C1C1C1" />
+                        </Trigger>
+
+                        <!-- DataTrigger för att visa extraImage och selectedImage, samt dölja iconImage -->
+                        <DataTrigger Binding="{Binding CurrentView, Converter={StaticResource ViewTypeToImageSourceConverter}}" 
+                              Value="Assets/register_company_pressed.png">
+                            <Setter TargetName="extraImage" Property="Visibility" Value="Visible"/>
+                            <Setter TargetName="iconImage" Property="Visibility" Value="Collapsed"/>
+                            <Setter TargetName="selectedImage" Property="Visibility" Value="Visible"/>
+                            <Setter TargetName="iconStackPanel" Property="Margin" Value="-16,0,0,0"/>
+                        </DataTrigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
     </Style>
-
+<!--Kvar att göra-->
     <Style x:Key="MenuButtonAddInsurance"
            TargetType="Button">
 
@@ -228,215 +280,286 @@
 
     </Style>
 
-    <Style x:Key="MenuButtonShowProspects"
-           TargetType="Button">
+   <Style x:Key="MenuButtonShowProspects" TargetType="Button">
+    <Setter Property="Template">
+        <Setter.Value>
+            <ControlTemplate TargetType="Button">
+                <Grid>
+                    <Border x:Name="border"
+                     Background="LightGray"
+                     Height="55"
+                     Width="55"
+                     VerticalAlignment="Top"
+                     HorizontalAlignment="Left"
+                     CornerRadius="5"
+                     Margin="5">
+                        <StackPanel Orientation="Horizontal">
+                            <!-- Extra bild, visas endast när CurrentView är specificerad -->
+                            <Image x:Name="extraImage"
+                            Height="45"
+                            Width="25"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
+                            Margin="-8,0,0,0"
+                            Stretch="Fill"
+                            Source="Assets/select_line.png"
+                            Visibility="Collapsed"/>
 
-        <Setter Property="Template">
+                            <!-- Ikon och textblock -->
+                            <StackPanel x:Name="iconStackPanel"
+                                 Height="55"
+                                 Width="55"
+                                 HorizontalAlignment="Center"
+                                 VerticalAlignment="Center"
+                                 Orientation="Vertical"
+                                 Margin="0,0,0,0">
 
-            <Setter.Value>
+                                <!-- Standardikon som visas när ingen specifik vy är aktiv -->
+                                <Image x:Name="iconImage"
+                                Height="25"
+                                Width="25"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Bottom"
+                                Margin="0,7,0,0"
+                                Stretch="Fill"
+                                Source="Assets/show_prospects.png"
+                                Visibility="Visible"/>
 
-                <ControlTemplate TargetType="Button">
-
-                    <Grid>
-                        <Border x:Name="border"
-                                Background="LightGray"
-                                Height="55"
-                                Width="55"
-                                VerticalAlignment="Top"
-                                HorizontalAlignment="Left"
-                                CornerRadius="5"
-                                Margin="5">
-                            <StackPanel Height="55"
-                                          Width="55"
-                                          HorizontalAlignment="Left"
-                                          VerticalAlignment="Top"
-                                          Margin="0,0,0,0">
-
-                                <Image Source="Assets/show_prospects.png"
-                                         Height="25"
-                                         Width="25"
-                                         HorizontalAlignment="Center"
-                                         VerticalAlignment="Center"
-                                         Margin="0,7,0,0"
-                                         Stretch="Fill" />
+                                <!-- Alternativ ikon som visas när specifik vy är aktiv -->
+                                <Image x:Name="selectedImage"
+                                Height="23"
+                                Width="23"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Bottom"
+                                Margin="0,9,0,0"
+                                Stretch="Fill"
+                                Source="{Binding CurrentView, Converter={StaticResource ViewTypeToImageSourceConverter}}" 
+                                 Visibility="Collapsed"/>
 
                                 <TextBlock Foreground="Black"
-                                             VerticalAlignment="Center"
-                                             HorizontalAlignment="Center"
-                                             FontSize="8"
-                                             Text="Visa prospekt"
-                                             FontFamily="Fonts/#Open Sans Regular"
-                                             Margin="0,2,0,0" 
-                                             TextWrapping="Wrap"/>
+                                    VerticalAlignment="Bottom"
+                                    HorizontalAlignment="Center"
+                                    FontSize="8"
+                                    Text="Visa prospect"
+                                    FontFamily="Fonts/#Open Sans Regular"
+                                    Margin="3,2,0,0" 
+                                    TextWrapping="Wrap"/>
+                            </StackPanel>
+                        </StackPanel>
+                    </Border>
+                </Grid>
 
+                <ControlTemplate.Triggers>
+                    <!-- Hover-effekt -->
+                    <Trigger Property="IsMouseOver" Value="True">
+                        <Setter Property="Background" TargetName="border" Value="#E9EBED" />
+                    </Trigger>
+
+                    <!-- Tryck-effekt -->
+                    <Trigger Property="IsPressed" Value="True">
+                        <Setter Property="Background" TargetName="border" Value="#C1C1C1" />
+                    </Trigger>
+
+                    <!-- DataTrigger för att visa extraImage och selectedImage, samt dölja iconImage -->
+                    <DataTrigger Binding="{Binding CurrentView, Converter={StaticResource ViewTypeToImageSourceConverter}}" 
+                          Value="Assets/show_prospects_pressed.png">
+                        <Setter TargetName="extraImage" Property="Visibility" Value="Visible"/>
+                        <Setter TargetName="iconImage" Property="Visibility" Value="Collapsed"/>
+                        <Setter TargetName="selectedImage" Property="Visibility" Value="Visible"/>
+                        <Setter TargetName="iconStackPanel" Property="Margin" Value="-15,0,0,0"/>
+                    </DataTrigger>
+                </ControlTemplate.Triggers>
+            </ControlTemplate>
+        </Setter.Value>
+    </Setter>
+</Style>
+
+    <Style x:Key="MenuButtonExportBillingInfo" TargetType="Button">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Grid>
+                        <Border x:Name="border"
+                     Background="LightGray"
+                     Height="55"
+                     Width="55"
+                     VerticalAlignment="Top"
+                     HorizontalAlignment="Left"
+                     CornerRadius="5"
+                     Margin="5">
+                            <StackPanel Orientation="Horizontal">
+                                <!-- Extra bild, visas endast när CurrentView är specificerad -->
+                                <Image x:Name="extraImage"
+                            Height="45"
+                            Width="25"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
+                            Margin="-8,0,0,0"
+                            Stretch="Fill"
+                            Source="Assets/select_line.png"
+                            Visibility="Collapsed"/>
+
+                                <!-- Ikon och textblock -->
+                                <StackPanel x:Name="iconStackPanel"
+                                 Height="55"
+                                 Width="55"
+                                 HorizontalAlignment="Center"
+                                 VerticalAlignment="Center"
+                                 Orientation="Vertical"
+                                 Margin="0,0,0,0">
+
+                                    <!-- Standardikon som visas när ingen specifik vy är aktiv -->
+                                    <Image x:Name="iconImage"
+                                Height="25"
+                                Width="25"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Bottom"
+                                Margin="0,7,0,0"
+                                Stretch="Fill"
+                                Source="Assets/export_bill.png"
+                                Visibility="Visible"/>
+
+                                    <!-- Alternativ ikon som visas när specifik vy är aktiv -->
+                                    <Image x:Name="selectedImage"
+                                Height="25"
+                                Width="25"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Bottom"
+                                Margin="0,7,0,0"
+                                Stretch="Fill"
+                                Source="{Binding CurrentView, Converter={StaticResource ViewTypeToImageSourceConverter}}" 
+                                 Visibility="Collapsed"/>
+
+                                    <TextBlock Foreground="Black"
+                                    VerticalAlignment="Bottom"
+                                    HorizontalAlignment="Center"
+                                    FontSize="8"
+                                    Text="Faktura information"
+                                    FontFamily="Fonts/#Open Sans Regular"
+                                    Margin="0,2,0,0" 
+                                    TextWrapping="Wrap"/>
+                                </StackPanel>
                             </StackPanel>
                         </Border>
-                      
-
                     </Grid>
 
                     <ControlTemplate.Triggers>
-
-                        <Trigger Property="IsMouseOver"
-                         Value="True">
-                            <Setter Property="Background"
-                            TargetName="border"
-                            Value="#E9EBED" />
-                        </Trigger>
-                        <Trigger Property="IsPressed"
-                         Value="True">
-                            <Setter Property="Background"
-                            TargetName="border"
-                            Value="#C1C1C1" />
-
+                        <!-- Hover-effekt -->
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" TargetName="border" Value="#E9EBED" />
                         </Trigger>
 
+                        <!-- Tryck-effekt -->
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter Property="Background" TargetName="border" Value="#C1C1C1" />
+                        </Trigger>
+
+                        <!-- DataTrigger för att visa extraImage och selectedImage, samt dölja iconImage -->
+                        <DataTrigger Binding="{Binding CurrentView, Converter={StaticResource ViewTypeToImageSourceConverter}}" 
+                          Value="Assets/export_bill_pressed.png">
+                            <Setter TargetName="extraImage" Property="Visibility" Value="Visible"/>
+                            <Setter TargetName="iconImage" Property="Visibility" Value="Collapsed"/>
+                            <Setter TargetName="selectedImage" Property="Visibility" Value="Visible"/>
+                            <Setter TargetName="iconStackPanel" Property="Margin" Value="-15,0,0,0"/>
+                        </DataTrigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
-
     </Style>
 
-    <Style x:Key="MenuButtonExportBillingInfo"
-           TargetType="Button">
-
+    <Style x:Key="MenuButtonCalculateCommision" TargetType="Button">
         <Setter Property="Template">
-
             <Setter.Value>
-
                 <ControlTemplate TargetType="Button">
-
                     <Grid>
                         <Border x:Name="border"
-                                Background="LightGray"
-                                Height="55"
-                                Width="55"
-                                VerticalAlignment="Top"
-                                HorizontalAlignment="Left"
-                                CornerRadius="5"
-                                Margin="5">
-                            <StackPanel Height="55"
-                                         Width="55"
-                                         HorizontalAlignment="Center"
-                                         VerticalAlignment="Center"
-                                         Margin="0,0,0,0">
+                  Background="LightGray"
+                  Height="55"
+                  Width="55"
+                  VerticalAlignment="Top"
+                  HorizontalAlignment="Left"
+                  CornerRadius="5"
+                  Margin="5">
+                            <StackPanel Orientation="Horizontal">
+                                <!-- Extra bild, visas endast när CurrentView är specificerad -->
+                                <Image x:Name="extraImage"
+                         Height="45"
+                         Width="25"
+                         HorizontalAlignment="Left"
+                         VerticalAlignment="Center"
+                         Margin="-8,0,0,0"
+                         Stretch="Fill"
+                         Source="Assets/select_line.png"
+                         Visibility="Collapsed"/>
 
-                                <Image Source="Assets/export_bill.png"
-                                        Height="25"
-                                        Width="25"
-                                        HorizontalAlignment="Center"
-                                        VerticalAlignment="Center"
-                                        Margin="0,7,0,0"
-                                        Stretch="Fill" />
+                                <!-- Ikon och textblock -->
+                                <StackPanel x:Name="iconStackPanel"
+                              Height="55"
+                              Width="55"
+                              HorizontalAlignment="Center"
+                              VerticalAlignment="Center"
+                              Orientation="Vertical"
+                              Margin="0,7,0,0">
 
-                                <TextBlock Foreground="Black"
-                                            VerticalAlignment="Center"
-                                            HorizontalAlignment="Center"
-                                            FontSize="8"
-                                            Text="Faktura uppgifter"
-                                            FontFamily="Fonts/#Open Sans Regular"
-                                            Margin="0,2,0,0" 
-                                            TextWrapping="Wrap"/>
+                                    <!-- Standardikon som visas när ingen specifik vy är aktiv -->
+                                    <Image x:Name="iconImage"
+                             Height="25"
+                             Width="25"
+                             HorizontalAlignment="Center"
+                             VerticalAlignment="Bottom"
+                             Margin="0,7,0,0"
+                             Stretch="Fill"
+                             Source="Assets/calculate_comission.png"
+                             Visibility="Visible"/>
 
+                                    <!-- Alternativ ikon som visas när specifik vy är aktiv -->
+                                    <Image x:Name="selectedImage"
+                             Height="25"
+                             Width="25"
+                             HorizontalAlignment="Center"
+                             VerticalAlignment="Bottom"
+                             Margin="0,11,0,0"
+                             Stretch="Fill"
+                             Source="{Binding CurrentView, Converter={StaticResource ViewTypeToImageSourceConverter}}" 
+                              Visibility="Collapsed"/>
+
+                                    <TextBlock Foreground="Black"
+                                 VerticalAlignment="Bottom"
+                                 HorizontalAlignment="Center"
+                                 FontSize="8"
+                                 Text="Provision"
+                                 FontFamily="Fonts/#Open Sans Regular"
+                                 Margin="-1,2,0,0" 
+                                 TextWrapping="Wrap"/>
+                                </StackPanel>
                             </StackPanel>
-
-
                         </Border>
-                       
                     </Grid>
 
                     <ControlTemplate.Triggers>
-
-                        <Trigger Property="IsMouseOver"
-                                 Value="True">
-                            <Setter Property="Background"
-                                    TargetName="border"
-                                    Value="#E9EBED" />
-                        </Trigger>
-                        <Trigger Property="IsPressed"
-                                 Value="True">
-                            <Setter Property="Background"
-                                    TargetName="border"
-                                    Value="#C1C1C1" />
-
+                        <!-- Hover-effekt -->
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" TargetName="border" Value="#E9EBED" />
                         </Trigger>
 
+                        <!-- Tryck-effekt -->
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter Property="Background" TargetName="border" Value="#C1C1C1" />
+                        </Trigger>
+
+                        <!-- DataTrigger för att visa extraImage och selectedImage, samt dölja iconImage -->
+                        <DataTrigger Binding="{Binding CurrentView, Converter={StaticResource ViewTypeToImageSourceConverter}}" 
+                       Value="Assets/calculate_comission_pressed.png">
+                            <Setter TargetName="extraImage" Property="Visibility" Value="Visible"/>
+                            <Setter TargetName="iconImage" Property="Visibility" Value="Collapsed"/>
+                            <Setter TargetName="selectedImage" Property="Visibility" Value="Visible"/>
+                            <Setter TargetName="iconStackPanel" Property="Margin" Value="-15,0,0,0"/>
+                        </DataTrigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
-
-    </Style>
-
-    <Style x:Key="MenuButtonCalculateCommision"
-           TargetType="Button">
-
-        <Setter Property="Template">
-
-            <Setter.Value>
-
-                <ControlTemplate TargetType="Button">
-
-                    <Grid>
-                        <Border x:Name="border"
-                                Background="LightGray"
-                                Height="55"
-                                Width="55"
-                                VerticalAlignment="Top"
-                                HorizontalAlignment="Left"
-                                CornerRadius="5"
-                                Margin="5,0,0,0">
-                            <StackPanel Height="55"
-                                          Width="55"
-                                          HorizontalAlignment="Center"
-                                          VerticalAlignment="Center"
-                                          Margin="0,0,0,0">
-                                <Image Source="Assets/calculate_commision.png"
-                                         Height="25"
-                                         Width="25"
-                                         HorizontalAlignment="Center"
-                                         VerticalAlignment="Center"
-                                         Margin="0,9,0,0"
-                                         Stretch="Fill" />
-
-                                <TextBlock Foreground="Black"
-                                         VerticalAlignment="Center"
-                                         HorizontalAlignment="Center"
-                                         FontSize="8"
-                                         Text="Provision"
-                                         FontFamily="Fonts/#Open Sans Regular"
-                                         Margin="0,2,0,0"
-                                         TextWrapping="Wrap"/>
-
-                            </StackPanel>
-
-                        </Border>
-                      
-                       
-                    </Grid>
-
-                    <ControlTemplate.Triggers>
-
-                        <Trigger Property="IsMouseOver"
-                                 Value="True">
-                            <Setter Property="Background"
-                                    TargetName="border"
-                                    Value="#E9EBED" />
-                        </Trigger>
-                        <Trigger Property="IsPressed"
-                                 Value="True">
-                            <Setter Property="Background"
-                                    TargetName="border"
-                                    Value="#C1C1C1" />
-
-                        </Trigger>
-
-                    </ControlTemplate.Triggers>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-
     </Style>
     <Style x:Key="MenuButtonLogOut"
        TargetType="Button">
@@ -508,6 +631,72 @@
         </Setter>
 
     </Style>
+
+    <Style x:Key="PopOutButtonLogOut"
+    TargetType="Button">
+
+        <Setter Property="Template">
+
+            <Setter.Value>
+
+                <ControlTemplate TargetType="Button">
+
+                    <Grid>
+                        <Border x:Name="border"
+                         Background="White"
+                         Height="20"
+                         Width="60"
+                         VerticalAlignment="Center"
+                         HorizontalAlignment="Center"
+                         Margin="0,0,0,0"
+                                CornerRadius="2"
+                         >
+
+                            <StackPanel Height="20"
+                                      Width="60"
+                                      HorizontalAlignment="Center"
+                                      VerticalAlignment="Center"
+                                      Margin="-7,0,0,0">
+
+
+                                <TextBlock Foreground="Black"
+                                         VerticalAlignment="Center"
+                                         HorizontalAlignment="Center"
+                                         FontSize="10"
+                                         Text="Logga ut"
+                                         FontFamily="Fonts/#Open Sans Regular"
+                                         Margin="7,4,0,0" 
+                                         TextWrapping="Wrap"/>
+
+                            </StackPanel>
+                        </Border>
+
+
+                    </Grid>
+
+                    <ControlTemplate.Triggers>
+
+                        <Trigger Property="IsMouseOver"
+                          Value="True">
+                            <Setter Property="Background"
+                             TargetName="border"
+                             Value="#F9F6EE" />
+                        </Trigger>
+                        <Trigger Property="IsPressed"
+                          Value="True">
+                            <Setter Property="Background"
+                             TargetName="border"
+                             Value="#C1C1C1" />
+
+                        </Trigger>
+
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+
+    </Style>
+
     <Style x:Key="CloseButton" TargetType="Button">
         <Setter Property="Template">
             <Setter.Value>

@@ -39,7 +39,19 @@
 
             </Grid.RowDefinitions>
 
+            <Grid Grid.Row="0"
+                    Grid.Column="0"
+                    Grid.ColumnSpan="3">
+                <Rectangle Height="30" Fill="Transparent" HorizontalAlignment="Stretch">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="MouseDown">
+                            <i:InvokeCommandAction Command="{Binding DragWindowCommand}"
+                                           CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}" />
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </Rectangle>
 
+            </Grid>
 
 
             <Grid Grid.Row="1"

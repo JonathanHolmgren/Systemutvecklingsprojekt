@@ -62,6 +62,7 @@ namespace PresentationLayer.ViewModels
         public Action Close { get; set; }
         private ICommand exitCommand = null!;
         public ICommand ExitCommand => exitCommand ??= exitCommand = new RelayCommand(() => App.Current.Shutdown());
+      
 
         private object _currentView;
 
@@ -72,9 +73,11 @@ namespace PresentationLayer.ViewModels
             {
                 if (_currentView != value)
                 {
-                    IsSubmenuOpen = false;
+                    
                     _currentView = value;
-                    OnPropertyChanged(); 
+                    
+                    OnPropertyChanged();
+                   
                 }
             }
         }
@@ -122,7 +125,7 @@ namespace PresentationLayer.ViewModels
             TempController tempController = new TempController();
             CurrentView = new ExportBillingInformationView(); // Startvy 
             ChangeViewCommand = new RelayCommand<Type>(ChangeViewByType);
-            User = tempController.GetUser(1);
+            User = tempController.GetUserTemp(1);
             Employee = user.Employee;
             DragWindowCommand = new RelayCommand<Window>(OnDragWindow);
         }

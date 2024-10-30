@@ -1,19 +1,19 @@
-﻿using Microsoft.EntityFrameworkCore.ChangeTracking;
-using PresentationLayer.Command;
-using PresentationLayer.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Input;
 using System.Windows;
 using System.Windows.Controls;
-using PresentationLayer.Views;
-using System.Diagnostics;
-using PresentationLayer.Services;
+using System.Windows.Input;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Models;
+using PresentationLayer.Command;
+using PresentationLayer.Models;
+using PresentationLayer.Services;
+using PresentationLayer.Views;
 using ServiceLayer;
 
 namespace PresentationLayer.ViewModels
@@ -58,11 +58,12 @@ namespace PresentationLayer.ViewModels
             }
         }
 
-        public ICommand ShowSubMenuCommand => new RelayCommand(() => IsSubmenuOpen = !IsSubmenuOpen);
+        public ICommand ShowSubMenuCommand =>
+            new RelayCommand(() => IsSubmenuOpen = !IsSubmenuOpen);
         public Action Close { get; set; }
         private ICommand exitCommand = null!;
-        public ICommand ExitCommand => exitCommand ??= exitCommand = new RelayCommand(() => App.Current.Shutdown());
-      
+        public ICommand ExitCommand =>
+            exitCommand ??= exitCommand = new RelayCommand(() => App.Current.Shutdown());
 
         private object _currentView;
 
@@ -73,11 +74,9 @@ namespace PresentationLayer.ViewModels
             {
                 if (_currentView != value)
                 {
-                    
                     _currentView = value;
-                    
+
                     OnPropertyChanged();
-                   
                 }
             }
         }
@@ -109,8 +108,6 @@ namespace PresentationLayer.ViewModels
 
         public ICommand DragWindowCommand { get; }
 
-        
-
         private void OnDragWindow(Window window)
         {
             window?.DragMove();
@@ -118,17 +115,15 @@ namespace PresentationLayer.ViewModels
 
         // Close App Command
 
-
         public ICommand ChangeViewCommand { get; }
+
         public MainWindowViewModel()
         {
-            TempController tempController = new TempController();
-            CurrentView = new ExportBillingInformationView(); // Startvy 
+            CurrentView = new ExportBillingInformationView(); // Startvy
             ChangeViewCommand = new RelayCommand<Type>(ChangeViewByType);
-            User = tempController.GetUserTemp(1);
-            Employee = user.Employee;
             DragWindowCommand = new RelayCommand<Window>(OnDragWindow);
         }
+
         private void MaxApp(object parameter)
         {
             if (parameter is Window window)
@@ -149,18 +144,16 @@ namespace PresentationLayer.ViewModels
 
         private void ChangeViewByType(Type viewType)
         {
-
             if (viewType != null)
             {
                 CurrentView = (UserControl)Activator.CreateInstance(viewType);
             }
         }
+
         public void ChangeView(UserControl newView)
         {
             CurrentView = newView;
         }
-
-       
 
         private void MinApp(object parameter)
         {
@@ -170,19 +163,11 @@ namespace PresentationLayer.ViewModels
             }
         }
 
-
-
-
         public event PropertyChangedEventHandler PropertyChanged;
 
         protected void OnPropertyChanged(string propertyName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
-
     }
-
-       
-
-       
 }

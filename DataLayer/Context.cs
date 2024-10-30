@@ -26,16 +26,17 @@ namespace DataLayer
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-
             //optionsBuilder.UseSqlServer(
             //    @"Server=sqlutb2-db.hb.se,56077;Database=suht2410;User Id=suht2410;Password=VOB279;TrustServerCertificate=True;"
             //);
 
-            optionsBuilder.UseSqlServer(
+            // optionsBuilder.UseSqlServer(
+            //
+            //   @"Server=sqlutb2-db.hb.se,56077;Database=suht2410;User Id=suht2410;Password=VOB279;TrustServerCertificate=True;");
 
-              @"Server=sqlutb2-db.hb.se,56077;Database=suht2410;User Id=suht2410;Password=VOB279;TrustServerCertificate=True;");
-              
-            //optionsBuilder.UseSqlServer(@"Server=(localdb)\mssqllocaldb;Database=ToppFörsäkringar;Trusted_Connection=True;");
+            optionsBuilder.UseSqlServer(
+                @"Server=(localdb)\MSSQLLocalDB;Database=ToppForsakringar;Trusted_Connection=True;"
+            );
             base.OnConfiguring(optionsBuilder);
         }
 
@@ -86,8 +87,6 @@ namespace DataLayer
                 .WithMany(c => c.Employees) // Assuming Commission has a collection of Employees
                 .HasForeignKey("CommissionId"); // Adjust if you use a different name for the foreign key property
 
-
-
             // modelBuilder.Entity<Employee>()
             //     .HasOne(e => e.PostalCodeCity)
             //     .WithMany(pc => pc.Employees)
@@ -103,7 +102,6 @@ namespace DataLayer
             //    .withmany(pc => pc.employees)
             //.hasforeignkey(i => i.postalcode);
         }
-      
 
         //
         private void ConfigureCustomerRelations(ModelBuilder modelBuilder)
@@ -112,15 +110,18 @@ namespace DataLayer
             // så mappas bas-klassen Customer inte till någon tabell
 
             // Konfigurera PrivateCustomer så att den mappas till en egen tabell och innehåller alla egenskaper från Customer
-            modelBuilder.Entity<PrivateCustomer>()
+            modelBuilder
+                .Entity<PrivateCustomer>()
                 .ToTable("PrivateCustomers")
                 .HasBaseType<Customer>(); // Detta säkerställer att alla Customer-fält inkluderas i PrivateCustomer-tabellen
 
             // Konfigurera CompanyCustomer så att den mappas till en egen tabell och innehåller alla egenskaper från Customer
-            modelBuilder.Entity<CompanyCustomer>()
+            modelBuilder
+                .Entity<CompanyCustomer>()
                 .ToTable("CompanyCustomers")
                 .HasBaseType<Customer>(); // Detta säkerställer att alla Customer-fält inkluderas i CompanyCustomer-tabellensäkerställer att alla Customer-fält inkluderas i CompanyCustomer-tabellen
         }
+
         //
         // private void ConfigureInsuranceTypeAttributes(ModelBuilder modelBuilder)
         // {

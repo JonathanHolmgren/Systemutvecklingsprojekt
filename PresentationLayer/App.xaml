@@ -7,7 +7,7 @@
              StartupUri="MainWindow.xaml">
   
     <Application.Resources>
-            <ObjectDataProvider MethodName="GetValues" ObjectType="{x:Type sys:Enum}" x:Key="AuthorizationLevelEnumValues">
+        <ObjectDataProvider MethodName="GetValues" ObjectType="{x:Type sys:Enum}" x:Key="AuthorizationLevelEnumValues">
                 <ObjectDataProvider.MethodParameters>
                     <x:Type TypeName="models:AuthorizationLevel" />
                 </ObjectDataProvider.MethodParameters>

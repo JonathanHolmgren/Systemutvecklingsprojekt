@@ -1,5 +1,3 @@
-using Microsoft.EntityFrameworkCore.ChangeTracking;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -11,7 +9,9 @@ using System.Text;
 using System.Threading.Tasks;
 using DataLayer;
 using DataLayer.Repositories;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Models;
+using Newtonsoft.Json;
 
 namespace ServiceLayer
 {
@@ -23,7 +23,10 @@ namespace ServiceLayer
         {
             try
             {
-                PostalCodeCity existingPostalCodeCity = unitOfWork.PostalCodeCityRepository.GetSpecificPostalCode(privateCustomer.PostalCodeCity.PostalCode);
+                PostalCodeCity existingPostalCodeCity =
+                    unitOfWork.PostalCodeCityRepository.GetSpecificPostalCode(
+                        privateCustomer.PostalCodeCity.PostalCode
+                    );
 
                 if (existingPostalCodeCity == null)
                 {
@@ -41,24 +44,25 @@ namespace ServiceLayer
                 throw new Exception($"Ett fel uppstod vid sparandet av kunden: {ex.Message}");
             }
         }
+
         public PrivateCustomer GetSpecificPrivateCustomerForInsuranceBySSN(string sSN)
         {
             return unitOfWork.CustomerRepository.GetSpecificPrivateCustomerForInsuranceBySSN(sSN);
         }
 
-
-
-
         public void RemoveInactiveCustomers()
         {
-            var inactiveCustomers = unitOfWork.CustomerRepository.GetInActiveCustomersWithInsurances();
+            var inactiveCustomers =
+                unitOfWork.CustomerRepository.GetInActiveCustomersWithInsurances();
 
             foreach (var customer in inactiveCustomers)
             {
                 foreach (var insurance in customer.Insurances)
                 {
-                    var insuranceSpecs = unitOfWork.InsuranceSpecRepository
-                        .GetInsuranceSpecsByInsuranceId(insurance.InsuranceId);
+                    var insuranceSpecs =
+                        unitOfWork.InsuranceSpecRepository.GetInsuranceSpecsByInsuranceId(
+                            insurance.InsuranceId
+                        );
 
                     foreach (var spec in insuranceSpecs)
                     {
@@ -73,7 +77,6 @@ namespace ServiceLayer
 
             unitOfWork.SaveChanges();
         }
-
 
         public void RemovePrivateCustomer(PrivateCustomer privateCustomer)
         {
@@ -100,9 +103,7 @@ namespace ServiceLayer
             foreach (int insuranceId in insuranceIds)
             {
                 IList<InsuranceSpec> temporaryInsuranceSpecs =
-                    unitOfWork.InsuranceSpecRepository.GetInsuranceSpecsByInsuranceId(
-                        insuranceId
-                    );
+                    unitOfWork.InsuranceSpecRepository.GetInsuranceSpecsByInsuranceId(insuranceId);
 
                 for (int i = 0; i < temporaryInsuranceSpecs.Count; i++)
                 {
@@ -129,9 +130,7 @@ namespace ServiceLayer
             foreach (int insuranceId in insuranceIds)
             {
                 IList<InsuranceSpec> temporaryInsuranceSpecs =
-                    unitOfWork.InsuranceSpecRepository.GetInsuranceSpecsByInsuranceId(
-                        insuranceId
-                    );
+                    unitOfWork.InsuranceSpecRepository.GetInsuranceSpecsByInsuranceId(insuranceId);
 
                 for (int i = 0; i < temporaryInsuranceSpecs.Count; i++)
                 {
@@ -173,12 +172,23 @@ namespace ServiceLayer
                 unitOfWork.InsuranceRepository.Remove(insurance);
             }
         }
+
         public void AddCompanyCustomer(CompanyCustomer companyCustomer)
         {
             try
             {
-                PostalCodeCity existingPostalCodeCity = unitOfWork.PostalCodeCityRepository.GetSpecificPostalCode(companyCustomer.PostalCodeCity.PostalCode);
-                if (companyCustomer.OrganisationNumber == unitOfWork.CustomerRepository.GetSpecificCompanyCustomer(companyCustomer.OrganisationNumber).OrganisationNumber)
+                PostalCodeCity existingPostalCodeCity =
+                    unitOfWork.PostalCodeCityRepository.GetSpecificPostalCode(
+                        companyCustomer.PostalCodeCity.PostalCode
+                    );
+                if (
+                    companyCustomer.OrganisationNumber
+                    == unitOfWork
+                        .CustomerRepository.GetSpecificCompanyCustomer(
+                            companyCustomer.OrganisationNumber
+                        )
+                        .OrganisationNumber
+                )
                 {
                     throw new Exception("Organisationsnummer finns redan");
                 }
@@ -200,115 +210,126 @@ namespace ServiceLayer
             }
         }
 
+        public IList<PrivateCustomer> GetAllPrivateCustomers()
+        {
+            return unitOfWork.CustomerRepository.GetPrivateCustomers();
+        }
 
-            public IList<PrivateCustomer> GetAllPrivateCustomers()
-            {
-                return unitOfWork.CustomerRepository.GetPrivateCustomers();
-            }
-            public IList<CompanyCustomer> GetAllCompanyCustomers()
-            {
-                return unitOfWork.CustomerRepository.GetCompanyCustomers();
-            }
+        public IList<CompanyCustomer> GetAllCompanyCustomers()
+        {
+            return unitOfWork.CustomerRepository.GetCompanyCustomers();
+        }
 
-            public string GetCustomerInsuranceTypes(int insuranceId)
-            {
-                Insurance insurance = unitOfWork.InsuranceRepository.GetInsurance(insuranceId);
-                return unitOfWork.InsuranceTypeRepository.GetCustomerInsuranceType(insurance.InsuranceType.InsuranceTypeId);
-            }
+        public string GetCustomerInsuranceTypes(int insuranceId)
+        {
+            Insurance insurance = unitOfWork.InsuranceRepository.GetInsurance(insuranceId);
+            return unitOfWork.InsuranceTypeRepository.GetCustomerInsuranceType(
+                insurance.InsuranceType.InsuranceTypeId
+            );
+        }
 
-            public double GetCustomerPremie(int customerId) //Calculates the total premie for each customer
+        public double GetCustomerPremie(int customerId) //Calculates the total premie for each customer
+        {
+            double totalPremie = 0;
+            IList<Insurance> customerInsurances =
+                unitOfWork.InsuranceRepository.GetCustomerInsurances(customerId);
+            foreach (Insurance insurance in customerInsurances)
             {
-                double totalPremie = 0;
-                IList<Insurance> customerInsurances = unitOfWork.InsuranceRepository.GetCustomerInsurances(customerId);
-                foreach (Insurance insurance in customerInsurances)
+                if (insurance.InsuranceStatus == InsuranceStatus.Active)
                 {
-                    if (insurance.InsuranceStatus == InsuranceStatus.Active)
+                    if (insurance.BillingingInterval == BillingInterval.MÃ¥nad)
                     {
-                        if (insurance.BillingingInterval == BillingInterval.Månad)
+                        totalPremie += CalculatePremiePerInsurance(insurance);
+                    }
+                    if (insurance.BillingingInterval == BillingInterval.Kvartal)
+                    {
+                        if (
+                            (DateTime.Now.Month - insurance.ExpiryDate.Month) % 3 == 0
+                            && DateTime.Now >= insurance.ExpiryDate
+                        )
                         {
                             totalPremie += CalculatePremiePerInsurance(insurance);
-
-                        }
-                        if (insurance.BillingingInterval == BillingInterval.Kvartal)
-                        {
-                            if ((DateTime.Now.Month - insurance.ExpiryDate.Month) % 3 == 0 &&
-                                 DateTime.Now >= insurance.ExpiryDate)
-                            {
-                                totalPremie += CalculatePremiePerInsurance(insurance);
-
-                            }
-
-                        }
-                        if (insurance.BillingingInterval == BillingInterval.Halvår)
-                        {
-
-                            if ((DateTime.Now.Month - insurance.ExpiryDate.Month) % 6 == 0 &&
-                                 DateTime.Now >= insurance.ExpiryDate)
-                            {
-                                totalPremie += CalculatePremiePerInsurance(insurance);
-
-                            }
-                        }
-                        if (insurance.BillingingInterval == BillingInterval.År)
-                        {
-                            if ((DateTime.Now.Month == insurance.ExpiryDate.Month) &&
-                                 DateTime.Now >= insurance.ExpiryDate)
-                            {
-                                totalPremie += CalculatePremiePerInsurance(insurance);
-
-                            }
                         }
                     }
-                }
-                return totalPremie;
-            }
-            public double CalculatePremiePerInsurance(Insurance insurance) //Calculates each individual insurance premie
-            {
-
-                double premie = 0;
-
-                int insuranceTypeAttributeID = unitOfWork.InsuranceTypeAttributeRepository.GetPremieTypeAttributeId(insurance.InsuranceType.InsuranceTypeId);
-
-                IList<InsuranceSpec> insuranceSpecs = unitOfWork.InsuranceSpecRepository.GetSpecsForInsurance(insurance.InsuranceId);
-                foreach (InsuranceSpec insuranceSpec in insuranceSpecs)
-                {
-
-                    if (insuranceTypeAttributeID == insuranceSpec.InsuranceTypeAttribute.InsuranceTypeAttributeId)
+                    if (insurance.BillingingInterval == BillingInterval.HalvÃ¥r)
                     {
-                        premie = double.Parse(insuranceSpec.Value);
+                        if (
+                            (DateTime.Now.Month - insurance.ExpiryDate.Month) % 6 == 0
+                            && DateTime.Now >= insurance.ExpiryDate
+                        )
+                        {
+                            totalPremie += CalculatePremiePerInsurance(insurance);
+                        }
                     }
-
+                    if (insurance.BillingingInterval == BillingInterval.Ã…r)
+                    {
+                        if (
+                            (DateTime.Now.Month == insurance.ExpiryDate.Month)
+                            && DateTime.Now >= insurance.ExpiryDate
+                        )
+                        {
+                            totalPremie += CalculatePremiePerInsurance(insurance);
+                        }
+                    }
                 }
-                return premie;
             }
-           
-            public void AddProspectNote(ProspectNote prospectNote)
-            {
-                unitOfWork.ProspectNoteRepository.Add(prospectNote);
-                unitOfWork.SaveChanges();
-            }
+            return totalPremie;
+        }
 
-            public IList<PrivateCustomer> GetPrivateCustomerList()
-            {
-                return unitOfWork.CustomerRepository.GetPrivateCustomers();
-            }
-            public IList<CompanyCustomer> GetCompanyCustomerList()
-            {
-                return unitOfWork.CustomerRepository.GetCompanyCustomers();
-            }
-            public PrivateCustomer GetSpecificPrivateCustomer(string sSN)
-            {
-                PrivateCustomer privateCustomer = unitOfWork.CustomerRepository.GetSpecificPrivateCustomer(sSN);
+        public double CalculatePremiePerInsurance(Insurance insurance) //Calculates each individual insurance premie
+        {
+            double premie = 0;
 
-                return privateCustomer;
-            }
-            public CompanyCustomer GetSpecificCompanyCustomer(string organisationNumber)
+            int insuranceTypeAttributeID =
+                unitOfWork.InsuranceTypeAttributeRepository.GetPremieTypeAttributeId(
+                    insurance.InsuranceType.InsuranceTypeId
+                );
+
+            IList<InsuranceSpec> insuranceSpecs =
+                unitOfWork.InsuranceSpecRepository.GetSpecsForInsurance(insurance.InsuranceId);
+            foreach (InsuranceSpec insuranceSpec in insuranceSpecs)
             {
-                CompanyCustomer companyCustomer = unitOfWork.CustomerRepository.GetSpecificCompanyCustomer(organisationNumber);
-
-                return companyCustomer;
+                if (
+                    insuranceTypeAttributeID
+                    == insuranceSpec.InsuranceTypeAttribute.InsuranceTypeAttributeId
+                )
+                {
+                    premie = double.Parse(insuranceSpec.Value);
+                }
             }
-        
+            return premie;
+        }
 
+        public void AddProspectNote(ProspectNote prospectNote)
+        {
+            unitOfWork.ProspectNoteRepository.Add(prospectNote);
+            unitOfWork.SaveChanges();
+        }
+
+        public IList<PrivateCustomer> GetPrivateCustomerList()
+        {
+            return unitOfWork.CustomerRepository.GetPrivateCustomers();
+        }
+
+        public IList<CompanyCustomer> GetCompanyCustomerList()
+        {
+            return unitOfWork.CustomerRepository.GetCompanyCustomers();
+        }
+
+        public PrivateCustomer GetSpecificPrivateCustomer(string sSN)
+        {
+            PrivateCustomer privateCustomer =
+                unitOfWork.CustomerRepository.GetSpecificPrivateCustomer(sSN);
+
+            return privateCustomer;
+        }
+
+        public CompanyCustomer GetSpecificCompanyCustomer(string organisationNumber)
+        {
+            CompanyCustomer companyCustomer =
+                unitOfWork.CustomerRepository.GetSpecificCompanyCustomer(organisationNumber);
+
+            return companyCustomer;
+        }
     }
 }

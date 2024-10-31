@@ -186,7 +186,7 @@ public class Seed
             "Gatuvägen 21",
             "50433",
             "Borås",
-            "19521019-1234",
+            "195210191234",
             "Inga-Lill",
             "Bengtsson"
         );
@@ -197,7 +197,7 @@ public class Seed
             "Gatanärhård 69",
             "50213",
             "Borås",
-            "19990902-2173",
+            "199909022173",
             "Jolle",
             "Alestrom"
         );
@@ -210,7 +210,7 @@ public class Seed
             "Vägkanten 54",
             "50331",
             "Borås",
-            "771122-1234",
+            "7711221234",
             "Klas Persson",
             "0710192844",
             "Tesla"
@@ -222,7 +222,7 @@ public class Seed
             "Gatukanten 4",
             "50251",
             "Borås",
-            "741202-5434",
+            "7412025434",
             "Buggan Buggster",
             "0740568646",
             "Warwick Inc"
@@ -234,7 +234,7 @@ public class Seed
             "Hejsandär 94",
             "50136",
             "Borås",
-            "590222-2496",
+            "5902222496",
             "Karl Karlsson",
             "0700101010",
             "Bolaget AB"

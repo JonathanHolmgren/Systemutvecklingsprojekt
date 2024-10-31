@@ -37,8 +37,8 @@
                         </StackPanel>
 
                         <StackPanel Orientation="Horizontal">
-                            <TextBox Text="{Binding ViewedCompanyCustomer.CompanyName, Mode=TwoWay}" Width="100" Margin="5"/>
-                            <TextBox Text="{Binding ViewedCompanyCustomer.OrganisationNumber, Mode=TwoWay}" Width="100" Margin="5"/>
+                            <TextBox Text="{Binding CompanyCustomerToEdit.CompanyName, Mode=TwoWay}" Width="100" Margin="5"/>
+                            <TextBox Text="{Binding CompanyCustomerToEdit.OrganisationNumber, Mode=TwoWay}" Width="100" Margin="5"/>
                         </StackPanel>
 
                         <StackPanel Orientation="Horizontal">
@@ -48,9 +48,9 @@
                         </StackPanel>
 
                         <StackPanel Orientation="Horizontal">
-                            <TextBox Text="{Binding ViewedCompanyCustomer.StreetAddress, Mode=TwoWay}" Width="100" Margin="5"/>
-                            <TextBox Text="{Binding ViewedCompanyCustomer.PostalCode, Mode=TwoWay}" Width="100" Margin="5"/>
-                            <TextBox Text="{Binding ViewedCompanyCustomer.City, Mode=TwoWay}" Width="100" Margin="5"/>
+                            <TextBox Text="{Binding CompanyCustomerToEdit.StreetAddress, Mode=TwoWay}" Width="100" Margin="5"/>
+                            <TextBox Text="{Binding CompanyCustomerToEdit.PostalCode, Mode=TwoWay}" Width="100" Margin="5"/>
+                            <TextBox Text="{Binding CompanyCustomerToEdit.City, Mode=TwoWay}" Width="100" Margin="5"/>
                         </StackPanel>
 
                         <StackPanel Orientation="Horizontal">
@@ -59,8 +59,8 @@
                         </StackPanel>
 
                         <StackPanel Orientation="Horizontal">
-                            <TextBox Text="{Binding ViewedCompanyCustomer.Email, Mode=TwoWay}" Width="100" Margin="5"/>
-                            <TextBox Text="{Binding ViewedCompanyCustomer.TelephoneNumber, Mode=TwoWay}" Width="100" Margin="5"/>
+                            <TextBox Text="{Binding CompanyCustomerToEdit.Email, Mode=TwoWay}" Width="100" Margin="5"/>
+                            <TextBox Text="{Binding CompanyCustomerToEdit.TelephoneNumber, Mode=TwoWay}" Width="100" Margin="5"/>
                         </StackPanel>
 
                         <StackPanel Orientation="Horizontal">
@@ -69,8 +69,8 @@
                         </StackPanel>
 
                         <StackPanel Orientation="Horizontal">
-                            <TextBox Text="{Binding ViewedCompanyCustomer.ContactPersonName, Mode=TwoWay}" Width="100" Margin="5"/>
-                            <TextBox Text="{Binding ViewedCompanyCustomer.CompanyPersonTelephoneNumber, Mode=TwoWay}" Width="100" Margin="5"/>
+                            <TextBox Text="{Binding CompanyCustomerToEdit.ContactPersonName, Mode=TwoWay}" Width="100" Margin="5"/>
+                            <TextBox Text="{Binding CompanyCustomerToEdit.CompanyPersonTelephoneNumber, Mode=TwoWay}" Width="100" Margin="5"/>
                         </StackPanel>
 
                         <Button Content="Spara ändringar" Width="100" Height="30" Command="{Binding SaveEditedCompanyCustomerCommand}"/>
@@ -82,7 +82,7 @@
 
         
 
-        <!--Popup privatecustomer-->
+        <!--Popup edit privatecustomer-->
         <Popup x:Name="EditPrivateCustomerPopup" Width="700" Height="400" IsOpen="{Binding IsEditPrivatePopUpOpen}" HorizontalAlignment="Center" VerticalAlignment="Center" Placement="Center">
             <Border BorderBrush="Black" BorderThickness="3" Background="White">
                 <StackPanel HorizontalAlignment="Center">

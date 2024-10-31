@@ -169,6 +169,7 @@ namespace PresentationLayer.ViewModels
         public bool IsPrivateColumnVisible => IsPrivateSelected;
         public bool IsCompanyColumnVisible => IsCompanySelected;
 
+
         private PrivateCustomer viewedPrivateCustomer;
         public PrivateCustomer ViewedPrivateCustomer
         {
@@ -213,6 +214,21 @@ namespace PresentationLayer.ViewModels
                 }
             }
         }
+        private CompanyCustomer companyCustomerToEdit;
+        public CompanyCustomer CompanyCustomerToEdit
+        {
+            get { return companyCustomerToEdit; }
+            set { companyCustomerToEdit = value; OnPropertyChanged(nameof(CompanyCustomerToEdit)); }
+        }
+
+        private PrivateCustomer privateCustomerToEdit;
+        public PrivateCustomer PrivateCustomerToEdit
+        {
+            get { return privateCustomerToEdit; }
+            set { privateCustomerToEdit = value; OnPropertyChanged(nameof(PrivateCustomerToEdit)); }
+        }
+
+
 
         private ObservableCollection<Insurance> customerInsurances;
         public ObservableCollection<Insurance> CustomerInsurances
@@ -433,6 +449,7 @@ namespace PresentationLayer.ViewModels
         {
             if (ViewedPrivateCustomer != null)
             {
+                PrivateCustomerToEdit = ViewedPrivateCustomer;
                 IsEditPrivatePopUpOpen = true;
             }
         }
@@ -441,6 +458,7 @@ namespace PresentationLayer.ViewModels
         {
             if (ViewedCompanyCustomer != null)
             {
+                CompanyCustomerToEdit = ViewedCompanyCustomer;
                 IsEditCompanyPopUpOpen = true;
             }
         }
@@ -449,49 +467,51 @@ namespace PresentationLayer.ViewModels
         {
             if (ViewedCompanyCustomer != null)
             {
-                if (string.IsNullOrEmpty(ViewedCompanyCustomer.OrganisationNumber))
+                CompanyCustomerToEdit = ViewedCompanyCustomer;
+
+                if (string.IsNullOrEmpty(CompanyCustomerToEdit.OrganisationNumber))
                 {
-                    MessageBox.Show("Personnummer (SSN) saknas");
+                    MessageBox.Show("Organisationsnummer saknas");
                     return;
                 }
 
-                if (string.IsNullOrEmpty(ViewedCompanyCustomer.CompanyName))
+                if (string.IsNullOrEmpty(CompanyCustomerToEdit.CompanyName))
                 {
-                    MessageBox.Show("Förnamn saknas");
+                    MessageBox.Show("Företagsnamn saknas");
                     return;
                 }
 
-                if (string.IsNullOrEmpty(ViewedCompanyCustomer.StreetAddress))
+                if (string.IsNullOrEmpty(CompanyCustomerToEdit.StreetAddress))
                 {
                     MessageBox.Show("Gatuadress saknas");
                     return;
                 }
 
-                if (string.IsNullOrEmpty(ViewedCompanyCustomer.PostalCode))
+                if (string.IsNullOrEmpty(CompanyCustomerToEdit.PostalCode))
                 {
                     MessageBox.Show("Postnummer saknas");
                     return;
                 }
 
-                if (string.IsNullOrEmpty(ViewedCompanyCustomer.City))
+                if (string.IsNullOrEmpty(CompanyCustomerToEdit.City))
                 {
                     MessageBox.Show("Stad saknas");
                     return;
                 }
 
-                if (string.IsNullOrEmpty(ViewedCompanyCustomer.Email))
+                if (string.IsNullOrEmpty(CompanyCustomerToEdit.Email))
                 {
                     MessageBox.Show("E-postadress saknas");
                     return;
                 }
 
-                if (string.IsNullOrEmpty(ViewedCompanyCustomer.TelephoneNumber))
+                if (string.IsNullOrEmpty(CompanyCustomerToEdit.TelephoneNumber))
                 {
                     MessageBox.Show("Telefonnummer saknas");
                     return;
                 }
 
-                if (string.IsNullOrEmpty(ViewedCompanyCustomer.ContactPersonName))
+                if (string.IsNullOrEmpty(CompanyCustomerToEdit.ContactPersonName))
                 {
                     MessageBox.Show("Kontaktperson saknas");
                     return;
@@ -499,8 +519,8 @@ namespace PresentationLayer.ViewModels
 
                 //Check that postalcode is 5 letters
                 if (
-                    ViewedCompanyCustomer.PostalCode.Length != 5
-                    || !ViewedCompanyCustomer.PostalCode.All(char.IsDigit)
+                    CompanyCustomerToEdit.PostalCode.Length != 5
+                    || !CompanyCustomerToEdit.PostalCode.All(char.IsDigit)
                 )
                 {
                     MessageBox.Show("Postnumret måste vara exakt 5 siffror");
@@ -509,78 +529,83 @@ namespace PresentationLayer.ViewModels
 
                 //Check that Organisationnumber is 10 letters
                 if (
-                    ViewedCompanyCustomer.OrganisationNumber.Length != 12
-                    || !ViewedCompanyCustomer.OrganisationNumber.All(char.IsDigit)
+                    CompanyCustomerToEdit.OrganisationNumber.Length != 10
+                    || !CompanyCustomerToEdit.OrganisationNumber.All(char.IsDigit)
                 )
                 {
-                    MessageBox.Show("Personnumret måste innehålla 10 siffror");
+                    MessageBox.Show("Organisationsnummret måste innehålla 10 siffror");
                     return;
                 }
 
-                ViewedCompanyCustomer.CompanyName = CapitalizeFirstLetter(
-                    ViewedCompanyCustomer.CompanyName
+                CompanyCustomerToEdit.CompanyName = CapitalizeFirstLetter(
+                    CompanyCustomerToEdit.CompanyName
                 );
-                ViewedCompanyCustomer.ContactPersonName = CapitalizeFirstLetter(
-                    ViewedCompanyCustomer.ContactPersonName
+                CompanyCustomerToEdit.ContactPersonName = CapitalizeFirstLetter(
+                    CompanyCustomerToEdit.ContactPersonName
                 );
-                ViewedCompanyCustomer.City = CapitalizeFirstLetter(ViewedCompanyCustomer.City);
-                ViewedCompanyCustomer.StreetAddress = CapitalizeFirstLetter(
-                    ViewedCompanyCustomer.StreetAddress
+                CompanyCustomerToEdit.City = CapitalizeFirstLetter(CompanyCustomerToEdit.City);
+                CompanyCustomerToEdit.StreetAddress = CapitalizeFirstLetter(
+                    CompanyCustomerToEdit.StreetAddress
                 );
 
+                ViewedCompanyCustomer = CompanyCustomerToEdit;
                 customerController.UpdateCompanyCustomer(ViewedCompanyCustomer);
                 IsEditCompanyPopUpOpen = false;
                 MessageBox.Show("Ändringar är sparade");
             }
         }
 
+
+
+
         private void SaveEditedPrivateCustomer()
         {
             if (ViewedPrivateCustomer != null)
             {
-                if (string.IsNullOrEmpty(ViewedPrivateCustomer.SSN))
+                PrivateCustomerToEdit = ViewedPrivateCustomer;
+                if (string.IsNullOrEmpty(PrivateCustomerToEdit.SSN))
                 {
                     MessageBox.Show("Personnummer (SSN) saknas");
                     return;
                 }
 
-                if (string.IsNullOrEmpty(ViewedPrivateCustomer.FirstName))
+                if (string.IsNullOrEmpty(PrivateCustomerToEdit.FirstName))
                 {
                     MessageBox.Show("Förnamn saknas");
                     return;
                 }
 
-                if (string.IsNullOrEmpty(ViewedPrivateCustomer.LastName))
+                if (string.IsNullOrEmpty(PrivateCustomerToEdit.LastName))
                 {
                     MessageBox.Show("Efternamn saknas");
                     return;
                 }
 
-                if (string.IsNullOrEmpty(ViewedPrivateCustomer.StreetAddress))
+                if (string.IsNullOrEmpty(PrivateCustomerToEdit.StreetAddress))
                 {
                     MessageBox.Show("Gatuadress saknas");
                     return;
                 }
 
-                if (string.IsNullOrEmpty(ViewedPrivateCustomer.PostalCode))
+                if (string.IsNullOrEmpty(PrivateCustomerToEdit.PostalCode))
                 {
                     MessageBox.Show("Postnummer saknas");
                     return;
                 }
 
-                if (string.IsNullOrEmpty(ViewedPrivateCustomer.City))
+                if (string.IsNullOrEmpty(PrivateCustomerToEdit.City))
                 {
                     MessageBox.Show("Stad saknas");
                     return;
                 }
 
-                if (string.IsNullOrEmpty(ViewedPrivateCustomer.TelephoneNumber))
+                if (string.IsNullOrEmpty(PrivateCustomerToEdit.TelephoneNumber))
                 {
                     MessageBox.Show("Telefonnummer saknas");
                     return;
                 }
 
-                if (string.IsNullOrEmpty(ViewedPrivateCustomer.Email))
+                if (string.IsNullOrEmpty(PrivateCustomerToEdit.Email))
                 {
                     MessageBox.Show("E-postadress saknas");
                     return;
@@ -588,8 +613,8 @@ namespace PresentationLayer.ViewModels
 
                 //Check that postalcode is 5 letters
                 if (
-                    ViewedPrivateCustomer.PostalCode.Length != 5
-                    || !ViewedPrivateCustomer.PostalCode.All(char.IsDigit)
+                    PrivateCustomerToEdit.PostalCode.Length != 5
+                    || !PrivateCustomerToEdit.PostalCode.All(char.IsDigit)
                 )
                 {
                     MessageBox.Show("Postnumret måste vara exakt 5 siffror");
@@ -598,29 +623,31 @@ namespace PresentationLayer.ViewModels
 
                 //Check that SSN is 10 letters
                 if (
-                    ViewedPrivateCustomer.SSN.Length != 12
-                    || !ViewedPrivateCustomer.SSN.All(char.IsDigit)
+                    PrivateCustomerToEdit.SSN.Length != 12
+                    || !PrivateCustomerToEdit.SSN.All(char.IsDigit)
                 )
                 {
                     MessageBox.Show("Personnumret måste innehålla 10 siffror");
                     return;
                 }
 
-                ViewedPrivateCustomer.FirstName = CapitalizeFirstLetter(
-                    ViewedPrivateCustomer.FirstName
+                PrivateCustomerToEdit.FirstName = CapitalizeFirstLetter(
+                    PrivateCustomerToEdit.FirstName
                 );
-                ViewedPrivateCustomer.LastName = CapitalizeFirstLetter(
-                    ViewedPrivateCustomer.LastName
+                PrivateCustomerToEdit.LastName = CapitalizeFirstLetter(
+                    PrivateCustomerToEdit.LastName
                 );
-                ViewedPrivateCustomer.City = CapitalizeFirstLetter(ViewedPrivateCustomer.City);
-                ViewedPrivateCustomer.StreetAddress = CapitalizeFirstLetter(
-                    ViewedPrivateCustomer.StreetAddress
+                PrivateCustomerToEdit.City = CapitalizeFirstLetter(PrivateCustomerToEdit.City);
+                PrivateCustomerToEdit.StreetAddress = CapitalizeFirstLetter(
+                    PrivateCustomerToEdit.StreetAddress
                 );
 
-                customerController.UpdatePrivateCustomer(ViewedPrivateCustomer);
-                IsEditPrivatePopUpOpen = false;
-                MessageBox.Show("Ändringar är sparade");
-                FullName = $"{ViewedPrivateCustomer.FirstName} {ViewedPrivateCustomer.LastName}";
+                    ViewedPrivateCustomer = PrivateCustomerToEdit;
+                    customerController.UpdatePrivateCustomer(ViewedPrivateCustomer);
+                    IsEditPrivatePopUpOpen = false;
+                    MessageBox.Show("Ändringar är sparade");
+                    FullName = $"{ViewedPrivateCustomer.FirstName} {ViewedPrivateCustomer.LastName}";
+                              
             }
         }
 
@@ -752,7 +779,7 @@ namespace PresentationLayer.ViewModels
                     {
                         IsRemovePrivateCustomerPopupOpen = true;
                     }
-                    //CustomerInsurances.Clear();
+                    
                 }
             }
         }
@@ -793,7 +820,7 @@ namespace PresentationLayer.ViewModels
                     {
                         IsRemoveCompanyCustomerPopupOpen = true;
                     }
-                    //CustomerInsurances.Clear();
+                    
                 }
             }
         }
@@ -809,6 +836,7 @@ namespace PresentationLayer.ViewModels
                     ViewedPrivateCustomer
                 );
                 ViewedPrivateCustomer = null;
+                CustomerInsurances.Clear();
 
                 MessageBox.Show("Kunden är nu borttagen ur systemet.");
             }
@@ -818,6 +846,7 @@ namespace PresentationLayer.ViewModels
                     ViewedCompanyCustomer
                 );
                 ViewedCompanyCustomer = null;
+                CustomerInsurances.Clear();
 
                 MessageBox.Show("Kunden är nu borttagen ur systemet.");
             }

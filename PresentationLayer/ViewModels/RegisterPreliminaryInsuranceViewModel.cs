@@ -51,7 +51,7 @@ namespace PresentationLayer.ViewModels
         #endregion
 
         #region Customer
-        private string inputSocialSecurityNumber;
+        private string inputSocialSecurityNumber =null!;
         public string InputSocialSecurityNumber
         {
             get { return inputSocialSecurityNumber; }
@@ -75,7 +75,7 @@ namespace PresentationLayer.ViewModels
         #endregion
 
         #region InsuredPerson
-        private string insuredPersonFirstName;
+        private string insuredPersonFirstName = null!;
         public string InsuredPersonFirstName
         {
             get { return insuredPersonFirstName; }
@@ -89,7 +89,7 @@ namespace PresentationLayer.ViewModels
             }
         }
 
-        private string insuredPersonLastName;
+        private string insuredPersonLastName = null!;
         public string InsuredPersonLastName
         {
             get { return insuredPersonLastName; }
@@ -103,7 +103,7 @@ namespace PresentationLayer.ViewModels
             }
         }
 
-        private string insuredPersonSSN;
+        private string insuredPersonSSN = null!;
         public string InsuredPersonSSN
         {
             get { return insuredPersonSSN; }

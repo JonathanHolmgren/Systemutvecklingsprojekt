@@ -575,7 +575,7 @@ namespace PresentationLayer.ViewModels
                         && totalPremium != null
                     )
                     {
-                        Insurance newInsurance = insuranceController.CreateInsuranceFromInput(
+                        Insurance newInsurance = insuranceController.CreatePrivateInsuranceFromInput(
                             1,
                             SelectedInsuranceType,
                             InsuredPersonFirstName,

@@ -5,33 +5,52 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:local="clr-namespace:PresentationLayer.Views"
         xmlns:vm="clr-namespace:PresentationLayer.ViewModels"
+        xmlns:sv="clr-namespace:PresentationLayer.Services"
         mc:Ignorable="d"
-        Title="LoginUserWindow" Height="450" Width="800">
+        Title="LoginUserWindow" sv:WindowCloser.EnableWindowClosing="True" Height="800" Width="650">
    
     <Window.DataContext>
         <vm:LoginViewModel/>
     </Window.DataContext>
 
-    
+    <Window.Resources>
+        <ResourceDictionary Source="/DataTemplatesAndStyles/ResourceDictionary.xaml"/>
+    </Window.Resources>
+
+
     <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
         
       
-        
-            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
-                <TextBlock FontSize="20" Text="Login" Margin="0,0,0,20" HorizontalAlignment="Center"/>
-            
-                <Label Content="Username:"/>
-                <TextBox Name="UsernameTextBox" Text="{Binding UserNameInput, Mode=TwoWay}" Width="250" Margin="0,0,0,10"/>
-            
-                <Label Content="Password:"/>
-                <TextBox  Name="PasswordBox" Text="{Binding PasswordInput, Mode=TwoWay}" Width="250" Margin="0,0,0,20"/>
-            
-                <Button Name="LoginButton" Content="Login" Width="100" Command="{Binding LoginBtn}"/>
-                <TextBlock Text="{Binding ErrorMessage}" FontSize="20" Margin="0,0,0,20" HorizontalAlignment="Center"/>
-            
-            </StackPanel>
+
+        <StackPanel>
+            <Image Source="/DataTemplatesAndStyles/Assets/Toppforsakringar_transparent_high_res.png" Margin="0,0,0,0"/>
+        </StackPanel>
+
+        <StackPanel Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0">
          
-        
-        
+            <TextBlock FontSize="30" FontWeight="Bold" Text="Välkommen tillbaka!" Margin="0,0,0,10" HorizontalAlignment="Left"/>
+            <TextBlock FontSize="14" Text="Vänligen logga in på ditt konto." Margin="0,0,0,30" HorizontalAlignment="Left" />
+
+            <Label Content="Agentnummer" FontSize="12"/>
+            <TextBox Name="AgentNumberTextBox" Style="{StaticResource TextBoxStyle}" Text="{Binding UserNameInput, Mode=TwoWay}" Width="300" Height="30" Margin="0,0,0,10">
+
+            </TextBox>
+
+            <Label Content="Lösenord" FontSize="12"/>
+            <PasswordBox sv:PasswordHelper.BoundPassword="{Binding PasswordInput, Mode=TwoWay}" Style="{StaticResource PasswordBoxStyle}" Name="PasswordBox" Width="300" Height="30" Margin="0,0,0,20"/>
+      
+
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <Button Style="{StaticResource CRUDButtonStyle}" Name="LoginButton" Content="Login" Width="120" Height="40" Command="{Binding LoginBtn}" Foreground="White"/>
+            </StackPanel>
+
+            <TextBlock Text="{Binding ErrorMessage}" FontSize="14" Foreground="Red" Margin="0,20,0,0" HorizontalAlignment="Center"/>
+        </StackPanel>
+
+
     </Grid>
 </Window>

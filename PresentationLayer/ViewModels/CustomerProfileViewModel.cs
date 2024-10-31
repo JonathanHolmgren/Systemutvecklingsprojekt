@@ -169,7 +169,6 @@ namespace PresentationLayer.ViewModels
         public bool IsPrivateColumnVisible => IsPrivateSelected;
         public bool IsCompanyColumnVisible => IsCompanySelected;
 
-
         private PrivateCustomer viewedPrivateCustomer;
         public PrivateCustomer ViewedPrivateCustomer
         {
@@ -249,8 +248,6 @@ namespace PresentationLayer.ViewModels
             }
         }
 
-
-
         public ICommand FindPrivateCustomerCommand { get; private set; }
         public ICommand FindCompanyCustomerCommand { get; private set; }
         public ICommand AddPrivateProspectNoteCommand { get; private set; }
@@ -269,13 +266,14 @@ namespace PresentationLayer.ViewModels
         public ICommand ChangeInsuranceStatusCommand { get; private set; }
         public ICommand CloseEditPopupCommand { get; private set; }
         public ICommand GoToAddInsuranceCommand { get; private set; }
+
         public CustomerProfileViewModel()
         {
             FindPrivateCustomerCommand = new RelayCommand(FindPrivateCustomer);
             FindCompanyCustomerCommand = new RelayCommand(FindCompanyCustomer);
             AddPrivateProspectNoteCommand = new RelayCommand(AddPrivateProspectNote);
             AddCompanyProspectNoteCommand = new RelayCommand(AddCompanyProspectNote);
-            
+
             OnEditCompanyCustomerClickedCommand = new RelayCommand(OnEditCompanyCustomerClicked);
             OnEditPrivateCustomerClickedCommand = new RelayCommand(OnEditPrivateCustomerClicked);
             SaveEditedCompanyCustomerCommand = new RelayCommand(SaveEditedCompanyCustomer);
@@ -287,18 +285,18 @@ namespace PresentationLayer.ViewModels
             RemoveInsuranceCommand = new RelayCommand(RemoveChosenInsurance);
             ChangeInsuranceStatusCommand = new RelayCommand(ChangeInsuranceStatus);
             CloseEditPopupCommand = new RelayCommand(CloseEditPopup);
-            GoToAddInsuranceCommand = new RelayCommand(GoToAddInsurance);           
+            GoToAddInsuranceCommand = new RelayCommand(GoToAddInsurance);
 
             CustomerInsurances = new ObservableCollection<Insurance>();
-            InsuranceSpecsAndAttributesInformation = new ObservableCollection<InsuranceSpecAndAttributeInformation>();
+            InsuranceSpecsAndAttributesInformation =
+                new ObservableCollection<InsuranceSpecAndAttributeInformation>();
 
-            IsCompanySelected = true;           
+            IsCompanySelected = true;
             IsEditPrivatePopUpOpen = false;
             IsEditCompanyPopUpOpen = false;
             IsRemoveCompanyCustomerPopupOpen = false;
             IsRemovePrivateCustomerPopupOpen = false;
         }
-
 
         #region methods
 
@@ -307,13 +305,22 @@ namespace PresentationLayer.ViewModels
             InsuranceSpecsAndAttributesInformation.Clear();
             if (SelectedInsurance != null)
             {
-                IList<InsuranceSpec> insuranceSpecs = insuranceSpecController.GetAllInsuranceSpecsForInsurance(selectedInsurance.InsuranceId);
+                IList<InsuranceSpec> insuranceSpecs =
+                    insuranceSpecController.GetAllInsuranceSpecsForInsurance(
+                        selectedInsurance.InsuranceId
+                    );
 
                 foreach (InsuranceSpec spec in insuranceSpecs)
                 {
-                    InsuranceSpecAndAttributeInformation tempInsuranceSpecAndAttributeInformation = new InsuranceSpecAndAttributeInformation(spec.InsuranceTypeAttribute.InsuranceAttribute, spec.Value);
-                    InsuranceSpecsAndAttributesInformation.Add(tempInsuranceSpecAndAttributeInformation);
-                }                
+                    InsuranceSpecAndAttributeInformation tempInsuranceSpecAndAttributeInformation =
+                        new InsuranceSpecAndAttributeInformation(
+                            spec.InsuranceTypeAttribute.InsuranceAttribute,
+                            spec.Value
+                        );
+                    InsuranceSpecsAndAttributesInformation.Add(
+                        tempInsuranceSpecAndAttributeInformation
+                    );
+                }
             }
         }
 
@@ -321,18 +328,24 @@ namespace PresentationLayer.ViewModels
         {
             if (ViewedCompanyCustomer != null)
             {
-                CustomerInsurances = new ObservableCollection<Insurance>(insuranceController.GetCustomerInsurances(ViewedCompanyCustomer.CustomerID));
+                CustomerInsurances = new ObservableCollection<Insurance>(
+                    insuranceController.GetCustomerInsurances(ViewedCompanyCustomer.CustomerID)
+                );
             }
             else if (ViewedPrivateCustomer != null)
             {
-                CustomerInsurances = new ObservableCollection<Insurance>(insuranceController.GetCustomerInsurances(ViewedPrivateCustomer.CustomerID));
+                CustomerInsurances = new ObservableCollection<Insurance>(
+                    insuranceController.GetCustomerInsurances(ViewedPrivateCustomer.CustomerID)
+                );
             }
         }
+
         private void UpdateCompanyCustomer() //Kanske ändra till customerid
         {
             ViewedCompanyCustomer = null;
             ViewedCompanyCustomer = customerController.GetSpecificCompanyCustomer(SearchValue);
         }
+
         private void UpdatePrivateCustomer() //Kanske ändra till customerid
         {
             ViewedPrivateCustomer = null;
@@ -348,6 +361,13 @@ namespace PresentationLayer.ViewModels
                     if (IsActiveStatusSelected == true)
                     {
                         insuranceController.SetInsuranceStatusToActive(SelectedInsurance);
+                        foreach (var insurance in ViewedCompanyCustomer.Insurances)
+                        {
+                            if (insurance.InsuranceId == selectedInsurance.InsuranceId)
+                            {
+                                insurance.InsuranceStatus = InsuranceStatus.Active;
+                            }
+                        }
                         MessageBox.Show("Status på avtalet är ändrad till aktiv");
                         CustomerInsurances.Clear();
                         UpdateInsuranceList();
@@ -357,6 +377,13 @@ namespace PresentationLayer.ViewModels
                     else if (IsInactiveStatusSelected == true)
                     {
                         insuranceController.SetInsuranceStatusToInactive(SelectedInsurance);
+                        foreach (var insurance in ViewedCompanyCustomer.Insurances)
+                        {
+                            if (insurance.InsuranceId == selectedInsurance.InsuranceId)
+                            {
+                                insurance.InsuranceStatus = InsuranceStatus.Inactive;
+                            }
+                        }
                         MessageBox.Show("Status på avtalet är ändrad till inaktiv");
                         CustomerInsurances.Clear();
                         UpdateInsuranceList();
@@ -369,6 +396,13 @@ namespace PresentationLayer.ViewModels
                     if (IsActiveStatusSelected == true)
                     {
                         insuranceController.SetInsuranceStatusToActive(SelectedInsurance);
+                        foreach (var insurance in ViewedPrivateCustomer.Insurances)
+                        {
+                            if (insurance.InsuranceId == selectedInsurance.InsuranceId)
+                            {
+                                insurance.InsuranceStatus = InsuranceStatus.Active;
+                            }
+                        }
                         MessageBox.Show("Status på avtalet är ändrad till aktiv");
                         CustomerInsurances.Clear();
                         UpdateInsuranceList();
@@ -378,6 +412,13 @@ namespace PresentationLayer.ViewModels
                     else if (IsInactiveStatusSelected == true)
                     {
                         insuranceController.SetInsuranceStatusToInactive(SelectedInsurance);
+                        foreach (var insurance in ViewedPrivateCustomer.Insurances)
+                        {
+                            if (insurance.InsuranceId == selectedInsurance.InsuranceId)
+                            {
+                                insurance.InsuranceStatus = InsuranceStatus.Inactive;
+                            }
+                        }
                         MessageBox.Show("Status på avtalet är ändrad till inaktiv");
                         CustomerInsurances.Clear();
                         UpdateInsuranceList();
@@ -457,23 +498,35 @@ namespace PresentationLayer.ViewModels
                 }
 
                 //Check that postalcode is 5 letters
-                if (ViewedCompanyCustomer.PostalCode.Length != 5 || !ViewedCompanyCustomer.PostalCode.All(char.IsDigit))
+                if (
+                    ViewedCompanyCustomer.PostalCode.Length != 5
+                    || !ViewedCompanyCustomer.PostalCode.All(char.IsDigit)
+                )
                 {
                     MessageBox.Show("Postnumret måste vara exakt 5 siffror");
                     return;
                 }
 
                 //Check that Organisationnumber is 10 letters
-                if (ViewedCompanyCustomer.OrganisationNumber.Length != 12 || !ViewedCompanyCustomer.OrganisationNumber.All(char.IsDigit))
+                if (
+                    ViewedCompanyCustomer.OrganisationNumber.Length != 12
+                    || !ViewedCompanyCustomer.OrganisationNumber.All(char.IsDigit)
+                )
                 {
                     MessageBox.Show("Personnumret måste innehålla 10 siffror");
                     return;
                 }
 
-                ViewedCompanyCustomer.CompanyName = CapitalizeFirstLetter(ViewedCompanyCustomer.CompanyName);
-                ViewedCompanyCustomer.ContactPersonName = CapitalizeFirstLetter(ViewedCompanyCustomer.ContactPersonName);
+                ViewedCompanyCustomer.CompanyName = CapitalizeFirstLetter(
+                    ViewedCompanyCustomer.CompanyName
+                );
+                ViewedCompanyCustomer.ContactPersonName = CapitalizeFirstLetter(
+                    ViewedCompanyCustomer.ContactPersonName
+                );
                 ViewedCompanyCustomer.City = CapitalizeFirstLetter(ViewedCompanyCustomer.City);
-                ViewedCompanyCustomer.StreetAddress = CapitalizeFirstLetter(ViewedCompanyCustomer.StreetAddress);
+                ViewedCompanyCustomer.StreetAddress = CapitalizeFirstLetter(
+                    ViewedCompanyCustomer.StreetAddress
+                );
 
                 customerController.UpdateCompanyCustomer(ViewedCompanyCustomer);
                 IsEditCompanyPopUpOpen = false;
@@ -534,23 +587,35 @@ namespace PresentationLayer.ViewModels
                 }
 
                 //Check that postalcode is 5 letters
-                if (ViewedPrivateCustomer.PostalCode.Length != 5 || !ViewedPrivateCustomer.PostalCode.All(char.IsDigit))
+                if (
+                    ViewedPrivateCustomer.PostalCode.Length != 5
+                    || !ViewedPrivateCustomer.PostalCode.All(char.IsDigit)
+                )
                 {
                     MessageBox.Show("Postnumret måste vara exakt 5 siffror");
                     return;
                 }
 
                 //Check that SSN is 10 letters
-                if (ViewedPrivateCustomer.SSN.Length != 12 || !ViewedPrivateCustomer.SSN.All(char.IsDigit))
+                if (
+                    ViewedPrivateCustomer.SSN.Length != 12
+                    || !ViewedPrivateCustomer.SSN.All(char.IsDigit)
+                )
                 {
                     MessageBox.Show("Personnumret måste innehålla 10 siffror");
                     return;
                 }
 
-                ViewedPrivateCustomer.FirstName = CapitalizeFirstLetter(ViewedPrivateCustomer.FirstName);
-                ViewedPrivateCustomer.LastName = CapitalizeFirstLetter(ViewedPrivateCustomer.LastName);
+                ViewedPrivateCustomer.FirstName = CapitalizeFirstLetter(
+                    ViewedPrivateCustomer.FirstName
+                );
+                ViewedPrivateCustomer.LastName = CapitalizeFirstLetter(
+                    ViewedPrivateCustomer.LastName
+                );
                 ViewedPrivateCustomer.City = CapitalizeFirstLetter(ViewedPrivateCustomer.City);
-                ViewedPrivateCustomer.StreetAddress = CapitalizeFirstLetter(ViewedPrivateCustomer.StreetAddress);
+                ViewedPrivateCustomer.StreetAddress = CapitalizeFirstLetter(
+                    ViewedPrivateCustomer.StreetAddress
+                );
 
                 customerController.UpdatePrivateCustomer(ViewedPrivateCustomer);
                 IsEditPrivatePopUpOpen = false;
@@ -576,7 +641,7 @@ namespace PresentationLayer.ViewModels
         }
 
         private void FindPrivateCustomer()
-        {            
+        {
             ViewedPrivateCustomer = customerController.GetSpecificPrivateCustomer(SearchValue);
             if (ViewedPrivateCustomer != null)
             {
@@ -648,7 +713,7 @@ namespace PresentationLayer.ViewModels
                 }
             }
         }
-        
+
         private void RemovePrivateCustomer()
         {
             int checker = 0;
@@ -663,7 +728,6 @@ namespace PresentationLayer.ViewModels
                     ViewedPrivateCustomer = null;
                     CustomerInsurances = null;
                     MessageBox.Show("Kunden är nu borttagen ur systemet.");
-                    
                 }
                 else if (ViewedPrivateCustomer.Insurances.Count > 0)
                 {
@@ -689,17 +753,16 @@ namespace PresentationLayer.ViewModels
                         IsRemovePrivateCustomerPopupOpen = true;
                     }
                     //CustomerInsurances.Clear();
-                }                
+                }
             }
         }
 
         private void RemoveCompanyCustomer()
         {
             int checker = 0;
+
             if (ViewedCompanyCustomer != null)
             {
-                UpdateCompanyCustomer();
-
                 if (ViewedCompanyCustomer.Insurances.Count < 1)
                 {
                     customerController.RemoveCompanyCustomer(ViewedCompanyCustomer);
@@ -726,12 +789,12 @@ namespace PresentationLayer.ViewModels
                             $"Tyvärr kan du inte ta bort kunden: \"{ViewedCompanyCustomer.CompanyName}\", det finns aktiva eller preliminära försäkringar kopplad till kunden. Hantera dem först."
                         );
                     }
-                    else if (checker == 0)
+                    else
                     {
                         IsRemoveCompanyCustomerPopupOpen = true;
                     }
                     //CustomerInsurances.Clear();
-                }               
+                }
             }
         }
 
@@ -772,31 +835,39 @@ namespace PresentationLayer.ViewModels
             {
                 if (SelectedInsurance.InsuranceStatus == InsuranceStatus.Active)
                 {
-                    MessageBox.Show("Detta är en aktiv försäkring, du måste avsluta den innan du kan ta bort den");
-                }
-                else
-                { 
-                insuranceController.RemoveInsurance(SelectedInsurance);
-                CustomerInsurances.Clear();
-                CustomerInsurances = new ObservableCollection<Insurance>(insuranceController.GetCustomerInsurances(ViewedCompanyCustomer.CustomerID));
-                }
-            }
-
-            else if (ViewedPrivateCustomer != null && SelectedInsurance != null)
-            {
-                if (SelectedInsurance.InsuranceStatus == InsuranceStatus.Active)
-                {
-                    MessageBox.Show("Detta är en aktiv försäkring, du måste avsluta den innan du kan ta bort den");
+                    MessageBox.Show(
+                        "Detta är en aktiv försäkring, du måste avsluta den innan du kan ta bort den"
+                    );
                 }
                 else
                 {
                     insuranceController.RemoveInsurance(SelectedInsurance);
                     CustomerInsurances.Clear();
-                    CustomerInsurances = new ObservableCollection<Insurance>(insuranceController.GetCustomerInsurances(ViewedPrivateCustomer.CustomerID));
+                    CustomerInsurances = new ObservableCollection<Insurance>(
+                        insuranceController.GetCustomerInsurances(ViewedCompanyCustomer.CustomerID)
+                    );
+                }
+            }
+            else if (ViewedPrivateCustomer != null && SelectedInsurance != null)
+            {
+                if (SelectedInsurance.InsuranceStatus == InsuranceStatus.Active)
+                {
+                    MessageBox.Show(
+                        "Detta är en aktiv försäkring, du måste avsluta den innan du kan ta bort den"
+                    );
+                }
+                else
+                {
+                    insuranceController.RemoveInsurance(SelectedInsurance);
+                    CustomerInsurances.Clear();
+                    CustomerInsurances = new ObservableCollection<Insurance>(
+                        insuranceController.GetCustomerInsurances(ViewedPrivateCustomer.CustomerID)
+                    );
                 }
             }
             SelectedInsurance = null;
         }
+
         //Cancel the editing of a customer
         private void CloseEditPopup()
         {

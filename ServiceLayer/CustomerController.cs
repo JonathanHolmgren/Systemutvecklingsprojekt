@@ -225,12 +225,12 @@ namespace ServiceLayer
                 {
                     if (insurance.InsuranceStatus == InsuranceStatus.Active)
                     {
-                        if (insurance.BillingingInterval == BillingInterval.Månad)
+                        if (insurance.BillingInterval == BillingInterval.Månad)
                         {
                             totalPremie += CalculatePremiePerInsurance(insurance);
 
                         }
-                        if (insurance.BillingingInterval == BillingInterval.Kvartal)
+                        if (insurance.BillingInterval == BillingInterval.Kvartal)
                         {
                             if ((DateTime.Now.Month - insurance.ExpiryDate.Month) % 3 == 0 &&
                                  DateTime.Now >= insurance.ExpiryDate)
@@ -240,7 +240,7 @@ namespace ServiceLayer
                             }
 
                         }
-                        if (insurance.BillingingInterval == BillingInterval.Halvår)
+                        if (insurance.BillingInterval == BillingInterval.Halvår)
                         {
 
                             if ((DateTime.Now.Month - insurance.ExpiryDate.Month) % 6 == 0 &&
@@ -250,7 +250,7 @@ namespace ServiceLayer
 
                             }
                         }
-                        if (insurance.BillingingInterval == BillingInterval.År)
+                        if (insurance.BillingInterval == BillingInterval.År)
                         {
                             if ((DateTime.Now.Month == insurance.ExpiryDate.Month) &&
                                  DateTime.Now >= insurance.ExpiryDate)

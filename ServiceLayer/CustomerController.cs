@@ -45,9 +45,10 @@ namespace ServiceLayer
         {
             return unitOfWork.CustomerRepository.GetSpecificPrivateCustomerForInsuranceBySSN(sSN);
         }
-
-
-
+        public CompanyCustomer GetSpecificCompanyCustomerForInsuranceByOrgNumber(string orgNr)
+        {
+            return unitOfWork.CustomerRepository.GetSpecificCompanyCustomerForInsuranceByOrgNumber(orgNr);
+        }
 
         public void RemoveInactiveCustomers()
         {
@@ -224,12 +225,12 @@ namespace ServiceLayer
                 {
                     if (insurance.InsuranceStatus == InsuranceStatus.Active)
                     {
-                        if (insurance.BillingingInterval == BillingInterval.Monthly)
+                        if (insurance.BillingingInterval == BillingInterval.Månad)
                         {
                             totalPremie += CalculatePremiePerInsurance(insurance);
 
                         }
-                        if (insurance.BillingingInterval == BillingInterval.Quartly)
+                        if (insurance.BillingingInterval == BillingInterval.Kvartal)
                         {
                             if ((DateTime.Now.Month - insurance.ExpiryDate.Month) % 3 == 0 &&
                                  DateTime.Now >= insurance.ExpiryDate)
@@ -239,7 +240,7 @@ namespace ServiceLayer
                             }
 
                         }
-                        if (insurance.BillingingInterval == BillingInterval.HalfYear)
+                        if (insurance.BillingingInterval == BillingInterval.Halvår)
                         {
 
                             if ((DateTime.Now.Month - insurance.ExpiryDate.Month) % 6 == 0 &&
@@ -249,7 +250,7 @@ namespace ServiceLayer
 
                             }
                         }
-                        if (insurance.BillingingInterval == BillingInterval.Yearly)
+                        if (insurance.BillingingInterval == BillingInterval.År)
                         {
                             if ((DateTime.Now.Month == insurance.ExpiryDate.Month) &&
                                  DateTime.Now >= insurance.ExpiryDate)
@@ -272,12 +273,10 @@ namespace ServiceLayer
                 IList<InsuranceSpec> insuranceSpecs = unitOfWork.InsuranceSpecRepository.GetSpecsForInsurance(insurance.InsuranceId);
                 foreach (InsuranceSpec insuranceSpec in insuranceSpecs)
                 {
-
                     if (insuranceTypeAttributeID == insuranceSpec.InsuranceTypeAttribute.InsuranceTypeAttributeId)
                     {
                         premie = double.Parse(insuranceSpec.Value);
                     }
-
                 }
                 return premie;
             }
@@ -315,7 +314,5 @@ namespace ServiceLayer
 
                 return companyCustomer;
             }
-        
-
     }
 }

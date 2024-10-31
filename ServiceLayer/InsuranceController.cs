@@ -14,7 +14,7 @@ namespace ServiceLayer
     public class InsuranceController
     {
         UnitOfWork unitOfWork = new UnitOfWork();
-
+        #region PrivateCustomer
         #region RegisterInsurance
         public Insurance RegisterPreliminaryInsurance(
             DateTime expiryDate,
@@ -276,5 +276,6 @@ namespace ServiceLayer
             }
             return isValid;
         }
+        #endregion
     }
 }

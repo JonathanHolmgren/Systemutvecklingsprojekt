@@ -83,7 +83,7 @@ namespace PresentationLayer.ViewModels
         }
 
         private string selectedInsuranceType = null!;
-        public string SelctedInsuranceType
+        public string SelectedInsuranceType
         {
             get => selectedInsuranceType;
             set
@@ -753,6 +753,44 @@ namespace PresentationLayer.ViewModels
                         );
                 },
                 () => InputOrgNumber != null
+            );
+
+        private ICommand addCommand = null!;
+        public ICommand AddCommand =>
+            addCommand ??= addCommand = new RelayCommand(
+                () =>
+                {
+                    if (selectedInsuranceType == insuranceType1)
+                    {
+                        insuranceController.CreateCompanyInsuranceFromInput(
+                            LoggedInUser,
+                            SelectedCompanyCustomer,
+                            SelectedInsuranceType,
+                            PropertyAddress,
+                            PropertyValue,
+                            InventoriesValue,
+                            PropertyPremie,
+                            InventoriesPremie,
+                            ActivationDate,
+                            ExpiryDate,
+                            SelectedInterval,
+                            TotalPremie
+                        );
+                    }
+                    //else if (selectedInsuranceType == insuranceType2)
+                    //{
+                    //    insuranceController.CreateCompanyInsuranceFromInput(
+                           
+                    //    );
+                    //}
+                    //else if (selectedInsuranceType == insuranceType3)
+                    //{
+                    //    insuranceController.CreateCompanyInsuranceFromInput(
+                           
+                    //    );
+                    //}
+                },
+                () => true
             );
 
         #endregion

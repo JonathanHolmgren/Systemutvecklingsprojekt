@@ -43,6 +43,18 @@ namespace ServiceLayer
                 unitOfWork.SaveChanges();
         }
 
+        public void RemovePrivateCustomer(PrivateCustomer privateCustomer)
+        {
+            unitOfWork.CustomerRepository.Remove(privateCustomer);
+            unitOfWork.SaveChanges();
+        }
+
+        public void RemoveCompanyCustomer(CompanyCustomer companyCustomer)
+        {
+            unitOfWork.CustomerRepository.Remove(companyCustomer);
+            unitOfWork.SaveChanges();
+        }
+
         public void RemoveInactiveCustomers()
         {
             var inactiveCustomers =
@@ -71,17 +83,7 @@ namespace ServiceLayer
             unitOfWork.SaveChanges();
         }
 
-        public void RemovePrivateCustomer(PrivateCustomer privateCustomer)
-        {
-            unitOfWork.CustomerRepository.Remove(privateCustomer);
-            unitOfWork.SaveChanges();
-        }
 
-        public void RemoveCompanyCustomer(CompanyCustomer companyCustomer)
-        {
-            unitOfWork.CustomerRepository.Remove(companyCustomer);
-            unitOfWork.SaveChanges();
-        }
 
         public void RemovePrivateCustomerAndInactiveInsurances(PrivateCustomer privateCustomer)
         {

@@ -19,6 +19,8 @@ namespace DataLayer.Repositories
                 .Set<Insurance>()
                 .Where(insurance => insurance.Customer.CustomerID == customerId)
                 .Include(i => i.InsuranceType)
+                .Include(i => i.User)                 // Jag la till dessa
+                .ThenInclude(a => a.Employee)         // Ta bort om de krånglar
                 .ToList();
         }
 
@@ -86,13 +88,21 @@ namespace DataLayer.Repositories
                 .ToList();
         }
 
-        public Insurance SetInsuranceStatusToActive(Insurance selectedInsurance)
-        {
-            Insurance insuranceToUpdate = Context
-                .Set<Insurance>()
-                .FirstOrDefault(p => p.InsuranceId == selectedInsurance.InsuranceId);
+        //public Insurance SetInsuranceStatusToActive(Insurance selectedInsurance)
+        //{
+        //    Insurance insuranceToUpdate = Context
+        //        .Set<Insurance>()
+        //        .FirstOrDefault(p => p.InsuranceId == selectedInsurance.InsuranceId);
 
-            return insuranceToUpdate;
-        }
+        //    return insuranceToUpdate;
+        //}
+        //public Insurance SetInsuranceStatusToInactive(Insurance selectedInsurance)
+        //{
+        //    Insurance insuranceToUpdate = Context
+        //        .Set<Insurance>()
+        //        .FirstOrDefault(p => p.InsuranceId == selectedInsurance.InsuranceId);
+
+        //    return insuranceToUpdate;
+        //}
     }
 }

@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:PresentationLayer.Views"
              xmlns:vm="clr-namespace:PresentationLayer.ViewModels"
              mc:Ignorable="d" 
-             d:DesignHeight="1920" d:DesignWidth="1080">
+             d:DesignHeight="800" d:DesignWidth="1080">
 
     <UserControl.Resources>
         <BooleanToVisibilityConverter x:Key="BoolToVisConverter" />
@@ -74,7 +74,7 @@
                         </StackPanel>
 
                         <Button Content="Spara ändringar" Width="100" Height="30" Command="{Binding SaveEditedCompanyCustomerCommand}"/>
-                        
+                        <Button Content="Avbryt" Width="100" Height="30" Command="{Binding CloseEditPopupCommand}"/>
                     </StackPanel>
                 </StackPanel>
             </Border>
@@ -130,6 +130,7 @@
                     </StackPanel>
 
                     <Button Content="Spara ändringar" Width="100" Height="30" Command="{Binding SaveEditedPrivateCustomerCommand}"/>
+                    <Button Content="Avbryt" Width="100" Height="30" Command="{Binding CloseEditPopupCommand}"/>
 
                 </StackPanel>
             </Border>
@@ -175,33 +176,37 @@
             </Border>
 
             <StackPanel Orientation="Horizontal">
-                <RadioButton Content="Företag" GroupName="UserType" IsChecked="{Binding IsCompanySelected, Mode=TwoWay}" Margin="5"/>
-                <RadioButton Content="Privat" GroupName="UserType" IsChecked="{Binding IsPrivateSelected, Mode=TwoWay}" Margin="5"/>
+                
+                <StackPanel Orientation="Vertical">
+                    <RadioButton Content="Företag" GroupName="UserType" IsChecked="{Binding IsCompanySelected, Mode=TwoWay}" Margin="5"/>
+                    <RadioButton Content="Privat" GroupName="UserType" IsChecked="{Binding IsPrivateSelected, Mode=TwoWay}" Margin="5"/>
+                </StackPanel>
                 
                 <!--search for private-->
                 <StackPanel Orientation="Horizontal" x:Name="PrivateCustomerSearchPanel" Visibility="{Binding IsPrivateSelected, Converter={StaticResource BoolToVisConverter}}">
-                    <Label Content="Personnummer" Margin="5"/>
-                    <TextBox Text="{Binding SearchValue, Mode=TwoWay}" Width="100" Margin="5"/>
-                    <Button Content="Sök kund" Command="{Binding FindPrivateCustomerCommand}" Margin="5"/>
+                    <Label Content="Personnummer" Margin="5" Width="130" Height="30"/>
+                    <TextBox Text="{Binding SearchValue, Mode=TwoWay}" Width="100" Height="30" Margin="5"/>
+                    <Button Content="Sök kund" Command="{Binding FindPrivateCustomerCommand}" Width="100" Height="30" Margin="5"/>
                 </StackPanel>
                 
                 <!--Search for company-->
                 <StackPanel Orientation="Horizontal" x:Name="CompanyCustomerSearchPanel" Visibility="{Binding IsCompanySelected, Converter={StaticResource BoolToVisConverter}}">
-                    <Label Content="Organisationsnummer" Margin="5"/>
-                    <TextBox Text="{Binding SearchValue, Mode=TwoWay}" Width="100" Margin="5"/>
-                    <Button Content="Sök kund" Command="{Binding FindCompanyCustomerCommand}" Margin="5"/>
+                    <Label Content="Organisationsnummer" Width="130" Height="30" Margin="5"/>
+                    <TextBox Text="{Binding SearchValue, Mode=TwoWay}" Width="100" Height="30" Margin="5"/>
+                    <Button Content="Sök kund" Command="{Binding FindCompanyCustomerCommand}" Width="100" Height="30" Margin="5"/>
                 </StackPanel>
 
             </StackPanel>
         </StackPanel>
-        
-        
-       
- 
 
 
 
-        <!--For private customers-->
+
+        <DockPanel>
+            <StackPanel DockPanel.Dock="Left" Width="400" HorizontalAlignment="Left">
+
+
+                <!--For private customers-->
         <StackPanel Orientation="Vertical" x:Name="PrivateCustomerPanel" Visibility="{Binding IsPrivateSelected, Converter={StaticResource BoolToVisConverter}}">
             
             <StackPanel Orientation="Horizontal">
@@ -266,7 +271,7 @@
         
         
         
-        <!--For Company customers-->
+        <!--Info Company customer-->
         <StackPanel Orientation="Vertical" x:Name="CompanyCustomerPanel" Visibility="{Binding IsCompanySelected, Converter={StaticResource BoolToVisConverter}}">
 
             <StackPanel Orientation="Horizontal">
@@ -339,8 +344,9 @@
             <TextBox Text="{Binding Note}" BorderBrush="Black" Width="320" Margin="5,0,10,0" HorizontalAlignment="Left"/>
             <Button Content="Lägg till notering" Width="100" Margin="5" HorizontalAlignment="Left" Command="{Binding AddCompanyProspectNoteCommand}"/>
         </StackPanel>
+
         
-        
+        <StackPanel Orientation="Horizontal">
         <!--Edit Company Customer button-->
         <Button Content="Redigera kund" Width="100" Height="30" Margin="10" HorizontalAlignment="Left" Command="{Binding OnEditCompanyCustomerClickedCommand}" Visibility="{Binding IsCompanySelected, Converter={StaticResource BoolToVisConverter}}"/>
         
@@ -352,34 +358,73 @@
 
         <!-- Remove Private customer button-->
         <Button Content="Ta bort kund" Width="100" Height="30" Margin="10" HorizontalAlignment="Left" Command="{Binding RemovePrivateCustomerCommand}" Visibility="{Binding IsPrivateSelected, Converter={StaticResource BoolToVisConverter}}"/>
-        
-        <!--Show insurances-->
-        
-        <DataGrid ItemsSource="{Binding CustomerInsurances}" SelectedItem="{Binding InsuranceToRemove}" AutoGenerateColumns="False" Margin="115,-196,3,-26" RenderTransformOrigin="0.5,0.5" Width="739" Height="131" HorizontalAlignment="Right">
-            <DataGrid.Columns>
-                <DataGridTextColumn Header="Försäkrings Id" Binding="{Binding InsuranceId}" Width="60"/>
-                <DataGridTextColumn Header="Utgånsdatum" Binding="{Binding ExpiryDate}" Width="90"/>
-                <DataGridTextColumn Header="Betalnings intervall" Binding="{Binding BillingingInterval}" Width="230"/>
-                <DataGridTextColumn Header="Status" Binding="{Binding InsuranceStatus}" Width="230"/>
-                <DataGridTextColumn Header="Ansvarig agent" Binding="{Binding User.Employee.AgentNumber}" Width="230"/>
-                <DataGridTextColumn Header="Försäkrad person förnamn" Binding="{Binding InsuredPerson.FirstName}" Width="230"/>
-                <DataGridTextColumn Header="Försäkrad person efternamn" Binding="{Binding InsuredPerson.LastName}" Width="230"/>
-                <DataGridTextColumn Header="Försäkrad person personnummer" Binding="{Binding InsuredPerson.SSN}" Width="230"/>
-                <DataGridTextColumn Header="Försäkrings typ" Binding="{Binding InsuranceType.Type}" Width="230"/>
-            </DataGrid.Columns>
-        </DataGrid>
-
-        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-            <TextBlock Text="Välj status:" Visibility="{Binding IsInsuranceSelected, Converter={StaticResource BoolToVisConverter}}"/>
-            <RadioButton Content="Active" Margin="5" Visibility="{Binding IsInsuranceSelected, Converter={StaticResource BoolToVisConverter}}"/>
-            <RadioButton Content="Inactive" Margin="5" Visibility="{Binding IsInsuranceSelected, Converter={StaticResource BoolToVisConverter}}"/>
-        </StackPanel>
-        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-
-            <Button Width="100" Content="Ändra status" Margin="10" Padding="5" Command="{Binding ChangeInsuranceStatusCommand}"/>
-            <Button Width="100" Content="Ta bort" Margin="10" Command="{Binding RemoveInsuranceCommand}"/>
         </StackPanel>
 
+            </StackPanel>
 
+            
+            
+            
+            <StackPanel DockPanel.Dock="Right">
+                <!--Insuranceinfomation-->
+                <Label Content="Avtalsinformation" FontSize="20"/>
+                
+                <StackPanel Orientation="Horizontal">
+                    <Label Content="FörsäkringsId" Width="150" Margin="5"/>
+                    <Label Content="Försäkring" Width="150" Margin="5"/>
+                    <Label Content="Status" Width="150" Margin="5"/>
+                </StackPanel>
+                
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                    <TextBox Text="{Binding SelectedInsurance.InsuranceId}" Width="150" Margin="5"/>
+                    <TextBox Text="{Binding SelectedInsurance.InsuranceType.Type}" Width="150" Margin="5"/>
+                    <TextBox Text="{Binding SelectedInsurance.InsuranceStatus}" Width="150" Margin="5"/>
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal">
+                    <Label Content="Försäkrad förnamn" Width="150" Margin="5"/>
+                    <Label Content="Försäkrad efternamn" Width="150" Margin="5"/>
+                    <Label Content="Försäkrad Personnummer" Width="150" Margin="5"/>
+                </StackPanel>
+                
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                    <TextBox Text="{Binding SelectedInsurance.InsuredPerson.FirstName}" Width="150" Margin="5"/>
+                    <TextBox Text="{Binding SelectedInsurance.InsuredPerson.LastName}" Width="150" Margin="5"/>
+                    <TextBox Text="{Binding SelectedInsurance.InsuredPerson.SSN}" Width="150" Margin="5"/>
+                </StackPanel>
+
+                <DataGrid ItemsSource="{Binding InsuranceSpecsAndAttributesInformation, UpdateSourceTrigger=PropertyChanged}" Margin="10" AutoGenerateColumns="False" CanUserAddRows="False" Width="300" Height="110" HorizontalAlignment="Left">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Attribut" Binding="{Binding InsuranceAttribute, Mode=TwoWay}" Width="200" IsReadOnly="True"/>
+                        <DataGridTextColumn Header="Värde" Binding="{Binding Value, Mode=TwoWay}" Width="100" IsReadOnly="True"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+
+                <!--Show insurances-->
+                <DataGrid ItemsSource="{Binding CustomerInsurances, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding SelectedInsurance}" Margin="10" AutoGenerateColumns="False" CanUserAddRows="False" Width="700" Height="110" HorizontalAlignment="Left">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="ID" Binding="{Binding InsuranceId, Mode=TwoWay}" Width="60" IsReadOnly="True"/>
+                        <DataGridTextColumn Header="Utgånsdatum" Binding="{Binding ExpiryDate, Mode=TwoWay}" Width="90"/>
+                        <DataGridTextColumn Header="Betalnings intervall" Binding="{Binding BillingingInterval, Mode=TwoWay}" Width="120"/>
+                        <DataGridTextColumn Header="Status" Binding="{Binding InsuranceStatus, Mode=TwoWay}" Width="70"/>
+                        <DataGridTextColumn Header="Ansvarig agent" Binding="{Binding User.Employee.AgentNumber, Mode=TwoWay}" Width="120"/>
+                        <DataGridTextColumn Header="Försäkrings typ" Binding="{Binding InsuranceType.Type, Mode=TwoWay}" Width="230"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                    <TextBlock Text="Välj status:"/>
+                    <RadioButton Content="Active" Margin="5" IsChecked="{Binding IsActiveStatusSelected}"/>
+                    <RadioButton Content="Inactive" Margin="5" IsChecked="{Binding IsInactiveStatusSelected}"/>
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                    <Button Width="100" Content="Avtalsinfo" Margin="10" Command="{Binding ShowInsuranceInfoCommand}"/>
+                    <Button Width="100" Content="Skapa avtal" Margin="10" Command="{Binding GoToAddInsuranceCommand}"/>
+                    <Button Width="100" Content="Ändra status" Margin="10" Command="{Binding ChangeInsuranceStatusCommand}"/>
+                    <Button Width="100" Content="Ta bort" Margin="10" Command="{Binding RemoveInsuranceCommand}"/>
+                </StackPanel>
+            </StackPanel>
+        </DockPanel>
     </StackPanel>
 </UserControl>

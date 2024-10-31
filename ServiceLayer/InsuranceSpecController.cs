@@ -13,5 +13,9 @@ namespace ServiceLayer
         UnitOfWork unitOfWork = new UnitOfWork();
 
         public InsuranceSpecController() { }
+        public IList<InsuranceSpec> GetAllInsuranceSpecsForInsurance(int insuranceId)
+        {
+            return unitOfWork.InsuranceSpecRepository.GetSpecsForInsurance(insuranceId); 
+        }
     }
 }

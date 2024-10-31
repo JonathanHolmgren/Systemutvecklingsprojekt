@@ -21,11 +21,15 @@ namespace ServiceLayer
         {
             return unitOfWork.InsuranceRepository.GetAllPreliminaryInsurances();
         }
+        public IList<Insurance> GetCustomerInsurances(int customerId)
+        {
+            return unitOfWork.InsuranceRepository.GetCustomerInsurances(customerId);
+        }
 
         public void SetInsuranceStatusToActive(Insurance selectedInsurance)
         {
-            Insurance insuranceToUpdate = unitOfWork.InsuranceRepository.SetInsuranceStatusToActive(
-                selectedInsurance
+            Insurance insuranceToUpdate = unitOfWork.InsuranceRepository.GetInsurance(
+                selectedInsurance.InsuranceId
             );
 
             if (insuranceToUpdate != null)
@@ -38,8 +42,8 @@ namespace ServiceLayer
 
         public void SetInsuranceStatusToInactive(Insurance selectedInsurance)
         {
-            Insurance insuranceToUpdate = unitOfWork.InsuranceRepository.SetInsuranceStatusToActive(
-                selectedInsurance
+            Insurance insuranceToUpdate = unitOfWork.InsuranceRepository.GetInsurance(
+                selectedInsurance.InsuranceId
             );
 
             if (insuranceToUpdate != null)
@@ -57,20 +61,8 @@ namespace ServiceLayer
             foreach (InsuranceSpec insuranceSpec in insuranceSpecsToRemove)
             {
                 unitOfWork.InsuranceSpecRepository.Remove(insuranceSpec.InsuranceSpecId);
-                //unitOfWork.Remove(unitOfWork.InsuranceTypeAttributeRepository.FirstOrDefault(a => a.InsuranceTypeAttributeId = insuranceSpec.InsuranceTypeAttribute.InsuranceTypeAttributeID));
                 unitOfWork.InsuranceTypeAttributeRepository.Remove(insuranceSpec.InsuranceTypeAttribute.InsuranceTypeAttributeId);
             }
-            //unitOfWork.InsuranceSpecRepository.Remove(9);
-
-            //unitOfWork.Update(unitOfWork.InsuranceTypeRepository.FirstOrDefault(m => m.InsuranceTypeId == selectedInsurance.InsuranceType.InsuranceTypeId));
-
-            //unitOfWork.Update(unitOfWork.InsuranceTypeRepository.FirstOrDefault(m => m.InsuranceTypeId == 3));
-
-            
-
-            //unitOfWork.InsuranceTypeAttributeRepository.Remove(9);
-
-
 
             unitOfWork.InsuranceRepository.Remove(selectedInsurance);
             unitOfWork.SaveChanges();

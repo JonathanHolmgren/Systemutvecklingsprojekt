@@ -32,6 +32,19 @@ namespace PresentationLayer.ViewModels
             LoadBillingIntervalOptions();
             LoadAddOnOptions1();
             LoadAddOnOptions2();
+            CurrentView = "Försäkringstagare";
+        }
+
+
+        private string _currentView;
+        public string CurrentView
+        {
+            get => _currentView;
+            set
+            {
+                _currentView = value;
+                OnPropertyChanged(nameof(CurrentView));
+            }
         }
 
         #region Users
@@ -363,7 +376,36 @@ namespace PresentationLayer.ViewModels
         private string insuranceType2 = "Sjuk- och olycksfallsförsäkring för vuxen";
         private string insuranceType3 = "Livförsäkring för vuxen";
 
-        private void UpdateBasePriceOptions()
+        private void ClearFields()
+        {
+            InputSocialSecurityNumber = null;
+            SelectedPrivateCustomer.FirstName = string.Empty;
+            SelectedPrivateCustomer.LastName = string.Empty;
+            SelectedPrivateCustomer.StreetAddress = string.Empty;
+            SelectedPrivateCustomer.TelephoneNumber = string.Empty;
+            SelectedPrivateCustomer.WorkTelephoneNumber = string.Empty;
+            SelectedPrivateCustomer.SSN = string.Empty;
+            SelectedPrivateCustomer.PostalCodeCity.PostalCode = string.Empty;
+            SelectedPrivateCustomer.PostalCodeCity.City = string.Empty;
+            SelectedPrivateCustomer.Email = string.Empty;
+
+            InsuredPersonFirstName = string.Empty;
+            InsuredPersonLastName = string.Empty;
+            InsuredPersonSSN = string.Empty;
+            SelectedInsuranceType = null;
+            SelectedBasePrice = null;
+            SelectedAddOnOption1 = "Inget";
+            SelectedAddOnBasePrice1 = null;
+            SelectedAddOnOption2 = "Inget";
+            SelectedAddOnBasePrice2 = null;
+            TotalPremium = null;
+            Notes = null;
+
+            OnPropertyChanged(nameof(SelectedPrivateCustomer));
+            
+        }
+    
+    private void UpdateBasePriceOptions()
         {
             if (selectedInsuranceType == insuranceType1 && arrivingDate < cutoffDate)
             {
@@ -545,6 +587,10 @@ namespace PresentationLayer.ViewModels
         #endregion
 
         #region Commands
+        public ICommand ShowInsuranceHolderCommand => new RelayCommand(() => CurrentView = "Försäkringstagare");
+        public ICommand ShowInsuredPersonCommand => new RelayCommand(() => CurrentView = "Försäkrandes uppgifter");
+        public ICommand ShowInsuranceDetailsCommand => new RelayCommand(() => CurrentView = "Försäkringsuppgifter");
+
         private ICommand searchCommand = null!;
         public ICommand SearchCommand =>
             searchCommand ??= searchCommand = new RelayCommand(
@@ -592,6 +638,8 @@ namespace PresentationLayer.ViewModels
                             SelectedAddOnOption1,
                             SelectedAddOnOption2
                         );
+                        ClearFields();
+                        CurrentView = "Försäkringstagare";
                     }
                 },
                 () =>
@@ -608,6 +656,7 @@ namespace PresentationLayer.ViewModels
                         selectedAddOnBasePrice1,
                         selectedAddOnBasePrice2
                     )
+                
             );
         #endregion
     }

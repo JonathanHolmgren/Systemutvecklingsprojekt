@@ -1,6 +1,7 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:System="clr-namespace:System;assembly=mscorlib">
+                    xmlns:System="clr-namespace:System;assembly=mscorlib"
+                    xmlns:presentationLayer="clr-namespace:PresentationLayer">
 
 
 
@@ -324,13 +325,13 @@
                                 HorizontalContentAlignment="Stretch">
 
                                 <Grid>
-                                    <ContentPresenter 
-                                    Margin="10,0,25,0" 
-                                    VerticalAlignment="Center" 
+                                    <ContentPresenter
+                                    Margin="10,0,25,0"
+                                    VerticalAlignment="Center"
                                     HorizontalAlignment="Left"
                                     Content="{Binding SelectedItem.AgentNumber, RelativeSource={RelativeSource AncestorType=ComboBox}}"/>
                                     <!--Byt AgentNumber mot det du har i DisplayMemberPath-->
-                                    <Path 
+                                    <Path
                                     x:Name="DropDownGlyph"
                                     Data="M 0 0 L 4 4 L 8 0 Z"
                                     HorizontalAlignment="Right"

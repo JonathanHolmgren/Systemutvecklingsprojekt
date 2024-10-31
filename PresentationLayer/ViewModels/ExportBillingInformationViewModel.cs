@@ -1,24 +1,22 @@
-﻿using Microsoft.EntityFrameworkCore.Query.Internal;
+﻿using System.Collections.ObjectModel;
+using System.Diagnostics;
+using System.IO;
+using System.Text;
+using System.Windows;
+using System.Windows.Input;
+using Microsoft.EntityFrameworkCore.Query.Internal;
 using Microsoft.Win32;
 using Models;
 using Newtonsoft.Json;
 using PresentationLayer.Command;
 using PresentationLayer.Models;
 using ServiceLayer;
-using System.Collections.ObjectModel;
-using System.Diagnostics;
-using System.IO;
-using System.Text;
-using System.Windows;
-using System.Windows.Input;
-
 
 namespace PresentationLayer.ViewModels
 {
     #region Initiation of objects
-    internal class ExportBillingInformationViewModel:ObservableObject
+    internal class ExportBillingInformationViewModel : ObservableObject
     {
-        
         CustomerController customerController = new CustomerController();
         private ObservableCollection<PrivateCustomer> privateCustomer = null;
         public ObservableCollection<PrivateCustomer> PrivateCustomers
@@ -30,7 +28,7 @@ namespace PresentationLayer.ViewModels
                 OnPropertyChanged(nameof(PrivateCustomers));
             }
         }
-        private ObservableCollection<CompanyCustomer>companyCustomer  = null;
+        private ObservableCollection<CompanyCustomer> companyCustomer = null;
         public ObservableCollection<CompanyCustomer> CompanyCustomers
         {
             get { return companyCustomer; }
@@ -90,8 +88,8 @@ namespace PresentationLayer.ViewModels
                 OnPropertyChanged(nameof(selectedCustomer));
             }
         }
-       
-        private bool isPrivateCustomerSelected = true; 
+
+        private bool isPrivateCustomerSelected = true;
 
         public bool IsPrivateCustomerSelected
         {
@@ -100,7 +98,8 @@ namespace PresentationLayer.ViewModels
             {
                 isPrivateCustomerSelected = value;
                 OnPropertyChanged(nameof(IsPrivateCustomerSelected));
-                if (value) IsCompanyCustomerSelected = false;
+                if (value)
+                    IsCompanyCustomerSelected = false;
             }
         }
 
@@ -113,7 +112,8 @@ namespace PresentationLayer.ViewModels
             {
                 isCompanyCustomerSelected = value;
                 OnPropertyChanged(nameof(IsCompanyCustomerSelected));
-                if (value) IsPrivateCustomerSelected = false;
+                if (value)
+                    IsPrivateCustomerSelected = false;
             }
         }
         private string filterText = null;
@@ -127,24 +127,26 @@ namespace PresentationLayer.ViewModels
                     filterText = value;
                     ApplyFilter(filterText);
                     OnPropertyChanged(nameof(FilterText));
-
                 }
-
             }
         }
         public ICommand ExportAllToJsonCommand { get; private set; }
         public ICommand ExportSingleToJsonCommand { get; private set; }
 
-
-        #endregion
+    #endregion
         #region Constructor
+
         public ExportBillingInformationViewModel()
         {
-            PrivateCustomers = new ObservableCollection<PrivateCustomer>(customerController.GetAllPrivateCustomers());
-            CompanyCustomers = new ObservableCollection<CompanyCustomer>(customerController.GetAllCompanyCustomers());
+            PrivateCustomers = new ObservableCollection<PrivateCustomer>(
+                customerController.GetAllPrivateCustomers()
+            );
+            CompanyCustomers = new ObservableCollection<CompanyCustomer>(
+                customerController.GetAllCompanyCustomers()
+            );
             ExportAllToJsonCommand = new RelayCommand<object>(execute => ExportAllToJson());
             ExportSingleToJsonCommand = new RelayCommand<object>(execute => ExportSingleToJson());
-            
+
             CompanyCustomerInsuranceInfoToList(CompanyCustomers);
             PrivateCustomerInsurancesInfoToList(PrivateCustomers);
             ApplyFilter(null);
@@ -158,23 +160,20 @@ namespace PresentationLayer.ViewModels
             foreach (PrivateCustomer privateCustomer in PrivateCustomers)
             {
                 var customerInfo = CreatePrivateCustomerInfo(privateCustomer);
-                
-                if(customerController.GetCustomerPremie(privateCustomer.CustomerID)>0)
+
+                if (customerController.GetCustomerPremie(privateCustomer.CustomerID) > 0)
                 {
                     InsuranceInfoPrivateCustomer.Add(customerInfo);
                 }
-                    
-                
             }
         }
-        private void CompanyCustomerInsuranceInfoToList(IList<CompanyCustomer> companyCustomers)//Converting company customer list to a list och private customer information
+
+        private void CompanyCustomerInsuranceInfoToList(IList<CompanyCustomer> companyCustomers) //Converting company customer list to a list och private customer information
         {
             InsuranceInfoCompanyCustomer = new ObservableCollection<object>();
             foreach (CompanyCustomer companyCustomer in CompanyCustomers)
             {
-                
                 var companyInfo = CreateCompanyCustomerInfo(companyCustomer);
-                
 
                 if (customerController.GetCustomerPremie(companyCustomer.CustomerID) > 0)
                 {
@@ -188,7 +187,7 @@ namespace PresentationLayer.ViewModels
             var allCustomers = new
             {
                 PrivateCustomers = InsuranceInfoPrivateCustomer,
-                CompanyCustomers = InsuranceInfoCompanyCustomer
+                CompanyCustomers = InsuranceInfoCompanyCustomer,
             };
 
             string jsonContent = JsonConvert.SerializeObject(allCustomers, Formatting.Indented);
@@ -204,10 +203,16 @@ namespace PresentationLayer.ViewModels
                 string fileName = "BillingInformation_Unknown.json";
 
                 var properties = singleCustomer.GetType().GetProperties();
-                var organisationNumberProperty = properties.FirstOrDefault(p => p.Name.Equals("OrganisationNumber", StringComparison.OrdinalIgnoreCase));
-                var ssnProperty = properties.FirstOrDefault(p => p.Name.Equals("SSN", StringComparison.OrdinalIgnoreCase));
+                var organisationNumberProperty = properties.FirstOrDefault(p =>
+                    p.Name.Equals("OrganisationNumber", StringComparison.OrdinalIgnoreCase)
+                );
+                var ssnProperty = properties.FirstOrDefault(p =>
+                    p.Name.Equals("SSN", StringComparison.OrdinalIgnoreCase)
+                );
 
-                string identifier = organisationNumberProperty?.GetValue(singleCustomer)?.ToString();
+                string identifier = organisationNumberProperty
+                    ?.GetValue(singleCustomer)
+                    ?.ToString();
 
                 if (string.IsNullOrEmpty(identifier) && ssnProperty != null)
                 {
@@ -219,7 +224,10 @@ namespace PresentationLayer.ViewModels
                     fileName = $"BillingInformation_{identifier}.json";
                 }
 
-                string jsonContent = JsonConvert.SerializeObject(singleCustomer, Formatting.Indented);
+                string jsonContent = JsonConvert.SerializeObject(
+                    singleCustomer,
+                    Formatting.Indented
+                );
 
                 SaveJsonToFile(fileName, jsonContent);
             }
@@ -231,7 +239,7 @@ namespace PresentationLayer.ViewModels
             {
                 FileName = fileName,
                 DefaultExt = ".json",
-                Filter = "JSON files (*.json)|*.json|All files (*.*)|*.*"
+                Filter = "JSON files (*.json)|*.json|All files (*.*)|*.*",
             };
 
             // Visa dialogrutan och kolla om användaren tryckte på OK
@@ -241,8 +249,8 @@ namespace PresentationLayer.ViewModels
                 MessageBox.Show("Fil sparad: " + saveFileDialog.FileName);
             }
         }
-       
-        private void ApplyFilter(string filterText) //Apply filter method to chceck what to show 
+
+        private void ApplyFilter(string filterText) //Apply filter method to chceck what to show
         {
             if (string.IsNullOrWhiteSpace(filterText))
             {
@@ -259,6 +267,7 @@ namespace PresentationLayer.ViewModels
             OnPropertyChanged(nameof(FilteredListPrivate));
             OnPropertyChanged(nameof(FilteredListCompany));
         }
+
         private void ResetFilteredLists() //Reseting the list to its original state
         {
             FilteredListCompany = new ObservableCollection<object>(InsuranceInfoCompanyCustomer);
@@ -267,6 +276,7 @@ namespace PresentationLayer.ViewModels
             FilteredListPrivate = new ObservableCollection<object>(InsuranceInfoPrivateCustomer);
             OnPropertyChanged(nameof(FilteredListPrivate));
         }
+
         private void FilterCompanyCustomers(string filterText) //Applying the filter text to company customers
         {
             FilteredListCompany.Clear();
@@ -276,13 +286,14 @@ namespace PresentationLayer.ViewModels
                 if (IsCompanyCustomerMatch(companyCustomer, filterText))
                 {
                     var companyInfo = CreateCompanyCustomerInfo(companyCustomer);
-                    if (customerController.GetCustomerPremie(companyCustomer.CustomerID)>0)
+                    if (customerController.GetCustomerPremie(companyCustomer.CustomerID) > 0)
                     {
                         FilteredListCompany.Add(companyInfo);
                     }
                 }
             }
         }
+
         private void FilterPrivateCustomers(string filterText) //Applying the filter text to private customers
         {
             FilteredListPrivate.Clear();
@@ -299,17 +310,29 @@ namespace PresentationLayer.ViewModels
                 }
             }
         }
+
         private bool IsCompanyCustomerMatch(CompanyCustomer companyCustomer, string filterText)
         {
-            return companyCustomer.OrganisationNumber.Contains(filterText, StringComparison.OrdinalIgnoreCase) ||
-                   companyCustomer.CompanyName.Contains(filterText, StringComparison.OrdinalIgnoreCase);
+            return companyCustomer.OrganisationNumber.Contains(
+                    filterText,
+                    StringComparison.OrdinalIgnoreCase
+                )
+                || companyCustomer.CompanyName.Contains(
+                    filterText,
+                    StringComparison.OrdinalIgnoreCase
+                );
         }
+
         private bool IsPrivateCustomerMatch(PrivateCustomer privateCustomer, string filterText)
         {
-            return privateCustomer.FirstName.Contains(filterText, StringComparison.OrdinalIgnoreCase) ||
-                   privateCustomer.LastName.Contains(filterText, StringComparison.OrdinalIgnoreCase) ||
-                   privateCustomer.SSN.Contains(filterText, StringComparison.OrdinalIgnoreCase);
+            return privateCustomer.FirstName.Contains(
+                    filterText,
+                    StringComparison.OrdinalIgnoreCase
+                )
+                || privateCustomer.LastName.Contains(filterText, StringComparison.OrdinalIgnoreCase)
+                || privateCustomer.SSN.Contains(filterText, StringComparison.OrdinalIgnoreCase);
         }
+
         private object CreatePrivateCustomerInfo(PrivateCustomer privateCustomer) //Creating the private customer and adding the attributes
         {
             double totalPremie = customerController.GetCustomerPremie(privateCustomer.CustomerID);
@@ -324,9 +347,10 @@ namespace PresentationLayer.ViewModels
                 PostalCode = privateCustomer.PostalCodeCity.PostalCode,
                 City = privateCustomer.PostalCodeCity.City,
                 TotalPremium = totalPremie,
-                InsuranceSummary = insuranceDetails
+                InsuranceSummary = insuranceDetails,
             };
         }
+
         private object CreateCompanyCustomerInfo(CompanyCustomer companyCustomer) //Creating the customer customer and adding the attributes
         {
             double totalPremie = customerController.GetCustomerPremie(companyCustomer.CustomerID);
@@ -341,10 +365,10 @@ namespace PresentationLayer.ViewModels
                 PostalCode = companyCustomer.PostalCodeCity.PostalCode,
                 City = companyCustomer.PostalCodeCity.City,
                 TotalPremium = totalPremie + " SEK",
-                InsuranceSummary = insuranceDetails
+                InsuranceSummary = insuranceDetails,
             };
         }
-      
+
         private ObservableCollection<string> GetInsuranceDetails(Customer customer) //Getting the extra insurances details that is not connected to the customer
         {
             ObservableCollection<string> insuranceDetails = new ObservableCollection<string>();
@@ -353,15 +377,15 @@ namespace PresentationLayer.ViewModels
             {
                 if (customerController.CalculatePremiePerInsurance(insurance) > 0)
                 {
-                    string insuranceName = customerController.GetCustomerInsuranceTypes(insurance.InsuranceId);
+                    string insuranceName = customerController.GetCustomerInsuranceTypes(
+                        insurance.InsuranceId
+                    );
                     insuranceDetails.Add(insuranceName);
                 }
             }
 
             return insuranceDetails;
         }
-
-
     }
-    #endregion
+        #endregion
 }

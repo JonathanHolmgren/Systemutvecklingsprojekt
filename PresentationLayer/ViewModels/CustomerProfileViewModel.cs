@@ -449,8 +449,10 @@ namespace PresentationLayer.ViewModels
         {
             if (ViewedPrivateCustomer != null)
             {
-                PrivateCustomerToEdit = ViewedPrivateCustomer;
-                IsEditPrivatePopUpOpen = true;
+                EditPrivateCustomerViewModel editPrivateCustomerViewModel = new EditPrivateCustomerViewModel(ViewedPrivateCustomer);
+
+                //PrivateCustomerToEdit = ViewedPrivateCustomer;
+                //IsEditPrivatePopUpOpen = true;
             }
         }
 
@@ -458,8 +460,9 @@ namespace PresentationLayer.ViewModels
         {
             if (ViewedCompanyCustomer != null)
             {
-                CompanyCustomerToEdit = ViewedCompanyCustomer;
-                IsEditCompanyPopUpOpen = true;
+
+                //CompanyCustomerToEdit = ViewedCompanyCustomer;
+                //IsEditCompanyPopUpOpen = true;
             }
         }
 

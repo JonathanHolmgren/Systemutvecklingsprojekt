@@ -38,7 +38,7 @@
 
         <!--InsuranceInformation-->
         <Label Content="Försäkringstyp" Margin="10,140,640,285"/>
-        <ComboBox Width="150" ItemsSource="{Binding AvailableInsuranceTypes}" SelectedItem="{Binding SelctedInsuranceType}" Height="25" Margin="10,165,640,260"/>
+        <ComboBox Width="150" ItemsSource="{Binding AvailableInsuranceTypes}" SelectedItem="{Binding SelectedInsuranceType}" Height="25" Margin="10,165,640,260"/>
 
         <!--Fastighet och inventarie-->
         <Label Content="Fastighet och inventarie" Margin="10,190,640,235" FontWeight="Bold" />
@@ -86,13 +86,13 @@
         <ComboBox Width="150" ItemsSource="{Binding BillingIntervals}" SelectedItem="{Binding SelectedInterval}" Height="25" Margin="350,425,300,0"/>
 
         <Label Content="Begynellsedatum" Margin="10,400,640,25"/>
-        <DatePicker Height="25" Width="150" Margin="10,425,640,0"/>
+        <DatePicker SelectedDate="{Binding ActivationDate}" Height="25" Width="150" Margin="10,425,640,0"/>
         <Label Content="Förfallodatum" Margin="180,400,470,25"/>
-        <DatePicker Height="25" Width="150" Margin="180,425,470,0"/>
+        <DatePicker SelectedDate="{Binding ExpiryDate}" Height="25" Width="150" Margin="180,425,470,0"/>
 
         <Label Content="Total premie" Margin="525,400,125,25"/>
         <TextBox Width="150" IsReadOnly="True" Text="{Binding TotalPremie}" Height="25" Margin="525,425,125,0"/>
 
-        <Button Content="Registrera" Width="100" Height="25" Margin="690,425,10,0"/>
+        <Button Content="Registrera" Command="{Binding AddCommand}" Width="100" Height="25" Margin="690,425,10,0"/>
     </Grid>
 </UserControl>

@@ -22,26 +22,26 @@ namespace ServiceLayer
 
         public void AddPrivateCustomer(PrivateCustomer privateCustomer)
         {
-                unitOfWork.PrivateCustomerRepository.Add(privateCustomer);
-                unitOfWork.SaveChanges();
-        }
-        public void AddCompanyCustomer(CompanyCustomer companyCustomer)
-        {
-                unitOfWork.CustomerRepository.Add(companyCustomer);
-                unitOfWork.SaveChanges();
+            unitOfWork.PrivateCustomerRepository.Add(privateCustomer);
+            unitOfWork.SaveChanges();
         }
 
+        public void AddCompanyCustomer(CompanyCustomer companyCustomer)
+        {
+            unitOfWork.CustomerRepository.Add(companyCustomer);
+            unitOfWork.SaveChanges();
+        }
 
         public void UpdateCompanyCustomer(CompanyCustomer updatedCompanyCustomer)
         {
-                unitOfWork.Update(updatedCompanyCustomer);
-                unitOfWork.SaveChanges();            
+            unitOfWork.Update(updatedCompanyCustomer);
+            unitOfWork.SaveChanges();
         }
 
         public void UpdatePrivateCustomer(PrivateCustomer updatedPrivateCustomer)
         {
-                unitOfWork.Update(updatedPrivateCustomer);
-                unitOfWork.SaveChanges();
+            unitOfWork.Update(updatedPrivateCustomer);
+            unitOfWork.SaveChanges();
         }
 
         public void RemovePrivateCustomer(PrivateCustomer privateCustomer)
@@ -60,9 +60,12 @@ namespace ServiceLayer
         {
             return unitOfWork.CustomerRepository.GetSpecificPrivateCustomerForInsuranceBySSN(sSN);
         }
+
         public CompanyCustomer GetSpecificCompanyCustomerForInsuranceByOrgNumber(string orgNr)
         {
-            return unitOfWork.CustomerRepository.GetSpecificCompanyCustomerForInsuranceByOrgNumber(orgNr);
+            return unitOfWork.CustomerRepository.GetSpecificCompanyCustomerForInsuranceByOrgNumber(
+                orgNr
+            );
         }
 
         public void RemoveInactiveCustomers()
@@ -93,8 +96,6 @@ namespace ServiceLayer
             unitOfWork.SaveChanges();
         }
 
-
-
         public void RemovePrivateCustomerAndInactiveInsurances(PrivateCustomer privateCustomer)
         {
             List<int> insuranceIds = new List<int>();
@@ -109,7 +110,7 @@ namespace ServiceLayer
             {
                 IList<InsuranceSpec> temporaryInsuranceSpecs =
                     unitOfWork.InsuranceSpecRepository.GetSpecsForInsurance(insuranceId);
-                    unitOfWork.InsuranceSpecRepository.GetInsuranceSpecsByInsuranceId(insuranceId);
+                unitOfWork.InsuranceSpecRepository.GetInsuranceSpecsByInsuranceId(insuranceId);
 
                 for (int i = 0; i < temporaryInsuranceSpecs.Count; i++)
                 {
@@ -137,7 +138,7 @@ namespace ServiceLayer
             {
                 IList<InsuranceSpec> temporaryInsuranceSpecs =
                     unitOfWork.InsuranceSpecRepository.GetSpecsForInsurance(insuranceId);
-                    unitOfWork.InsuranceSpecRepository.GetInsuranceSpecsByInsuranceId(insuranceId);
+                unitOfWork.InsuranceSpecRepository.GetInsuranceSpecsByInsuranceId(insuranceId);
 
                 for (int i = 0; i < temporaryInsuranceSpecs.Count; i++)
                 {
@@ -179,9 +180,6 @@ namespace ServiceLayer
                 unitOfWork.InsuranceRepository.Remove(insurance);
             }
         }
-        
-
-
 
         public IList<PrivateCustomer> GetAllPrivateCustomers()
         {
@@ -192,7 +190,6 @@ namespace ServiceLayer
         {
             return unitOfWork.CustomerRepository.GetCompanyCustomers();
         }
-
 
         public string GetCustomerInsuranceTypes(int insuranceId)
         {
@@ -211,12 +208,11 @@ namespace ServiceLayer
             {
                 if (insurance.InsuranceStatus == InsuranceStatus.Active)
                 {
-                    if (insurance.BillingingInterval == BillingInterval.Månad)
+                    if (insurance.BillingInterval == BillingInterval.Månad)
                     {
-                      
                         totalPremie += CalculatePremiePerInsurance(insurance);
                     }
-                if (insurance.BillingingInterval == BillingInterval.Kvartal)
+                    if (insurance.BillingInterval == BillingInterval.Kvartal)
                     {
                         if (
                             (DateTime.Now.Month - insurance.ExpiryDate.Month) % 3 == 0
@@ -225,9 +221,8 @@ namespace ServiceLayer
                         {
                             totalPremie += CalculatePremiePerInsurance(insurance);
                         }
-                        
                     }
-                    if (insurance.BillingingInterval == BillingInterval.Halvår)
+                    if (insurance.BillingInterval == BillingInterval.Halvår)
                     {
                         if (
                             (DateTime.Now.Month - insurance.ExpiryDate.Month) % 6 == 0
@@ -237,7 +232,7 @@ namespace ServiceLayer
                             totalPremie += CalculatePremiePerInsurance(insurance);
                         }
                     }
-                    if (insurance.BillingingInterval == BillingInterval.År)
+                    if (insurance.BillingInterval == BillingInterval.År)
                     {
                         if (
                             (DateTime.Now.Month == insurance.ExpiryDate.Month)
@@ -251,8 +246,6 @@ namespace ServiceLayer
             }
             return totalPremie;
         }
-
-
 
         public double CalculatePremiePerInsurance(Insurance insurance) //Calculates each individual insurance premie
         {
@@ -268,12 +261,12 @@ namespace ServiceLayer
             foreach (InsuranceSpec insuranceSpec in insuranceSpecs)
             {
                 if (
-                    insuranceTypeAttributeID == insuranceSpec.InsuranceTypeAttribute.InsuranceTypeAttributeId
+                    insuranceTypeAttributeID
+                    == insuranceSpec.InsuranceTypeAttribute.InsuranceTypeAttributeId
                 )
-            
-                    {
-                        premie = double.Parse(insuranceSpec.Value);
-                    }
+                {
+                    premie = double.Parse(insuranceSpec.Value);
+                }
             }
             return premie;
         }
@@ -284,8 +277,6 @@ namespace ServiceLayer
             string outputPath = @"C:\JsonTest\CustomerInformation.json";
             File.WriteAllText(outputPath, jsonResult);
         }
-
-
 
         public void AddProspectNote(ProspectNote prospectNote)
         {
@@ -318,6 +309,5 @@ namespace ServiceLayer
 
             return companyCustomer;
         }
-
     }
 }

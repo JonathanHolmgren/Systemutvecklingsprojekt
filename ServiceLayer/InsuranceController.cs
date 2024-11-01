@@ -5,7 +5,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DataLayer;
-
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Models;
@@ -14,104 +13,16 @@ namespace ServiceLayer
 {
     public class InsuranceController
     {
-        UnitOfWork unitOfWork = new UnitOfWork();
-
         InsuranceSpecController insuranceSpecController = new InsuranceSpecController();
+
         InsuranceTypeAttributeController insuranceTypeAttributeController =
             new InsuranceTypeAttributeController();
 
-        public List<Insurance> GetAllPreliminaryInsurances()
-          
-        #region PrivateCustomer
-        #region RegisterInsurance
-        public Insurance RegisterPrivatePreliminaryInsurance(
-            DateTime expiryDate,
-            BillingInterval billingInterval,
-            User user,
-            InsuranceType insuranceType,
-            string notes,
-            Customer customer,
-            InsuredPerson insuredPerson
-        )
-        {
-            return new Insurance(
-                expiryDate,
-                billingInterval,
-                user,
-                insuranceType,
-                notes,
-                customer,
-                insuredPerson
-            );
-        }
+        UnitOfWork unitOfWork = new UnitOfWork();
 
-        public Insurance CreatePrivateInsuranceFromInput(
-            int userId,
-            string selectedInsuranceType,
-            string insuredPersonFirstName,
-            string insuredPersonLastName,
-            string insuredPersonSSN,
-            DateTime arrivingDate,
-            BillingInterval selectedInterval,
-            string notes,
-            PrivateCustomer selectedPrivateCustomer,
-            string selectedBasePrice,
-            string totalPremium,
-            string selectedAddOnBasePrice1,
-            string selectedAddOnBasePrice2,
-            string selectedAddOnOption1,
-            string selectedAddOnOption2
-        )
-        {
-            User user = GetUserByID(1); //denna ska hämta den användaren som är inloggad!
-            InsuranceType insuranceType = GetInsuranceType(selectedInsuranceType);
+        // public List<Insurance> GetAllPreliminaryInsurances()
 
-            List<InsuranceTypeAttribute> insuranceTypeAttributesList =
-                RegisterPrivateInsuranceTypeAttribute(
-                    insuranceType,
-                    selectedAddOnOption1,
-                    selectedAddOnOption2
-                );
 
-            InsuredPerson insuredPerson = RegisterInsuredPerson(
-                insuredPersonFirstName,
-                insuredPersonLastName,
-                insuredPersonSSN
-            );
-            Insurance newInsurance = RegisterPrivatePreliminaryInsurance(
-                arrivingDate,
-                selectedInterval,
-                user,
-                insuranceType,
-                notes,
-                selectedPrivateCustomer,
-                insuredPerson
-            );
-            AddInsuranceForPrivateCustomer(newInsurance, selectedPrivateCustomer);
-            CreatePrivateInsuranceSpecifications(
-                newInsurance,
-                insuranceTypeAttributesList,
-                selectedBasePrice,
-                totalPremium,
-                selectedAddOnBasePrice1,
-                selectedAddOnBasePrice2,
-                arrivingDate
-            );
-            return newInsurance;
-        }
-
-        public void CreatePrivateInsuranceSpecifications(
-            Insurance newInsurance,
-            List<InsuranceTypeAttribute> insuranceTypeAttributesList,
-            string selectedBasePrice,
-            string totalPremium,
-            string selectedAddOnBasePrice1,
-            string selectedAddOnBasePrice2,
-            DateTime arrivingDate
-        )
-        {
-            return unitOfWork.InsuranceRepository.GetAllPreliminaryInsurances();
-        }
         public IList<Insurance> GetCustomerInsurances(int customerId)
         {
             return unitOfWork.InsuranceRepository.GetCustomerInsurances(customerId);
@@ -123,22 +34,6 @@ namespace ServiceLayer
                 selectedInsurance.InsuranceId
             );
 
-            AddInsuranceSpec(insuranceSpec);
-            return insuranceSpec;
-        }
-
-        private List<InsuranceTypeAttribute> RegisterPrivateInsuranceTypeAttribute(
-            InsuranceType insuranceType,
-            string selectedAddOnOption1,
-            string selectedAddOnOption2
-        )
-        {
-            var insuranceTypeAttributesList = new List<InsuranceTypeAttribute>();
-
-            AddAttribute("Grundbelopp", insuranceType, insuranceTypeAttributesList);
-            AddAttribute("Premie", insuranceType, insuranceTypeAttributesList);
-            AddAttribute("Datum", insuranceType, insuranceTypeAttributesList);
-
             if (insuranceToUpdate != null)
             {
                 insuranceToUpdate.InsuranceStatus = InsuranceStatus.Active;
@@ -148,11 +43,6 @@ namespace ServiceLayer
         }
 
         public void SetInsuranceStatusToInactive(Insurance selectedInsurance)
-
-        public void AddInsuranceForPrivateCustomer(
-            Insurance insurance,
-            PrivateCustomer privateCustomer
-        )
         {
             Insurance insuranceToUpdate = unitOfWork.InsuranceRepository.GetInsurance(
                 selectedInsurance.InsuranceId
@@ -164,6 +54,7 @@ namespace ServiceLayer
 
                 unitOfWork.SaveChanges();
             }
+        }
 
         public InsuredPerson RegisterInsuredPerson(string firstName, string lastName, string ssn)
         {
@@ -172,20 +63,23 @@ namespace ServiceLayer
 
         public void RemoveInsurance(Insurance selectedInsurance)
         {
-            IList<InsuranceSpec> insuranceSpecsToRemove = unitOfWork.InsuranceSpecRepository.GetSpecsForInsurance(selectedInsurance.InsuranceId);
+            IList<InsuranceSpec> insuranceSpecsToRemove =
+                unitOfWork.InsuranceSpecRepository.GetSpecsForInsurance(
+                    selectedInsurance.InsuranceId
+                );
 
             foreach (InsuranceSpec insuranceSpec in insuranceSpecsToRemove)
             {
                 unitOfWork.InsuranceSpecRepository.Remove(insuranceSpec.InsuranceSpecId);
-                unitOfWork.InsuranceTypeAttributeRepository.Remove(insuranceSpec.InsuranceTypeAttribute.InsuranceTypeAttributeId);
+                unitOfWork.InsuranceTypeAttributeRepository.Remove(
+                    insuranceSpec.InsuranceTypeAttribute.InsuranceTypeAttributeId
+                );
             }
 
             unitOfWork.InsuranceRepository.Remove(selectedInsurance);
             unitOfWork.SaveChanges();
         }
-        #endregion
 
-        #region CompanyCustomer
         public Insurance RegisterCompanyPreliminaryInsurance(
             DateTime activationDate,
             DateTime expiryDate,
@@ -392,22 +286,27 @@ namespace ServiceLayer
                 {
                     RegisterInsuranceSpec(insuranceTypeItem, newInsurance, propertyAddress);
                 }
+
                 if (insuranceTypeItem.InsuranceAttribute == "Värde fastigheter")
                 {
                     RegisterInsuranceSpec(insuranceTypeItem, newInsurance, propertyValue);
                 }
+
                 if (insuranceTypeItem.InsuranceAttribute == "Värde inventarier")
                 {
                     RegisterInsuranceSpec(insuranceTypeItem, newInsurance, inventoriesValue);
                 }
+
                 if (insuranceTypeItem.InsuranceAttribute == "Premie fastighet")
                 {
                     RegisterInsuranceSpec(insuranceTypeItem, newInsurance, propertyPremie);
                 }
+
                 if (insuranceTypeItem.InsuranceAttribute == "Premie inventarier")
                 {
                     RegisterInsuranceSpec(insuranceTypeItem, newInsurance, inventoryPremie);
                 }
+
                 if (insuranceTypeItem.InsuranceAttribute == "Begynellsedatum")
                 {
                     RegisterInsuranceSpec(
@@ -416,6 +315,7 @@ namespace ServiceLayer
                         activationDate.ToString("yyyy-MM-dd")
                     );
                 }
+
                 if (insuranceTypeItem.InsuranceAttribute == "Förfallodatum")
                 {
                     RegisterInsuranceSpec(
@@ -424,6 +324,7 @@ namespace ServiceLayer
                         expiryDate.ToString("yyyy-MM-dd")
                     );
                 }
+
                 if (insuranceTypeItem.InsuranceAttribute == "Total premie")
                 {
                     RegisterInsuranceSpec(insuranceTypeItem, newInsurance, totaltPremie);
@@ -453,18 +354,22 @@ namespace ServiceLayer
                         selectedCarInsuranceType
                     );
                 }
+
                 if (insuranceTypeItem.InsuranceAttribute == "Självrisk")
                 {
                     RegisterInsuranceSpec(insuranceTypeItem, newInsurance, selectedCarDeductible);
                 }
+
                 if (insuranceTypeItem.InsuranceAttribute == "Zon")
                 {
                     RegisterInsuranceSpec(insuranceTypeItem, newInsurance, zone);
                 }
+
                 if (insuranceTypeItem.InsuranceAttribute == "Grundkostnad (månad)")
                 {
                     RegisterInsuranceSpec(insuranceTypeItem, newInsurance, carPremie);
                 }
+
                 if (insuranceTypeItem.InsuranceAttribute == "Begynellsedatum")
                 {
                     RegisterInsuranceSpec(
@@ -473,6 +378,7 @@ namespace ServiceLayer
                         activationDate.ToString("yyyy-MM-dd")
                     );
                 }
+
                 if (insuranceTypeItem.InsuranceAttribute == "Förfallodatum")
                 {
                     RegisterInsuranceSpec(
@@ -481,6 +387,7 @@ namespace ServiceLayer
                         expiryDate.ToString("yyyy-MM-dd")
                     );
                 }
+
                 if (insuranceTypeItem.InsuranceAttribute == "Total premie")
                 {
                     RegisterInsuranceSpec(insuranceTypeItem, newInsurance, totaltPremie);
@@ -488,7 +395,280 @@ namespace ServiceLayer
             }
         }
 
-        public void CreateLiabilityInsuranceSpecifications(
+        private void AddInsuranceForCompanyCustomer(
+            Insurance insurance,
+            CompanyCustomer companyCustomer
+        )
+        {
+            unitOfWork.InsuranceRepository.Add(insurance);
+            unitOfWork.Update(companyCustomer.PostalCode);
+            unitOfWork.Update(companyCustomer);
+            unitOfWork.Update(insurance.InsuranceType);
+            unitOfWork.SaveChanges();
+        }
+
+        private Insurance RegisterPrivatePreliminaryInsurance(
+            DateTime expiryDate,
+            BillingInterval billingInterval,
+            User user,
+            InsuranceType insuranceType,
+            string notes,
+            Customer customer,
+            InsuredPerson insuredPerson
+        )
+        {
+            return new Insurance(
+                expiryDate,
+                billingInterval,
+                user,
+                insuranceType,
+                notes,
+                customer,
+                insuredPerson
+            );
+        }
+
+        public Insurance CreatePrivateInsuranceFromInput(
+            int userId,
+            string selectedInsuranceType,
+            string insuredPersonFirstName,
+            string insuredPersonLastName,
+            string insuredPersonSSN,
+            DateTime arrivingDate,
+            BillingInterval selectedInterval,
+            string notes,
+            PrivateCustomer selectedPrivateCustomer,
+            string selectedBasePrice,
+            string totalPremium,
+            string selectedAddOnBasePrice1,
+            string selectedAddOnBasePrice2,
+            string selectedAddOnOption1,
+            string selectedAddOnOption2
+        )
+        {
+            User user = GetUserByID(1); //denna ska hämta den användaren som är inloggad!
+            InsuranceType insuranceType = GetInsuranceType(selectedInsuranceType);
+
+            List<InsuranceTypeAttribute> insuranceTypeAttributesList =
+                RegisterPrivateInsuranceTypeAttribute(
+                    insuranceType,
+                    selectedAddOnOption1,
+                    selectedAddOnOption2
+                );
+
+            InsuredPerson insuredPerson = RegisterInsuredPerson(
+                insuredPersonFirstName,
+                insuredPersonLastName,
+                insuredPersonSSN
+            );
+            Insurance newInsurance = RegisterPrivatePreliminaryInsurance(
+                arrivingDate,
+                selectedInterval,
+                user,
+                insuranceType,
+                notes,
+                selectedPrivateCustomer,
+                insuredPerson
+            );
+            AddInsuranceForPrivateCustomer(newInsurance, selectedPrivateCustomer);
+            CreatePrivateInsuranceSpecifications(
+                newInsurance,
+                insuranceTypeAttributesList,
+                selectedBasePrice,
+                totalPremium,
+                selectedAddOnBasePrice1,
+                selectedAddOnBasePrice2,
+                arrivingDate
+            );
+            return newInsurance;
+        }
+
+        private void CreatePrivateInsuranceSpecifications(
+            Insurance newInsurance,
+            List<InsuranceTypeAttribute> insuranceTypeAttributesList,
+            string selectedBasePrice,
+            string totalPremium,
+            string selectedAddOnBasePrice1,
+            string selectedAddOnBasePrice2,
+            DateTime arrivingDate
+        )
+        {
+            foreach (InsuranceTypeAttribute insuranceTypeItem in insuranceTypeAttributesList)
+            {
+                if (insuranceTypeItem.InsuranceAttribute == "Grundbelopp")
+                {
+                    RegisterInsuranceSpec(insuranceTypeItem, newInsurance, selectedBasePrice);
+                }
+
+                if (insuranceTypeItem.InsuranceAttribute == "Premie")
+                {
+                    RegisterInsuranceSpec(insuranceTypeItem, newInsurance, totalPremium);
+                }
+
+                if (insuranceTypeItem.InsuranceAttribute == "Datum")
+                {
+                    RegisterInsuranceSpec(
+                        insuranceTypeItem,
+                        newInsurance,
+                        arrivingDate.ToString("yyyy-MM-dd")
+                    );
+                }
+
+                if (insuranceTypeItem.InsuranceAttribute == "Invaliditet vid olycksfall")
+                {
+                    RegisterInsuranceSpec(insuranceTypeItem, newInsurance, selectedAddOnBasePrice1);
+                }
+
+                if (
+                    insuranceTypeItem.InsuranceAttribute
+                    == "Månadsersättning vid långvarig sjukskrivning"
+                )
+                {
+                    RegisterInsuranceSpec(insuranceTypeItem, newInsurance, selectedAddOnBasePrice2);
+                }
+            }
+        }
+
+        public InsuranceType GetInsuranceType(string inputInsuranceType)
+        {
+            return unitOfWork.InsuranceTypeRepository.GetInsuranceType(inputInsuranceType);
+        }
+
+        public InsuranceSpec RegisterInsuranceSpec(
+            InsuranceTypeAttribute insuranceTypeAttribute,
+            Insurance insurance,
+            string value
+        )
+        {
+            InsuranceSpec insuranceSpec = new InsuranceSpec(
+                value,
+                insurance,
+                insuranceTypeAttribute
+            );
+            AddInsuranceSpec(insuranceSpec);
+            return insuranceSpec;
+        }
+
+        private List<InsuranceTypeAttribute> RegisterPrivateInsuranceTypeAttribute(
+            InsuranceType insuranceType,
+            string selectedAddOnOption1,
+            string selectedAddOnOption2
+        )
+        {
+            var insuranceTypeAttributesList = new List<InsuranceTypeAttribute>();
+
+            AddAttribute("Grundbelopp", insuranceType, insuranceTypeAttributesList);
+            AddAttribute("Premie", insuranceType, insuranceTypeAttributesList);
+            AddAttribute("Datum", insuranceType, insuranceTypeAttributesList);
+
+            if (selectedAddOnOption1 != null)
+            {
+                AddAttribute(selectedAddOnOption1, insuranceType, insuranceTypeAttributesList);
+            }
+
+            if (selectedAddOnOption2 != null)
+            {
+                AddAttribute(selectedAddOnOption2, insuranceType, insuranceTypeAttributesList);
+            }
+
+            AddAllInsuranceTypeAttribute(insuranceTypeAttributesList);
+            return insuranceTypeAttributesList;
+        }
+
+        private void AddAttribute(
+            string attributeName,
+            InsuranceType insuranceType,
+            List<InsuranceTypeAttribute> attributeList
+        )
+        {
+            if (!string.IsNullOrEmpty(attributeName))
+            {
+                var attribute = new InsuranceTypeAttribute(attributeName, insuranceType);
+                attributeList.Add(attribute);
+            }
+        }
+
+        public void AddInsuranceForPrivateCustomer(
+            Insurance insurance,
+            PrivateCustomer privateCustomer
+        )
+        {
+            unitOfWork.InsuranceRepository.Add(insurance);
+            unitOfWork.Update(privateCustomer);
+            unitOfWork.Update(insurance.InsuranceType);
+            unitOfWork.SaveChanges();
+        }
+
+        public void AddInsuranceTypeAttribute(InsuranceTypeAttribute insuranceTypeAttribute)
+        {
+            unitOfWork.InsuranceTypeAttributeRepository.Add(insuranceTypeAttribute);
+            unitOfWork.Update(insuranceTypeAttribute.InsuranceType);
+            unitOfWork.SaveChanges();
+        }
+
+        public void AddInsuranceSpec(InsuranceSpec insuranceSpec)
+        {
+            unitOfWork.InsuranceSpecRepository.Add(insuranceSpec);
+            unitOfWork.Update(insuranceSpec.Insurance.Customer);
+            unitOfWork.Update(insuranceSpec.InsuranceTypeAttribute.InsuranceType);
+            unitOfWork.Update(insuranceSpec.InsuranceTypeAttribute);
+            unitOfWork.Update(insuranceSpec.Insurance);
+            unitOfWork.SaveChanges();
+        }
+
+        public void AddAllInsuranceTypeAttribute(
+            IList<InsuranceTypeAttribute> insuranceTypeAttribute
+        )
+        {
+            foreach (InsuranceTypeAttribute item in insuranceTypeAttribute)
+            {
+                AddInsuranceTypeAttribute(item);
+            }
+        }
+
+        //Ska nog ligga i UserControllern
+        private User GetUserByID(int iD)
+        {
+            return unitOfWork.UserRepository.GetUserByID(iD);
+        }
+
+        public bool CanAddPrivatePreliminaryInsurance(
+            string selectedInsuranceType,
+            string insuredPersonFirstName,
+            string insuredPersonLastName,
+            string insuredPersonSSN,
+            string arrivingDate,
+            string selectedBasePrice,
+            string totalPremium,
+            string selectedAddOnOption1,
+            string selectedAddOnOption2,
+            string selectedAddOnBasePrice1,
+            string selectedAddOnBasePrice2
+        )
+        {
+            bool isValid =
+                !string.IsNullOrEmpty(selectedInsuranceType)
+                && !string.IsNullOrEmpty(insuredPersonFirstName)
+                && !string.IsNullOrEmpty(insuredPersonLastName)
+                && !string.IsNullOrEmpty(insuredPersonSSN)
+                && !string.IsNullOrEmpty(arrivingDate)
+                && !string.IsNullOrEmpty(selectedBasePrice)
+                && !string.IsNullOrEmpty(totalPremium);
+
+            if (isValid && selectedAddOnOption1 != "Inget")
+            {
+                isValid = !string.IsNullOrEmpty(selectedAddOnBasePrice1);
+            }
+
+            if (isValid && selectedAddOnOption2 != "Inget")
+            {
+                isValid = !string.IsNullOrEmpty(selectedAddOnBasePrice2);
+            }
+
+            return isValid;
+        }
+
+        private void CreateLiabilityInsuranceSpecifications(
             Insurance newInsurance,
             List<InsuranceTypeAttribute> insuranceTypeAttributesList,
             string selectedLiabilityAmount,
@@ -505,6 +685,7 @@ namespace ServiceLayer
                 {
                     RegisterInsuranceSpec(insuranceTypeItem, newInsurance, selectedLiabilityAmount);
                 }
+
                 if (insuranceTypeItem.InsuranceAttribute == "Självrisk")
                 {
                     RegisterInsuranceSpec(
@@ -513,10 +694,12 @@ namespace ServiceLayer
                         selectedLiabilityDeductible
                     );
                 }
+
                 if (insuranceTypeItem.InsuranceAttribute == "Grundkostnad (månad)")
                 {
                     RegisterInsuranceSpec(insuranceTypeItem, newInsurance, liabilityPremie);
                 }
+
                 if (insuranceTypeItem.InsuranceAttribute == "Begynellsedatum")
                 {
                     RegisterInsuranceSpec(
@@ -525,6 +708,7 @@ namespace ServiceLayer
                         activationDate.ToString("yyyy-MM-dd")
                     );
                 }
+
                 if (insuranceTypeItem.InsuranceAttribute == "Förfallodatum")
                 {
                     RegisterInsuranceSpec(
@@ -533,24 +717,12 @@ namespace ServiceLayer
                         expiryDate.ToString("yyyy-MM-dd")
                     );
                 }
+
                 if (insuranceTypeItem.InsuranceAttribute == "Total premie")
                 {
                     RegisterInsuranceSpec(insuranceTypeItem, newInsurance, totaltPremie);
                 }
             }
         }
-
-        public void AddInsuranceForCompanyCustomer(
-            Insurance insurance,
-            CompanyCustomer companyCustomer
-        )
-        {
-            unitOfWork.InsuranceRepository.Add(insurance);
-            unitOfWork.Update(companyCustomer.PostalCodeCity);
-            unitOfWork.Update(companyCustomer);
-            unitOfWork.Update(insurance.InsuranceType);
-            unitOfWork.SaveChanges();
-        }
-        #endregion
     }
 }

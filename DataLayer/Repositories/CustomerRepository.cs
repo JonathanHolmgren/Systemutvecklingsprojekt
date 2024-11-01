@@ -5,8 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
-using Models;
 using Microsoft.EntityFrameworkCore;
+using Models;
 using Models;
 
 namespace DataLayer.Repositories
@@ -42,9 +42,8 @@ namespace DataLayer.Repositories
                 .Include(p => p.Insurances)
                 .ThenInclude(i => i.User)
                 .ThenInclude(u => u.Employee)
-                .ToList(); 
+                .ToList();
         }
-        
 
         public PrivateCustomer GetSpecificPrivateCustomerForInsuranceBySSN(string sSN)
         {
@@ -59,7 +58,6 @@ namespace DataLayer.Repositories
             return Context
                 .Set<Customer>()
                 .OfType<CompanyCustomer>()
-                .Include(c => c.PostalCodeCity)
                 .FirstOrDefault(c => c.OrganisationNumber == org);
         }
 
@@ -92,7 +90,6 @@ namespace DataLayer.Repositories
                 //.ThenInclude(a => a.InsuranceType)
                 //.ThenInclude(b => b.InsuranceTypeAttributes)
                 .FirstOrDefault(c => c.OrganisationNumber == organisationNumber);
-
         }
 
         public PrivateCustomer GetSpecificPrivateCustomer(string sSN)
@@ -112,7 +109,6 @@ namespace DataLayer.Repositories
                 .Include(c => c.Insurances)
                 .ThenInclude(a => a.InsuredPerson)
                 .FirstOrDefault(c => c.SSN == sSN);
-
         }
 
         //public void Changepostalcode(int customerId, string postalCode)

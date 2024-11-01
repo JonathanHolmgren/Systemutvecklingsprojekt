@@ -1,17 +1,19 @@
 ﻿using System.Diagnostics;
 using System.Windows.Input;
+using Azure.Identity;
 using Microsoft.IdentityModel.Tokens;
 using Models;
 using PresentationLayer.Command;
 using PresentationLayer.Models;
 using ServiceLayer;
+using ServiceLayer.services;
 
 namespace PresentationLayer.ViewModels;
 
 public class RegisterUserViewModel : ObservableObject
 {
     private readonly UserController userController;
-
+    private AcronymForPermissionLevel acronymForPermissionLevel = new AcronymForPermissionLevel();
     public RegisterUserViewModel()
     {
         this.userController = new UserController();
@@ -66,6 +68,8 @@ public class RegisterUserViewModel : ObservableObject
             () =>
             {
                 EmployeeSelected = userController.GetEmployee(employeeInput);
+                            Users = userController.GetUsers(employeeInput);
+
                 if (EmployeeSelected != null)
                 {
                     Debug.WriteLine(EmployeeSelected);
@@ -84,6 +88,17 @@ public class RegisterUserViewModel : ObservableObject
             Users = userController.GetUsers(employeeInput);
         });
 
+    private string newUserName = null!;
+    public string NewUserName
+    {
+        get { return newUserName; }
+        set
+        {
+            newUserName = value;
+            OnPropertyChanged();
+        }
+    }
+
     private AuthorizationLevel authorizationLevelSelected;
     public AuthorizationLevel AuthorizationLevelSelected
     {
@@ -92,9 +107,13 @@ public class RegisterUserViewModel : ObservableObject
         {
             authorizationLevelSelected = value;
             OnPropertyChanged();
+            if(EmployeeSelected != null) 
+            {
+                NewUserName = acronymForPermissionLevel.GenereateAcronym(EmployeeSelected.AgentNumber, AuthorizationLevelSelected);
+            }
         }
     }
-
+    
     private string passwordInput = null!;
     public string PasswordInput
     {

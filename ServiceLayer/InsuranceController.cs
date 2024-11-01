@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using DataLayer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Models;
 
 namespace ServiceLayer
@@ -301,7 +302,7 @@ namespace ServiceLayer
             );
         }
 
-        public Insurance CreateCompanyInsuranceFromInput(
+        public Insurance CreatePropertyInsuranceFromInput(
             User loggedInUser,
             CompanyCustomer selectedCompanyCustomer,
             string selectedInsuranceType,
@@ -332,7 +333,7 @@ namespace ServiceLayer
             List<InsuranceTypeAttribute> insruanceTypeAttribute =
                 RegisterCompanyInsuranceTypeAttribute(insuranceType);
 
-            CreateICompanyInsuranceSpecifications(
+            CreatePropertyInsuranceSpecifications(
                 newInsurance,
                 insruanceTypeAttribute,
                 propertyAddress,
@@ -340,6 +341,92 @@ namespace ServiceLayer
                 inventoriesValue,
                 propertyPremie,
                 inventoriesPremie,
+                activationDate,
+                expiryDate,
+                totalPremie
+            );
+            return newInsurance;
+        }
+
+        public Insurance CreateCarInsuranceFromInput(
+            User loggedInUser,
+            CompanyCustomer selectedCompanyCustomer,
+            string selectedInsuranceType,
+            string selectedCarInsuranceType,
+            string selectedCarDeductible,
+            string zone,
+            string carPremie,
+            DateTime activationDate,
+            DateTime expiryDate,
+            BillingInterval selectedInterval,
+            string totalPremie
+        )
+        {
+            User user = GetUserByID(1);
+            InsuranceType insuranceType = GetInsuranceType(selectedInsuranceType);
+
+            Insurance newInsurance = RegisterCompanyPreliminaryInsurance(
+                activationDate,
+                expiryDate,
+                selectedInterval,
+                user,
+                selectedCompanyCustomer,
+                insuranceType
+            );
+            AddInsuranceForCompanyCustomer(newInsurance, selectedCompanyCustomer);
+
+            List<InsuranceTypeAttribute> insruanceTypeAttribute =
+                RegisterCompanyInsuranceTypeAttribute(insuranceType);
+
+            CreateCarInsuranceSpecifications(
+                newInsurance,
+                insruanceTypeAttribute,
+                selectedCarInsuranceType,
+                selectedCarDeductible,
+                zone,
+                carPremie,
+                activationDate,
+                expiryDate,
+                totalPremie
+            );
+            return newInsurance;
+        }
+
+        public Insurance CreateLiabilityInsuranceFromInput(
+            User loggedInUser,
+            CompanyCustomer selectedCompanyCustomer,
+            string selectedInsuranceType,
+            string selectedLiabilityAmount,
+            string selectedLiabilityDeductible,
+            string liabilityPremie,
+            DateTime activationDate,
+            DateTime expiryDate,
+            BillingInterval selectedInterval,
+            string totalPremie
+        )
+        {
+            User user = GetUserByID(1);
+            InsuranceType insuranceType = GetInsuranceType(selectedInsuranceType);
+
+            Insurance newInsurance = RegisterCompanyPreliminaryInsurance(
+                activationDate,
+                expiryDate,
+                selectedInterval,
+                user,
+                selectedCompanyCustomer,
+                insuranceType
+            );
+            AddInsuranceForCompanyCustomer(newInsurance, selectedCompanyCustomer);
+
+            List<InsuranceTypeAttribute> insruanceTypeAttribute =
+                RegisterCompanyInsuranceTypeAttribute(insuranceType);
+
+            CreateLiabilityInsuranceSpecifications(
+                newInsurance,
+                insruanceTypeAttribute,
+                selectedLiabilityAmount,
+                selectedLiabilityDeductible,
+                liabilityPremie,
                 activationDate,
                 expiryDate,
                 totalPremie
@@ -383,7 +470,7 @@ namespace ServiceLayer
             return insuranceTypeAttributesList;
         }
 
-        public void CreateICompanyInsuranceSpecifications(
+        public void CreatePropertyInsuranceSpecifications(
             Insurance newInsurance,
             List<InsuranceTypeAttribute> insuranceTypeAttributesList,
             string propertyAddress,
@@ -417,6 +504,115 @@ namespace ServiceLayer
                 if (insuranceTypeItem.InsuranceAttribute == "Premie inventarier")
                 {
                     RegisterInsuranceSpec(insuranceTypeItem, newInsurance, inventoryPremie);
+                }
+                if (insuranceTypeItem.InsuranceAttribute == "Begynellsedatum")
+                {
+                    RegisterInsuranceSpec(
+                        insuranceTypeItem,
+                        newInsurance,
+                        activationDate.ToString("yyyy-MM-dd")
+                    );
+                }
+                if (insuranceTypeItem.InsuranceAttribute == "Förfallodatum")
+                {
+                    RegisterInsuranceSpec(
+                        insuranceTypeItem,
+                        newInsurance,
+                        expiryDate.ToString("yyyy-MM-dd")
+                    );
+                }
+                if (insuranceTypeItem.InsuranceAttribute == "Total premie")
+                {
+                    RegisterInsuranceSpec(insuranceTypeItem, newInsurance, totaltPremie);
+                }
+            }
+        }
+
+        public void CreateCarInsuranceSpecifications(
+            Insurance newInsurance,
+            List<InsuranceTypeAttribute> insuranceTypeAttributesList,
+            string selectedCarInsuranceType,
+            string selectedCarDeductible,
+            string zone,
+            string carPremie,
+            DateTime activationDate,
+            DateTime expiryDate,
+            string totaltPremie
+        )
+        {
+            foreach (InsuranceTypeAttribute insuranceTypeItem in insuranceTypeAttributesList)
+            {
+                if (insuranceTypeItem.InsuranceAttribute == "Omfattning")
+                {
+                    RegisterInsuranceSpec(
+                        insuranceTypeItem,
+                        newInsurance,
+                        selectedCarInsuranceType
+                    );
+                }
+                if (insuranceTypeItem.InsuranceAttribute == "Självrisk")
+                {
+                    RegisterInsuranceSpec(insuranceTypeItem, newInsurance, selectedCarDeductible);
+                }
+                if (insuranceTypeItem.InsuranceAttribute == "Zon")
+                {
+                    RegisterInsuranceSpec(insuranceTypeItem, newInsurance, zone);
+                }
+                if (insuranceTypeItem.InsuranceAttribute == "Grundkostnad (månad)")
+                {
+                    RegisterInsuranceSpec(insuranceTypeItem, newInsurance, carPremie);
+                }
+                if (insuranceTypeItem.InsuranceAttribute == "Begynellsedatum")
+                {
+                    RegisterInsuranceSpec(
+                        insuranceTypeItem,
+                        newInsurance,
+                        activationDate.ToString("yyyy-MM-dd")
+                    );
+                }
+                if (insuranceTypeItem.InsuranceAttribute == "Förfallodatum")
+                {
+                    RegisterInsuranceSpec(
+                        insuranceTypeItem,
+                        newInsurance,
+                        expiryDate.ToString("yyyy-MM-dd")
+                    );
+                }
+                if (insuranceTypeItem.InsuranceAttribute == "Total premie")
+                {
+                    RegisterInsuranceSpec(insuranceTypeItem, newInsurance, totaltPremie);
+                }
+            }
+        }
+
+        public void CreateLiabilityInsuranceSpecifications(
+            Insurance newInsurance,
+            List<InsuranceTypeAttribute> insuranceTypeAttributesList,
+            string selectedLiabilityAmount,
+            string selectedLiabilityDeductible,
+            string liabilityPremie,
+            DateTime activationDate,
+            DateTime expiryDate,
+            string totaltPremie
+        )
+        {
+            foreach (InsuranceTypeAttribute insuranceTypeItem in insuranceTypeAttributesList)
+            {
+                if (insuranceTypeItem.InsuranceAttribute == "Belopp")
+                {
+                    RegisterInsuranceSpec(insuranceTypeItem, newInsurance, selectedLiabilityAmount);
+                }
+                if (insuranceTypeItem.InsuranceAttribute == "Självrisk")
+                {
+                    RegisterInsuranceSpec(
+                        insuranceTypeItem,
+                        newInsurance,
+                        selectedLiabilityDeductible
+                    );
+                }
+                if (insuranceTypeItem.InsuranceAttribute == "Grundkostnad (månad)")
+                {
+                    RegisterInsuranceSpec(insuranceTypeItem, newInsurance, liabilityPremie);
                 }
                 if (insuranceTypeItem.InsuranceAttribute == "Begynellsedatum")
                 {

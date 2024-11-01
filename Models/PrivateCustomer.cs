@@ -20,13 +20,14 @@ namespace Models
             string telephoneNumber,
             string email,
             string streetAddress,
-            PostalCodeCity postalCodeCity,
+            string postalCode,
+            string city,
             string sSN,
             string firstName,
             string lastName,
             string workTelephoneNumber
         )
-            : base(telephoneNumber, email, streetAddress, postalCodeCity)
+            : base(telephoneNumber, email, streetAddress, postalCode, city)
         {
             SSN = sSN;
             FirstName = firstName;
@@ -38,12 +39,13 @@ namespace Models
             string telephoneNumber,
             string email,
             string streetAddress,
-            PostalCodeCity postalCodeCity,
+            string postalCode,
+            string city,
             string sSN,
             string firstName,
             string lastName
         )
-            : base(telephoneNumber, email, streetAddress, postalCodeCity)
+            : base(telephoneNumber, email, streetAddress, postalCode, city)
         {
             SSN = sSN;
             FirstName = firstName;

@@ -10,9 +10,10 @@
         public string Email { get; set; }
         public string Role { get; set; }
         public string PhoneNumber { get; set; }
+        public string PostalCode { get; set; }
+        public string City { get; set; }
 
         // Navigation property
-        public PostalCodeCity PostalCodeCity { get; set; }
 
         //    public ICollection<User> Users { get; set; } = new List<User>();
         public Commission? Commission { get; set; }
@@ -25,7 +26,8 @@
             string firstName,
             string lastName,
             string streetName,
-            PostalCodeCity postalCodeCity,
+            string postalCode,
+            string city,
             string email,
             string role,
             string phoneNumber
@@ -39,7 +41,8 @@
             Email = email;
             Role = role;
             PhoneNumber = phoneNumber;
-            PostalCodeCity = postalCodeCity;
+            PostalCode = postalCode;
+            City = city;
         }
 
         public Employee(
@@ -48,7 +51,8 @@
             string firstName,
             string lastName,
             string streetName,
-            PostalCodeCity postalCodeCity,
+            string postalCode,
+            string city,
             string email,
             string role,
             string phoneNumber,
@@ -63,7 +67,8 @@
             Email = email;
             Role = role;
             PhoneNumber = phoneNumber;
-            PostalCodeCity = postalCodeCity;
+            PostalCode = postalCode;
+            City = city;
             Commission = commission;
         }
     }

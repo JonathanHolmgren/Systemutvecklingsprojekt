@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
+using Models;
 using Microsoft.EntityFrameworkCore;
 using Models;
 
@@ -33,8 +36,6 @@ namespace DataLayer.Repositories
             return Context
                 .Set<Customer>()
                 .OfType<PrivateCustomer>()
-                .Include(p => p.PostalCodeCity)
-                .Include(i => i.Insurances)
                 .Include(p => p.ProspectNotes)
                 .ThenInclude(i => i.User)
                 .ThenInclude(u => u.Employee)
@@ -50,7 +51,6 @@ namespace DataLayer.Repositories
             return Context
                 .Set<Customer>()
                 .OfType<PrivateCustomer>()
-                .Include(c => c.PostalCodeCity)
                 .FirstOrDefault(c => c.SSN == sSN);
         }
 
@@ -68,7 +68,6 @@ namespace DataLayer.Repositories
             return Context
                 .Set<Customer>()
                 .OfType<CompanyCustomer>()
-                .Include(c => c.PostalCodeCity)
                 .Include(p => p.ProspectNotes)
                 .ThenInclude(i => i.User)
                 .ThenInclude(u => u.Employee)
@@ -83,14 +82,17 @@ namespace DataLayer.Repositories
             return Context
                 .Set<Customer>()
                 .OfType<CompanyCustomer>()
-                .Include(c => c.PostalCodeCity)
                 .Include(p => p.ProspectNotes)
                 .ThenInclude(i => i.User)
                 .ThenInclude(u => u.Employee)
                 .Include(c => c.Insurances)
                 .ThenInclude(a => a.User)
                 .ThenInclude(b => b.Employee)
+                .Include(c => c.Insurances)
+                //.ThenInclude(a => a.InsuranceType)
+                //.ThenInclude(b => b.InsuranceTypeAttributes)
                 .FirstOrDefault(c => c.OrganisationNumber == organisationNumber);
+
         }
 
         public PrivateCustomer GetSpecificPrivateCustomer(string sSN)
@@ -98,14 +100,28 @@ namespace DataLayer.Repositories
             return Context
                 .Set<Customer>()
                 .OfType<PrivateCustomer>()
-                .Include(c => c.PostalCodeCity)
                 .Include(p => p.ProspectNotes)
                 .ThenInclude(i => i.User)
                 .ThenInclude(u => u.Employee)
                 .Include(c => c.Insurances)
                 .ThenInclude(a => a.User)
                 .ThenInclude(b => b.Employee)
+                .Include(c => c.Insurances)
+                //.ThenInclude(a => a.InsuranceType)
+                //.ThenInclude(b => b.InsuranceTypeAttributes)
+                .Include(c => c.Insurances)
+                .ThenInclude(a => a.InsuredPerson)
                 .FirstOrDefault(c => c.SSN == sSN);
+
         }
+
+        //public void Changepostalcode(int customerId, string postalCode)
+        //{
+        //    var sql =
+        //        $"Update Customer Set PostalCodeCityPostalCode = '{postalCode}' Where CustomerID = {customerId} ";
+
+        //    int rowsAffected = Context.Database.ExecuteSqlRaw(sql);
+        //    Console.WriteLine($"This work! {rowsAffected} records were affected.");
+        //}
     }
 }

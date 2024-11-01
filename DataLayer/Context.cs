@@ -21,7 +21,6 @@ namespace DataLayer
         //public DbSet<Customer> Customers { get; set; }
         public DbSet<PrivateCustomer> PrivateCustomers { get; set; }
         public DbSet<CompanyCustomer> CompanyCustomers { get; set; }
-        public DbSet<PostalCodeCity> PostalCodeCities { get; set; }
         public DbSet<ProspectNote> ProspectNotes { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -34,9 +33,7 @@ namespace DataLayer
             //
             //   @"Server=sqlutb2-db.hb.se,56077;Database=suht2410;User Id=suht2410;Password=VOB279;TrustServerCertificate=True;");
 
-            optionsBuilder.UseSqlServer(
-                @"Server=(localdb)\MSSQLLocalDB;Database=ToppForsakringar;Trusted_Connection=True;"
-            );
+            optionsBuilder.UseSqlServer(@"Server=(localdb)\mssqllocaldb;Database=ToppFörsäkringar;Trusted_Connection=True;");
             base.OnConfiguring(optionsBuilder);
         }
 
@@ -44,7 +41,6 @@ namespace DataLayer
         {
             //ConfigureInsurance(modelBuilder);
             ConfigureEmployeeRelations(modelBuilder);
-            ConfigurePostalCodeCityRelations(modelBuilder);
             //ConfigureCustomerRelations(modelBuilder);
 
 
@@ -93,15 +89,13 @@ namespace DataLayer
             // .HasForeignKey(i => i.PostalCode);
         }
 
-        private void ConfigurePostalCodeCityRelations(ModelBuilder modelBuilder)
-        {
-            modelBuilder.Entity<PostalCodeCity>().HasKey(e => e.PostalCode);
+
 
             //modelbuilder.entity<employee>()
             //    .hasone(e => e.postalcodecity)
             //    .withmany(pc => pc.employees)
             //.hasforeignkey(i => i.postalcode);
-        }
+        
 
         //
         private void ConfigureCustomerRelations(ModelBuilder modelBuilder)

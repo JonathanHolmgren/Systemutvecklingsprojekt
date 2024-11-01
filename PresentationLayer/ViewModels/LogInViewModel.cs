@@ -1,51 +1,72 @@
-﻿using Models;
+﻿using System.Windows;
+using System.Windows.Input;
+using Models;
+using PresentationLayer.Command;
 using PresentationLayer.Models;
 using ServiceLayer;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace PresentationLayer.ViewModels
+namespace PresentationLayer.ViewModels;
+
+public class LoginViewModel : ObservableObject
 {
-    public class LogInViewModel : ObservableObject
+    LoginUser loginUser = new LoginUser();
+
+    private User userSelected = null!;
+    public User UserSelected
     {
-        UserController userController = new UserController();
-
-        //var authorizationLevel = userController.GetAuthorizationLevelForUser(username, password);
-        //OpenViewBasedOnAuthorizationLevel(authorizationLevel);
-        private void OpenViewBasedOnAuthorizationLevel(AuthorizationLevel authorizationLevel)
+        get { return userSelected; }
+        set
         {
-            switch (authorizationLevel)
-            {
-                case AuthorizationLevel.Admin:
-                    // Öppna Admin-vyn
-                    break;
-
-                case AuthorizationLevel.EconomyAssistant:
-                    // Öppna Economy Assistant-vyn
-                    break;
-
-                case AuthorizationLevel.SalesManager:
-                    // Öppna Sales Manager-vyn
-                    break;
-
-                case AuthorizationLevel.SalesPerson:
-                    // Öppna Sales Person-vyn
-                    break;
-
-                case AuthorizationLevel.CEO:
-                    // Öppna CEO-vyn
-                    break;
-
-                case AuthorizationLevel.SalesAssistant:
-                    // Öppna Sales Assistant-vyn
-                    break;
-
-                default:
-                    break;
-            }
+            userSelected = value;
+            OnPropertyChanged();
         }
     }
+
+    private string errorMessage = null!;
+    public string ErrorMessage
+    {
+        get { return errorMessage; }
+        set
+        {
+            errorMessage = value;
+            OnPropertyChanged();
+        }
+    }
+
+    private string userNameInput = null!;
+    public string UserNameInput
+    {
+        get { return userNameInput; }
+        set
+        {
+            userNameInput = value;
+            OnPropertyChanged();
+        }
+    }
+
+    private string passwordInput = null!;
+    public string PasswordInput
+    {
+        get { return passwordInput; }
+        set
+        {
+            passwordInput = value;
+            OnPropertyChanged();
+        }
+    }
+
+    private ICommand loginBtn = null!;
+    public ICommand LoginBtn =>
+        loginBtn ??= new RelayCommand(() =>
+        {
+            try
+            {
+                User user = loginUser.ValidateUser(userNameInput, passwordInput);
+                userSelected = user;
+            }
+            catch (Exception ex)
+            {
+                ErrorMessage = ex.Message;
+            }
+        });
 }

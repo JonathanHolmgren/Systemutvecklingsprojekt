@@ -1,16 +1,15 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace DataLayer.Repositories
 {
     public class Repository<T>
         where T : class
     {
-
         protected DbContext Context { get; }
 
         public Repository(DbContext context)
@@ -35,6 +34,13 @@ namespace DataLayer.Repositories
         public T Remove(T entity)
         {
             return Context.Remove(entity).Entity;
+        }
+
+        public virtual void Remove(int id)
+        {
+            var entity = Context.Set<T>().Find(id);
+            if (entity != null)
+                Context.Entry(entity).State = EntityState.Deleted;
         }
 
         /// <summary>

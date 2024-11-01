@@ -16,6 +16,7 @@ namespace Models
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string? WorkTelephoneNumber { get; set; }
-        PostalCodeCity PostalCodeCity { get; set; }
+        public string PostalCode { get; set; }
+        public string City { get; set; }
     }
 }

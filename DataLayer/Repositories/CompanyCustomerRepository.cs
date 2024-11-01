@@ -14,8 +14,7 @@ namespace DataLayer.Repositories
         public IList<CompanyCustomer> GetAll()
         {
             return Context.Set<CompanyCustomer>().
-                Include(i => i.Insurances).
-                Include(p => p.PostalCodeCity).ToList();
+                Include(i => i.Insurances).ToList();
         }
     }
 }

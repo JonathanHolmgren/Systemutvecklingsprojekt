@@ -44,6 +44,7 @@ namespace DataLayer.Repositories
                 .ToList(); 
         }
         
+
         public PrivateCustomer GetSpecificPrivateCustomerForInsuranceBySSN(string sSN)
         {
             return Context

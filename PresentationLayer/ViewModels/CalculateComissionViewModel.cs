@@ -18,7 +18,7 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace PresentationLayer.ViewModels
 {
-    public class CalculateComissionViewModel : ObservableObject
+    internal class CalculateComissionViewModel : ObservableObject
     {
         private ComissionRateController comissionRateController = new ComissionRateController();
         private Employee selectedEmployee;

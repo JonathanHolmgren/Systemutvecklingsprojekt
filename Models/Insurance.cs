@@ -45,7 +45,7 @@ namespace Models
 
         public Insurance(
             DateTime expiryDate,
-            BillingInterval billingingInterval,
+            BillingInterval billingInterval,
             InsuranceStatus insuranceStatus,
             string notes,
             User user,
@@ -55,7 +55,7 @@ namespace Models
         )
         {
             ExpiryDate = expiryDate;
-            BillingInterval = billingingInterval;
+            BillingInterval = billingInterval;
             InsuranceStatus = insuranceStatus;
             Notes = notes;
             User = user;

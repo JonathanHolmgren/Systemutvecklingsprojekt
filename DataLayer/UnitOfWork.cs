@@ -5,8 +5,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DataLayer.Repositories;
-using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage;
 using Models;
 
 namespace DataLayer
@@ -15,22 +15,24 @@ namespace DataLayer
     {
         private bool isDisposed = false;
         private readonly bool disposeContext = false;
-        protected Context Context {  get; }
+        protected Context Context { get; }
 
         public CommisionRateRepository CommisionRateRepository { get; private set; }
-        public CompanyCustomerRepository CompanyCustomerRepository { get; private set;}
+        public CompanyCustomerRepository CompanyCustomerRepository { get; private set; }
         public CustomerRepository CustomerRepository { get; private set; }
         public EmployeeRepository EmployeeRepository { get; private set; }
         public InsuranceRepository InsuranceRepository { get; private set; }
         public InsuranceSpecRepository InsuranceSpecRepository { get; private set; }
-        public InsuranceTypeAttributeRepository InsuranceTypeAttributeRepository { get; private set; }
+        public InsuranceTypeAttributeRepository InsuranceTypeAttributeRepository
+        {
+            get;
+            private set;
+        }
         public InsuranceTypeRepository InsuranceTypeRepository { get; private set; }
         public InsuredPersonRepository InsuredPersonRepository { get; private set; }
-        public PostalCodeCityRepository PostalCodeCityRepository { get; private set;}
         public PrivateCustomerRepository PrivateCustomerRepository { get; private set; }
         public UserRepository UserRepository { get; private set; }
         public ProspectNoteRepository ProspectNoteRepository { get; private set; }
-
 
         public UnitOfWork(Context context)
         {
@@ -45,20 +47,19 @@ namespace DataLayer
             InsuranceTypeAttributeRepository = new InsuranceTypeAttributeRepository(context);
             InsuranceTypeRepository = new InsuranceTypeRepository(context);
             InsuredPersonRepository = new InsuredPersonRepository(context);
-            PostalCodeCityRepository = new PostalCodeCityRepository(context);
             PrivateCustomerRepository = new PrivateCustomerRepository(context);
             UserRepository = new UserRepository(context);
             ProspectNoteRepository = new ProspectNoteRepository(context);
         }
-      
+
         public UnitOfWork()
-               : this(new Context())
+            : this(new Context())
         {
             disposeContext = true;
         }
 
-      
-        public void Update<T>(T entity) where T : class
+        public void Update<T>(T entity)
+            where T : class
         {
             try
             {
@@ -125,7 +126,5 @@ namespace DataLayer
         {
             Dispose(false);
         }
-
-
     }
 }

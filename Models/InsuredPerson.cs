@@ -9,7 +9,8 @@ namespace Models
     public class InsuredPerson
     {
         public int InsuredPersonID { get; set; }
-        public string InsuredName { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
         public string SSN { get; set; }
 
         public ICollection<Insurance> Insurances { get; set; }
@@ -17,9 +18,10 @@ namespace Models
         //Constructors
         public InsuredPerson() { }
 
-        public InsuredPerson(string insuredName, string sSN)
+        public InsuredPerson(string firstName, string lastName, string sSN)
         {
-            InsuredName = insuredName;
+            FirstName = firstName;
+            LastName = lastName;
             SSN = sSN;
         }
     }

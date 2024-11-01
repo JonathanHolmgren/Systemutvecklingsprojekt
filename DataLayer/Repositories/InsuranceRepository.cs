@@ -5,7 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Models;
-using Models.SalesStatistics;
+ using Models.SalesStatistics;
+ 
 
 namespace DataLayer.Repositories
 {
@@ -20,6 +21,8 @@ namespace DataLayer.Repositories
                 .Set<Insurance>()
                 .Where(insurance => insurance.Customer.CustomerID == customerId)
                 .Include(i => i.InsuranceType)
+                .Include(i => i.User)                 // Jag la till dessa
+                .ThenInclude(a => a.Employee)         // Ta bort om de krånglar
                 .ToList();
         }
 
@@ -78,7 +81,7 @@ namespace DataLayer.Repositories
             }
         }
 
-        public SalesReport GetSalesReportForInscurance()
+         public SalesReport GetSalesReportForInscurance()
         {
             return new SalesReport();
         }
@@ -176,5 +179,32 @@ namespace DataLayer.Repositories
 
             return salesReport;
         }
+ 
+        public List<Insurance> GetAllPreliminaryInsurances()
+        {
+            return Context
+                .Set<Insurance>()
+                .Include(i => i.Customer)
+                .Where(p => p.InsuranceStatus == InsuranceStatus.Preliminary)
+                .ToList();
+        }
+
+        //public Insurance SetInsuranceStatusToActive(Insurance selectedInsurance)
+        //{
+        //    Insurance insuranceToUpdate = Context
+        //        .Set<Insurance>()
+        //        .FirstOrDefault(p => p.InsuranceId == selectedInsurance.InsuranceId);
+
+        //    return insuranceToUpdate;
+        //}
+        //public Insurance SetInsuranceStatusToInactive(Insurance selectedInsurance)
+        //{
+        //    Insurance insuranceToUpdate = Context
+        //        .Set<Insurance>()
+        //        .FirstOrDefault(p => p.InsuranceId == selectedInsurance.InsuranceId);
+
+        //    return insuranceToUpdate;
+        //}
+ 
     }
 }

@@ -15,168 +15,176 @@
     <UserControl.DataContext>
         <vm:ShowProspectsViewModel/>
     </UserControl.DataContext>
-   
-    <DockPanel Background="White">
-        
-        <!--  Dockpanel Top  -->
-        <StackPanel DockPanel.Dock="Top" Orientation="Horizontal">
-            <Border Width="525" Height="50">
-                <TextBlock Text="Kundprospekt"
+    <Border CornerRadius="10"
+            
+     Background="White"
+     
+     
+     Padding="10"
+     
+     Margin="0">
+        <DockPanel>
+
+            <!--  Dockpanel Top  -->
+            <StackPanel DockPanel.Dock="Top" Orientation="Horizontal">
+                <Border Width="525" Height="50">
+                    <TextBlock Text="Kundprospekt"
          FontSize="30"
          FontFamily="Roboto-Light"
          HorizontalAlignment="Left"
          Margin="15,15,10,0" Width="400"/>
-            </Border>
-        </StackPanel>
+                </Border>
+            </StackPanel>
 
-        <!--  Dockpanel Left  -->
-        <StackPanel DockPanel.Dock="Left" Orientation="Vertical">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="Auto" />
-                </Grid.ColumnDefinitions>
+            <!--  Dockpanel Left  -->
+            <StackPanel DockPanel.Dock="Left" Orientation="Vertical">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
 
-                <!-- Private DataGrid -->
-                <DataGrid Grid.Column="0" Height="250" Width="370" Margin="30,30,30,0" HorizontalAlignment="Left" VerticalAlignment="Top" 
+                    <!-- Private DataGrid -->
+                    <DataGrid Grid.Column="0" Height="250" Width="370" Margin="30,30,30,0" HorizontalAlignment="Left" VerticalAlignment="Top" 
                           ItemsSource="{Binding PrivateProspects}" 
                           SelectedItem="{Binding PrivateProspectSelectedItem, Mode=TwoWay}" 
                           AutoGenerateColumns="False" 
                           CanUserAddRows="False" 
                           Visibility="{Binding IsPrivateSelected, Converter={StaticResource BoolToVisConverter}}">
-                    <DataGrid.Columns>
-                        <DataGridTextColumn Header="KundID" Binding="{Binding CustomerID}" Width="Auto"/>
-                        <DataGridTextColumn Header="Telefonnummer" Binding="{Binding TelephoneNumber}" Width="Auto"/>
-                        <DataGridTextColumn Header="Personnummer" Binding="{Binding SSN}" Width="Auto"/>
-                    </DataGrid.Columns>
-                </DataGrid>
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="KundID" Binding="{Binding CustomerID}" Width="Auto"/>
+                            <DataGridTextColumn Header="Telefonnummer" Binding="{Binding TelephoneNumber}" Width="Auto"/>
+                            <DataGridTextColumn Header="Personnummer" Binding="{Binding SSN}" Width="Auto"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
 
-                <!-- Company DataGrid -->
-                <DataGrid Grid.Column="0" Height="250" Width="370" Margin="30,30,30,0" HorizontalAlignment="Left" VerticalAlignment="Top" 
+                    <!-- Company DataGrid -->
+                    <DataGrid Grid.Column="0" Height="250" Width="370" Margin="30,30,30,0" HorizontalAlignment="Left" VerticalAlignment="Top" 
                           ItemsSource="{Binding CompanyProspects}" 
                           SelectedItem="{Binding CompanyProspectSelectedItem, Mode=TwoWay}" 
                           AutoGenerateColumns="False" 
                           CanUserAddRows="False" 
                           Visibility="{Binding IsCompanySelected, Converter={StaticResource BoolToVisConverter}}">
-                    <DataGrid.Columns>
-                        <DataGridTextColumn Header="KundID" Binding="{Binding CustomerID}" Width="Auto"/>
-                        <DataGridTextColumn Header="Telefonnummer" Binding="{Binding TelephoneNumber}" Width="Auto"/>
-                        <DataGridTextColumn Header="Organisationsnummer" Binding="{Binding OrganisationNumber}" Width="Auto"/>
-                    </DataGrid.Columns>
-                </DataGrid>
-            </Grid>
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="KundID" Binding="{Binding CustomerID}" Width="Auto"/>
+                            <DataGridTextColumn Header="Telefonnummer" Binding="{Binding TelephoneNumber}" Width="Auto"/>
+                            <DataGridTextColumn Header="Organisationsnummer" Binding="{Binding OrganisationNumber}" Width="Auto"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Grid>
 
-            <!-- Radiobutton -->
-            <StackPanel Orientation="Horizontal">
-                <RadioButton Content="Företag" GroupName="UserType" IsChecked="{Binding IsCompanySelected, Mode=TwoWay}" Margin="10"/>
-                <RadioButton Content="Privat" GroupName="UserType" IsChecked="{Binding IsPrivateSelected, Mode=TwoWay}" Margin="10"/>
+                <!-- Radiobutton -->
+                <StackPanel Orientation="Horizontal">
+                    <RadioButton Content="Företag" GroupName="UserType" IsChecked="{Binding IsCompanySelected, Mode=TwoWay}" Margin="10"/>
+                    <RadioButton Content="Privat" GroupName="UserType" IsChecked="{Binding IsPrivateSelected, Mode=TwoWay}" Margin="10"/>
+                </StackPanel>
+
+                <!-- ReturnButton -->
+                <Button Content="Huvudmeny" Margin="10" Command="{Binding ReturnCommand}" HorizontalAlignment="Left" Width="Auto"/>
             </StackPanel>
 
-            <!-- ReturnButton -->
-            <Button Content="Huvudmeny" Margin="10" Command="{Binding ReturnCommand}" HorizontalAlignment="Left" Width="Auto"/>
-        </StackPanel>
-        
-        <!--  Dockpanel Right  -->
-        <StackPanel DockPanel.Dock="Right" Orientation="Vertical">
-            <Label Content="Kundinformation" FontSize="16"/>
-                
+            <!--  Dockpanel Right  -->
+            <StackPanel DockPanel.Dock="Right" Orientation="Vertical">
+                <Label Content="Kundinformation" FontSize="16"/>
+
                 <!-- For Privateprospects -->
-            <StackPanel x:Name="PrivateCustomerPanel" Visibility="{Binding IsPrivateSelected, Converter={StaticResource BoolToVisConverter}}">
+                <StackPanel x:Name="PrivateCustomerPanel" Visibility="{Binding IsPrivateSelected, Converter={StaticResource BoolToVisConverter}}">
 
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
-                    <TextBox Text="{Binding FullName, Mode=OneWay}" BorderBrush="Black" Width="150" Margin="5" IsReadOnly="True"/>
-                    <TextBox Text="{Binding PrivateProspectSelectedItem.SSN, Mode=OneWay}" BorderBrush="Black" Width="150" Margin="5" IsReadOnly="True"/>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                        <TextBox Text="{Binding FullName, Mode=OneWay}" BorderBrush="Black" Width="150" Margin="5" IsReadOnly="True"/>
+                        <TextBox Text="{Binding PrivateProspectSelectedItem.SSN, Mode=OneWay}" BorderBrush="Black" Width="150" Margin="5" IsReadOnly="True"/>
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                        <TextBox Text="{Binding PrivateProspectSelectedItem.StreetAddress, Mode=OneWay}" BorderBrush="Black" Width="150" Margin="5" IsReadOnly="True"/>
+                        <TextBox Text="{Binding PrivateProspectSelectedItem.PostalCodeCity.PostalCode, Mode=OneWay}" BorderBrush="Black" Width="150" Margin="5" IsReadOnly="True"/>
+                    </StackPanel>
+
+                    <TextBox Text="{Binding PrivateProspectSelectedItem.PostalCodeCity.City, Mode=OneWay}" BorderBrush="Black" Width="150" HorizontalAlignment="Left" Margin="5" IsReadOnly="True"/>
+
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                        <TextBox Text="{Binding PrivateProspectSelectedItem.TelephoneNumber, Mode=OneWay}" BorderBrush="Black" Width="150" Margin="5" IsReadOnly="True"/>
+                        <TextBox Text="{Binding PrivateProspectSelectedItem.Email, Mode=OneWay}" BorderBrush="Black" Width="150" Margin="5" IsReadOnly="True"/>
+                    </StackPanel>
+                    <TextBox Text="{Binding PrivateSalesPersonAgentnumber, Mode=OneWay}" BorderBrush="Black" Width="150" HorizontalAlignment="Left" Margin="5" IsReadOnly="True"/>
+
+                    <!-- Add note -->
+                    <Label Content="Utfall" Width="130" HorizontalAlignment="Left"/>
+                    <TextBox Text="{Binding Note}" BorderBrush="Black" Width="320" Margin="5,0,10,0" HorizontalAlignment="Left"/>
+                    <Button Content="Lägg till notering" Width="100" Margin="5" HorizontalAlignment="Left" Command="{Binding AddPrivateProspectNoteCommand}"/>
                 </StackPanel>
 
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
-                    <TextBox Text="{Binding PrivateProspectSelectedItem.StreetAddress, Mode=OneWay}" BorderBrush="Black" Width="150" Margin="5" IsReadOnly="True"/>
-                    <TextBox Text="{Binding PrivateProspectSelectedItem.PostalCodeCity.PostalCode, Mode=OneWay}" BorderBrush="Black" Width="150" Margin="5" IsReadOnly="True"/>
+                <!-- For Companyprospect -->
+                <StackPanel x:Name="CompanyCustomerPanel" Visibility="{Binding IsCompanySelected, Converter={StaticResource BoolToVisConverter}}">
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                        <TextBox Text="{Binding CompanyProspectSelectedItem.CompanyName, Mode=OneWay}" BorderBrush="Black" Width="150" Margin="5" IsReadOnly="True"/>
+                        <TextBox Text="{Binding CompanyProspectSelectedItem.OrganisationNumber, Mode=OneWay}" BorderBrush="Black" Width="150" Margin="5" IsReadOnly="True"/>
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                        <TextBox Text="{Binding CompanyProspectSelectedItem.StreetAddress, Mode=OneWay}" BorderBrush="Black" Width="150" Margin="5" IsReadOnly="True"/>
+                        <TextBox Text="{Binding CompanyProspectSelectedItem.PostalCodeCity.PostalCode, Mode=OneWay}" BorderBrush="Black" Width="150" Margin="5" IsReadOnly="True"/>
+                    </StackPanel>
+
+                    <TextBox Text="{Binding CompanyProspectSelectedItem.PostalCodeCity.City, Mode=OneWay}" BorderBrush="Black" Width="150" HorizontalAlignment="Left" Margin="5" IsReadOnly="True"/>
+
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                        <TextBox Text="{Binding CompanyProspectSelectedItem.TelephoneNumber, Mode=OneWay}" BorderBrush="Black" Width="150" Margin="5" IsReadOnly="True"/>
+                        <TextBox Text="{Binding CompanyProspectSelectedItem.Email, Mode=OneWay}" BorderBrush="Black" Width="150" Margin="5" IsReadOnly="True"/>
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                        <TextBox Text="{Binding CompanyProspectSelectedItem.ContactPersonName}" BorderBrush="Black" Width="150" Margin="5" IsReadOnly="True"/>
+                        <TextBox Text="{Binding CompanySalesPersonAgentnumber, Mode=OneWay}" BorderBrush="Black" Width="150" Margin="5" IsReadOnly="True"/>
+                    </StackPanel>
+
+                    <!-- Add note -->
+                    <Label Content="Utfall" Width="130" HorizontalAlignment="Left"/>
+                    <TextBox Text="{Binding Note}" BorderBrush="Black" Width="320" Margin="5,0,10,0" HorizontalAlignment="Left"/>
+                    <Button Content="Lägg till notering" Width="100" Margin="5" HorizontalAlignment="Left" Command="{Binding AddCompanyProspectNoteCommand}"/>
                 </StackPanel>
 
-                <TextBox Text="{Binding PrivateProspectSelectedItem.PostalCodeCity.City, Mode=OneWay}" BorderBrush="Black" Width="150" HorizontalAlignment="Left" Margin="5" IsReadOnly="True"/>
+                <!-- Notes DataGrid -->
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
 
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
-                    <TextBox Text="{Binding PrivateProspectSelectedItem.TelephoneNumber, Mode=OneWay}" BorderBrush="Black" Width="150" Margin="5" IsReadOnly="True"/>
-                    <TextBox Text="{Binding PrivateProspectSelectedItem.Email, Mode=OneWay}" BorderBrush="Black" Width="150" Margin="5" IsReadOnly="True"/>
-                </StackPanel>
-                <TextBox Text="{Binding PrivateSalesPersonAgentnumber, Mode=OneWay}" BorderBrush="Black" Width="150" HorizontalAlignment="Left" Margin="5" IsReadOnly="True"/>
-
-                <!-- Add note -->
-                <Label Content="Utfall" Width="130" HorizontalAlignment="Left"/>
-                <TextBox Text="{Binding Note}" BorderBrush="Black" Width="320" Margin="5,0,10,0" HorizontalAlignment="Left"/>
-                <Button Content="Lägg till notering" Width="100" Margin="5" HorizontalAlignment="Left" Command="{Binding AddPrivateProspectNoteCommand}"/>
-            </StackPanel>
-
-            <!-- For Companyprospect -->
-            <StackPanel x:Name="CompanyCustomerPanel" Visibility="{Binding IsCompanySelected, Converter={StaticResource BoolToVisConverter}}">
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
-                    <TextBox Text="{Binding CompanyProspectSelectedItem.CompanyName, Mode=OneWay}" BorderBrush="Black" Width="150" Margin="5" IsReadOnly="True"/>
-                    <TextBox Text="{Binding CompanyProspectSelectedItem.OrganisationNumber, Mode=OneWay}" BorderBrush="Black" Width="150" Margin="5" IsReadOnly="True"/>
-                </StackPanel>
-
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
-                    <TextBox Text="{Binding CompanyProspectSelectedItem.StreetAddress, Mode=OneWay}" BorderBrush="Black" Width="150" Margin="5" IsReadOnly="True"/>
-                    <TextBox Text="{Binding CompanyProspectSelectedItem.PostalCodeCity.PostalCode, Mode=OneWay}" BorderBrush="Black" Width="150" Margin="5" IsReadOnly="True"/>
-                </StackPanel>
-
-                <TextBox Text="{Binding CompanyProspectSelectedItem.PostalCodeCity.City, Mode=OneWay}" BorderBrush="Black" Width="150" HorizontalAlignment="Left" Margin="5" IsReadOnly="True"/>
-
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
-                    <TextBox Text="{Binding CompanyProspectSelectedItem.TelephoneNumber, Mode=OneWay}" BorderBrush="Black" Width="150" Margin="5" IsReadOnly="True"/>
-                    <TextBox Text="{Binding CompanyProspectSelectedItem.Email, Mode=OneWay}" BorderBrush="Black" Width="150" Margin="5" IsReadOnly="True"/>
-                </StackPanel>
-
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
-                    <TextBox Text="{Binding CompanyProspectSelectedItem.ContactPersonName}" BorderBrush="Black" Width="150" Margin="5" IsReadOnly="True"/>
-                    <TextBox Text="{Binding CompanySalesPersonAgentnumber, Mode=OneWay}" BorderBrush="Black" Width="150" Margin="5" IsReadOnly="True"/>
-                </StackPanel>
-
-                <!-- Add note -->
-                <Label Content="Utfall" Width="130" HorizontalAlignment="Left"/>
-                <TextBox Text="{Binding Note}" BorderBrush="Black" Width="320" Margin="5,0,10,0" HorizontalAlignment="Left"/>
-                <Button Content="Lägg till notering" Width="100" Margin="5" HorizontalAlignment="Left" Command="{Binding AddCompanyProspectNoteCommand}"/>
-            </StackPanel>
-
-            <!-- Notes DataGrid -->
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="Auto" />
-                </Grid.ColumnDefinitions>
-
-                <!-- Private DataGrid -->
-                <DataGrid Grid.Column="0" Height="100" Width="320" Margin="5,10,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" 
+                    <!-- Private DataGrid -->
+                    <DataGrid Grid.Column="0" Height="100" Width="320" Margin="5,10,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" 
                     ItemsSource="{Binding ProspectNotesList, UpdateSourceTrigger=PropertyChanged}"  
                     AutoGenerateColumns="False" 
                     CanUserAddRows="False"
                     Visibility="{Binding IsPrivateSelected, Converter={StaticResource BoolToVisConverter}}"
                     BorderBrush="Black">
-                    <DataGrid.Columns>
-                        <DataGridTextColumn Header="Datum" Binding="{Binding Date}" Width="60"/>
-                        <DataGridTextColumn Header="Agentnummer" Binding="{Binding User.Employee.AgentNumber}" Width="90"/>
-                        <DataGridTextColumn Header="Notering" Binding="{Binding Note}" Width="230"/>
-                    </DataGrid.Columns>
-                </DataGrid>
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Datum" Binding="{Binding Date}" Width="60"/>
+                            <DataGridTextColumn Header="Agentnummer" Binding="{Binding User.Employee.AgentNumber}" Width="90"/>
+                            <DataGridTextColumn Header="Notering" Binding="{Binding Note}" Width="230"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
 
-                <!-- Company DataGrid -->
-                <DataGrid Grid.Column="0" Height="100" Width="320" Margin="5,10,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" 
+                    <!-- Company DataGrid -->
+                    <DataGrid Grid.Column="0" Height="100" Width="320" Margin="5,10,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" 
                     ItemsSource="{Binding ProspectNotesList}"  
                     AutoGenerateColumns="False" 
                     CanUserAddRows="False"
                     Visibility="{Binding IsCompanySelected, Converter={StaticResource BoolToVisConverter}}"
                     BorderBrush="Black">
-                    <DataGrid.Columns>
-                        <DataGridTextColumn Header="Datum" Binding="{Binding Date}" Width="70"/>
-                        <DataGridTextColumn Header="Agentnummer" Binding="{Binding User.Employee.AgentNumber}" Width="90"/>
-                        <DataGridTextColumn Header="Notering" Binding="{Binding Note}" Width="230"/>
-                    </DataGrid.Columns>
-                </DataGrid>
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Datum" Binding="{Binding Date}" Width="70"/>
+                            <DataGridTextColumn Header="Agentnummer" Binding="{Binding User.Employee.AgentNumber}" Width="90"/>
+                            <DataGridTextColumn Header="Notering" Binding="{Binding Note}" Width="230"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
 
-                <!-- ScrollViewer -->
-                <ScrollViewer Grid.Column="1" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
-                </ScrollViewer>
-            </Grid>
+                    <!-- ScrollViewer -->
+                    <ScrollViewer Grid.Column="1" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+                    </ScrollViewer>
+                </Grid>
 
-        </StackPanel>
-    </DockPanel>
+            </StackPanel>
+        </DockPanel>
+    </Border>
 </UserControl>

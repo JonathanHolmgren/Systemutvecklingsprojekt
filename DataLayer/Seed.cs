@@ -1,4 +1,5 @@
 ﻿using Models;
+using System;
 
 namespace DataLayer;
 
@@ -11,12 +12,6 @@ public class Seed
 
         #endregion
 
-        #region PostalCodeCity
-        PostalCodeCity postalCodeCity1 = new PostalCodeCity("50331", "Borås");
-        PostalCodeCity postalCodeCity2 = new PostalCodeCity("50251", "Borås");
-        PostalCodeCity postalCodeCity3 = new PostalCodeCity("50321", "Borås");
-
-        #endregion
 
         #region Employee
 
@@ -26,7 +21,8 @@ public class Seed
             "Sten",
             "Hård",
             "Vasagatan 12",
-            postalCodeCity3,
+            "50100",
+            "Borås",
             "Sten.Hård@exempel.se",
             "VD",
             "070-123 45 67"
@@ -37,7 +33,8 @@ public class Seed
             "Ann-Sofie",
             "Larsson",
             "Storgatan 45",
-            postalCodeCity1,
+            "52298",
+            "Borås",
             "Ann-Sofie.Larsson@exempel.se",
             "Ekonomiassistent",
             "070-234 56 78"
@@ -48,7 +45,8 @@ public class Seed
             "Iren",
             "Panik",
             "Kungsgatan 5",
-            postalCodeCity2,
+            "51111",
+            "Borås",
             "Iren.Panik@exempel.se",
             "Försäljningschef",
             "070-345 67 89"
@@ -60,7 +58,8 @@ public class Seed
             "Karin",
             "Sundberg",
             "Sveavägen 23",
-            postalCodeCity1,
+            "50109",
+            "Borås",
             "maria.lindgren@exempel.se",
             "Försäljningsassistent, Innesäljare",
             "070-456 78 90",
@@ -72,7 +71,8 @@ public class Seed
             "Irene",
             "Johansson",
             "Norrlandsgatan 8",
-            postalCodeCity3,
+            "50555",
+            "Borås",
             "oskar.berg@exempel.se",
             "Innesäljare",
             "070-567 89 01",
@@ -84,7 +84,8 @@ public class Seed
             "Vigo",
             "Persson",
             "Drottninggatan 14",
-            postalCodeCity2,
+            "51234",
+            "Borås",
             "sofia.eriksson@exempel.se",
             "Innesäljare",
             "070-678 90 12",
@@ -97,7 +98,8 @@ public class Seed
             "Birgitta",
             "Frisk",
             "Norrlandsgatan 8",
-            postalCodeCity1,
+            "50101",
+            "Borås",
             "oskar.berg@exempel.se",
             "Utesäljare",
             "070-567 89 01",
@@ -109,7 +111,8 @@ public class Seed
             "Boris",
             "Alm",
             "Drottninggatan 14",
-            postalCodeCity2,
+            "58992",
+            "Borås",
             "sofia.eriksson@exempel.se",
             "Utesäljare",
             "070-678 90 12",
@@ -121,7 +124,8 @@ public class Seed
             "Linda",
             "Jonsson",
             "Hamngatan 9",
-            postalCodeCity1,
+            "50567",
+            "Borås",
             "viktor.nystrom@exempel.se",
             "Utesäljare",
             "070-789 01 23",
@@ -133,7 +137,8 @@ public class Seed
             "Malin",
             "Nilsdotter",
             "Norrlandsgatan 8",
-            postalCodeCity2,
+            "54321",
+            "Borås",
             "oskar.berg@exempel.se",
             "Utesäljare",
             "070-567 89 01",
@@ -145,7 +150,8 @@ public class Seed
             "Mikael",
             "Lund",
             "Drottninggatan 14",
-            postalCodeCity1,
+            "50251",
+            "Borås",
             "sofia.eriksson@exempel.se",
             "Utesäljare",
             "070-678 90 12",
@@ -157,7 +163,8 @@ public class Seed
             "Patrik",
             "Hedman",
             "Hamngatan 9",
-            postalCodeCity3,
+            "50331",
+            "Borås",
             "viktor.nystrom@exempel.se",
             "Utesäljare",
             "070-789 01 23",
@@ -167,10 +174,15 @@ public class Seed
         #endregion
 
         #region User
-        User user1 = new User("försäkring1", AuthorizationLevel.SalesPerson, employee9);
-        User user2 = new User("försäkring2", AuthorizationLevel.SalesPerson, employee10);
-        User user3 = new User("försäkring3", AuthorizationLevel.EconomyAssistant, employee2);
-        User user4 = new User("försäkring3", AuthorizationLevel.Admin, employee2);
+        User user1 = new User("försäkring1", AuthorizationLevel.SalesPerson, employee9, "SP1153");
+        User user2 = new User("försäkring2", AuthorizationLevel.SalesPerson, employee10, "SP7473");
+        User user3 = new User(
+            "försäkring3",
+            AuthorizationLevel.EconomyAssistant,
+            employee2,
+            "EA9911"
+        );
+        User user4 = new User("försäkring3", AuthorizationLevel.Admin, employee2, "AD9911");
         #endregion
 
         #region PrivateCustomer
@@ -178,10 +190,22 @@ public class Seed
             "0706689932",
             "ingalillblommor52@emial.com",
             "Gatuvägen 21",
-            postalCodeCity2,
-            "19521019-1234",
+            "50433",
+            "Borås",
+            "195210191234",
             "Inga-Lill",
             "Bengtsson"
+        );
+
+        PrivateCustomer privateCustomer2 = new PrivateCustomer(
+            "0706689932",
+            "jollebolle52@emial.com",
+            "Gatanärhård 69",
+            "50213",
+            "Borås",
+            "199909022173",
+            "Jolle",
+            "Alestrom"
         );
         #endregion
 
@@ -190,22 +214,58 @@ public class Seed
             "0705102355",
             "klas123@email.com",
             "Vägkanten 54",
-            postalCodeCity1,
-            "771122-1234",
+            "50331",
+            "Borås",
+            "7711221234",
             "Klas Persson",
             "0710192844",
             "Tesla"
         );
+
+        CompanyCustomer companyCustomer2 = new CompanyCustomer(
+            "07061111222",
+            "buggan3@email.com",
+            "Gatukanten 4",
+            "50251",
+            "Borås",
+            "7412025434",
+            "Buggan Buggster",
+            "0740568646",
+            "Warwick Inc"
+        );
+
+        CompanyCustomer companyCustomer3 = new CompanyCustomer(
+            "07061783521",
+            "kalle63@email.com",
+            "Hejsandär 94",
+            "50136",
+            "Borås",
+            "5902222496",
+            "Karl Karlsson",
+            "0700101010",
+            "Bolaget AB"
+        );
         #endregion
 
         #region ProspectNote
-        ProspectNote prospectNote1 = new ProspectNote("Kunden gick inte med på avtal", DateTime.Now.AddDays(-20), user1, privateCustomer1);
-        ProspectNote prospectNote2 = new ProspectNote("Kunden vill att vi ringer upp imorgon", DateTime.Now.AddDays(-10), user2, companyCustomer1);
+        ProspectNote prospectNote1 = new ProspectNote(
+            "Kunden gick inte med på avtal",
+            DateTime.Now.AddDays(-20),
+            user1,
+            privateCustomer1
+        );
+        ProspectNote prospectNote2 = new ProspectNote(
+            "Kunden vill att vi ringer upp imorgon",
+            DateTime.Now.AddDays(-10),
+            user2,
+            companyCustomer1
+        );
         #endregion
 
         #region InsuredPerson
-        InsuredPerson insuredPerson1 = new InsuredPerson("Inga-Lill Bengtsson", "1952/06/10");
-        InsuredPerson insuredPerson2 = new InsuredPerson("Klas Persson", "1974/03/19");
+
+        InsuredPerson insuredPerson1 = new InsuredPerson("Inga-Lill", "Bengtsson", "1952/06/10");
+        InsuredPerson insuredPerson2 = new InsuredPerson("Klas", "Persson", "1974/03/19");
         #endregion
 
         #region InsuranceType
@@ -239,7 +299,6 @@ public class Seed
             "Tillval",
             insuranceType1
         );
-
         InsuranceTypeAttribute insuranceTypeAttribute5 = new InsuranceTypeAttribute(
             "Datum",
             insuranceType2
@@ -258,14 +317,14 @@ public class Seed
         );
         InsuranceTypeAttribute insuranceTypeAttribute9 = new InsuranceTypeAttribute(
             "Tillval 2",
-            insuranceType2
+            insuranceType3
         );
         #endregion
 
         #region Insurance
         Insurance insurance1 = new Insurance(
             DateTime.Today,
-            BillingInterval.Monthly,
+            BillingInterval.Månad,
             InsuranceStatus.Preliminary,
             "Snäll kund, ge rabbat",
             user1,
@@ -275,12 +334,56 @@ public class Seed
         );
         Insurance insurance2 = new Insurance(
             DateTime.Today,
-            BillingInterval.Yearly,
+            BillingInterval.År,
             InsuranceStatus.Active,
             "Stor kund, vill hålla kvar",
             user2,
             insuredPerson2,
             companyCustomer1,
+            insuranceType2
+        );
+
+        Insurance insurance3 = new Insurance(
+            DateTime.Today,
+            BillingInterval.År,
+            InsuranceStatus.Inactive,
+            "Tuff kund",
+            user2,
+            insuredPerson2,
+            companyCustomer2,
+            insuranceType2
+        );
+
+        Insurance insurance4 = new Insurance(
+            DateTime.Today,
+            BillingInterval.År,
+            InsuranceStatus.Inactive,
+            "Legend",
+            user2,
+            insuredPerson2,
+            privateCustomer2,
+            insuranceType3
+        );
+
+        Insurance insurance5 = new Insurance(
+            DateTime.Today,
+            BillingInterval.År,
+            InsuranceStatus.Inactive,
+            "Gammalförsäkring",
+            user2,
+            insuredPerson2,
+            companyCustomer3,
+            insuranceType2
+        );
+
+        Insurance insurance6 = new Insurance(
+            DateTime.Today,
+            BillingInterval.År,
+            InsuranceStatus.Active,
+            "Aktiv just nu",
+            user2,
+            insuredPerson2,
+            companyCustomer3,
             insuranceType2
         );
         #endregion
@@ -330,16 +433,14 @@ public class Seed
         );
         InsuranceSpec insuranceSpec9 = new InsuranceSpec(
             "500",
-            insurance2,
+            insurance4,
             insuranceTypeAttribute9
         );
         #endregion
 
         context.CommissionRates.Add(commissionRate1);
 
-        context.PostalCodeCities.Add(postalCodeCity1);
-        context.PostalCodeCities.Add(postalCodeCity2);
-        context.PostalCodeCities.Add(postalCodeCity3);
+
 
         context.Employees.AddRange(
             employee1,
@@ -358,13 +459,20 @@ public class Seed
 
         context.Users.AddRange(user1, user2, user3, user4);
 
-        context.ProspectNotes.AddRange(prospectNote1, prospectNote2 ); //Nya notesen
+        context.ProspectNotes.AddRange(prospectNote1, prospectNote2); //Nya notesen
 
-        context.CompanyCustomers.Add(companyCustomer1);
+        context.CompanyCustomers.AddRange(companyCustomer1, companyCustomer2, companyCustomer3);
 
-        context.PrivateCustomers.Add(privateCustomer1);
+        context.PrivateCustomers.AddRange(privateCustomer1, privateCustomer2);
 
-        context.Insurances.AddRange(insurance1, insurance2);
+        context.Insurances.AddRange(
+            insurance1,
+            insurance2,
+            insurance3,
+            insurance4,
+            insurance5,
+            insurance6
+        );
 
         context.InsuranceSpecs.AddRange(
             insuranceSpec1,

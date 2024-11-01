@@ -1,0 +1,215 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+                    xmlns:views="clr-namespace:PresentationLayer.Views"
+                    xmlns:vm="clr-namespace:PresentationLayer.ViewModels">
+
+    <ResourceDictionary.MergedDictionaries>
+
+        <ResourceDictionary Source="Styles.xaml"/>
+    </ResourceDictionary.MergedDictionaries>
+
+
+    <DataTemplate x:Key="Desktop_Layout">
+        <Grid x:Name="BaseGrid"
+        Background="LightGray"
+        Margin="8">
+
+            <Grid.ColumnDefinitions>
+
+                <ColumnDefinition x:Name="SideMenuColumn"
+                            Width="0.22*"
+                            MaxWidth="65" />
+
+                <ColumnDefinition x:Name="col2"
+                            Width="1*" />
+
+            </Grid.ColumnDefinitions>
+
+            <Grid.RowDefinitions>
+
+                <RowDefinition x:Name="row1"
+                         Height="0.1*"
+                         MinHeight="22"
+                         MaxHeight="22" />
+
+                <RowDefinition x:Name="row2"
+                         Height="0.8*" />
+
+
+            </Grid.RowDefinitions>
+
+            <Grid Grid.Row="0"
+                    Grid.Column="0"
+                    Grid.ColumnSpan="3">
+                <Rectangle Height="30" Fill="Transparent" HorizontalAlignment="Stretch">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="MouseDown">
+                            <i:InvokeCommandAction Command="{Binding DragWindowCommand}"
+                                           CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}" />
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </Rectangle>
+
+            </Grid>
+
+
+            <Grid Grid.Row="1"
+                Grid.Column="0"
+Grid.ColumnSpan="1" 
+VerticalAlignment="Top"
+HorizontalAlignment="Stretch"
+Background="LightGray"
+Height="30">
+
+
+                <Border BorderBrush="#C5C5C5"
+      BorderThickness="0,0,0,1" 
+              VerticalAlignment="Top"
+      HorizontalAlignment="Stretch"
+                         Margin="0,3,0,0"/>
+               
+
+
+
+            </Grid>
+
+            <!-- Side Menu -->
+            <ContentControl Grid.Row="0"
+                        Grid.RowSpan="3"
+                        Grid.Column="0"
+                            Margin="0,30,0,0"
+                        Template="{DynamicResource SideMenuTemplate}" />
+
+            <!-- Main content area with ScrollViewer -->
+            <ScrollViewer Grid.Row="1"
+                      Grid.Column="1"
+                      VerticalScrollBarVisibility="Auto">
+                <Grid x:Name="MainContentGrid">
+
+
+                    <Border BorderBrush="#C5C5C5"
+BorderThickness="0,0,0,1" 
+        VerticalAlignment="Top"
+HorizontalAlignment="Stretch"
+                   Margin="0,3,0,0"/>
+                    <Border BorderBrush="#C5C5C5"
+BorderThickness="1,0,0,0"
+VerticalAlignment="Stretch"
+HorizontalAlignment="Left"
+Margin="0,3,0,0" />
+                    <!-- Placeholder for UserControl -->
+                    <ContentControl Content="{Binding CurrentView, UpdateSourceTrigger=PropertyChanged}"
+                                HorizontalAlignment="Stretch"
+                                VerticalAlignment="Stretch"
+                                    Margin="4,7,0,0"/>
+                </Grid>
+            </ScrollViewer>
+
+        </Grid>
+    </DataTemplate>
+
+
+    <!--// Laptop //-->
+
+    <DataTemplate x:Key="Laptop_Layout">
+
+        <Grid x:Name="BaseGrid"
+              Background="LightGray"
+              Margin="8">
+
+            <Grid.ColumnDefinitions>
+
+                <ColumnDefinition x:Name="SideMenuColumn"
+                                  Width="0.22*"
+                                  MaxWidth="65" />
+
+                <ColumnDefinition x:Name="col2"
+                                  Width="1*" />
+
+            </Grid.ColumnDefinitions>
+
+            <Grid.RowDefinitions>
+
+                <RowDefinition x:Name="row1"
+                               Height="0.1*"
+                               MinHeight="22"
+                               MaxHeight="22" />
+
+                <RowDefinition x:Name="row2"
+                               Height="0.8*" />
+
+
+            </Grid.RowDefinitions>
+
+            <Grid Grid.Row="0"
+                    Grid.Column="0"
+                    Grid.ColumnSpan="3">
+                <Rectangle Height="30" Fill="Transparent" HorizontalAlignment="Stretch">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="MouseDown">
+                        <i:InvokeCommandAction Command="{Binding DragWindowCommand}"
+                                           CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}" />
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+                </Rectangle>
+
+            </Grid>
+            
+
+            <Grid Grid.Row="1"
+      Grid.Column="0"
+      Grid.ColumnSpan="2" 
+      VerticalAlignment="Top"
+      HorizontalAlignment="Stretch"
+      Background="LightGray"
+      Height="30">
+
+                
+
+                <Border BorderBrush="#C5C5C5"
+BorderThickness="0,0,0,1" 
+        VerticalAlignment="Top"
+HorizontalAlignment="Stretch"
+                   Margin="0,3,0,0"/>
+
+
+                
+            </Grid>
+
+
+            <!-- Side Menu -->
+            <ContentControl Grid.Row="0"
+            Grid.RowSpan="3"
+            Grid.Column="0"
+                Margin="0,30,0,0"
+            Template="{DynamicResource SideMenuTemplate}" />
+
+            <!-- Main content area with ScrollViewer -->
+            <ScrollViewer Grid.Row="1"
+                        Grid.Column="1"
+          VerticalScrollBarVisibility="Auto"
+                          Background="Transparent">
+                
+                <Grid x:Name="MainContentGrid">
+                    <Border BorderBrush="#C5C5C5"
+BorderThickness="0,0,0,1" 
+        VerticalAlignment="Top"
+HorizontalAlignment="Stretch"
+                   Margin="0,3,0,0"/>
+                    <Border BorderBrush="#C5C5C5"
+            BorderThickness="1,0,0,0"
+            VerticalAlignment="Stretch"
+            HorizontalAlignment="Left"
+            Margin="0,3,0,0" />
+                    <!-- Placeholder for UserControl -->
+                    <ContentControl Content="{Binding CurrentView, UpdateSourceTrigger=PropertyChanged}"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Stretch"
+                                    Margin="4,7,0,0"/>
+                </Grid>
+            </ScrollViewer>
+        </Grid>
+
+    </DataTemplate>
+</ResourceDictionary>

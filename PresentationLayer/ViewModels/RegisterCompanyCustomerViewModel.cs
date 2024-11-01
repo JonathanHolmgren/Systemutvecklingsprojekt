@@ -76,7 +76,7 @@ namespace PresentationLayer.ViewModels
         #region Constructor
         public RegisterCompanyCustomerViewModel()
         {
-            CreateCompanyCustomerCommand = new RelayCommand<object>(execute => CreateCompanyCustomer());;
+            CreateCompanyCustomerCommand = new RelayCommand<object>(execute => CreateCompanyCustomer());
         }
         #endregion
         #region Methods
@@ -121,15 +121,12 @@ namespace PresentationLayer.ViewModels
                 return;
             }
 
-            //Creating CompanyCustomer and PostalCodecity objects
+            //Creating CompanyCustomer
             CompanyCustomer companyCustomer = new CompanyCustomer();
-            PostalCodeCity postalCodeCity = new PostalCodeCity();
 
-            //Creation of PostalCode
-            postalCodeCity.City = CapitalizeFirstLetter(City);
-            postalCodeCity.PostalCode = PostalCode;
             //Creation of CompanyCustomer
-            companyCustomer.PostalCodeCity = postalCodeCity;
+            companyCustomer.PostalCode = PostalCode;
+            companyCustomer.City = CapitalizeFirstLetter(City);
             companyCustomer.CompanyName = CapitalizeFirstLetter(CompanyName);
             companyCustomer.OrganisationNumber = OrganisationNumber;
             companyCustomer.ContactPersonName = CapitalizeFirstLetter(ContactPersonName);

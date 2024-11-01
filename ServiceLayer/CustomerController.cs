@@ -49,6 +49,10 @@ namespace ServiceLayer
         {
             return unitOfWork.CustomerRepository.GetSpecificPrivateCustomerForInsuranceBySSN(sSN);
         }
+        public CompanyCustomer GetSpecificCompanyCustomerForInsuranceByOrgNumber(string orgNr)
+        {
+            return unitOfWork.CustomerRepository.GetSpecificCompanyCustomerForInsuranceByOrgNumber(orgNr);
+        }
 
         public void RemoveInactiveCustomers()
         {
@@ -239,9 +243,10 @@ namespace ServiceLayer
                 {
                     if (insurance.BillingingInterval == BillingInterval.Månad)
                     {
+                      
                         totalPremie += CalculatePremiePerInsurance(insurance);
                     }
-                    if (insurance.BillingingInterval == BillingInterval.Kvartal)
+                if (insurance.BillingingInterval == BillingInterval.Kvartal)
                     {
                         if (
                             (DateTime.Now.Month - insurance.ExpiryDate.Month) % 3 == 0
@@ -250,6 +255,7 @@ namespace ServiceLayer
                         {
                             totalPremie += CalculatePremiePerInsurance(insurance);
                         }
+                        
                     }
                     if (insurance.BillingingInterval == BillingInterval.Halvår)
                     {
@@ -290,12 +296,12 @@ namespace ServiceLayer
             foreach (InsuranceSpec insuranceSpec in insuranceSpecs)
             {
                 if (
-                    insuranceTypeAttributeID
-                    == insuranceSpec.InsuranceTypeAttribute.InsuranceTypeAttributeId
+                    insuranceTypeAttributeID == insuranceSpec.InsuranceTypeAttribute.InsuranceTypeAttributeId
                 )
-                {
-                    premie = double.Parse(insuranceSpec.Value);
-                }
+            
+                    {
+                        premie = double.Parse(insuranceSpec.Value);
+                    }
             }
             return premie;
         }
@@ -331,5 +337,6 @@ namespace ServiceLayer
 
             return companyCustomer;
         }
+
     }
 }

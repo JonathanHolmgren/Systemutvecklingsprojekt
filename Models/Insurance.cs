@@ -9,14 +9,15 @@ namespace Models
     public class Insurance
     {
         public int InsuranceId { get; set; }
+        public DateTime ActivationDate { get; set; }
         public DateTime ExpiryDate { get; set; }
-        public BillingInterval BillingingInterval { get; set; }
+        public BillingInterval BillingInterval { get; set; }
         public InsuranceStatus InsuranceStatus { get; set; }
         public string? Notes { get; set; }
 
         // Navigation property
         public User? User { get; set; }
-        public InsuredPerson InsuredPerson { get; set; }
+        public InsuredPerson? InsuredPerson { get; set; }
         public Customer Customer { get; set; }
         public InsuranceType InsuranceType { get; set; }
 
@@ -34,7 +35,7 @@ namespace Models
         )
         {
             ExpiryDate = expiryDate;
-            BillingingInterval = billingingInterval;
+            BillingInterval = billingingInterval;
             InsuranceStatus = insuranceStatus;
             User = user;
             InsuredPerson = insuredPerson;
@@ -44,7 +45,7 @@ namespace Models
 
         public Insurance(
             DateTime expiryDate,
-            BillingInterval billingingInterval,
+            BillingInterval billingInterval,
             InsuranceStatus insuranceStatus,
             string notes,
             User user,
@@ -54,7 +55,7 @@ namespace Models
         )
         {
             ExpiryDate = expiryDate;
-            BillingingInterval = billingingInterval;
+            BillingInterval = billingInterval;
             InsuranceStatus = insuranceStatus;
             Notes = notes;
             User = user;
@@ -62,6 +63,7 @@ namespace Models
             Customer = customer;
             InsuranceType = insuranceType;
         }
+
         public Insurance(
             DateTime expiryDate,
             BillingInterval billingInterval,
@@ -69,17 +71,35 @@ namespace Models
             InsuranceType insuranceType,
             string notes,
             Customer customer,
-            InsuredPerson insuredPerson)
+            InsuredPerson insuredPerson
+        )
         {
             ExpiryDate = expiryDate;
-            BillingingInterval = billingInterval;
+            BillingInterval = billingInterval;
             User = user;
             InsuranceStatus = InsuranceStatus.Preliminary;
             InsuranceType = insuranceType;
             Notes = notes;
             Customer = customer;
             InsuredPerson = insuredPerson;
+        }
 
+        public Insurance(
+            DateTime activationDate,
+            DateTime expiryDate,
+            BillingInterval billingInterval,
+            User? user,
+            Customer customer,
+            InsuranceType insuranceType
+        )
+        {
+            ActivationDate = activationDate;
+            ExpiryDate = expiryDate;
+            BillingInterval = billingInterval;
+            InsuranceStatus = InsuranceStatus.Preliminary;
+            User = user;
+            Customer = customer;
+            InsuranceType = insuranceType;
         }
     }
 }

@@ -507,7 +507,7 @@ namespace PresentationLayer.ViewModels
                 {
                     LiabilityPremie = "500";
                 }
-                if (
+                else if (
                     selectedLiabilityAmount == amount2
                     && selectedLiabilityDeductible == liabilityDeductibles1
                 )
@@ -535,33 +535,33 @@ namespace PresentationLayer.ViewModels
                 {
                     LiabilityPremie = "1000";
                 }
-                if (
+                else if (
                     selectedLiabilityAmount == amount3
                     && selectedLiabilityDeductible == liabilityDeductibles1
                 )
                 {
-                    liabilityPremie = "1800";
+                    LiabilityPremie = "1800";
                 }
                 else if (
                     selectedLiabilityAmount == amount3
                     && selectedLiabilityDeductible == liabilityDeductibles2
                 )
                 {
-                    liabilityPremie = "1700";
+                    LiabilityPremie = "1700";
                 }
                 else if (
                     selectedLiabilityAmount == amount3
                     && selectedLiabilityDeductible == liabilityDeductibles3
                 )
                 {
-                    liabilityPremie = "1600";
+                    LiabilityPremie = "1600";
                 }
                 else if (
                     selectedLiabilityAmount == amount3
                     && selectedLiabilityDeductible == liabilityDeductibles4
                 )
                 {
-                    liabilityPremie = "1500";
+                    LiabilityPremie = "1500";
                 }
             }
             else
@@ -762,7 +762,7 @@ namespace PresentationLayer.ViewModels
                 {
                     if (selectedInsuranceType == insuranceType1)
                     {
-                        insuranceController.CreateCompanyInsuranceFromInput(
+                        insuranceController.CreatePropertyInsuranceFromInput(
                             LoggedInUser,
                             SelectedCompanyCustomer,
                             SelectedInsuranceType,
@@ -777,18 +777,37 @@ namespace PresentationLayer.ViewModels
                             TotalPremie
                         );
                     }
-                    //else if (selectedInsuranceType == insuranceType2)
-                    //{
-                    //    insuranceController.CreateCompanyInsuranceFromInput(
-                           
-                    //    );
-                    //}
-                    //else if (selectedInsuranceType == insuranceType3)
-                    //{
-                    //    insuranceController.CreateCompanyInsuranceFromInput(
-                           
-                    //    );
-                    //}
+                    if (selectedInsuranceType == insuranceType2)
+                    {
+                        insuranceController.CreateCarInsuranceFromInput(
+                            LoggedInUser,
+                            SelectedCompanyCustomer,
+                            SelectedInsuranceType,
+                            SelectedCarInsuranceType,
+                            SelectedCarDeductible,
+                            SelectedZone,
+                            CarPremie,
+                            ActivationDate,
+                            ExpiryDate,
+                            SelectedInterval,
+                            TotalPremie
+                        );
+                    }
+                    if (selectedInsuranceType == insuranceType3)
+                    {
+                        insuranceController.CreateLiabilityInsuranceFromInput(
+                            LoggedInUser,
+                            SelectedCompanyCustomer,
+                            SelectedInsuranceType,
+                            SelectedLiabilityAmount,
+                            SelectedLiabilityDeductible,
+                            LiabilityPremie,
+                            ActivationDate,
+                            ExpiryDate,
+                            SelectedInterval,
+                            TotalPremie
+                        );
+                    }
                 },
                 () => true
             );

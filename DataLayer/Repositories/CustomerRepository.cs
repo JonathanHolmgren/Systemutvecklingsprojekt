@@ -42,8 +42,9 @@ namespace DataLayer.Repositories
                 .Include(p => p.Insurances)
                 .ThenInclude(i => i.User)
                 .ThenInclude(u => u.Employee)
-                .ToList();
+                .ToList(); 
         }
+        
 
         public PrivateCustomer GetSpecificPrivateCustomerForInsuranceBySSN(string sSN)
         {
@@ -51,6 +52,15 @@ namespace DataLayer.Repositories
                 .Set<Customer>()
                 .OfType<PrivateCustomer>()
                 .FirstOrDefault(c => c.SSN == sSN);
+        }
+
+        public CompanyCustomer GetSpecificCompanyCustomerForInsuranceByOrgNumber(string org)
+        {
+            return Context
+                .Set<Customer>()
+                .OfType<CompanyCustomer>()
+                .Include(c => c.PostalCodeCity)
+                .FirstOrDefault(c => c.OrganisationNumber == org);
         }
 
         public IList<CompanyCustomer> GetCompanyCustomers()

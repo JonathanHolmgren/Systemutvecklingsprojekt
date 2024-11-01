@@ -76,7 +76,7 @@ namespace PresentationLayer.ViewModels
         #region Constructor
         public RegisterCompanyCustomerViewModel()
         {
-            CreateCompanyCustomerCommand = new RelayCommand<object>(execute => CreateCompanyCustomer());;
+            CreateCompanyCustomerCommand = new RelayCommand<object>(execute => CreateCompanyCustomer());
         }
         #endregion
         #region Methods

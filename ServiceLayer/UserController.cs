@@ -1,28 +1,53 @@
 ﻿using DataLayer;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Models;
-using DataLayer.Repositories;
+using ServiceLayer.services;
 
-namespace ServiceLayer
+namespace ServiceLayer;
+
+public class UserController
 {
-    public class UserController
+    UnitOfWork unitOfWork = new UnitOfWork();
+    AcronymForPermissionLevel acronymForPermissionLevel = new AcronymForPermissionLevel();
+
+    public Employee GetEmployee(string agentNumber)
     {
-        UnitOfWork unitOfWork = new UnitOfWork();
+        return unitOfWork.EmployeeRepository.FirstOrDefault(e => e.AgentNumber == agentNumber);
+    }
 
-        public AuthorizationLevel GetAuthorizationLevelForUser(string username, string password)
+    public List<User> GetUsers(string agentNumber)
+    {
+        return unitOfWork.UserRepository.GetUsersByAgentNumber(agentNumber);
+    }
+
+    public void CreateUser(
+        string password,
+        Employee employee,
+        AuthorizationLevel authorizationLevel
+    )
+    {
+        PasswordHasher passwordHasher = new PasswordHasher();
+        string hashPassoword = passwordHasher.Hash(password);
+        string userName = acronymForPermissionLevel.GenereateAcronym(
+            employee.AgentNumber,
+            authorizationLevel
+        );
+
+        User user = new User(hashPassoword, authorizationLevel, employee, userName);
+
+        unitOfWork.UserRepository.Add(user);
+        unitOfWork.SaveChanges();
+    }
+
+    public void RemoveUserById(int userSelectedUserId)
+    {
+        User userToRemove = unitOfWork.UserRepository.FirstOrDefault(x =>
+            x.UserID == userSelectedUserId
+        );
+
+        if (userToRemove != null)
         {
-            var user = unitOfWork.UserRepository.GetUserByCredentials(username, password);
-            if (user != null)
-            {
-                return user.AuthorizationLevel;
-            }
-
-            throw new Exception("Invalid login credentials.");
+            unitOfWork.UserRepository.Remove(userToRemove);
+            unitOfWork.SaveChanges();
         }
-
     }
 }

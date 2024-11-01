@@ -16,13 +16,14 @@ using System.Windows.Shapes;
 namespace PresentationLayer.Views
 {
     /// <summary>
-    /// Interaction logic for EditPrivateCustomerView.xaml
+    /// Interaction logic for RegisterUserView.xaml
     /// </summary>
-    public partial class EditPrivateCustomerView : UserControl
+    public partial class RegisterUserView : UserControl
     {
-        public EditPrivateCustomerView()
+        public RegisterUserView()
         {
             InitializeComponent();
         }
+        
     }
 }

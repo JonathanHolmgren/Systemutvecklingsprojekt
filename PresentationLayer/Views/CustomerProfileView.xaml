@@ -19,9 +19,19 @@
     <StackPanel Background="White" Margin="0,0,0,-62">
         
                
-        <!--Popup companycustomer-->        
-        <Popup x:Name="EditCompanyCustomerPopup" Width="700" Height="400" IsOpen="{Binding IsEditCompanyPopUpOpen}" HorizontalAlignment="Center" VerticalAlignment="Center" Placement="Center">
+        <!--Edit companycustomer-->        
+        
             <Border BorderBrush="Black" BorderThickness="3" Background="White">
+                <Border.Style>
+                    <Style TargetType="Border">
+                        <Setter Property="Visibility" Value="Collapsed"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding CurrentView}" Value="EditCompanyCustomer">
+                            <Setter Property="Visibility" Value="Visible"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Border.Style>
                 <StackPanel HorizontalAlignment="Center">
 
                     <StackPanel>
@@ -74,18 +84,28 @@
                         </StackPanel>
 
                         <Button Content="Spara ändringar" Width="100" Height="30" Command="{Binding SaveEditedCompanyCustomerCommand}"/>
-                        <Button Content="Avbryt" Width="100" Height="30" Command="{Binding CloseEditPopupCommand}"/>
+                    <Button Content="Tillbaka" Width="100" Height="30" Command="{Binding CloseEditCustomerCommand}" IsEnabled="{Binding IsValidated}"/>
                     </StackPanel>
                 </StackPanel>
             </Border>
-        </Popup>
+        
 
         
 
-        <!--Popup edit privatecustomer-->
-        <Popup x:Name="EditPrivateCustomerPopup" Width="700" Height="400" IsOpen="{Binding IsEditPrivatePopUpOpen}" HorizontalAlignment="Center" VerticalAlignment="Center" Placement="Center">
+        <!-- Edit privatecustomer-->
+        
             <Border BorderBrush="Black" BorderThickness="3" Background="White">
-                <StackPanel HorizontalAlignment="Center">
+            <Border.Style>
+                <Style TargetType="Border">
+                    <Setter Property="Visibility" Value="Collapsed"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding CurrentView}" Value="EditPrivateCustomer">
+                            <Setter Property="Visibility" Value="Visible"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Border.Style>
+            <StackPanel HorizontalAlignment="Center">
 
                     <StackPanel>
                         <Border Width="300" Height="50">
@@ -100,9 +120,9 @@
                     </StackPanel>
 
                     <StackPanel Orientation="Horizontal">
-                        <TextBox Text="{Binding ViewedPrivateCustomer.FirstName, Mode=TwoWay}" Width="100" Margin="5"/>
-                        <TextBox Text="{Binding ViewedPrivateCustomer.LastName, Mode=TwoWay}" Width="100" Margin="5"/>
-                        <TextBox Text="{Binding ViewedPrivateCustomer.SSN, Mode=TwoWay}" Width="100" Margin="5"/>
+                    <TextBox Text="{Binding PrivateCustomerToEdit.FirstName, Mode=TwoWay}" Width="100" Margin="5"/>
+                    <TextBox Text="{Binding PrivateCustomerToEdit.LastName, Mode=TwoWay}" Width="100" Margin="5"/>
+                    <TextBox Text="{Binding PrivateCustomerToEdit.SSN, Mode=TwoWay}" Width="100" Margin="5"/>
                     </StackPanel>
 
                     <StackPanel Orientation="Horizontal">
@@ -112,9 +132,9 @@
                     </StackPanel>
 
                     <StackPanel Orientation="Horizontal">
-                        <TextBox Text="{Binding ViewedPrivateCustomer.StreetAddress, Mode=TwoWay}" Width="100" Margin="5"/>
-                        <TextBox Text="{Binding ViewedPrivateCustomer.PostalCode, Mode=TwoWay}" Width="100" Margin="5"/>
-                        <TextBox Text="{Binding ViewedPrivateCustomer.City, Mode=TwoWay}" Width="100" Margin="5"/>
+                    <TextBox Text="{Binding PrivateCustomerToEdit.StreetAddress, Mode=TwoWay}" Width="100" Margin="5"/>
+                    <TextBox Text="{Binding PrivateCustomerToEdit.PostalCode, Mode=TwoWay}" Width="100" Margin="5"/>
+                    <TextBox Text="{Binding PrivateCustomerToEdit.City, Mode=TwoWay}" Width="100" Margin="5"/>
                     </StackPanel>
 
                     <StackPanel Orientation="Horizontal">
@@ -124,17 +144,17 @@
                     </StackPanel>
 
                     <StackPanel Orientation="Horizontal">
-                        <TextBox Text="{Binding ViewedPrivateCustomer.Email}" Width="100" Margin="5"/>
-                        <TextBox Text="{Binding ViewedPrivateCustomer.TelephoneNumber}" Width="100" Margin="5"/>
-                        <TextBox Text="{Binding ViewedPrivateCustomer.WorkTelephoneNumber}" Width="100" Margin="5"/>
+                    <TextBox Text="{Binding PrivateCustomerToEdit.Email, Mode=TwoWay}" Width="100" Margin="5"/>
+                    <TextBox Text="{Binding PrivateCustomerToEdit.TelephoneNumber, Mode=TwoWay}" Width="100" Margin="5"/>
+                    <TextBox Text="{Binding PrivateCustomerToEdit.WorkTelephoneNumber, Mode=TwoWay}" Width="100" Margin="5"/>
                     </StackPanel>
 
                     <Button Content="Spara ändringar" Width="100" Height="30" Command="{Binding SaveEditedPrivateCustomerCommand}"/>
-                    <Button Content="Avbryt" Width="100" Height="30" Command="{Binding CloseEditPopupCommand}"/>
+                <Button Content="Tillbaka" Width="100" Height="30" Command="{Binding CloseEditCustomerCommand}" IsEnabled="{Binding IsValidated}"/>
 
                 </StackPanel>
             </Border>
-        </Popup>
+        
 
         <!-- Popup for removing privatecustomer -->
         <Popup x:Name="DeletePrivateInactiveInsurancePopup" IsOpen="{Binding IsRemovePrivateCustomerPopupOpen}" HorizontalAlignment="Center" VerticalAlignment="Center" Placement="Center" Height="150" Width="300">
@@ -163,9 +183,20 @@
         </Popup>
 
 
-
-
-        <!--  Window and Search  -->
+        
+            <Border BorderBrush="Black" BorderThickness="1" Background="White">
+            <Border.Style>
+                <Style TargetType="Border">
+                    <Setter Property="Visibility" Value="Collapsed"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding CurrentView}" Value="CustomerProfile">
+                            <Setter Property="Visibility" Value="Visible"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Border.Style>
+            <StackPanel>
+                <!--  Window and Search  -->
         <StackPanel Orientation="Vertical">
             <Border Width="525" Height="50">
                 <TextBlock Text="Visa kundprofil"
@@ -216,7 +247,7 @@
             
             <StackPanel Orientation="Horizontal">
                 <TextBox Text="{Binding FullName, Mode=OneWay}" Width="100" Margin="5" IsReadOnly="True"/>
-                <TextBox Text="{Binding ViewedPrivateCustomer.SSN, Mode=TwoWay}" Width="100" Margin="5" IsReadOnly="True"/>
+                                <TextBox Text="{Binding ViewedPrivateCustomer.SSN, Mode=OneWay}" Width="100" Margin="5" IsReadOnly="True"/>
             </StackPanel>
 
             <StackPanel Orientation="Horizontal">
@@ -226,9 +257,9 @@
             </StackPanel>
 
             <StackPanel Orientation="Horizontal">
-                <TextBox Text="{Binding ViewedPrivateCustomer.StreetAddress, Mode=TwoWay}" Width="100" Margin="5" IsReadOnly="True"/>
-                <TextBox Text="{Binding ViewedPrivateCustomer.PostalCode, Mode=TwoWay}" Width="100" Margin="5" IsReadOnly="True"/>
-                <TextBox Text="{Binding ViewedPrivateCustomer.City, Mode=TwoWay}" Width="100" Margin="5" IsReadOnly="True"/>
+                                <TextBox Text="{Binding ViewedPrivateCustomer.StreetAddress, Mode=OneWay}" Width="100" Margin="5" IsReadOnly="True"/>
+                                <TextBox Text="{Binding ViewedPrivateCustomer.PostalCode, Mode=OneWay}" Width="100" Margin="5" IsReadOnly="True"/>
+                                <TextBox Text="{Binding ViewedPrivateCustomer.City, Mode=OneWay}" Width="100" Margin="5" IsReadOnly="True"/>
             </StackPanel>
             
             <StackPanel Orientation="Horizontal">
@@ -238,9 +269,9 @@
             </StackPanel>
 
             <StackPanel Orientation="Horizontal">
-                <TextBox Text="{Binding ViewedPrivateCustomer.Email}" Width="100" Margin="5" IsReadOnly="True"/>
-                <TextBox Text="{Binding ViewedPrivateCustomer.TelephoneNumber}" Width="100" Margin="5" IsReadOnly="True"/>
-                <TextBox Text="{Binding ViewedPrivateCustomer.WorkTelephoneNumber}" Width="100" Margin="5" IsReadOnly="True"/>
+                                <TextBox Text="{Binding ViewedPrivateCustomer.Email, Mode=OneWay}" Width="100" Margin="5" IsReadOnly="True"/>
+                                <TextBox Text="{Binding ViewedPrivateCustomer.TelephoneNumber, Mode=OneWay}" Width="100" Margin="5" IsReadOnly="True"/>
+                                <TextBox Text="{Binding ViewedPrivateCustomer.WorkTelephoneNumber, Mode=OneWay}" Width="100" Margin="5" IsReadOnly="True"/>
             </StackPanel>
 
             <!-- Notes DataGrid -->
@@ -273,6 +304,8 @@
         
         <!--Info Company customer-->
         <StackPanel Orientation="Vertical" x:Name="CompanyCustomerPanel" Visibility="{Binding IsCompanySelected, Converter={StaticResource BoolToVisConverter}}">
+            
+            <Label Content="Kundinformation" FontSize="20"/>
 
             <StackPanel Orientation="Horizontal">
                 <Label Content="Företag" Width="100" Margin="5"/>
@@ -281,7 +314,7 @@
             
             <StackPanel Orientation="Horizontal">
                 <TextBox Text="{Binding ViewedCompanyCustomer.CompanyName, Mode=OneWay}" Width="100" Margin="5" IsReadOnly="True"/>
-                <TextBox Text="{Binding ViewedCompanyCustomer.OrganisationNumber, Mode=TwoWay}" Width="100" Margin="5" IsReadOnly="True"/>
+                                <TextBox Text="{Binding ViewedCompanyCustomer.OrganisationNumber, Mode=OneWay}" Width="100" Margin="5" IsReadOnly="True"/>
             </StackPanel>
 
             <StackPanel Orientation="Horizontal">
@@ -291,9 +324,9 @@
             </StackPanel>
             
             <StackPanel Orientation="Horizontal">
-                <TextBox Text="{Binding ViewedCompanyCustomer.StreetAddress, Mode=TwoWay}" Width="100" Margin="5" IsReadOnly="True"/>
-                <TextBox Text="{Binding ViewedCompanyCustomer.PostalCode, Mode=TwoWay}" Width="100" Margin="5" IsReadOnly="True"/>
-                <TextBox Text="{Binding ViewedCompanyCustomer.City, Mode=TwoWay}" Width="100" Margin="5" IsReadOnly="True"/>
+                                <TextBox Text="{Binding ViewedCompanyCustomer.StreetAddress, Mode=OneWay}" Width="100" Margin="5" IsReadOnly="True"/>
+                                <TextBox Text="{Binding ViewedCompanyCustomer.PostalCode, Mode=OneWay}" Width="100" Margin="5" IsReadOnly="True"/>
+                                <TextBox Text="{Binding ViewedCompanyCustomer.City, Mode=OneWay}" Width="100" Margin="5" IsReadOnly="True"/>
             </StackPanel>
 
             <StackPanel Orientation="Horizontal">
@@ -302,8 +335,8 @@
             </StackPanel>
             
             <StackPanel Orientation="Horizontal">
-                <TextBox Text="{Binding ViewedCompanyCustomer.Email}" Width="100" Margin="5" IsReadOnly="True"/>
-                <TextBox Text="{Binding ViewedCompanyCustomer.TelephoneNumber}" Width="100" Margin="5" IsReadOnly="True"/>
+                                <TextBox Text="{Binding ViewedCompanyCustomer.Email, Mode=OneWay}" Width="100" Margin="5" IsReadOnly="True"/>
+                                <TextBox Text="{Binding ViewedCompanyCustomer.TelephoneNumber, Mode=OneWay}" Width="100" Margin="5" IsReadOnly="True"/>
             </StackPanel>
 
             <StackPanel Orientation="Horizontal">
@@ -426,5 +459,8 @@
                 </StackPanel>
             </StackPanel>
         </DockPanel>
+            </StackPanel>
+        </Border>
+
     </StackPanel>
 </UserControl>

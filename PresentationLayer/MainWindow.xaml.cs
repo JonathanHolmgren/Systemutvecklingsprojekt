@@ -17,16 +17,10 @@ namespace PresentationLayer
     /// </summary>
     public partial class MainWindow : Window
     {
-        private readonly MyService _myService;
-        
-        public MainWindow() 
-            : this(null) // Anropa den andra konstruktorn, men skicka null för MyService
-        {
-        }
-        public MainWindow(MyService myService)
+        public MainWindow()
         {
             InitializeComponent();
-            _myService = myService;
         }
+
     }
 }

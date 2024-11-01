@@ -31,6 +31,7 @@ namespace ServiceLayer
                 unitOfWork.SaveChanges();
         }
 
+
         public void UpdateCompanyCustomer(CompanyCustomer updatedCompanyCustomer)
         {
                 unitOfWork.Update(updatedCompanyCustomer);
@@ -53,6 +54,11 @@ namespace ServiceLayer
         {
             unitOfWork.CustomerRepository.Remove(companyCustomer);
             unitOfWork.SaveChanges();
+        }
+
+        public PrivateCustomer GetSpecificPrivateCustomerForInsuranceBySSN(string sSN)
+        {
+            return unitOfWork.CustomerRepository.GetSpecificPrivateCustomerForInsuranceBySSN(sSN);
         }
 
         public void RemoveInactiveCustomers()
@@ -99,6 +105,7 @@ namespace ServiceLayer
             {
                 IList<InsuranceSpec> temporaryInsuranceSpecs =
                     unitOfWork.InsuranceSpecRepository.GetSpecsForInsurance(insuranceId);
+                    unitOfWork.InsuranceSpecRepository.GetInsuranceSpecsByInsuranceId(insuranceId);
 
                 for (int i = 0; i < temporaryInsuranceSpecs.Count; i++)
                 {
@@ -126,6 +133,7 @@ namespace ServiceLayer
             {
                 IList<InsuranceSpec> temporaryInsuranceSpecs =
                     unitOfWork.InsuranceSpecRepository.GetSpecsForInsurance(insuranceId);
+                    unitOfWork.InsuranceSpecRepository.GetInsuranceSpecsByInsuranceId(insuranceId);
 
                 for (int i = 0; i < temporaryInsuranceSpecs.Count; i++)
                 {
@@ -167,6 +175,7 @@ namespace ServiceLayer
                 unitOfWork.InsuranceRepository.Remove(insurance);
             }
         }
+        
 
 
 
@@ -179,6 +188,7 @@ namespace ServiceLayer
         {
             return unitOfWork.CustomerRepository.GetCompanyCustomers();
         }
+
 
         public string GetCustomerInsuranceTypes(int insuranceId)
         {
@@ -197,11 +207,11 @@ namespace ServiceLayer
             {
                 if (insurance.InsuranceStatus == InsuranceStatus.Active)
                 {
-                    if (insurance.BillingingInterval == BillingInterval.Monthly)
+                    if (insurance.BillingingInterval == BillingInterval.Månad)
                     {
                         totalPremie += CalculatePremiePerInsurance(insurance);
                     }
-                    if (insurance.BillingingInterval == BillingInterval.Quartly)
+                    if (insurance.BillingingInterval == BillingInterval.Kvartal)
                     {
                         if (
                             (DateTime.Now.Month - insurance.ExpiryDate.Month) % 3 == 0
@@ -211,7 +221,7 @@ namespace ServiceLayer
                             totalPremie += CalculatePremiePerInsurance(insurance);
                         }
                     }
-                    if (insurance.BillingingInterval == BillingInterval.HalfYear)
+                    if (insurance.BillingingInterval == BillingInterval.Halvår)
                     {
                         if (
                             (DateTime.Now.Month - insurance.ExpiryDate.Month) % 6 == 0
@@ -221,7 +231,7 @@ namespace ServiceLayer
                             totalPremie += CalculatePremiePerInsurance(insurance);
                         }
                     }
-                    if (insurance.BillingingInterval == BillingInterval.Yearly)
+                    if (insurance.BillingingInterval == BillingInterval.År)
                     {
                         if (
                             (DateTime.Now.Month == insurance.ExpiryDate.Month)
@@ -235,6 +245,8 @@ namespace ServiceLayer
             }
             return totalPremie;
         }
+
+
 
         public double CalculatePremiePerInsurance(Insurance insurance) //Calculates each individual insurance premie
         {
@@ -266,6 +278,8 @@ namespace ServiceLayer
             string outputPath = @"C:\JsonTest\CustomerInformation.json";
             File.WriteAllText(outputPath, jsonResult);
         }
+
+
 
         public void AddProspectNote(ProspectNote prospectNote)
         {

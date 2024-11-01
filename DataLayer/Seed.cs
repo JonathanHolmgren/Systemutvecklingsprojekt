@@ -1,4 +1,5 @@
 ﻿using Models;
+using System;
 
 namespace DataLayer;
 
@@ -173,10 +174,15 @@ public class Seed
         #endregion
 
         #region User
-        User user1 = new User("försäkring1", AuthorizationLevel.SalesPerson, employee9);
-        User user2 = new User("försäkring2", AuthorizationLevel.SalesPerson, employee10);
-        User user3 = new User("försäkring3", AuthorizationLevel.EconomyAssistant, employee2);
-        User user4 = new User("försäkring3", AuthorizationLevel.Admin, employee2);
+        User user1 = new User("försäkring1", AuthorizationLevel.SalesPerson, employee9, "SP1153");
+        User user2 = new User("försäkring2", AuthorizationLevel.SalesPerson, employee10, "SP7473");
+        User user3 = new User(
+            "försäkring3",
+            AuthorizationLevel.EconomyAssistant,
+            employee2,
+            "EA9911"
+        );
+        User user4 = new User("försäkring3", AuthorizationLevel.Admin, employee2, "AD9911");
         #endregion
 
         #region PrivateCustomer
@@ -257,6 +263,7 @@ public class Seed
         #endregion
 
         #region InsuredPerson
+
         InsuredPerson insuredPerson1 = new InsuredPerson("Inga-Lill", "Bengtsson", "1952/06/10");
         InsuredPerson insuredPerson2 = new InsuredPerson("Klas", "Persson", "1974/03/19");
         #endregion
@@ -317,7 +324,7 @@ public class Seed
         #region Insurance
         Insurance insurance1 = new Insurance(
             DateTime.Today,
-            BillingInterval.Monthly,
+            BillingInterval.Månad,
             InsuranceStatus.Preliminary,
             "Snäll kund, ge rabbat",
             user1,
@@ -327,7 +334,7 @@ public class Seed
         );
         Insurance insurance2 = new Insurance(
             DateTime.Today,
-            BillingInterval.Yearly,
+            BillingInterval.År,
             InsuranceStatus.Active,
             "Stor kund, vill hålla kvar",
             user2,
@@ -338,7 +345,7 @@ public class Seed
 
         Insurance insurance3 = new Insurance(
             DateTime.Today,
-            BillingInterval.Yearly,
+            BillingInterval.År,
             InsuranceStatus.Inactive,
             "Tuff kund",
             user2,
@@ -349,7 +356,7 @@ public class Seed
 
         Insurance insurance4 = new Insurance(
             DateTime.Today,
-            BillingInterval.Yearly,
+            BillingInterval.År,
             InsuranceStatus.Inactive,
             "Legend",
             user2,
@@ -360,7 +367,7 @@ public class Seed
 
         Insurance insurance5 = new Insurance(
             DateTime.Today,
-            BillingInterval.Yearly,
+            BillingInterval.År,
             InsuranceStatus.Inactive,
             "Gammalförsäkring",
             user2,
@@ -371,7 +378,7 @@ public class Seed
 
         Insurance insurance6 = new Insurance(
             DateTime.Today,
-            BillingInterval.Yearly,
+            BillingInterval.År,
             InsuranceStatus.Active,
             "Aktiv just nu",
             user2,

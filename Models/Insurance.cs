@@ -13,6 +13,9 @@ namespace Models
         public DateTime ExpiryDate { get; set; }
         public BillingInterval BillingInterval { get; set; }
         public InsuranceStatus InsuranceStatus { get; set; }
+        public bool IsPrivateCustomer { get; set; }
+        public DateTime ActiveDate { get; set; }
+
         public string? Notes { get; set; }
 
         // Navigation property
@@ -47,6 +50,8 @@ namespace Models
             DateTime expiryDate,
             BillingInterval billingInterval,
             InsuranceStatus insuranceStatus,
+            bool isPrivateCustomer,
+            DateTime activeDate,
             string notes,
             User user,
             InsuredPerson insuredPerson,
@@ -57,6 +62,8 @@ namespace Models
             ExpiryDate = expiryDate;
             BillingInterval = billingInterval;
             InsuranceStatus = insuranceStatus;
+            IsPrivateCustomer = isPrivateCustomer;
+            ActiveDate = activeDate;
             Notes = notes;
             User = user;
             InsuredPerson = insuredPerson;

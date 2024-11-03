@@ -6,6 +6,9 @@ using DataLayer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using PresentationLayer.Services;
+using PresentationLayer.ViewModels;
+using PresentationLayer.Views;
 using ServiceLayer;
 
 namespace PresentationLayer
@@ -17,14 +20,19 @@ namespace PresentationLayer
     {
         public static IServiceProvider ServiceProvider { get; private set; }
 
+
+   
         protected override void OnStartup(StartupEventArgs e)
         {
-            var services = new ServiceCollection();
-            ConfigureServices(services);
-            ServiceProvider = services.BuildServiceProvider();
+            WindowService.RegisterWindow<MainWindowViewModel, MainWindow>();
+            WindowService.RegisterWindow<LoginViewModel, LoginUserWindow>();
 
-            // Skapa MainWindow från DI-container och visa det
-            var mainWindow = ServiceProvider.GetRequiredService<MainWindow>();
+            //var services = new ServiceCollection();
+            //ConfigureServices(services);
+            //ServiceProvider = services.BuildServiceProvider();
+
+            //// Skapa MainWindow från DI-container och visa det
+            //var mainWindow = ServiceProvider.GetRequiredService<MainWindow>();
         }
 
         private void ConfigureServices(ServiceCollection services)
@@ -49,7 +57,7 @@ namespace PresentationLayer
             //services.AddTransient<MyService>();
 
             // Registrera MainWindow
-            services.AddTransient<MainWindow>();
+            //services.AddTransient<MainWindow>();
         }
     }
 

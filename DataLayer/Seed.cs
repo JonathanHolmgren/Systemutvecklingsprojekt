@@ -1,6 +1,6 @@
-﻿using Models;
-using System;
-
+﻿
+using Models;
+using ServiceLayer;
 namespace DataLayer;
 
 public class Seed
@@ -183,6 +183,11 @@ public class Seed
             "EA9911"
         );
         User user4 = new User("försäkring3", AuthorizationLevel.Admin, employee2, "AD9911");
+
+        PasswordHasher passwordHasher = new PasswordHasher();
+        string hashPassoword = passwordHasher.Hash("admin");
+        User user5 = new User(hashPassoword, AuthorizationLevel.SalesPerson, employee1, "Admin");
+      
         #endregion
 
         #region PrivateCustomer
@@ -457,7 +462,7 @@ public class Seed
             employee12
         );
 
-        context.Users.AddRange(user1, user2, user3, user4);
+        context.Users.AddRange(user1, user2, user3, user4, user5);
 
         context.ProspectNotes.AddRange(prospectNote1, prospectNote2); //Nya notesen
 

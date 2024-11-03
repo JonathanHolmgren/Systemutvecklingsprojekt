@@ -1,17 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
-using System.Diagnostics.Eventing.Reader;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Runtime.Intrinsics.X86;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Input;
-using Microsoft.IdentityModel.Tokens;
 using Models;
 using PresentationLayer.Command;
 using PresentationLayer.Models;
@@ -32,6 +20,18 @@ namespace PresentationLayer.ViewModels
             LoadBillingIntervalOptions();
             LoadAddOnOptions1();
             LoadAddOnOptions2();
+            CurrentView = "Försäkringstagare";
+        }
+
+        private string _currentView;
+        public string CurrentView
+        {
+            get => _currentView;
+            set
+            {
+                _currentView = value;
+                OnPropertyChanged(nameof(CurrentView));
+            }
         }
 
         #region Users
@@ -51,7 +51,7 @@ namespace PresentationLayer.ViewModels
         #endregion
 
         #region Customer
-        private string inputSocialSecurityNumber;
+        private string inputSocialSecurityNumber = null!;
         public string InputSocialSecurityNumber
         {
             get { return inputSocialSecurityNumber; }
@@ -75,7 +75,7 @@ namespace PresentationLayer.ViewModels
         #endregion
 
         #region InsuredPerson
-        private string insuredPersonFirstName;
+        private string insuredPersonFirstName = null!;
         public string InsuredPersonFirstName
         {
             get { return insuredPersonFirstName; }
@@ -89,7 +89,7 @@ namespace PresentationLayer.ViewModels
             }
         }
 
-        private string insuredPersonLastName;
+        private string insuredPersonLastName = null!;
         public string InsuredPersonLastName
         {
             get { return insuredPersonLastName; }
@@ -103,7 +103,7 @@ namespace PresentationLayer.ViewModels
             }
         }
 
-        private string insuredPersonSSN;
+        private string insuredPersonSSN = null!;
         public string InsuredPersonSSN
         {
             get { return insuredPersonSSN; }
@@ -363,6 +363,36 @@ namespace PresentationLayer.ViewModels
         private string insuranceType2 = "Sjuk- och olycksfallsförsäkring för vuxen";
         private string insuranceType3 = "Livförsäkring för vuxen";
 
+        private void ClearFields()
+        {
+            InputSocialSecurityNumber = null;
+            SelectedPrivateCustomer.FirstName = string.Empty;
+            SelectedPrivateCustomer.LastName = string.Empty;
+            SelectedPrivateCustomer.StreetAddress = string.Empty;
+            SelectedPrivateCustomer.TelephoneNumber = string.Empty;
+            SelectedPrivateCustomer.WorkTelephoneNumber = string.Empty;
+            SelectedPrivateCustomer.SSN = string.Empty;
+            SelectedPrivateCustomer.PostalCode = string.Empty;
+            SelectedPrivateCustomer.City = string.Empty;
+            // SelectedPrivateCustomer.PostalCodeCity.PostalCode = string.Empty;
+            // SelectedPrivateCustomer.PostalCodeCity.City = string.Empty;
+            SelectedPrivateCustomer.Email = string.Empty;
+
+            InsuredPersonFirstName = string.Empty;
+            InsuredPersonLastName = string.Empty;
+            InsuredPersonSSN = string.Empty;
+            SelectedInsuranceType = null;
+            SelectedBasePrice = null;
+            SelectedAddOnOption1 = "Inget";
+            SelectedAddOnBasePrice1 = null;
+            SelectedAddOnOption2 = "Inget";
+            SelectedAddOnBasePrice2 = null;
+            TotalPremium = null;
+            Notes = null;
+
+            OnPropertyChanged(nameof(SelectedPrivateCustomer));
+        }
+
         private void UpdateBasePriceOptions()
         {
             if (selectedInsuranceType == insuranceType1 && arrivingDate < cutoffDate)
@@ -372,7 +402,7 @@ namespace PresentationLayer.ViewModels
                     "700 000",
                     "900 000",
                     "1 100 000",
-                    "1 300 000"
+                    "1 300 000",
                 };
             }
             else if (selectedInsuranceType == insuranceType1 && arrivingDate >= cutoffDate)
@@ -382,7 +412,7 @@ namespace PresentationLayer.ViewModels
                     "750 000",
                     "950 000",
                     "1 150 000",
-                    "1 350 000"
+                    "1 350 000",
                 };
             }
             if (
@@ -406,7 +436,7 @@ namespace PresentationLayer.ViewModels
                 {
                     "350 000",
                     "450 000",
-                    "550 000"
+                    "550 000",
                 };
             }
         }
@@ -417,7 +447,7 @@ namespace PresentationLayer.ViewModels
             {
                 insuranceType1,
                 insuranceType2,
-                insuranceType3
+                insuranceType3,
             };
         }
 
@@ -448,7 +478,7 @@ namespace PresentationLayer.ViewModels
                     "500 000",
                     "600 000",
                     "700 000",
-                    "800 000"
+                    "800 000",
                 };
             }
             else
@@ -468,7 +498,7 @@ namespace PresentationLayer.ViewModels
                     "2500",
                     "3000",
                     "3500",
-                    "4000"
+                    "4000",
                 };
             }
             else
@@ -545,6 +575,13 @@ namespace PresentationLayer.ViewModels
         #endregion
 
         #region Commands
+        public ICommand ShowInsuranceHolderCommand =>
+            new RelayCommand(() => CurrentView = "Försäkringstagare");
+        public ICommand ShowInsuredPersonCommand =>
+            new RelayCommand(() => CurrentView = "Försäkrandes uppgifter");
+        public ICommand ShowInsuranceDetailsCommand =>
+            new RelayCommand(() => CurrentView = "Försäkringsuppgifter");
+
         private ICommand searchCommand = null!;
         public ICommand SearchCommand =>
             searchCommand ??= searchCommand = new RelayCommand(
@@ -575,23 +612,26 @@ namespace PresentationLayer.ViewModels
                         && totalPremium != null
                     )
                     {
-                        Insurance newInsurance = insuranceController.CreateInsuranceFromInput(
-                            1,
-                            SelectedInsuranceType,
-                            InsuredPersonFirstName,
-                            InsuredPersonLastName,
-                            InsuredPersonSSN,
-                            ArrivingDate,
-                            SelectedInterval,
-                            Notes,
-                            SelectedPrivateCustomer,
-                            SelectedBasePrice,
-                            TotalPremium,
-                            SelectedAddOnBasePrice1,
-                            SelectedAddOnBasePrice2,
-                            SelectedAddOnOption1,
-                            SelectedAddOnOption2
-                        );
+                        Insurance newInsurance =
+                            insuranceController.CreatePrivateInsuranceFromInput(
+                                1,
+                                SelectedInsuranceType,
+                                InsuredPersonFirstName,
+                                InsuredPersonLastName,
+                                InsuredPersonSSN,
+                                ArrivingDate,
+                                SelectedInterval,
+                                Notes,
+                                SelectedPrivateCustomer,
+                                SelectedBasePrice,
+                                TotalPremium,
+                                SelectedAddOnBasePrice1,
+                                SelectedAddOnBasePrice2,
+                                SelectedAddOnOption1,
+                                SelectedAddOnOption2
+                            );
+                        ClearFields();
+                        CurrentView = "Försäkringstagare";
                     }
                 },
                 () =>

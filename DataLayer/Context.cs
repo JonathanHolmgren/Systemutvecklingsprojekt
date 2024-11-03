@@ -21,7 +21,6 @@ namespace DataLayer
         //public DbSet<Customer> Customers { get; set; }
         public DbSet<PrivateCustomer> PrivateCustomers { get; set; }
         public DbSet<CompanyCustomer> CompanyCustomers { get; set; }
-        public DbSet<PostalCodeCity> PostalCodeCities { get; set; }
         public DbSet<ProspectNote> ProspectNotes { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -42,7 +41,6 @@ namespace DataLayer
         {
             //ConfigureInsurance(modelBuilder);
             ConfigureEmployeeRelations(modelBuilder);
-            ConfigurePostalCodeCityRelations(modelBuilder);
             //ConfigureCustomerRelations(modelBuilder);
 
 
@@ -91,15 +89,13 @@ namespace DataLayer
             // .HasForeignKey(i => i.PostalCode);
         }
 
-        private void ConfigurePostalCodeCityRelations(ModelBuilder modelBuilder)
-        {
-            modelBuilder.Entity<PostalCodeCity>().HasKey(e => e.PostalCode);
+
 
             //modelbuilder.entity<employee>()
             //    .hasone(e => e.postalcodecity)
             //    .withmany(pc => pc.employees)
             //.hasforeignkey(i => i.postalcode);
-        }
+        
 
         //
         private void ConfigureCustomerRelations(ModelBuilder modelBuilder)

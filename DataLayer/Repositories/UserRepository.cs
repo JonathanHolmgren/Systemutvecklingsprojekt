@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Intrinsics.X86;
@@ -12,12 +12,17 @@ namespace DataLayer.Repositories
 {
     public class UserRepository : Repository<User>
     {
-        public UserRepository(Context context)
-            : base(context) { }
+        
+        public UserRepository(Context context) : base(context) { }
 
         public User GetUserByID(int iD)
         {
             return Context.Set<User>().FirstOrDefault(user => user.UserID == iD);
+        }
+        public User GetUserByCredentials(string username, string password)
+        {
+            
+            return Context.Set<User>().FirstOrDefault(u => u.Employee.AgentNumber == username && u.Password == password);
         }
 
         public List<User> GetUsersByAgentNumber(string agentNumber)
@@ -26,6 +31,7 @@ namespace DataLayer.Repositories
                 .Set<User>()
                 .Where(user => user.Employee.AgentNumber == agentNumber)
                 .ToList();
+            
         }
     }
 }

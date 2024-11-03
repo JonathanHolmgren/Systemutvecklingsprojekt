@@ -9,6 +9,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Models;
 using PresentationLayer.Command;
 using PresentationLayer.Models;
@@ -119,7 +120,7 @@ namespace PresentationLayer.ViewModels
 
         public MainWindowViewModel()
         {
-            CurrentView = new ExportBillingInformationView(); // Startvy
+            CurrentView = new CustomerProfileView(); // Startvy
             ChangeViewCommand = new RelayCommand<Type>(ChangeViewByType);
             DragWindowCommand = new RelayCommand<Window>(OnDragWindow);
         }
@@ -142,13 +143,37 @@ namespace PresentationLayer.ViewModels
             }
         }
 
-        private void ChangeViewByType(Type viewType)
+        internal void ChangeViewByType(Type viewType)
         {
             if (viewType != null)
             {
                 CurrentView = (UserControl)Activator.CreateInstance(viewType);
             }
         }
+        internal void ChangeViewByTypeWithParameter(Type viewType, object parameter = null)
+        {
+            if (viewType != null)
+            {
+                // Skapa instansen av UserControl med eller utan parameter
+                CurrentView = parameter == null
+                    ? (UserControl)Activator.CreateInstance(viewType)
+                    : (UserControl)Activator.CreateInstance(viewType, parameter);
+
+                // Om parametern skickas in efter att instansen är skapad
+                if (parameter != null && CurrentView != null)
+                {
+                    // Kontrollera om CurrentView har en metod eller egenskap för att ta emot parametern
+                    var setParameterMethod = CurrentView.GetType().GetMethod("SetParameter");
+                    if (setParameterMethod != null)
+                    {
+                        // Anropa metoden för att sätta parametern
+                        setParameterMethod.Invoke(CurrentView, new[] { parameter });
+                    }
+                }
+            }
+        }
+
+
 
         public void ChangeView(UserControl newView)
         {

@@ -344,8 +344,8 @@ namespace PresentationLayer.ViewModels
                 LastName = privateCustomer.LastName,
                 SSN = privateCustomer.SSN,
                 Address = privateCustomer.StreetAddress,
-                PostalCode = privateCustomer.PostalCodeCity.PostalCode,
-                City = privateCustomer.PostalCodeCity.City,
+                PostalCode = privateCustomer.PostalCode,
+                City = privateCustomer.City,
                 TotalPremium = totalPremie,
                 InsuranceSummary = insuranceDetails,
             };
@@ -362,10 +362,10 @@ namespace PresentationLayer.ViewModels
                 OrganisationNumber = companyCustomer.OrganisationNumber,
                 ContactPerson = companyCustomer.ContactPersonName,
                 Address = companyCustomer.StreetAddress,
-                PostalCode = companyCustomer.PostalCodeCity.PostalCode,
-                City = companyCustomer.PostalCodeCity.City,
-                TotalPremium = totalPremie + " SEK",
-                InsuranceSummary = insuranceDetails,
+                PostalCode = companyCustomer.PostalCode,
+                City = companyCustomer.City,
+                TotalPremium = totalPremie,
+                InsuranceSummary = insuranceDetails
             };
         }
 

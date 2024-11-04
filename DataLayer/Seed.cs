@@ -1,6 +1,6 @@
-﻿
+﻿using DataLayer.Services;
 using Models;
-using ServiceLayer;
+
 namespace DataLayer;
 
 public class Seed
@@ -187,7 +187,7 @@ public class Seed
         PasswordHasher passwordHasher = new PasswordHasher();
         string hashPassoword = passwordHasher.Hash("admin");
         User user5 = new User(hashPassoword, AuthorizationLevel.SalesPerson, employee1, "Admin");
-      
+
         #endregion
 
         #region PrivateCustomer
@@ -211,6 +211,17 @@ public class Seed
             "199909022173",
             "Jolle",
             "Alestrom"
+        );
+
+        PrivateCustomer privateCustomer3 = new PrivateCustomer(
+            "0706689932",
+            "ingalillblommor52@emial.com",
+            "Gatuvägen 21",
+            "50213",
+            "Borås",
+            "18950321-1234",
+            "Kalle",
+            "Karlsson"
         );
         #endregion
 
@@ -331,6 +342,8 @@ public class Seed
             DateTime.Today,
             BillingInterval.Månad,
             InsuranceStatus.Preliminary,
+            true,
+            DateTime.Now,
             "Snäll kund, ge rabbat",
             user1,
             insuredPerson1,
@@ -341,6 +354,8 @@ public class Seed
             DateTime.Today,
             BillingInterval.År,
             InsuranceStatus.Active,
+            false,
+            DateTime.Now,
             "Stor kund, vill hålla kvar",
             user2,
             insuredPerson2,
@@ -350,47 +365,81 @@ public class Seed
 
         Insurance insurance3 = new Insurance(
             DateTime.Today,
-            BillingInterval.År,
-            InsuranceStatus.Inactive,
-            "Tuff kund",
-            user2,
-            insuredPerson2,
-            companyCustomer2,
+            BillingInterval.Månad,
+            InsuranceStatus.Preliminary,
+            true,
+            DateTime.Now,
+            "Snäll kund, ge rabbat",
+            user1,
+            insuredPerson1,
+            privateCustomer2,
             insuranceType2
         );
-
         Insurance insurance4 = new Insurance(
             DateTime.Today,
             BillingInterval.År,
-            InsuranceStatus.Inactive,
-            "Legend",
+            InsuranceStatus.Active,
+            true,
+            DateTime.Now,
+            "Stor kund, vill hålla kvar",
             user2,
             insuredPerson2,
-            privateCustomer2,
+            privateCustomer3,
             insuranceType3
         );
 
         Insurance insurance5 = new Insurance(
             DateTime.Today,
-            BillingInterval.År,
-            InsuranceStatus.Inactive,
-            "Gammalförsäkring",
-            user2,
-            insuredPerson2,
-            companyCustomer3,
-            insuranceType2
+            BillingInterval.Månad,
+            InsuranceStatus.Preliminary,
+            true,
+            DateTime.Now,
+            "Snäll kund, ge rabbat",
+            user1,
+            insuredPerson1,
+            companyCustomer2,
+            insuranceType4
         );
-
         Insurance insurance6 = new Insurance(
             DateTime.Today,
             BillingInterval.År,
             InsuranceStatus.Active,
-            "Aktiv just nu",
+            false,
+            DateTime.Now,
+            "Stor kund, vill hålla kvar",
             user2,
             insuredPerson2,
             companyCustomer3,
+            insuranceType5
+        );
+
+        // Jan
+        Insurance insuranceJan1 = new Insurance(
+            new DateTime(2024, 1, 1),
+            BillingInterval.Månad,
+            InsuranceStatus.Active,
+            true,
+            new DateTime(2024, 1, 1),
+            "Ny kund, potentiell långsiktig relation",
+            user1,
+            insuredPerson1,
+            privateCustomer1,
+            insuranceType1
+        );
+
+        Insurance insuranceJan2 = new Insurance(
+            new DateTime(2024, 1, 15),
+            BillingInterval.År,
+            InsuranceStatus.Preliminary,
+            false,
+            new DateTime(2024, 1, 15),
+            "Företagskund, bra intäktsmöjligheter",
+            user2,
+            insuredPerson2,
+            companyCustomer1,
             insuranceType2
         );
+
         #endregion
 
         #region InsuranceSpec
@@ -444,8 +493,6 @@ public class Seed
         #endregion
 
         context.CommissionRates.Add(commissionRate1);
-
-
 
         context.Employees.AddRange(
             employee1,

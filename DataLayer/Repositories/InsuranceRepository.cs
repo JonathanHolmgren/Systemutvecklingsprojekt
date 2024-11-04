@@ -5,8 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Models;
- using Models.SalesStatistics;
- 
+using Models.SalesStatistics;
 
 namespace DataLayer.Repositories
 {
@@ -21,8 +20,8 @@ namespace DataLayer.Repositories
                 .Set<Insurance>()
                 .Where(insurance => insurance.Customer.CustomerID == customerId)
                 .Include(i => i.InsuranceType)
-                .Include(i => i.User)                 // Jag la till dessa
-                .ThenInclude(a => a.Employee)         // Ta bort om de krånglar
+                .Include(i => i.User) // Jag la till dessa
+                .ThenInclude(a => a.Employee) // Ta bort om de krånglar
                 .ToList();
         }
 
@@ -81,7 +80,7 @@ namespace DataLayer.Repositories
             }
         }
 
-         public SalesReport GetSalesReportForInscurance()
+        public SalesReport GetSalesReportForInscurance()
         {
             return new SalesReport();
         }
@@ -130,7 +129,7 @@ namespace DataLayer.Repositories
                         .Single(),
                 };
 
-                foreach (var monthGroup in personGroup)
+                foreach (var monthGroup in personGroup.OrderBy(g => g.Month))
                 {
                     if (monthGroup.PrivateSales.Any())
                     {
@@ -179,7 +178,7 @@ namespace DataLayer.Repositories
 
             return salesReport;
         }
- 
+
         public List<Insurance> GetAllPreliminaryInsurances()
         {
             return Context
@@ -205,6 +204,5 @@ namespace DataLayer.Repositories
 
         //    return insuranceToUpdate;
         //}
- 
     }
 }

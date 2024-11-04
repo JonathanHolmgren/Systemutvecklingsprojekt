@@ -65,7 +65,6 @@ public class SalesStatisticsViewModel : ObservableObject
                 selectedYear = value;
                 OnPropertyChanged(nameof(SelectedYear));
                 SalesReport = salesStatisticsController.GetSalesReport(SelectedYear);
-                //  UpdateSalesReport();  // Call a method to refresh data based on the selected year
             }
         }
     }

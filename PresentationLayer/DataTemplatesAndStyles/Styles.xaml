@@ -21,6 +21,8 @@
 
     </Style>
 
+   
+
     <Style x:Key="MenuButtonRegisterPrivateCustomer" TargetType="Button">
         <Setter Property="Template">
             <Setter.Value>
@@ -176,10 +178,11 @@
                                         VerticalAlignment="Bottom"
                                         HorizontalAlignment="Center"
                                         FontSize="8"
-                                        Text="Registera privatkund"
+                                        Text="Registera företagskund"
                                         FontFamily="Fonts/#Open Sans Regular"
-                                        Margin="0,2,0,0" 
-                                        TextWrapping="Wrap"/>
+                                        Margin="2,2,0,0" 
+                                        TextWrapping="Wrap"
+                                               TextAlignment="Center"/>
                                 </StackPanel>
                             </StackPanel>
                         </Border>
@@ -249,7 +252,8 @@
                                             Text="Lägg till försäkring"
                                             FontFamily="Fonts/#Open Sans Regular"
                                             Margin="0,2,0,0" 
-                                            TextWrapping="Wrap"/>
+                                            TextWrapping="Wrap"
+                                           TextAlignment="Center"/>
 
                             </StackPanel>
 
@@ -437,7 +441,8 @@
                                     Text="Faktura information"
                                     FontFamily="Fonts/#Open Sans Regular"
                                     Margin="0,2,0,0" 
-                                    TextWrapping="Wrap"/>
+                                    TextWrapping="Wrap"
+                                               TextAlignment="Center"/>
                                 </StackPanel>
                             </StackPanel>
                         </Border>

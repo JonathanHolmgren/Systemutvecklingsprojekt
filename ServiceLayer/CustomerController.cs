@@ -177,21 +177,20 @@ namespace ServiceLayer
         {
             try
             {
-                PostalCodeCity existingPostalCodeCity =
-                    unitOfWork.PostalCodeCityRepository.GetSpecificPostalCode(
-                        companyCustomer.PostalCodeCity.PostalCode
-                    );
-                if (
-                    companyCustomer.OrganisationNumber
-                    == unitOfWork
-                        .CustomerRepository.GetSpecificCompanyCustomer(
-                            companyCustomer.OrganisationNumber
-                        )
-                        .OrganisationNumber
-                )
+                // Kontrollera om organisationsnumret redan finns i databasen
+                var existingCompanyCustomer = unitOfWork
+                    .CustomerRepository
+                    .GetSpecificCompanyCustomer(companyCustomer.OrganisationNumber);
+
+                if (existingCompanyCustomer != null)
                 {
-                    throw new Exception("Organisationsnummer finns redan");
+                    throw new Exception("Organisationsnummer finns redan.");
                 }
+
+                // Kontrollera om postnummer/stad redan finns, annars lägg till det
+                PostalCodeCity existingPostalCodeCity = unitOfWork
+                    .PostalCodeCityRepository
+                    .GetSpecificPostalCode(companyCustomer.PostalCodeCity.PostalCode);
 
                 if (existingPostalCodeCity == null)
                 {
@@ -199,8 +198,11 @@ namespace ServiceLayer
                 }
                 else
                 {
+                    // Om postnummer/stad finns redan, använd det befintliga objektet
                     companyCustomer.PostalCodeCity = existingPostalCodeCity;
                 }
+
+                // Lägg till företagskunden och spara ändringarna
                 unitOfWork.CustomerRepository.Add(companyCustomer);
                 unitOfWork.SaveChanges();
             }
@@ -209,6 +211,7 @@ namespace ServiceLayer
                 throw new Exception($"Ett fel uppstod vid sparandet av kunden: {ex.Message}");
             }
         }
+
 
         public IList<PrivateCustomer> GetAllPrivateCustomers()
         {

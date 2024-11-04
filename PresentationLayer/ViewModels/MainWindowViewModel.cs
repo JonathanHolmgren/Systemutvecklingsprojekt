@@ -119,7 +119,7 @@ namespace PresentationLayer.ViewModels
 
         public MainWindowViewModel()
         {
-            CurrentView = new ExportBillingInformationView(); // Startvy
+            CurrentView = new RegisterCompanyCustomer (); // Startvy
             ChangeViewCommand = new RelayCommand<Type>(ChangeViewByType);
             DragWindowCommand = new RelayCommand<Window>(OnDragWindow);
         }

@@ -7,7 +7,6 @@
              xmlns:vm="clr-namespace:PresentationLayer.ViewModels"
              xmlns:lvc="clr-namespace:LiveChartsCore.SkiaSharpView.WPF;assembly=LiveChartsCore.SkiaSharpView.WPF"
              xmlns:services="clr-namespace:PresentationLayer.Services"
-
              mc:Ignorable="d"
              d:DesignHeight="300" d:DesignWidth="300">
     
@@ -15,78 +14,143 @@
         <vm:SalesStatisticsViewModel/>
         
     </UserControl.DataContext>
+    
     <UserControl.Resources>
-        <services:NullToBoolConverter x:Key="NullToBoolConverter" />
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/DataTemplatesAndStyles/ResourceDictionary.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+
+            <services:NullToBoolConverter x:Key="NullToBoolConverter" />
+        </ResourceDictionary>
     </UserControl.Resources>
-  
     
     
-    
-    <Grid>
-  
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="*"/>
-        </Grid.ColumnDefinitions>
-        
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-        
-        </Grid.RowDefinitions>
+    <Grid Margin="20">
+     <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="*" />
+        <ColumnDefinition Width="*" />
+    </Grid.ColumnDefinitions>
 
-        <!-- SalesReport -->
-        <DataGrid Grid.ColumnSpan="2" ItemsSource="{Binding SalesReport.Sales}" 
-                                 AutoGenerateColumns="False" 
-                                 SelectedItem="{Binding SelectedSalesPerson, Mode=TwoWay}" 
-                                 Grid.Row="0" 
-                                 Margin="10">
-            <DataGrid.Columns>
-                <DataGridTextColumn Header="Sales Person" Binding="{Binding SalesPersonName}" />
-                <DataGridTextColumn Header="Total Sales" Binding="{Binding TotalSalesPrivate}" />
-                <DataGridTextColumn Header="Average Monthly Sales" Binding="{Binding TotalSalesCompany}" />
-            </DataGrid.Columns>
-        </DataGrid>
+    <Grid.RowDefinitions>
+        <RowDefinition Height="Auto" />  
+        <RowDefinition Height="Auto" />  
+        <RowDefinition Height="*" />  
+        <RowDefinition Height="*" />  
+        <RowDefinition Height="*" />  
+        <RowDefinition Height="*" />  
+    </Grid.RowDefinitions>
 
-        <!-- MonthlySales -->
-        <DataGrid Grid.Column="0" ItemsSource="{Binding SelectedSalesPerson.MonthlySalesPrivate}" 
+     <TextBlock Text="Säljsstatistik" 
+               FontSize="24" 
+               FontWeight="Bold" 
+               Foreground="#333"
+               Grid.ColumnSpan="2" 
+               HorizontalAlignment="Center" 
+               Margin="0,0,0,10"/>
+
+ 
+    
+    <ComboBox ItemsSource="{Binding AvailableYears}" 
+              SelectedItem="{Binding SelectedYear, Mode=TwoWay}" 
+              FontSize="16" 
+              Foreground="#666" 
+              HorizontalAlignment="Center" 
+              Grid.Row="1" 
+              Grid.ColumnSpan="2" 
+              Margin="0,0,0,20" 
+              Width="100">
+        <ComboBox.Style>
+            <Style TargetType="ComboBox">
+                <Setter Property="Padding" Value="5,2" />
+            </Style>
+        </ComboBox.Style>
+    </ComboBox>
+
+    <!-- Sales Data -->
+    <Border Grid.Row="2" Grid.ColumnSpan="2" Margin="10" Padding="10" Background="White" CornerRadius="5" BorderBrush="#DDD" BorderThickness="1">
+        <DataGrid ItemsSource="{Binding SalesReport.Sales}" 
                   AutoGenerateColumns="False" 
-                  Grid.Row="1" 
-                  Margin="10" 
-                  IsEnabled="{Binding SelectedSalesPerson, Converter={StaticResource NullToBoolConverter}}">
+                  SelectedItem="{Binding SelectedSalesPerson, Mode=TwoWay}" 
+                  HeadersVisibility="Column"
+                  GridLinesVisibility="None"
+                  RowBackground="White"
+                  AlternatingRowBackground="#F3F3F3"
+                  BorderThickness="0"
+                  CanUserAddRows="False"
+                  CanUserResizeRows="False">
+            <DataGrid.Resources>
+                <Style TargetType="DataGridColumnHeader">
+                    <Setter Property="Background" Value="White"/>
+                    <Setter Property="Foreground" Value="Black"/>
+                    <Setter Property="FontWeight" Value="Bold"/>
+                    <Setter Property="Padding" Value="10,5"/>
+                    <Setter Property="HorizontalContentAlignment" Value="Left"/>
+                    <Setter Property="BorderBrush" Value="#E0E0E0"/>
+                    <Setter Property="BorderThickness" Value="0,0,0,1"/>
+                </Style>
+                <Style TargetType="DataGridRow">
+                    <Setter Property="BorderBrush" Value="#E0E0E0"/>
+                    <Setter Property="BorderThickness" Value="0,0,0,1"/>
+                </Style>
+            </DataGrid.Resources>
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Month" Binding="{Binding MonthString}" />
-                <DataGridTextColumn Header="Children Sales" Binding="{Binding ChildrenSales}" />
-                <DataGridTextColumn Header="Adult Sales" Binding="{Binding AdultSales}" />
-                <DataGridTextColumn Header="Life Sales" Binding="{Binding LifeSales}" />
-                <DataGridTextColumn Header="Total Sales" Binding="{Binding TotalSales}" />
+                <DataGridTextColumn Header="Säljare" Binding="{Binding SalesPersonName}" Width="*" IsReadOnly="True" />
+                <DataGridTextColumn Header="Totala antal privatförsäkringar" Binding="{Binding TotalSalesPrivate}" Width="*" IsReadOnly="True" />
+                <DataGridTextColumn Header="Totala antal företagsförsäkringar" Binding="{Binding TotalSalesCompany}" Width="*" IsReadOnly="True" />
             </DataGrid.Columns>
         </DataGrid>
-        
-        
-        <DataGrid Grid.Column="1" ItemsSource="{Binding SelectedSalesPerson.MonthlySalesCompany}" 
-                  AutoGenerateColumns="False" 
-                  Grid.Row="1" 
-                  Margin="10" 
-                  IsEnabled="{Binding SelectedSalesPerson, Converter={StaticResource NullToBoolConverter}}">
-            <DataGrid.Columns>
-                <DataGridTextColumn Header="Month" Binding="{Binding MonthString}" />
-                <DataGridTextColumn Header="PropertyEquipmentInsurance" Binding="{Binding PropertyEquipmentInsurance}" />
-                <DataGridTextColumn Header="VehicleInsurance" Binding="{Binding VehicleInsurance}" />
-                <DataGridTextColumn Header="LiabilityInsurance" Binding="{Binding LiabilityInsurance}" />
-                <DataGridTextColumn Header="Total Sales" Binding="{Binding TotalSales}" />
-            </DataGrid.Columns>
-        </DataGrid>
-        
-        <lvc:CartesianChart Grid.ColumnSpan="2" Grid.Row="2"  Series="{Binding Series }"  XAxes="{Binding XAxes}"/>
+    </Border>
 
-        <lvc:CartesianChart Grid.ColumnSpan="2" Grid.Row="3" Series="{Binding ChartWithTrend}"
-                            XAxes="{Binding XAxes}"
-                            LegendPosition="Right">
-        </lvc:CartesianChart>
-        
-        </Grid>
+    <!-- Private Sales -->
+    <Border Grid.Row="3" Grid.Column="0" Margin="10" Padding="10" Background="White" CornerRadius="5" BorderBrush="#DDD" BorderThickness="1">
+        <DataGrid ItemsSource="{Binding SelectedSalesPerson.MonthlySalesPrivate}" 
+                  AutoGenerateColumns="False" 
+                  HeadersVisibility="Column"
+                  GridLinesVisibility="None"
+                  RowBackground="White"
+                  AlternatingRowBackground="#F3F3F3"
+                  BorderThickness="0"
+                  CanUserAddRows="False"
+                  CanUserResizeRows="False">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Månad" Binding="{Binding MonthString}" Width="*" IsReadOnly="True" />
+                <DataGridTextColumn Header="Barnförsäkring" Binding="{Binding ChildrenSales}" Width="*" IsReadOnly="True" />
+                <DataGridTextColumn Header="Vuxenförsäkring" Binding="{Binding AdultSales}" Width="*" IsReadOnly="True" />
+                <DataGridTextColumn Header="Livförsäkring" Binding="{Binding LifeSales}" Width="*" IsReadOnly="True" />
+                <DataGridTextColumn Header="Totala försäljningar" Binding="{Binding TotalSales}" Width="*" IsReadOnly="True" />
+            </DataGrid.Columns>
+        </DataGrid>
+    </Border>
+
+    <!-- Company Sales -->
+    <Border Grid.Row="3" Grid.Column="1" Margin="10" Padding="10" Background="White" CornerRadius="5" BorderBrush="#DDD" BorderThickness="1">
+        <DataGrid ItemsSource="{Binding SelectedSalesPerson.MonthlySalesCompany}" 
+                  AutoGenerateColumns="False" 
+                  HeadersVisibility="Column"
+                  GridLinesVisibility="None"
+                  RowBackground="White"
+                  AlternatingRowBackground="#F3F3F3"
+                  BorderThickness="0"
+                  CanUserAddRows="False"
+                  CanUserResizeRows="False">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Månad" Binding="{Binding MonthString}" Width="*" IsReadOnly="True" />
+                <DataGridTextColumn Header="Fastighet och inventarier" Binding="{Binding PropertyEquipmentInsurance}" Width="*" IsReadOnly="True" />
+                <DataGridTextColumn Header="Fordonsförsäkring" Binding="{Binding VehicleInsurance}" Width="*" IsReadOnly="True" />
+                <DataGridTextColumn Header="Ansvarsförsäkring" Binding="{Binding LiabilityInsurance}" Width="*" IsReadOnly="True" />
+                <DataGridTextColumn Header="Totala försäljningar" Binding="{Binding TotalSales}" Width="*" IsReadOnly="True" />
+            </DataGrid.Columns>
+        </DataGrid>
+    </Border>
+
+     <Border Grid.Row="4" Grid.ColumnSpan="2" Margin="10" Padding="10" Background="White" CornerRadius="5" BorderBrush="#DDD" BorderThickness="1">
+        <lvc:CartesianChart Series="{Binding Series}" XAxes="{Binding XAxes}" />
+    </Border>
+
+     <Border Grid.Row="5" Grid.ColumnSpan="2" Margin="10" Padding="10" Background="White" CornerRadius="5" BorderBrush="#DDD" BorderThickness="1">
+        <lvc:CartesianChart Series="{Binding ChartWithTrend}" XAxes="{Binding XAxes}" LegendPosition="Right" />
+    </Border>
+</Grid>
         
     </UserControl>

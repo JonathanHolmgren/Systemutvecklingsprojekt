@@ -16,11 +16,16 @@ namespace PresentationLayer.ViewModels;
 public class SalesStatisticsViewModel : ObservableObject
 {
     private SalesStatisticsController salesStatisticsController;
+    public ObservableCollection<int> AvailableYears { get; set; }
 
     public SalesStatisticsViewModel()
     {
         salesStatisticsController = new SalesStatisticsController();
-        SalesReport = salesStatisticsController.GetSalesReport(2024);
+        AvailableYears = new ObservableCollection<int>(
+            Enumerable.Range(DateTime.Now.Year - 10, 11)
+        );
+        SelectedYear = DateTime.Now.Year;
+        SalesReport = salesStatisticsController.GetSalesReport(SelectedYear);
     }
 
     private SalesPersonData selectedSalesPerson;
@@ -49,8 +54,23 @@ public class SalesStatisticsViewModel : ObservableObject
         }
     }
 
-    private ObservableCollection<ISeries> series = new ObservableCollection<ISeries>();
+    private int selectedYear;
+    public int SelectedYear
+    {
+        get => selectedYear;
+        set
+        {
+            if (selectedYear != value)
+            {
+                selectedYear = value;
+                OnPropertyChanged(nameof(SelectedYear));
+                SalesReport = salesStatisticsController.GetSalesReport(SelectedYear);
+                //  UpdateSalesReport();  // Call a method to refresh data based on the selected year
+            }
+        }
+    }
 
+    private ObservableCollection<ISeries> series = new ObservableCollection<ISeries>();
     public ObservableCollection<ISeries> Series
     {
         get => series;
@@ -145,7 +165,10 @@ public class SalesStatisticsViewModel : ObservableObject
     {
         var salesPerson = SelectedSalesPerson;
         if (salesPerson == null)
+        {
+            chartWithTrend.Clear();
             return;
+        }
 
         var totalMonthlySales = new double[12];
         for (int month = 0; month < 12; month++)
@@ -162,8 +185,17 @@ public class SalesStatisticsViewModel : ObservableObject
         var trendlineValues = CalculateTrendline(totalMonthlySales);
 
         ChartWithTrend.Clear();
-        ChartWithTrend.Add(new ColumnSeries<double> { Values = totalMonthlySales });
-        ChartWithTrend.Add(new LineSeries<double> { Values = trendlineValues, Fill = null });
+        ChartWithTrend.Add(
+            new ColumnSeries<double> { Values = totalMonthlySales, Name = "Totala försäljningar" }
+        );
+        ChartWithTrend.Add(
+            new LineSeries<double>
+            {
+                Values = trendlineValues,
+                Name = "TrendLinje",
+                Fill = null,
+            }
+        );
     }
 
     private double[] CalculateTrendline(double[] sales)

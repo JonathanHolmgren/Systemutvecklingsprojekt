@@ -33,6 +33,10 @@ namespace PresentationLayer.Services
             {
                 return "Assets/calculate_comission_pressed.png";
             }
+            else if (value is SalesStatisticsView)
+            {
+                return "Assets/SalesStatistics_pressed.png";
+            }
             return "";
         }
 

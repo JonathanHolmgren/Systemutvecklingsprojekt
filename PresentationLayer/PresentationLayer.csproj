@@ -17,6 +17,7 @@
     <None Remove="DataTemplatesAndStyles\Assets\export_bill_pressed.png" />
     <None Remove="DataTemplatesAndStyles\Assets\icons8-customer-100.png" />
     <None Remove="DataTemplatesAndStyles\Assets\insurance_icon.png" />
+    <None Remove="DataTemplatesAndStyles\Assets\insurance_pressed.png" />
     <None Remove="DataTemplatesAndStyles\Assets\log_out.png" />
     <None Remove="DataTemplatesAndStyles\Assets\maximize.png" />
     <None Remove="DataTemplatesAndStyles\Assets\maximized.png" />
@@ -27,21 +28,24 @@
     <None Remove="DataTemplatesAndStyles\Assets\register_company_pressed.png" />
     <None Remove="DataTemplatesAndStyles\Assets\register_customer.png" />
     <None Remove="DataTemplatesAndStyles\Assets\register_customer_pressed.png" />
+    <None Remove="DataTemplatesAndStyles\Assets\SalesStatistics.png" />
+    <None Remove="DataTemplatesAndStyles\Assets\SalesStatistics_pressed.png" />
     <None Remove="DataTemplatesAndStyles\Assets\select_line.png" />
     <None Remove="DataTemplatesAndStyles\Assets\show_prospects.png" />
     <None Remove="DataTemplatesAndStyles\Assets\show_prospects_pressed.png" />
     <None Remove="DataTemplatesAndStyles\Assets\toppforsakringar_logo.png" />
+    <None Remove="DataTemplatesAndStyles\Assets\Toppforsakringar_transparent_high_res.png" />
     <None Remove="DataTemplatesAndStyles\Assets\user_information.png" />
     <None Remove="DataTemplatesAndStyles\Assets\user_mini.png" />
     <None Remove="user_information.png" />
   </ItemGroup>
 
   <ItemGroup>
+	<PackageReference Include="LiveChartsCore.SkiaSharpView.WPF" Version="2.0.0-rc4.5" />
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="9.0.0-rc.2.24473.5" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="9.0.0-rc.2.24473.5" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="9.0.0-rc.2.24473.5" />
     <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.135" />
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
   </ItemGroup>
 
   <ItemGroup>
@@ -58,6 +62,7 @@
     <Resource Include="DataTemplatesAndStyles\Assets\export_bill_pressed.png" />
     <Resource Include="DataTemplatesAndStyles\Assets\icons8-customer-100.png" />
     <Resource Include="DataTemplatesAndStyles\Assets\insurance_icon.png" />
+    <Resource Include="DataTemplatesAndStyles\Assets\insurance_pressed.png" />
     <Resource Include="DataTemplatesAndStyles\Assets\log_out.png" />
     <Resource Include="DataTemplatesAndStyles\Assets\maximize.png" />
     <Resource Include="DataTemplatesAndStyles\Assets\maximized.png" />
@@ -68,10 +73,13 @@
     <Resource Include="DataTemplatesAndStyles\Assets\register_company_pressed.png" />
     <Resource Include="DataTemplatesAndStyles\Assets\register_customer.png" />
     <Resource Include="DataTemplatesAndStyles\Assets\register_customer_pressed.png" />
+    <Resource Include="DataTemplatesAndStyles\Assets\SalesStatistics.png" />
+    <Resource Include="DataTemplatesAndStyles\Assets\SalesStatistics_pressed.png" />
     <Resource Include="DataTemplatesAndStyles\Assets\select_line.png" />
     <Resource Include="DataTemplatesAndStyles\Assets\show_prospects.png" />
     <Resource Include="DataTemplatesAndStyles\Assets\show_prospects_pressed.png" />
     <Resource Include="DataTemplatesAndStyles\Assets\toppforsakringar_logo.png" />
+    <Resource Include="DataTemplatesAndStyles\Assets\Toppforsakringar_transparent_high_res.png" />
     <Resource Include="DataTemplatesAndStyles\Assets\user_information.png" />
     <Resource Include="DataTemplatesAndStyles\Assets\user_mini.png" />
     <Resource Include="user_information.png" />

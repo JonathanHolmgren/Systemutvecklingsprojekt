@@ -11,10 +11,10 @@
         <vm:RegisterCompanyCustomerViewModel/>
     </UserControl.DataContext>
     <UserControl.Resources>
-        <ResourceDictionary Source="/DataTemplatesAndStyles/ResourceDictionary.xaml"/>
+        <ResourceDictionary  Source="/DataTemplatesAndStyles/ResourceDictionary.xaml"/>
     </UserControl.Resources>
 
-   <!--Outer border -->
+    <!--Outer border -->
     <Border CornerRadius="10" Background="White" Padding="10" Margin="0">
         
         <Grid>

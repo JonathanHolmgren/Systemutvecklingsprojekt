@@ -397,11 +397,11 @@
         <Setter Property="Cursor" Value="IBeam"/>
         <Setter Property="SelectionBrush" Value="#0078D4"/>
 
-        
+
         <Setter Property="Validation.ErrorTemplate">
             <Setter.Value>
                 <ControlTemplate>
-                    
+
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
@@ -430,6 +430,10 @@
                             <Setter TargetName="OuterBorder" Property="BorderThickness" Value="1"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
 
     <Style x:Key="PasswordBoxStyle" TargetType="PasswordBox">
         <Setter Property="Background" Value="White"/>

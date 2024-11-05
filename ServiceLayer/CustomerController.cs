@@ -26,11 +26,6 @@ namespace ServiceLayer
             unitOfWork.SaveChanges();
         }
 
-        public void AddCompanyCustomer(CompanyCustomer companyCustomer)
-        {
-            unitOfWork.CustomerRepository.Add(companyCustomer);
-            unitOfWork.SaveChanges();
-        }
 
         public void UpdateCompanyCustomer(CompanyCustomer updatedCompanyCustomer)
         {
@@ -195,22 +190,7 @@ namespace ServiceLayer
                     throw new Exception("Organisationsnummer finns redan.");
                 }
 
-               // Kontrollera om postnummer/stad redan finns, annars lägg till det
-            //    PostalCodeCity existingPostalCodeCity = unitOfWork
-              //      .PostalCodeCityRepository
-                //    .GetSpecificPostalCode(companyCustomer.PostalCodeCity.PostalCode);
-              
-              //  if (existingPostalCodeCity == null)
-              //  {
-               //     unitOfWork.PostalCodeCityRepository.Add(companyCustomer.PostalCodeCity);
-               // }
-               // else
-              //  {
-                    // Om postnummer/stad finns redan, använd det befintliga objektet
-              //      companyCustomer.PostalCodeCity = existingPostalCodeCity;
-             //   }
-
-                // Lägg till företagskunden och spara ändringarna
+        
                 unitOfWork.CustomerRepository.Add(companyCustomer);
                 unitOfWork.SaveChanges();
             }

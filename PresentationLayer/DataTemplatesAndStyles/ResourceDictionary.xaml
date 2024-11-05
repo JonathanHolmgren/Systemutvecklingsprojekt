@@ -169,27 +169,18 @@
                 <ControlTemplate TargetType="DataGrid">
                     <Border 
                     Background="{TemplateBinding Background}" 
-                    BorderBrush="DarkGreen" 
+                    BorderBrush="Gray" 
                     BorderThickness="4" 
-                    CornerRadius="8">
-                        <!-- Rundade hörn -->
-                        <Grid>
-                            <!-- Definiera två rader i Grid -->
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto"/>
-                                <!-- Kolumnhuvudets höjd -->
-                                <RowDefinition Height="*"/>
-                                <!-- Raders höjd -->
-                            </Grid.RowDefinitions>
+                    CornerRadius="5"
+                        >
+                        <DockPanel>
+                            <!-- Lägg till DataGridColumnHeadersPresenter för att visa kolumnrubriker -->
+                            <DataGridColumnHeadersPresenter DockPanel.Dock="Top"/>
 
-                            <!-- Kolumnhuvuden -->
-                            <DataGridColumnHeadersPresenter Grid.Row="0"/>
+                            <!-- Lägg till DataGridRowsPresenter för att visa raderna i datagriden -->
+                            <DataGridRowsPresenter/>
+                        </DockPanel>
 
-                            <!-- ScrollViewer för rader -->
-                            <!--<ScrollViewer Grid.Row="1" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
-                                <ItemsPresenter HorizontalAlignment="Stretch"/>
-                            </ScrollViewer>-->
-                        </Grid>
                     </Border>
                 </ControlTemplate>
             </Setter.Value>
@@ -199,24 +190,17 @@
         <Setter Property="Background" Value="White"/>
         <Setter Property="RowHeight" Value="25"/>
         <Setter Property="AlternatingRowBackground" Value="#F3F3F3"/>
-        <Setter Property="GridLinesVisibility" Value="Horizontal"/>
-        <Setter Property="HeadersVisibility" Value="Column"/>
+        <Setter Property="GridLinesVisibility" Value="None"/>
         <Setter Property="SelectionUnit" Value="FullRow"/>
 
         <Setter Property="ColumnHeaderStyle">
             <Setter.Value>
                 <Style TargetType="DataGridColumnHeader">
-                    <Setter Property="Background" Value="DarkGreen"/>
-                    <Setter Property="Foreground" Value="White"/>
-                    <Setter Property="FontWeight" Value="SemiBold"/>
-                    <Setter Property="FontSize" Value="12"/>
-                    <Setter Property="BorderBrush" Value="Black"/>
-                    <Setter Property="BorderThickness" Value="1,0,1,0"/>
-                    <Setter Property="Padding" Value="5,5"/>
-                    <Setter Property="HorizontalContentAlignment" Value="Left"/>
+                    <Setter Property="Background" Value="#F3F3F3"/>
+                    <Setter Property="Foreground" Value="Black"/>
                     <Setter Property="Width" Value="Auto"/>
-                    <Setter Property="MinWidth" Value="80"/>
-                    <Setter Property="Margin" Value="-2"/>
+                    <Setter Property="MinWidth" Value="130"/>
+                    <Setter Property="Padding" Value="0,5"/>
                 </Style>
             </Setter.Value>
         </Setter>
@@ -444,6 +428,7 @@
         <Setter Property="Foreground" Value="Black"/>
         <Setter Property="Cursor" Value="IBeam"/>
         <Setter Property="SelectionBrush" Value="LightGray"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
 
         <Setter Property="Template">
             <Setter.Value>

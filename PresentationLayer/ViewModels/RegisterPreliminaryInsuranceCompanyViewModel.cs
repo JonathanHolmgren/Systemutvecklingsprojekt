@@ -25,6 +25,17 @@ namespace PresentationLayer.ViewModels
 
             LoadInsuranceTypeOptions();
             LoadBillingIntervalOptions();
+            CurrentView = "Företagsuppgifter";
+        }
+        private string _currentView;
+        public string CurrentView
+        {
+            get => _currentView;
+            set
+            {
+                _currentView = value;
+                OnPropertyChanged(nameof(CurrentView));
+            }
         }
 
         #region User
@@ -342,7 +353,7 @@ namespace PresentationLayer.ViewModels
         #endregion
 
         #region GenerellForInsurance
-        private DateTime activationDate;
+        private DateTime activationDate = DateTime.Now;
         public DateTime ActivationDate
         {
             get => activationDate;
@@ -353,7 +364,7 @@ namespace PresentationLayer.ViewModels
             }
         }
 
-        private DateTime expiryDate;
+        private DateTime expiryDate = DateTime.Now.AddMonths(1);
         public DateTime ExpiryDate
         {
             get => expiryDate;
@@ -742,6 +753,12 @@ namespace PresentationLayer.ViewModels
         #endregion
 
         #region Commands
+        public ICommand ShowCompanyCommand =>
+           new RelayCommand(() => CurrentView = "Företagsuppgifter");
+        public ICommand ShowInsuranceTypeCommand =>
+            new RelayCommand(() => CurrentView = "Försäkringstyp");
+        public ICommand ShowInsuranceDetailsCommand =>
+            new RelayCommand(ExecuteShowNextView);
         private ICommand searchCommand = null!;
         public ICommand SearchCommand =>
             searchCommand ??= searchCommand = new RelayCommand(
@@ -776,6 +793,7 @@ namespace PresentationLayer.ViewModels
                             SelectedInterval,
                             TotalPremie
                         );
+                        CurrentView = "KlarVy";
                     }
                     if (selectedInsuranceType == insuranceType2)
                     {
@@ -792,6 +810,7 @@ namespace PresentationLayer.ViewModels
                             SelectedInterval,
                             TotalPremie
                         );
+                        CurrentView = "KlarVy";
                     }
                     if (selectedInsuranceType == insuranceType3)
                     {
@@ -807,10 +826,26 @@ namespace PresentationLayer.ViewModels
                             SelectedInterval,
                             TotalPremie
                         );
+                        CurrentView = "KlarVy";
                     }
                 },
                 () => true
             );
+        private void ExecuteShowNextView()
+        {
+            if (SelectedInsuranceType == insuranceType1)
+            {
+                CurrentView = "FörsäkringsUppgifter1";
+            }
+            else if (SelectedInsuranceType == insuranceType2)
+            {
+                CurrentView = "FörsäkringsUppgifter2";
+            }
+            else if (SelectedInsuranceType == insuranceType3)
+            {
+                CurrentView = "FörsäkringsUppgifter3";
+            }
+        }
 
         #endregion
     }

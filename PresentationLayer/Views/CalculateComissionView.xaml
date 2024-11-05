@@ -15,6 +15,9 @@
     <UserControl.DataContext>
         <vm:CalculateComissionViewModel/>
     </UserControl.DataContext>
+    <UserControl.Resources>
+        <ResourceDictionary Source="/DataTemplatesAndStyles/ResourceDictionary.xaml"/>
+    </UserControl.Resources>
     <Border CornerRadius="10"         
      Background="White"
      

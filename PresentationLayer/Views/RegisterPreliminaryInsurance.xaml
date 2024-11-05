@@ -18,8 +18,8 @@
     </UserControl.Resources>
 
 
-    <Grid Background="White" HorizontalAlignment="Stretch"
-VerticalAlignment="Stretch">
+    <Grid Background="#F3F3F3" HorizontalAlignment="Center"
+VerticalAlignment="Center">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
@@ -31,7 +31,7 @@ VerticalAlignment="Stretch">
         </Grid.ColumnDefinitions>
 
         <!--Försäkringstagare-->
-            <Border Grid.RowSpan="2"  Grid.ColumnSpan="3" BorderBrush="White" BorderThickness="2" CornerRadius="5" Padding="10" Margin="10" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+            <Border Grid.RowSpan="2"  Grid.ColumnSpan="3" BorderBrush="#F3F3F3" BorderThickness="2" CornerRadius="5" Padding="10" Margin="10" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                 <Border.Style>
                     <Style TargetType="Border">
                         <Setter Property="Visibility" Value="Collapsed"/>
@@ -49,43 +49,43 @@ VerticalAlignment="Stretch">
                     <Label Margin="0" Grid.Row="0" Content="---Försäkringsuppgifter"/>
                 </StackPanel>
 
-                <StackPanel Grid.Row="1" Orientation="Horizontal" Grid.ColumnSpan="3" Margin="25,0" VerticalAlignment="Center" HorizontalAlignment="Center">
-                    <StackPanel Orientation="Vertical" Grid.Column="0" Margin="25,0" >
+                <StackPanel Grid.Row="1" Orientation="Horizontal" Grid.ColumnSpan="3" Margin="10,0" VerticalAlignment="Center" HorizontalAlignment="Center">
+                    <StackPanel Orientation="Vertical" Grid.Column="0" Margin="0,0,50,0"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                         <Label Content="Försäkringstagare uppgifter" FontWeight="Bold"/>
                         <Label Content="Förnamn" Height="25" Margin="0,9,0,0"/>
                         <TextBox Style="{StaticResource TextBoxStyle}" Margin="0,-5" x:Name="FirstNameTextbox" Height="30" Text="{Binding SelectedPrivateCustomer.FirstName,UpdateSourceTrigger=PropertyChanged}" BorderBrush="Black" HorizontalAlignment="Stretch" Width="200" />
-                        <Label Content="Gatuadress" Margin="0,20,0,0"/>
+                        <Label Content="Gatuadress" Margin="0,40,0,0"/>
                         <TextBox Style="{StaticResource TextBoxStyle}" Margin="0,-5" x:Name="StreetAddressTextbox" Text="{Binding SelectedPrivateCustomer.StreetAddress,UpdateSourceTrigger=PropertyChanged}" BorderBrush="Black" Height="30" Width="200" HorizontalAlignment="Stretch" />
-                        <Label Content="Mobilnummer" Margin="0,20,0,0"/>
+                        <Label Content="Mobilnummer" Margin="0,40,0,0"/>
                         <TextBox Style="{StaticResource TextBoxStyle}" x:Name="PhoneNumberTextbox" Margin="0,-5" Text="{Binding SelectedPrivateCustomer.TelephoneNumber,UpdateSourceTrigger=PropertyChanged}" BorderBrush="Black" Height="30" Width="200" HorizontalAlignment="Stretch"/>
                     </StackPanel>
                     <StackPanel Orientation="Vertical" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                         <Label Content="Efternamn" Height="25" Margin="0,35,0,0"/>
                         <TextBox Style="{StaticResource TextBoxStyle}" Margin="0,-5" x:Name="LastNameTextbox" Text="{Binding SelectedPrivateCustomer.LastName,UpdateSourceTrigger=PropertyChanged}" BorderBrush="Black" HorizontalAlignment="Stretch" Width="200" Height="30" />
-                        <Label Content="Postnummer" Margin="0,20,0,0"/>
-                        <TextBox Style="{StaticResource TextBoxStyle}" Margin="0,-5" x:Name="PostalCodeTextbox" Text="{Binding SelectedPrivateCustomer.PostalCodeCity.PostalCode,UpdateSourceTrigger=PropertyChanged}" BorderBrush="Black" Height="30" Width="200" HorizontalAlignment="Stretch" />
-                        <Label Content="Telefonnummer (Arbete)" Margin="0,20,0,0"/>
+                        <Label Content="Postnummer" Margin="0,40,0,0"/>
+                        <TextBox Style="{StaticResource TextBoxStyle}" Margin="0,-5" x:Name="PostalCodeTextbox" Text="{Binding SelectedPrivateCustomer.PostalCode,UpdateSourceTrigger=PropertyChanged}" BorderBrush="Black" Height="30" Width="200" HorizontalAlignment="Stretch" />
+                        <Label Content="Telefonnummer (Arbete)" Margin="0,40,0,0"/>
                         <TextBox Style="{StaticResource TextBoxStyle}" x:Name="TelephoneNumberTextbox" Margin="0,-5" Text="{Binding SelectedPrivateCustomer.WorkTelephoneNumber,UpdateSourceTrigger=PropertyChanged}" BorderBrush="Black" Height="30" Width="200" HorizontalAlignment="Stretch"/>
                     </StackPanel>
-                    <StackPanel Orientation="Vertical" Grid.Column="2" Margin="25,0" HorizontalAlignment="Stretch">
+                    <StackPanel Orientation="Vertical" Grid.Column="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="50,0,0,0">
                         <StackPanel Orientation="Horizontal" Margin="0">
                             <TextBox Style="{StaticResource SearchTextBoxStyle}" FontSize="10" HorizontalAlignment="Right" Height="25" Text="{Binding InputSocialSecurityNumber, UpdateSourceTrigger=PropertyChanged}"  Width="117"/>
                             <Button Style="{StaticResource CRUDButtonStyle}" HorizontalAlignment="Right" Content="Sök" Command="{Binding SearchCommand}" Height="25" Width="70" />
                         </StackPanel>
                         <Label Content="Personnummer" Height="25" Margin="0" />
                         <TextBox Style="{StaticResource TextBoxStyle}" Margin="0,-5" x:Name="SSNTextbox" Text="{Binding SelectedPrivateCustomer.SSN,UpdateSourceTrigger=PropertyChanged}" BorderBrush="Black" HorizontalAlignment="Stretch" Width="200" Height="30"/>
-                        <Label Content="Stad" Margin="0,20,0,0"/>
-                        <TextBox Style="{StaticResource TextBoxStyle}" Margin="0,-5" x:Name="CityTextbox" Text="{Binding SelectedPrivateCustomer.PostalCodeCity.City,UpdateSourceTrigger=PropertyChanged}" BorderBrush="Black" Height="30" Width="200" HorizontalAlignment="Stretch" />
-                        <Label Content="E-mail" Margin="0,20,0,0"/>
+                        <Label Content="Stad" Margin="0,40,0,0"/>
+                        <TextBox Style="{StaticResource TextBoxStyle}" Margin="0,-5" x:Name="CityTextbox" Text="{Binding SelectedPrivateCustomer.City,UpdateSourceTrigger=PropertyChanged}" BorderBrush="Black" Height="30" Width="200" HorizontalAlignment="Stretch" />
+                        <Label Content="E-mail" Margin="0,40,0,0"/>
                         <TextBox Style="{StaticResource TextBoxStyle}" x:Name="MailTextbox" Margin="0,-5" Text="{Binding SelectedPrivateCustomer.Email,UpdateSourceTrigger=PropertyChanged}" BorderBrush="Black" Height="30" Width="200" HorizontalAlignment="Stretch"/>
-                        <Button Style="{StaticResource GeneralButtonStyle}" Command="{Binding ShowInsuredPersonCommand}" Content="Gå vidare" Width="100" Height="25" HorizontalAlignment="Right" Margin="0,20,0,0"/>
+                        <Button Style="{StaticResource GeneralButtonStyle}" Command="{Binding ShowInsuredPersonCommand}" Content="Gå vidare" Width="100" Height="25" HorizontalAlignment="Right" Margin="0,30,0,0"/>
                     </StackPanel>
                 </StackPanel>
             </StackPanel>
         </Border>
 
         <!--Försäkrandes uppgifter-->
-        <Border Grid.Row="0" Grid.ColumnSpan="3" BorderBrush="White" BorderThickness="2" CornerRadius="5" Padding="10" Margin="10,0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+        <Border Grid.Row="0" Grid.ColumnSpan="3" BorderBrush="#F3F3F3" BorderThickness="2" CornerRadius="5" Padding="10" Margin="10,0" HorizontalAlignment="Center" VerticalAlignment="Center">
                 <Border.Style>
                     <Style TargetType="Border">
                         <Setter Property="Visibility" Value="Collapsed"/>
@@ -103,19 +103,19 @@ VerticalAlignment="Stretch">
                     <Label Margin="0" Grid.Row="0" Content="---Försäkringsuppgifter"/>
                 </StackPanel>
                 <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
-                    <StackPanel Grid.Column="0" Orientation="Vertical" Margin="0,0,10,0">
-                        <Label Content="Försäkrandes uppgifter" Margin="0" HorizontalAlignment="Left" FontWeight="Bold" RenderTransformOrigin="0.502,-0.844"/>
+                    <StackPanel Grid.Column="0" Orientation="Vertical" Margin="0">
+                        <Label Content="Försäkrandes uppgifter" Margin="0" HorizontalAlignment="Left" FontWeight="Bold"/>
                         <Label Content="Förnamn" HorizontalAlignment="Left" Margin="0,-6,0,0"/>
                         <TextBox Style="{StaticResource TextBoxStyle}" Margin="0,-5" x:Name="InsuredPersonFirstnameTextbox" Text ="{Binding InsuredPersonFirstName, UpdateSourceTrigger=PropertyChanged}" BorderBrush="Black" Height="30" Width="200" HorizontalAlignment="Stretch"/>
                     </StackPanel>
-                    <StackPanel Grid.Column="1" Orientation="Vertical" Margin="10,0,10,0">
+                    <StackPanel Grid.Column="1" Orientation="Vertical" Margin="50,0,50,0">
                         <Label Content="Efternamn" HorizontalAlignment="Left" Margin="0,20,0,0"/>
                         <TextBox Style="{StaticResource TextBoxStyle}" x:Name="InsuredPersonLastnameTextbox" Margin="0,-5 " Text ="{Binding InsuredPersonLastName, UpdateSourceTrigger=PropertyChanged}" BorderBrush="Black" Height="30" Width="200" HorizontalAlignment="Stretch"/>
                     </StackPanel>
                     <StackPanel Grid.Column="2" Orientation="Vertical" Margin="0">
                         <Label Content="Personnummer" HorizontalAlignment="Left" Margin="10,20,0,0"/>
                         <TextBox Style="{StaticResource TextBoxStyle}" x:Name="InsuredPersonSSNTextbox" Margin="0,-5" Text ="{Binding InsuredPersonSSN, UpdateSourceTrigger=PropertyChanged}" BorderBrush="Black" Height="30" Width="200" HorizontalAlignment="Stretch"/>
-                        <StackPanel Orientation="Horizontal" Margin="0,10">
+                        <StackPanel Orientation="Horizontal" Margin="0,30,0,10">
                             <Button Style="{StaticResource GeneralButtonStyle}" Command="{Binding ShowInsuranceHolderCommand}" Content="Gå tillbaka" Width="100" Height="25" HorizontalAlignment="Right" Margin="0,20,10,0"/>
                             <Button Style="{StaticResource GeneralButtonStyle}" Command="{Binding ShowInsuranceDetailsCommand}" Content="Gå vidare" Width="100" Height="25" HorizontalAlignment="Right" Margin="0,20,10,0"/>
                         </StackPanel>
@@ -125,17 +125,17 @@ VerticalAlignment="Stretch">
         </Border>
 
         <!--Försäkringsuppgifter-->
-        <Border  Grid.Row="0" Grid.ColumnSpan="3"  BorderBrush="white" BorderThickness="2" CornerRadius="5" Padding="10" Margin="10,10" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                <Border.Style>
-                    <Style TargetType="Border">
-                        <Setter Property="Visibility" Value="Collapsed"/>
-                        <Style.Triggers>
-                            <DataTrigger Binding="{Binding CurrentView}" Value="Försäkringsuppgifter">
-                                <Setter Property="Visibility" Value="Visible"/>
-                            </DataTrigger>
-                        </Style.Triggers>
-                    </Style>
-                </Border.Style>
+        <Border  Grid.Row="0" Grid.ColumnSpan="3"  BorderBrush="#F3F3F3" BorderThickness="2" CornerRadius="5" Padding="10" Margin="10,10" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <Border.Style>
+                <Style TargetType="Border">
+                    <Setter Property="Visibility" Value="Collapsed"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding CurrentView}" Value="Försäkringsuppgifter">
+                            <Setter Property="Visibility" Value="Visible"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Border.Style>
             <StackPanel>
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,0,0,10">
                     <Label Grid.Row="0" Content="Försäkringstagare---"/>
@@ -148,52 +148,52 @@ VerticalAlignment="Stretch">
                     </StackPanel>
 
                     <StackPanel Orientation="Horizontal" Margin="25,5,25,0">
-                        <StackPanel Orientation="Vertical" Margin="0,0,10,0">
+                        <StackPanel Orientation="Vertical">
                             <Label Content="Försäkringstyp" HorizontalAlignment="Left"/>
                             <ComboBox Style="{StaticResource NonObjectComboBoxStyle}" Height="30" Width="200" Margin="0,-5" ItemsSource="{Binding AvailableInsuranceTypes}" SelectedItem="{Binding SelectedInsuranceType, Mode=TwoWay}"/>
                         </StackPanel>
-                        <StackPanel Orientation="Vertical" Margin="10,0,10,0">
+                        <StackPanel Orientation="Vertical" Margin="50,0">
                             <Label Content="Ankomstdatum" HorizontalAlignment="Left"/>
-                            <DatePicker SelectedDate="{Binding ArrivingDate}" Margin="0,-5" Width="200"/>
+                            <DatePicker SelectedDate="{Binding ArrivingDate}" Margin="0,-5" Width="200" Height="30"/>
                         </StackPanel>
-                        <StackPanel Orientation="Vertical" Margin="10,0,10,0">
+                        <StackPanel Orientation="Vertical">
                             <Label Content="Grundbelopp" HorizontalAlignment="Left" />
                             <ComboBox Style="{StaticResource NonObjectComboBoxStyle}" x:Name="BasePriceComboBox" Margin="0,-5 " ItemsSource="{Binding BasePriceOptions}" SelectedItem="{Binding SelectedBasePrice}" Height="30" Width="200" HorizontalAlignment="Left"/>
                         </StackPanel>
                     </StackPanel>
 
-                    <StackPanel Orientation="Horizontal" Margin="25,25,25,0">
-                        <StackPanel Orientation="Vertical" Margin="0,0,10,0">
+                    <StackPanel Orientation="Horizontal" Margin="25,40,25,15">
+                        <StackPanel Orientation="Vertical">
                             <Label Content="Tillval 1" HorizontalAlignment="Left" RenderTransformOrigin="1.609,0.375"/>
                             <ComboBox Style="{StaticResource NonObjectComboBoxStyle}" x:Name="AddOnCombobox1" SelectedIndex="0" Margin="0,-5" ItemsSource="{Binding AddOnOptions1}" SelectedItem="{Binding SelectedAddOnOption1, Mode=TwoWay}" Height="30" Width="200" HorizontalAlignment="Right" />
                         </StackPanel>
-                        <StackPanel Orientation="Vertical" Margin="10,0,10,0">
+                        <StackPanel Orientation="Vertical" Margin="50,0">
                             <Label Content="Grundbelopp tillval" HorizontalAlignment="Left" Width="124"/>
                             <ComboBox Style="{StaticResource NonObjectComboBoxStyle}" x:Name="BasePriceAddOnTextBox" ItemsSource="{Binding AddOnBasePriceOptions1}" SelectedItem="{Binding SelectedAddOnBasePrice1, Mode=TwoWay}" Height="30" Width="200" HorizontalAlignment="Right" Margin="0,-5"/>
                         </StackPanel>
-                        <StackPanel Orientation="Vertical" Margin="10,0,10,0">
+                        <StackPanel Orientation="Vertical">
                             <Label Content="Betalningsinterval" HorizontalAlignment="Left" RenderTransformOrigin="0.536,-0.52" Width="110"/>
                             <ComboBox Style="{StaticResource NonObjectComboBoxStyle}" x:Name="Billinginterval" ItemsSource="{Binding BillingIntervals}" SelectedItem="{Binding SelectedInterval, Mode=TwoWay}" Height="30" Width="200" Margin="0,-5" HorizontalAlignment="Right"  />
                         </StackPanel>
                     </StackPanel>
 
                     <StackPanel Orientation="Horizontal" Margin="25,25,25,0">
-                        <StackPanel Orientation="Vertical" Margin="0,0,10,0">
+                        <StackPanel Orientation="Vertical">
                             <Label Content="Tillval 2" HorizontalAlignment="Left" RenderTransformOrigin="1.609,0.375"/>
                             <ComboBox Style="{StaticResource NonObjectComboBoxStyle}" x:Name="AddOnCombobox2" SelectedIndex="0" ItemsSource="{Binding AddOnOptions2}" SelectedItem="{Binding SelectedAddOnOption2, Mode=TwoWay}" Height="30" Width="200" HorizontalAlignment="Left" Margin="0,-5"/>
-                            <Label Content="Anteckningar" Margin="0,10,0,0"/>
+                            <Label Content="Anteckningar" Margin="0,30,0,0"/>
                             <TextBox Style="{StaticResource TextBoxStyle}" x:Name="NotesTextbox" Text="{Binding Notes}" BorderBrush="Black" Width="200" Height="40" HorizontalAlignment="Left" Margin="0,-4,0,20"/>
                         </StackPanel>
-                        <StackPanel Orientation="Vertical" Margin="10,0,10,0">
+                        <StackPanel Orientation="Vertical" Margin="50,0">
                             <Label Content="Grundbelopp tillval" HorizontalAlignment="Left"  Width="124"/>
                             <ComboBox Style="{StaticResource NonObjectComboBoxStyle}" x:Name="BasePriceAddOnTextBox2" Margin="0,-5" ItemsSource="{Binding AddOnBasePriceOptions2}" SelectedItem="{Binding SelectedAddOnBasePrice2, Mode=TwoWay}" Height="30" Width="200" HorizontalAlignment="Right"/>
                         </StackPanel>
-                        <StackPanel Orientation="Vertical" Margin="10,0,10,0">
+                        <StackPanel Orientation="Vertical" >
                             <Label Content="Totalt premie" HorizontalAlignment="Left"/>
                             <TextBox Style="{StaticResource TextBoxStyle}" x:Name="TotaltPremieTextbox" Text="{Binding TotalPremium}" BorderBrush="Black" Height="30" Width="200" HorizontalAlignment="Left" Margin="0,-5"/>
                             <StackPanel Orientation="Horizontal">
-                                <Button Style="{StaticResource GeneralButtonStyle}" Command="{Binding ShowInsuredPersonCommand}" Content="Gå tillbaka" Width="95" Height="25" Margin="0,45,10,10" HorizontalAlignment="Left"/>
-                                <Button Style="{StaticResource CRUDButtonStyle}" x:Name="RegisterPreliminaryInsuranceButton" Command="{Binding AddCommand}" Width="95" Height="25" Margin="0,45,10,10" Content="Registrera" HorizontalAlignment="Left"/>
+                                <Button Style="{StaticResource GeneralButtonStyle}" Command="{Binding ShowInsuredPersonCommand}" Content="Gå tillbaka" Width="95" Height="25" Margin="0,65,10,10" HorizontalAlignment="Left"/>
+                                <Button Style="{StaticResource CRUDButtonStyle}" x:Name="RegisterPreliminaryInsuranceButton" Command="{Binding AddCommand}" Width="95" Height="25" Margin="0,65,10,10" Content="Registrera" HorizontalAlignment="Left"/>
                             </StackPanel>
 
                         </StackPanel>
@@ -204,40 +204,31 @@ VerticalAlignment="Stretch">
                 </StackPanel>
             </StackPanel>
         </Border>
-  
+        <Border  HorizontalAlignment="Center" VerticalAlignment="Center" Background="#F3F3F3" Width="400" Height="250" BorderBrush="Black" BorderThickness="1">
+            <Border.Style>
+                <Style TargetType="Border">
+                    <Setter Property="Visibility" Value="Collapsed"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding CurrentView}" Value="KlarVy">
+                            <Setter Property="Visibility" Value="Visible"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Border.Style>
+            <Grid>
+                <TextBlock FontSize="14" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" TextWrapping="Wrap" Margin="10">
+                    <TextBlock.Text>
+                        <MultiBinding StringFormat="{}Preliminär försäkring är registrerad på {0} {1} med personnummer {2}">
+                            <Binding Path="SelectedPrivateCustomer.FirstName"/>
+                            <Binding Path="SelectedPrivateCustomer.LastName"/>
+                            <Binding Path="SelectedPrivateCustomer.SSN"/>
+                        </MultiBinding>
+                    </TextBlock.Text>
+                </TextBlock>
+                <Button Content="Klar" Width="100" Height="30" Style="{StaticResource GeneralButtonStyle}" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="10"/>
+            </Grid>
 
-
-
-
-
-        <!--InsuredPersonInformation-->
-
-
-
-        <!--InsuranceInformation-->
-        <!--<Border Grid.Row="2">
-            
         </Border>
-        
-       
-        
-        -->
-        <!--AddOns-->
-        <!--
-        
-        
-        
-        
-        -->
-        <!--InformationInsurance-->
-        <!--
-        
-        
-        <Label Content="Anteckningar" HorizontalAlignment="Left" Margin="662,314,0,104" Width="84"/>
-        <TextBox x:Name="NotesTextbox" Text="{Binding Notes}" BorderBrush="Black" Width="120" HorizontalAlignment="Right" Margin="0,340,30,50"/>
-
-        <Button x:Name="RegisterPreliminaryInsuranceButton" Command="{Binding AddCommand}" Width="70" Height="20" Margin="711,420,19,10" Content="Registrera"/>-->
-
     </Grid>
 
 </UserControl>

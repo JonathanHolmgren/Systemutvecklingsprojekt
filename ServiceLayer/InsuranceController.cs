@@ -61,24 +61,24 @@ namespace ServiceLayer
             return new InsuredPerson(firstName, lastName, ssn);
         }
 
-        public void RemoveInsurance(Insurance selectedInsurance)
-        {
-            IList<InsuranceSpec> insuranceSpecsToRemove =
-                unitOfWork.InsuranceSpecRepository.GetSpecsForInsurance(
-                    selectedInsurance.InsuranceId
-                );
+        //public void RemoveInsurance(Insurance selectedInsurance)
+        //{
+        //    IList<InsuranceSpec> insuranceSpecsToRemove =
+        //        unitOfWork.InsuranceSpecRepository.GetSpecsForInsurance(
+        //            selectedInsurance.InsuranceId
+        //        );
 
-            foreach (InsuranceSpec insuranceSpec in insuranceSpecsToRemove)
-            {
-                unitOfWork.InsuranceSpecRepository.Remove(insuranceSpec.InsuranceSpecId);
-                unitOfWork.InsuranceTypeAttributeRepository.Remove(
-                    insuranceSpec.InsuranceTypeAttribute.InsuranceTypeAttributeId
-                );
-            }
+        //    foreach (InsuranceSpec insuranceSpec in insuranceSpecsToRemove)
+        //    {
+        //        unitOfWork.InsuranceSpecRepository.Remove(insuranceSpec.InsuranceSpecId);
+        //        unitOfWork.InsuranceTypeAttributeRepository.Remove(
+        //            insuranceSpec.InsuranceTypeAttribute.InsuranceTypeAttributeId
+        //        );
+        //    }
 
-            unitOfWork.InsuranceRepository.Remove(selectedInsurance);
-            unitOfWork.SaveChanges();
-        }
+        //    unitOfWork.InsuranceRepository.Remove(selectedInsurance);
+        //    unitOfWork.SaveChanges();
+        //}
 
         public Insurance RegisterCompanyPreliminaryInsurance(
             DateTime activationDate,
@@ -401,7 +401,6 @@ namespace ServiceLayer
         )
         {
             unitOfWork.InsuranceRepository.Add(insurance);
-            unitOfWork.Update(companyCustomer.PostalCode);
             unitOfWork.Update(companyCustomer);
             unitOfWork.Update(insurance.InsuranceType);
             unitOfWork.SaveChanges();

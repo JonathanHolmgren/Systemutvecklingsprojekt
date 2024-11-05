@@ -6,15 +6,18 @@
              xmlns:vm="clr-namespace:PresentationLayer.ViewModels"
              xmlns:local="clr-namespace:PresentationLayer.Views"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800"
-             Height="450" Width="800"
-             >
+
+             Height="450" Width="800">
 
     <UserControl.DataContext>
         <vm:RegisterPreliminaryInsuranceViewModel/>
     </UserControl.DataContext>
-
-    <Grid Background="White">
+    <Border CornerRadius="10"         
+    Background="White"
+    
+    
+    >
+        <Grid>
         <TextBlock Text="Registrera preliminär försäkring" VerticalAlignment="Top" HorizontalAlignment="Center" FontSize="24"/>
         <!--CustomerInformation-->
         <Label Content="Försäkringstagare uppgifter" HorizontalAlignment="Left" Margin="22,18,0,400" FontWeight="Bold"/>
@@ -95,4 +98,5 @@
         <Button x:Name="RegisterPreliminaryInsuranceButton" Command="{Binding AddCommand}" Width="70" Height="20" Margin="711,420,19,10" Content="Registrera"/>
 
     </Grid>
+        </Border>
 </UserControl>

@@ -24,9 +24,15 @@
         Margin="0">
         <!-- Marginal runt Border -->
         <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
 
-        <!-- StackPanel for RadioButtons -->
-        <StackPanel Orientation="Vertical" Margin="0,0,0,20" Grid.Row="0" HorizontalAlignment="Left">
+            <!-- StackPanel for RadioButtons -->
+        <StackPanel Orientation="Vertical" Margin="0,0,0,20" Grid.Row="0"
+                    HorizontalAlignment="Left">
             <RadioButton Style="{StaticResource TeamsRadioButtonStyle}" Content="Privata Kunder" IsChecked="{Binding IsPrivateCustomerSelected}" GroupName="CustomerType" Margin="0,5"/>
             <RadioButton Style="{StaticResource TeamsRadioButtonStyle}" Content="Företags Kunder" IsChecked="{Binding IsCompanyCustomerSelected}" GroupName="CustomerType" Margin="0,-10"/>
         </StackPanel>

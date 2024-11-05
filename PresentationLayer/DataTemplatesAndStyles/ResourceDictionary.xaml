@@ -363,22 +363,12 @@
                                 Width="25"
                                 HorizontalAlignment="Center"
                                 VerticalAlignment="Center"
-                                Margin="0,0,0,0"
+                                Margin="-2,3,0,0"
                                 Stretch="Fill"
                                 Source="/DataTemplatesAndStyles/back_button.png"
                                 Visibility="Visible"/>
 
 
-
-
-                                    <TextBlock Foreground="Black"
-                                    VerticalAlignment="Bottom"
-                                    HorizontalAlignment="Center"
-                                    FontSize="5"
-                                    Text="Tillbaka"
-                                    FontFamily="Fonts/#Open Sans Regular"
-                                    Margin="0,2,0,0" 
-                                    TextWrapping="Wrap"/>
                                 </StackPanel>
                             </StackPanel>
                         </Border>
@@ -402,68 +392,52 @@
     </Style>
 
     <Style x:Key="RegisterTextBoxStyle" TargetType="TextBox">
-    <!-- Grundinställningar för utseendet på TextBox -->
-    <Setter Property="Background" Value="White"/>
-    <Setter Property="Padding" Value="10,5"/>
-    <Setter Property="Margin" Value="5"/>
-    <Setter Property="FontSize" Value="16"/>
-    <Setter Property="Foreground" Value="Black"/>
-    <Setter Property="Cursor" Value="IBeam"/>
-    <Setter Property="SelectionBrush" Value="#0078D4"/>
+        <Setter Property="Background" Value="White"/>
+        <Setter Property="Padding" Value="10,5"/>
+        <Setter Property="Margin" Value="5"/>
+        <Setter Property="FontSize" Value="16"/>
+        <Setter Property="Foreground" Value="Black"/>
+        <Setter Property="Cursor" Value="IBeam"/>
+        <Setter Property="SelectionBrush" Value="#0078D4"/>
 
-    <Setter Property="Template">
-        <Setter.Value>
-            <ControlTemplate TargetType="TextBox">
-                <!-- Yttre border med valideringsfärg och corner radius -->
-                <Border x:Name="OuterBorder"
+        
+        <Setter Property="Validation.ErrorTemplate">
+            <Setter.Value>
+                <ControlTemplate>
+                    
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="TextBox">
+                    <Border x:Name="OuterBorder"
                         Background="{TemplateBinding Background}"
                         BorderThickness="1"
                         CornerRadius="10">
-                    
-                    <Grid>
-                        <Border
-                            Background="Transparent"
+                        <Grid>
+                            <Border Background="Transparent"
                                 BorderBrush="{TemplateBinding BorderBrush}"
                                 BorderThickness="1"
                                 CornerRadius="10">
-                            <ScrollViewer x:Name="PART_ContentHost"/>
-                        </Border>
+                                <ScrollViewer x:Name="PART_ContentHost"/>
+                            </Border>
+                        </Grid>
+                    </Border>
 
-                        <!-- Placeholder TextBlock som binds till Tag-egenskapen -->
-                        <TextBlock x:Name="PlaceholderText"
-                                   Text="{TemplateBinding Tag}"
-                                   VerticalAlignment="Center"
-                                   HorizontalAlignment="Left"
-                                   Margin="15,0,0,0"
-                                   Foreground="#A0A0A0"
-                                   IsHitTestVisible="False"
-                                   Visibility="Collapsed"/>
-                    </Grid>
-                </Border>
-
-                <!-- Triggers för validering -->
-                <ControlTemplate.Triggers>
-                    <!-- Trigger för att visa placeholder när TextBox är tom -->
-                    <Trigger Property="Text" Value="">
-                        <Setter TargetName="PlaceholderText" Property="Visibility" Value="Visible"/>
-                    </Trigger>
-
-                    <!-- Röd border på yttre Border om valideringsfel finns -->
-                    <Trigger Property="Validation.HasError" Value="True">
-                        <Setter TargetName="OuterBorder" Property="BorderBrush" Value="Red"/>
-                            
-                            
+                    <!-- Trigger för att ändra kantfärg vid valideringsfel -->
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="Validation.HasError" Value="True">
+                            <Setter TargetName="OuterBorder" Property="BorderBrush" Value="Red"/>
+                            <Setter TargetName="OuterBorder" Property="BorderThickness" Value="1"/>
                         </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
 
-                    <!-- Trigger för att dölja placeholder när TextBox är fokuserad -->
-                    <Trigger Property="IsFocused" Value="True">
-                        <Setter TargetName="PlaceholderText" Property="Visibility" Value="Collapsed"/>
-                    </Trigger>
-                </ControlTemplate.Triggers>
-            </ControlTemplate>
-        </Setter.Value>
-    </Setter>
-</Style>
 
 
 

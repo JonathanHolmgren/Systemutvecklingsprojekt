@@ -206,7 +206,6 @@ namespace PresentationLayer.ViewModels
         {
             ClearErrors(nameof(OrganisationNumber));
 
-            // Definiera regex för att matcha formatet "******-****"
             var regex = new Regex(@"^\d{6}-\d{4}$");
 
             if (string.IsNullOrWhiteSpace(OrganisationNumber) || !regex.IsMatch(OrganisationNumber))

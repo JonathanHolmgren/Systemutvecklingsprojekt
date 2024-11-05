@@ -130,16 +130,16 @@
                                                  Margin="0,5,0,0">
                                         <TextBlock.Text>
                                             <MultiBinding StringFormat="{}{0} {1}">
-                                                <Binding Path="Employee.FirstName" />
-                                                <Binding Path="Employee.LastName" />
+                                                <Binding Path="User.FirstName" />
+                                                <Binding Path="User.LastName" />
                                             </MultiBinding>
                                         </TextBlock.Text>
                                     </TextBlock>
-                                    <TextBlock Text="{Binding Employee.AgentNumber, StringFormat='Agentnummer: {0}'}" 
-                                         FontSize="12" 
-                                         FontFamily="Fonts/#Saira SemiBold"
-                                         Margin="0,3,0,0"/>
-                                                            <TextBlock Text="{Binding Employee.Email}" 
+                                    <TextBlock Text="{Binding User.AgentNumber, StringFormat='Agentnummer: {0}'}" 
+                                                 FontSize="12" 
+                                                 FontFamily="Fonts/#Saira SemiBold"
+                                                 Margin="0,3,0,0"/> 
+                                    <TextBlock Text="{Binding User.Email}" 
                                          FontSize="12" 
                                          FontFamily="Fonts/#Saira SemiBold"
                                          Margin="0,3,0,0"/>

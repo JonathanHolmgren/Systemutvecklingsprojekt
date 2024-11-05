@@ -24,7 +24,12 @@ namespace DataLayer.Repositories
             
             return Context.Set<User>().FirstOrDefault(u => u.Employee.AgentNumber == username && u.Password == password);
         }
-
+        public User GetSpecificUser(string username)
+        {
+            return Context.Set<User>()
+           .Include(e => e.Employee)
+           .FirstOrDefault(u => u.UserName == username);
+        }
         public List<User> GetUsersByAgentNumber(string agentNumber)
         {
             return Context

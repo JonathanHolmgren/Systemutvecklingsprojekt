@@ -47,6 +47,7 @@
                     <!-- TextBox with fixed width -->
                     <TextBox Style="{StaticResource SearchTextBoxStyle}" Text="{Binding FilterText, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="154" Height="30" Margin="0,0,10,0"/>
 
+
                     <!-- Button for Export -->
                     <Button Style="{StaticResource CRUDButtonStyle}" Content="Alla kunder till Json" Width="150" Height="30" Command="{Binding ExportAllToJsonCommand}" Margin="0,0,10,0"/>
                     <Button Style="{StaticResource CRUDButtonStyle}" Content="Markerad kund till Json" Width="150" Height="30" Command="{Binding ExportSingleToJsonCommand}" Margin="0,0,2,0"/>

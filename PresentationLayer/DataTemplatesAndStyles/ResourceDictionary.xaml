@@ -1,8 +1,11 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:System="clr-namespace:System;assembly=mscorlib"
-                    xmlns:presentationLayer="clr-namespace:PresentationLayer">
+                    xmlns:presentationLayer="clr-namespace:PresentationLayer"
+                    xmlns:converter="clr-namespace:PresentationLayer.Services">
 
+    <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+    
 
 
     <Style x:Key="CRUDButtonStyle" TargetType="Button">
@@ -69,6 +72,39 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
+    </Style>
+
+    <Style x:Key="RegisterButtonStyle" TargetType="Button">
+        <Setter Property="Background" Value="#73787C"/>
+        <Setter Property="Foreground" Value="White"/>
+        <Setter Property="BorderBrush" Value="Black"/>
+        <Setter Property="Padding" Value="10,5"/>
+        <Setter Property="FontSize" Value="14"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="Cursor" Value="Hand"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border Background="{TemplateBinding Background}" 
+                CornerRadius="10" 
+                BorderThickness="{TemplateBinding BorderThickness}" 
+                BorderBrush="{TemplateBinding BorderBrush}">
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" Value="#44444c" />
+                            <Setter Property="Foreground" Value="White" />
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Background" Value="Transparent" />
+                            <Setter Property="Foreground" Value="#C1C1C1" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        
     </Style>
 
     <Style x:Key="TeamsRadioButtonStyle" TargetType="RadioButton">
@@ -250,6 +286,7 @@
             </Setter.Value>
         </Setter>
     </Style>
+    
 
     <Style x:Key="TextBoxStyle" TargetType="TextBox">
         <Setter Property="Background" Value="White"/>
@@ -278,6 +315,110 @@
         </Setter>
     </Style>
 
+    <Style x:Key="RegisterBackButton" TargetType="Button">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Grid>
+                        <Border x:Name="border"
+                     Background="LightGray"
+                     Height="30"
+                     Width="30"
+                     VerticalAlignment="Top"
+                     HorizontalAlignment="Left"
+                     CornerRadius="100"
+                     Margin="5">
+                            <StackPanel Orientation="Horizontal">
+
+                                <StackPanel x:Name="iconStackPanel"
+                                 Height="30"
+                                 Width="30"
+                                 HorizontalAlignment="Center"
+                                 VerticalAlignment="Center"
+                                 Orientation="Vertical"
+                                 Margin="0,0,0,0">
+
+                                   
+                                    <Image
+                                Height="25"
+                                Width="25"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Margin="-2,3,0,0"
+                                Stretch="Fill"
+                                Source="/DataTemplatesAndStyles/back_button.png"
+                                Visibility="Visible"/>
+
+
+                                </StackPanel>
+                            </StackPanel>
+                        </Border>
+                    </Grid>
+
+                    <ControlTemplate.Triggers>
+                        <!-- Hover-effekt -->
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" TargetName="border" Value="#E9EBED" />
+                        </Trigger>
+
+                        <!-- Tryck-effekt -->
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter Property="Background" TargetName="border" Value="#C1C1C1" />
+                        </Trigger>
+
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="RegisterTextBoxStyle" TargetType="TextBox">
+        <Setter Property="Background" Value="White"/>
+        <Setter Property="Padding" Value="10,5"/>
+        <Setter Property="Margin" Value="5"/>
+        <Setter Property="FontSize" Value="16"/>
+        <Setter Property="Foreground" Value="Black"/>
+        <Setter Property="Cursor" Value="IBeam"/>
+        <Setter Property="SelectionBrush" Value="#0078D4"/>
+
+
+        <Setter Property="Validation.ErrorTemplate">
+            <Setter.Value>
+                <ControlTemplate>
+
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="TextBox">
+                    <Border x:Name="OuterBorder"
+                        Background="{TemplateBinding Background}"
+                        BorderThickness="1"
+                        CornerRadius="10">
+                        <Grid>
+                            <Border Background="Transparent"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="1"
+                                CornerRadius="10">
+                                <ScrollViewer x:Name="PART_ContentHost"/>
+                            </Border>
+                        </Grid>
+                    </Border>
+
+                    <!-- Trigger för att ändra kantfärg vid valideringsfel -->
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="Validation.HasError" Value="True">
+                            <Setter TargetName="OuterBorder" Property="BorderBrush" Value="Red"/>
+                            <Setter TargetName="OuterBorder" Property="BorderThickness" Value="1"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
     <Style x:Key="PasswordBoxStyle" TargetType="PasswordBox">
         <Setter Property="Background" Value="White"/>
         <Setter Property="BorderBrush" Value="Black"/>
@@ -301,10 +442,12 @@
                             <ScrollViewer x:Name="PART_ContentHost"/>
                         </Border>
                     </Grid>
+
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
     </Style>
+
 
     <Style x:Key="ComboBoxStyleTemplate" TargetType="ComboBox">
         <Setter Property="Foreground" Value="#333333"/>

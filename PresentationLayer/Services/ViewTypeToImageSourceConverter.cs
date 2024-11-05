@@ -36,6 +36,9 @@ namespace PresentationLayer.Services
             else if (value is RegisterPreliminaryInsurance)
             {
                 return "Assets/insurance_pressed.png";
+            else if (value is SalesStatisticsView)
+            {
+                return "Assets/SalesStatistics_pressed.png";
             }
             return "";
         }

@@ -8,90 +8,131 @@
              xmlns:sys="clr-namespace:System;assembly=mscorlib"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    
+
     <UserControl.Resources>
-        <!-- Provide AuthorizationLevel enum values -->
-        <ObjectDataProvider MethodName="GetValues" ObjectType="{x:Type sys:Enum}" x:Key="AuthorizationLevelEnumValues">
-            <ObjectDataProvider.MethodParameters>
-                <x:Type TypeName="models:AuthorizationLevel" />
-            </ObjectDataProvider.MethodParameters>
-        </ObjectDataProvider>
+        <ResourceDictionary>
+            <!-- Importera ResourceDictionary.xaml -->
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/DataTemplatesAndStyles/ResourceDictionary.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+
+            <!-- Enum värden för AuthorizationLevel -->
+            <ObjectDataProvider MethodName="GetValues" ObjectType="{x:Type sys:Enum}" x:Key="AuthorizationLevelEnumValues">
+                <ObjectDataProvider.MethodParameters>
+                    <x:Type TypeName="models:AuthorizationLevel" />
+                </ObjectDataProvider.MethodParameters>
+            </ObjectDataProvider>
+        </ResourceDictionary>
     </UserControl.Resources>
+
 
     <UserControl.DataContext>
         <vm:RegisterUserViewModel/>
     </UserControl.DataContext>
 
     <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
+        <Border Grid.Column="0" BorderBrush="Black" BorderThickness="1" Width="Auto" Height="Auto" Margin="10,20" VerticalAlignment="Top">
+            <StackPanel Orientation="Horizontal">
+                <StackPanel Orientation="Vertical" Height="117">
+                    <Label Content="Find Employee:" Margin="20,0"/>
+                    <TextBox Style="{StaticResource SearchTextBoxStyle}" Name="employeeInput" Text="{Binding EmployeeInput, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Height="30" Width="200" Margin="20,0,10,0" />
+                    <Button Style="{StaticResource GeneralButtonStyle}" Content="Sök" Height="30" Width="100" Command="{Binding SearchEmployee}" Margin="20,10" HorizontalAlignment="Left"/>
+
+                </StackPanel>
+
+            </StackPanel>
+        </Border>
         <!-- Add User Section -->
-        <GroupBox Header="Add User" Grid.Row="0" Margin="10">
-            <StackPanel>
+        <StackPanel Grid.Column="1" >
+            <GroupBox Header="Lägg till användare" Grid.Row="0" Margin="10" Width="Auto" BorderBrush="Black">
+                <StackPanel>
 
-                <!-- Search for Employee -->
-                <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
-                    <Label Content="Find Employee:" Width="100"/>
-                    <TextBox Name="employeeInput" Text="{Binding EmployeeInput, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="200" Margin="0,0,10,0" />
-                    <Button Content="Search" Width="75" Command="{Binding SearchEmployee}"/>
-                    <TextBlock Text="{Binding EmployeeSelected.FirstName}" Width="200" Margin="0,0,10,0" />
-                </StackPanel>
+                    <!-- Search for Employee -->
+                    <StackPanel Orientation="Horizontal" Margin="0">
+                        <StackPanel Orientation="Vertical" HorizontalAlignment="left">
+                            <Label Content="Förnamn" Margin="20,0"/>
+                            <TextBox Style="{StaticResource TextBoxStyle}" Text="{Binding EmployeeSelected.FirstName}" Height="30" Width="200" Margin="20,0,0,0" IsReadOnly="True"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Vertical" Margin="70,0,0,0">
+                            <Label Content="Användarnamn"/>
+                            <TextBox Style="{StaticResource TextBoxStyle}" Text="{Binding NewUserName}" Width="200" Height="30" HorizontalAlignment="Right" IsReadOnly="True"/>
+                        </StackPanel>
+                       
+                    </StackPanel>
 
-                <!-- Password -->
-                <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
-                    <Label Content="Password:" Width="100"/>
-                    <TextBox Name="passwordInput" 
+                    <!-- Password -->
+                    <StackPanel Orientation="Vertical" Margin="0,0,10,0">
+
+                        <Label Content="Lösenord:" Margin="20,0"/>
+                        <TextBox Style="{StaticResource TextBoxStyle}"
+                             Name="passwordInput" 
                              Width="200" 
-                             Margin="0,0,10,0" 
-                             Text="{Binding PasswordInput, Mode=TwoWay}"/>
-                    <!-- <Button Content="Generate" Width="75" Command="{Binding GeneratePasswordCommand}"/> -->
+                             Margin="20,0,0,0" 
+                             Text="{Binding PasswordInput, Mode=TwoWay}"
+                             Height="30"
+                             HorizontalAlignment="Left"/>
+                        <!-- <Button Content="Generate" Width="75" Command="{Binding GeneratePasswordCommand}"/> -->
+
+                    </StackPanel>
+
+                    <!-- Role/Permission Level -->
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                        <StackPanel>
+                            <Label Content="Roll:" Margin="20,0,0,0" />
+                            <ComboBox 
+                            Style="{StaticResource NonObjectComboBoxStyle}"
+                            Name="roleComboBox" 
+                            Width="200" 
+                            Height="30"
+                            Margin="20,0,0,0"
+                            ItemsSource="{Binding Source={StaticResource AuthorizationLevelEnumValues}}" 
+                            SelectedItem="{Binding AuthorizationLevelSelected, Mode=TwoWay}" />
+                        </StackPanel>
+
+                        <Button Style="{StaticResource CRUDButtonStyle}" Margin="169,26,10,0" Height="30" Content="Lägg till" Width="100" Command="{Binding AddUserCommand}"/>
+                    </StackPanel>
+
+                    <!-- Add User Button -->
+                    <!--<Button Style="{StaticResource CRUDButtonStyle}" Content="Add User" Width="100" HorizontalAlignment="Left" Command="{Binding AddUserCommand}"/>-->
                 </StackPanel>
+            </GroupBox>
 
-                <!-- Role/Permission Level -->
-                <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
-                    <Label Content="Permission Level:" Width="100" />
-                    <ComboBox 
-                        Name="roleComboBox" 
-                        Width="200" 
-                        ItemsSource="{Binding Source={StaticResource AuthorizationLevelEnumValues}}" 
-                        SelectedItem="{Binding AuthorizationLevelSelected, Mode=TwoWay}" />
+            <!-- Remove User Section -->
+            <GroupBox Header="Ta bort användare" Grid.Row="1" Margin="10" BorderBrush="Black">
+                <StackPanel Orientation="Horizontal">
+                    <!-- Search for User -->
+                    
+                    <StackPanel Orientation="Horizontal" Margin="20,20,0,10">
+                        <ListBox ItemsSource="{Binding Users}" SelectedItem="{Binding UserSelected, Mode=TwoWay}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="200" Height="150" BorderBrush="Black" ScrollViewer.VerticalScrollBarVisibility="Disabled" 
+    ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <!-- Visar UserID -->
+                                        <TextBlock Text="{Binding UserID}" Width="100"/>
+
+                                        <!-- Visar Employee's AgentNumber -->
+                                        <TextBlock Text="{Binding AuthorizationLevel}" Width="150"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                        <!-- Remove User Button -->
+                        <Button Style="{StaticResource CRUDButtonStyle}" Content="Ta bort" Command="{Binding RemoveUser}" Height="30" Width="100" Margin="169,0" VerticalAlignment="Bottom" HorizontalAlignment="Right"/>
+                    </StackPanel>
+
                 </StackPanel>
-
-                <!-- Add User Button -->
-                <Button Content="Add User" Width="100" HorizontalAlignment="Left" Command="{Binding AddUserCommand}"/>
-            </StackPanel>
-        </GroupBox>
-
-        <!-- Remove User Section -->
-        <GroupBox Header="Remove User" Grid.Row="1" Margin="10">
-            <StackPanel>
-                <!-- Search for User -->
-                <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
-                    <Label Content="Find User:" Width="100"/>
-                    <TextBox Text="{Binding EmployeeInput, Mode=TwoWay}" Width="200" Margin="0,0,10,0"/>
-                    <Button Command="{Binding SearchUser}" Content="Search" Width="75"/>
-                </StackPanel>
-
-                <ListBox ItemsSource="{Binding Users}" SelectedItem="{Binding UserSelected, Mode=TwoWay}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="200" Height="150">
-                    <ListBox.ItemTemplate>
-                        <DataTemplate>
-                            <StackPanel Orientation="Horizontal">
-                                <!-- Visar UserID -->
-                                <TextBlock Text="{Binding UserID}" Width="100"/>
-                        
-                                <!-- Visar Employee's AgentNumber -->
-                                <TextBlock Text="{Binding AuthorizationLevel}" Width="150"/>
-                            </StackPanel>
-                        </DataTemplate>
-                    </ListBox.ItemTemplate>
-                </ListBox>
-                <!-- Remove User Button -->
-                <Button Content="Remove User" Command="{Binding RemoveUser}" Width="100" HorizontalAlignment="Left"/>
-            </StackPanel>
-        </GroupBox>
+            </GroupBox>
+        </StackPanel>
     </Grid>
 </UserControl>

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Diagnostics.Metrics;
 using System.Linq;
 using System.Runtime.ExceptionServices;
 using System.Text;
@@ -21,33 +22,50 @@ namespace ServiceLayer
 
         public void AddPrivateCustomer(PrivateCustomer privateCustomer)
         {
-            try
-            {
-                PostalCodeCity existingPostalCodeCity =
-                    unitOfWork.PostalCodeCityRepository.GetSpecificPostalCode(
-                        privateCustomer.PostalCodeCity.PostalCode
-                    );
+            unitOfWork.PrivateCustomerRepository.Add(privateCustomer);
+            unitOfWork.SaveChanges();
+        }
 
-                if (existingPostalCodeCity == null)
-                {
-                    unitOfWork.PrivateCustomerRepository.Add(privateCustomer);
-                }
-                else
-                {
-                    privateCustomer.PostalCodeCity = existingPostalCodeCity;
-                }
-                unitOfWork.PrivateCustomerRepository.Add(privateCustomer);
-                unitOfWork.SaveChanges();
-            }
-            catch (Exception ex)
-            {
-                throw new Exception($"Ett fel uppstod vid sparandet av kunden: {ex.Message}");
-            }
+        public void AddCompanyCustomer(CompanyCustomer companyCustomer)
+        {
+            unitOfWork.CustomerRepository.Add(companyCustomer);
+            unitOfWork.SaveChanges();
+        }
+
+        public void UpdateCompanyCustomer(CompanyCustomer updatedCompanyCustomer)
+        {
+            unitOfWork.Update(updatedCompanyCustomer);
+            unitOfWork.SaveChanges();
+        }
+
+        public void UpdatePrivateCustomer(PrivateCustomer updatedPrivateCustomer)
+        {
+            unitOfWork.Update(updatedPrivateCustomer);
+            unitOfWork.SaveChanges();
+        }
+
+        public void RemovePrivateCustomer(PrivateCustomer privateCustomer)
+        {
+            unitOfWork.CustomerRepository.Remove(privateCustomer);
+            unitOfWork.SaveChanges();
+        }
+
+        public void RemoveCompanyCustomer(CompanyCustomer companyCustomer)
+        {
+            unitOfWork.CustomerRepository.Remove(companyCustomer);
+            unitOfWork.SaveChanges();
         }
 
         public PrivateCustomer GetSpecificPrivateCustomerForInsuranceBySSN(string sSN)
         {
             return unitOfWork.CustomerRepository.GetSpecificPrivateCustomerForInsuranceBySSN(sSN);
+        }
+
+        public CompanyCustomer GetSpecificCompanyCustomerForInsuranceByOrgNumber(string orgNr)
+        {
+            return unitOfWork.CustomerRepository.GetSpecificCompanyCustomerForInsuranceByOrgNumber(
+                orgNr
+            );
         }
 
         public void RemoveInactiveCustomers()
@@ -78,18 +96,6 @@ namespace ServiceLayer
             unitOfWork.SaveChanges();
         }
 
-        public void RemovePrivateCustomer(PrivateCustomer privateCustomer)
-        {
-            unitOfWork.CustomerRepository.Remove(privateCustomer);
-            unitOfWork.SaveChanges();
-        }
-
-        public void RemoveCompanyCustomer(CompanyCustomer companyCustomer)
-        {
-            unitOfWork.CustomerRepository.Remove(companyCustomer);
-            unitOfWork.SaveChanges();
-        }
-
         public void RemovePrivateCustomerAndInactiveInsurances(PrivateCustomer privateCustomer)
         {
             List<int> insuranceIds = new List<int>();
@@ -103,7 +109,8 @@ namespace ServiceLayer
             foreach (int insuranceId in insuranceIds)
             {
                 IList<InsuranceSpec> temporaryInsuranceSpecs =
-                    unitOfWork.InsuranceSpecRepository.GetInsuranceSpecsByInsuranceId(insuranceId);
+                    unitOfWork.InsuranceSpecRepository.GetSpecsForInsurance(insuranceId);
+                unitOfWork.InsuranceSpecRepository.GetInsuranceSpecsByInsuranceId(insuranceId);
 
                 for (int i = 0; i < temporaryInsuranceSpecs.Count; i++)
                 {
@@ -130,7 +137,8 @@ namespace ServiceLayer
             foreach (int insuranceId in insuranceIds)
             {
                 IList<InsuranceSpec> temporaryInsuranceSpecs =
-                    unitOfWork.InsuranceSpecRepository.GetInsuranceSpecsByInsuranceId(insuranceId);
+                    unitOfWork.InsuranceSpecRepository.GetSpecsForInsurance(insuranceId);
+                unitOfWork.InsuranceSpecRepository.GetInsuranceSpecsByInsuranceId(insuranceId);
 
                 for (int i = 0; i < temporaryInsuranceSpecs.Count; i++)
                 {
@@ -144,7 +152,7 @@ namespace ServiceLayer
             unitOfWork.SaveChanges();
         }
 
-        public void RemoveAllInsuranceSpecsAndInsuranceTypeAttributes(
+        public void RemoveAllInsuranceSpecsAndInsuranceTypeAttributes( //Denna jobbar vi med!!!!
             IList<InsuranceSpec> insuranceSpecs
         )
         {
@@ -187,20 +195,20 @@ namespace ServiceLayer
                     throw new Exception("Organisationsnummer finns redan.");
                 }
 
-                // Kontrollera om postnummer/stad redan finns, annars lägg till det
-                PostalCodeCity existingPostalCodeCity = unitOfWork
-                    .PostalCodeCityRepository
-                    .GetSpecificPostalCode(companyCustomer.PostalCodeCity.PostalCode);
-
-                if (existingPostalCodeCity == null)
-                {
-                    unitOfWork.PostalCodeCityRepository.Add(companyCustomer.PostalCodeCity);
-                }
-                else
-                {
+               // Kontrollera om postnummer/stad redan finns, annars lägg till det
+            //    PostalCodeCity existingPostalCodeCity = unitOfWork
+              //      .PostalCodeCityRepository
+                //    .GetSpecificPostalCode(companyCustomer.PostalCodeCity.PostalCode);
+              
+              //  if (existingPostalCodeCity == null)
+              //  {
+               //     unitOfWork.PostalCodeCityRepository.Add(companyCustomer.PostalCodeCity);
+               // }
+               // else
+              //  {
                     // Om postnummer/stad finns redan, använd det befintliga objektet
-                    companyCustomer.PostalCodeCity = existingPostalCodeCity;
-                }
+              //      companyCustomer.PostalCodeCity = existingPostalCodeCity;
+             //   }
 
                 // Lägg till företagskunden och spara ändringarna
                 unitOfWork.CustomerRepository.Add(companyCustomer);
@@ -211,6 +219,7 @@ namespace ServiceLayer
                 throw new Exception($"Ett fel uppstod vid sparandet av kunden: {ex.Message}");
             }
         }
+
 
 
         public IList<PrivateCustomer> GetAllPrivateCustomers()
@@ -240,11 +249,11 @@ namespace ServiceLayer
             {
                 if (insurance.InsuranceStatus == InsuranceStatus.Active)
                 {
-                    if (insurance.BillingingInterval == BillingInterval.Månad)
+                    if (insurance.BillingInterval == BillingInterval.Månad)
                     {
                         totalPremie += CalculatePremiePerInsurance(insurance);
                     }
-                    if (insurance.BillingingInterval == BillingInterval.Kvartal)
+                    if (insurance.BillingInterval == BillingInterval.Kvartal)
                     {
                         if (
                             (DateTime.Now.Month - insurance.ExpiryDate.Month) % 3 == 0
@@ -254,7 +263,7 @@ namespace ServiceLayer
                             totalPremie += CalculatePremiePerInsurance(insurance);
                         }
                     }
-                    if (insurance.BillingingInterval == BillingInterval.Halvår)
+                    if (insurance.BillingInterval == BillingInterval.Halvår)
                     {
                         if (
                             (DateTime.Now.Month - insurance.ExpiryDate.Month) % 6 == 0
@@ -264,7 +273,7 @@ namespace ServiceLayer
                             totalPremie += CalculatePremiePerInsurance(insurance);
                         }
                     }
-                    if (insurance.BillingingInterval == BillingInterval.År)
+                    if (insurance.BillingInterval == BillingInterval.År)
                     {
                         if (
                             (DateTime.Now.Month == insurance.ExpiryDate.Month)
@@ -301,6 +310,13 @@ namespace ServiceLayer
                 }
             }
             return premie;
+        }
+
+        public void ExportObjectToJson(object objects)
+        {
+            string jsonResult = JsonConvert.SerializeObject(objects, Formatting.Indented);
+            string outputPath = @"C:\JsonTest\CustomerInformation.json";
+            File.WriteAllText(outputPath, jsonResult);
         }
 
         public void AddProspectNote(ProspectNote prospectNote)

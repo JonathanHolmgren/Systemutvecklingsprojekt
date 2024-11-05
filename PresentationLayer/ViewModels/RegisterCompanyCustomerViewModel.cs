@@ -348,21 +348,20 @@ namespace PresentationLayer.ViewModels
                 return;
             }
 
-            var companyCustomer = new CompanyCustomer
-            {
-                CompanyName = CapitalizeFirstLetter(CompanyName),
-                OrganisationNumber = OrganisationNumber,
-                ContactPersonName = CapitalizeFirstLetter(ContactPersonName),
-                CompanyPersonTelephoneNumber = CellPhoneNumberContactPerson,
-                TelephoneNumber = TelephoneNumber,
-                Email = Email,
-                StreetAddress = CapitalizeFirstLetter(StreetAdress),
-                PostalCodeCity = new PostalCodeCity
-                {
-                    City = CapitalizeFirstLetter(City),
-                    PostalCode = PostalCode
-                }
-            };
+
+            //Creating CompanyCustomer
+            CompanyCustomer companyCustomer = new CompanyCustomer();
+
+            //Creation of CompanyCustomer
+            companyCustomer.PostalCode = PostalCode;
+            companyCustomer.City = CapitalizeFirstLetter(City);
+            companyCustomer.CompanyName = CapitalizeFirstLetter(CompanyName);
+            companyCustomer.OrganisationNumber = OrganisationNumber;
+            companyCustomer.ContactPersonName = CapitalizeFirstLetter(ContactPersonName);
+            companyCustomer.CompanyPersonTelephoneNumber = CellPhoneNumberContactPerson;
+            companyCustomer.TelephoneNumber = TelephoneNumber;
+            companyCustomer.Email = Email;
+            companyCustomer.StreetAddress = CapitalizeFirstLetter(StreetAdress);
 
             AddCompanyCustomer(companyCustomer);
             MenuPage++;

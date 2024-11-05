@@ -1,17 +1,23 @@
-﻿using System.Windows;
+﻿using System.Threading.Channels;
+using System.Windows;
 using System.Windows.Input;
 using Models;
 using PresentationLayer.Command;
 using PresentationLayer.Models;
+using PresentationLayer.Services;
 using ServiceLayer;
 
 namespace PresentationLayer.ViewModels;
 
-public class LoginViewModel : ObservableObject
+
+public class LoginViewModel : ObservableObject, ICloseWindows
 {
     LoginUser loginUser = new LoginUser();
 
-    private User userSelected = null!;
+    public Action Close { get; set; }
+    private IWindowService windowService { get; set; }
+
+     private User userSelected = null!;
     public User UserSelected
     {
         get { return userSelected; }
@@ -21,6 +27,7 @@ public class LoginViewModel : ObservableObject
             OnPropertyChanged();
         }
     }
+
 
     private string errorMessage = null!;
     public string ErrorMessage
@@ -55,6 +62,7 @@ public class LoginViewModel : ObservableObject
         }
     }
 
+
     private ICommand loginBtn = null!;
     public ICommand LoginBtn =>
         loginBtn ??= new RelayCommand(() =>
@@ -63,10 +71,21 @@ public class LoginViewModel : ObservableObject
             {
                 User user = loginUser.ValidateUser(userNameInput, passwordInput);
                 userSelected = user;
+                MainWindowViewModel mainWindowViewModel = new MainWindowViewModel();
+
+                
+                windowService.ShowWindow(mainWindowViewModel);
+                Close?.Invoke();
             }
             catch (Exception ex)
             {
                 ErrorMessage = ex.Message;
             }
         });
+
+    public LoginViewModel()
+    {
+        windowService = new WindowService();
+ 
+    }
 }

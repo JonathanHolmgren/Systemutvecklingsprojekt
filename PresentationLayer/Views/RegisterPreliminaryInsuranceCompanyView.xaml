@@ -1,0 +1,98 @@
+﻿<UserControl x:Class="PresentationLayer.Views.RegisterPreliminaryInsuranceCompanyView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:PresentationLayer.Views"
+             xmlns:vm="clr-namespace:PresentationLayer.ViewModels"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800"
+             Height="450" Width="800">
+
+    <UserControl.DataContext>
+        <vm:RegisterPreliminaryInsuranceCompanyViewModel/>
+    </UserControl.DataContext>
+
+    <Grid Background="White">
+        <!--CompanyInformation-->
+        <TextBox BorderBrush="Black" Text="{Binding InputOrgNumber, UpdateSourceTrigger=PropertyChanged}" Width="150" Height="25" Margin="10,10,640,415"/>
+        <Button Content="Sök" Command="{Binding SearchCommand}" Width="100" Height="25" Margin="165,10,535,415"/>
+
+        <Label Content="Företagsnamn" Margin="10,35,640,390"/>
+        <TextBox BorderBrush="Black" Text="{Binding SelectedCompanyCustomer.CompanyName}" IsReadOnly="True" Width="150" Height="25" Margin="10,60,640,365"/>
+        <Label Content="Org-nr" Margin="225,35,425,390"/>
+        <TextBox BorderBrush="Black" Text="{Binding SelectedCompanyCustomer.OrganisationNumber}" IsReadOnly="True" Width="150" Height="25" Margin="225,60,425,365"/>
+        <Label Content="Kontaktperson" Margin="425,35,225,390"/>
+        <TextBox BorderBrush="Black" Text="{Binding SelectedCompanyCustomer.ContactPersonName}" IsReadOnly="True" Width="150" Height="25" Margin="425,60,225,365"/>
+        <Label Content="Telefon (Kontaktperson)" Margin="630,35,20,390"/>
+        <TextBox BorderBrush="Black" Text="{Binding SelectedCompanyCustomer.CompanyPersonTelephoneNumber}" IsReadOnly="True" Width="150" Height="25" Margin="630,60,20,365"/>
+
+        <Label Content="Gatuadress" Margin="10,85,640,340"/>
+        <TextBox BorderBrush="Black" Text="{Binding SelectedCompanyCustomer.StreetAddress}" IsReadOnly="True" Width="150" Height="25" Margin="10,110,640,315"/>
+        <Label Content="Postnummer" Margin="225,85,425,340"/>
+        <TextBox BorderBrush="Black" Text="{Binding SelectedCompanyCustomer.PostalCodeCity.PostalCode}" IsReadOnly="True" Width="150" Height="25" Margin="225,110,425,315"/>
+        <Label Content="Telefonnummer" Margin="425,85,225,340"/>
+        <TextBox BorderBrush="Black" Text="{Binding SelectedCompanyCustomer.TelephoneNumber}" IsReadOnly="True" Width="150" Height="25" Margin="425,110,225,315"/>
+        <Label Content="Mail" Margin="630,85,20,340"/>
+        <TextBox BorderBrush="Black" Text="{Binding SelectedCompanyCustomer.Email}" IsReadOnly="True" Width="150" Height="25" Margin="630,110,20,315"/>
+
+        <!--InsuranceInformation-->
+        <Label Content="Försäkringstyp" Margin="10,140,640,285"/>
+        <ComboBox Width="150" ItemsSource="{Binding AvailableInsuranceTypes}" SelectedItem="{Binding SelectedInsuranceType}" Height="25" Margin="10,165,640,260"/>
+
+        <!--Fastighet och inventarie-->
+        <Label Content="Fastighet och inventarie" Margin="10,190,640,235" FontWeight="Bold" />
+
+        <Label Content="Fastighetsadress" Margin="10,205,640,221"/>
+        <TextBox BorderBrush="Black" Text="{Binding PropertyAddress,UpdateSourceTrigger=PropertyChanged}" Width="150" Height="25" Margin="10,230,640,195"/>
+        <Label Content="Värde fastigheter" Margin="225,178,425,248"/>
+        <TextBox BorderBrush="Black" Text="{Binding PropertyValue, UpdateSourceTrigger=PropertyChanged}" Width="150" Height="25" Margin="225,202,425,223"/>
+        <Label Content="Premie fastighet" Margin="630,178,20,248"/>
+        <TextBox BorderBrush="Black" IsReadOnly="True" Text="{Binding PropertyPremie}" Width="150" Height="25" Margin="630,202,20,223"/>
+        <Label Content="Värde Inventarier" Margin="225,225,425,201"/>
+        <TextBox BorderBrush="Black" Text="{Binding InventoriesValue, UpdateSourceTrigger=PropertyChanged}" Width="150" Height="25" Margin="225,250,425,174"/>
+        <Label Content="Premie inventarier" Margin="630,225,20,201"/>
+        <TextBox BorderBrush="Black" IsReadOnly="True" Text="{Binding InventoriesPremie}" Width="150" Height="25" Margin="630,250,20,174"/>
+
+        <!--Fordonsförsäkring-->
+        <Label Content="Fordonsförsäkring (Personbil)" Margin="10,260,610,165" FontWeight="Bold" />
+
+        <Label Content="Omfattning" Margin="10,271,640,154"/>
+        <ComboBox Width="150" ItemsSource="{Binding AvailableCarInsuranceTypes}" SelectedItem="{Binding SelectedCarInsuranceType, Mode=TwoWay}" Height="25" Margin="10,296,640,129"/>
+
+        <Label Content="Självrisk" Margin="225,271,425,154"/>
+        <ComboBox Width="150" ItemsSource="{Binding AvailableCarDeductibles}" SelectedItem="{Binding SelectedCarDeductible, Mode=TwoWay}" Height="25" Margin="225,296,425,129"/>
+
+        <Label Content="Zon" Margin="425,271,225,153"/>
+        <ComboBox Width="150" ItemsSource="{Binding AvailableZones}" SelectedItem="{Binding SelectedZone, Mode=TwoWay}" Height="25" Margin="425,296,225,129"/>
+
+        <Label Content="Grundkostnad (Månad)" Margin="630,271,20,154"/>
+        <TextBox Width="150" IsReadOnly="True" Text ="{Binding CarPremie, Mode=OneWay}" Height="25" Margin="630,296,20,129"/>
+
+        <!--Ansvarsförsäkring-->
+        <Label Content="Ansvarsförsäkring" Margin="10,315,610,110" FontWeight="Bold" />
+
+        <Label Content="Belopp" Margin="10,340,640,85"/>
+        <ComboBox Width="150" ItemsSource="{Binding AvailableLiabilityAmount}" SelectedItem="{Binding SelectedLiabilityAmount, Mode=TwoWay}" Height="25" Margin="10,365,640,60"/>
+
+        <Label Content="Självrisk" Margin="225,340,425,85"/>
+        <ComboBox Width="150" ItemsSource="{Binding AvailableLiabilityDeductibles}" SelectedItem="{Binding SelectedLiabilityDeductible, Mode=TwoWay}" Height="25" Margin="225,365,425,60"/>
+
+        <Label Content="Grundkostnad (Månad)" Margin="630,340,20,85"/>
+        <TextBox Width="150" Text="{Binding LiabilityPremie, Mode=OneWay}" IsReadOnly="True" Height="25" Margin="630,365,20,60"/>
+
+        <!--Längst ner-->
+        <Label Content="Betalningsinterval" Margin="350,399,300,25"/>
+        <ComboBox Width="150" ItemsSource="{Binding BillingIntervals}" SelectedItem="{Binding SelectedInterval}" Height="25" Margin="350,425,300,0"/>
+
+        <Label Content="Begynellsedatum" Margin="10,400,640,25"/>
+        <DatePicker SelectedDate="{Binding ActivationDate}" Height="25" Width="150" Margin="10,425,640,0"/>
+        <Label Content="Förfallodatum" Margin="180,400,470,25"/>
+        <DatePicker SelectedDate="{Binding ExpiryDate}" Height="25" Width="150" Margin="180,425,470,0"/>
+
+        <Label Content="Total premie" Margin="525,400,125,25"/>
+        <TextBox Width="150" IsReadOnly="True" Text="{Binding TotalPremie}" Height="25" Margin="525,425,125,0"/>
+
+        <Button Content="Registrera" Command="{Binding AddCommand}" Width="100" Height="25" Margin="690,425,10,0"/>
+    </Grid>
+</UserControl>

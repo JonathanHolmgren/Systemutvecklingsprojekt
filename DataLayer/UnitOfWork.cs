@@ -30,7 +30,6 @@ namespace DataLayer
         }
         public InsuranceTypeRepository InsuranceTypeRepository { get; private set; }
         public InsuredPersonRepository InsuredPersonRepository { get; private set; }
-        public PostalCodeCityRepository PostalCodeCityRepository { get; private set; }
         public PrivateCustomerRepository PrivateCustomerRepository { get; private set; }
         public UserRepository UserRepository { get; private set; }
         public ProspectNoteRepository ProspectNoteRepository { get; private set; }
@@ -48,7 +47,6 @@ namespace DataLayer
             InsuranceTypeAttributeRepository = new InsuranceTypeAttributeRepository(context);
             InsuranceTypeRepository = new InsuranceTypeRepository(context);
             InsuredPersonRepository = new InsuredPersonRepository(context);
-            PostalCodeCityRepository = new PostalCodeCityRepository(context);
             PrivateCustomerRepository = new PrivateCustomerRepository(context);
             UserRepository = new UserRepository(context);
             ProspectNoteRepository = new ProspectNoteRepository(context);

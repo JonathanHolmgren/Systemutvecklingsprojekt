@@ -9,6 +9,7 @@ using ServiceLayer;
 
 namespace PresentationLayer.ViewModels;
 
+
 public class LoginViewModel : ObservableObject, ICloseWindows
 {
     LoginUser loginUser = new LoginUser();
@@ -16,7 +17,7 @@ public class LoginViewModel : ObservableObject, ICloseWindows
     public Action Close { get; set; }
     private IWindowService windowService { get; set; }
 
-    private User userSelected = null!;
+     private User userSelected = null!;
     public User UserSelected
     {
         get { return userSelected; }
@@ -26,6 +27,7 @@ public class LoginViewModel : ObservableObject, ICloseWindows
             OnPropertyChanged();
         }
     }
+
 
     private string errorMessage = null!;
     public string ErrorMessage
@@ -60,6 +62,7 @@ public class LoginViewModel : ObservableObject, ICloseWindows
         }
     }
 
+
     private ICommand loginBtn = null!;
     public ICommand LoginBtn =>
         loginBtn ??= new RelayCommand(() =>
@@ -83,5 +86,6 @@ public class LoginViewModel : ObservableObject, ICloseWindows
     public LoginViewModel()
     {
         windowService = new WindowService();
+ 
     }
 }

@@ -10,45 +10,571 @@
     <UserControl.DataContext>
         <vm:RegisterCompanyCustomerViewModel/>
     </UserControl.DataContext>
-    <Border CornerRadius="10"         
-     Background="White"
-     
-     
-     Padding="10"
-     
-     Margin="0">
+    <UserControl.Resources>
+        <ResourceDictionary Source="/DataTemplatesAndStyles/ResourceDictionary.xaml"/>
+    </UserControl.Resources>
+
+   <!--Outer border -->
+    <Border CornerRadius="10" Background="White" Padding="10" Margin="0">
+        
         <Grid>
-            <TextBox x:Name="companyName" Text="{Binding CompanyName, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Margin="93,75,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="120"/>
-            <Label Content="Företagsnamn" HorizontalAlignment="Left" Margin="90,55,0,0" VerticalAlignment="Top" Foreground="Black" Width="93"/>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"
+                               MinHeight="550"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*" MinWidth="360" MaxWidth="420"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
 
-            <TextBox x:Name="organisationNumber" Text="{Binding OrganisationNumber, UpdateSourceTrigger=PropertyChanged}"  HorizontalAlignment="Left" Margin="93,125,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
-            <Label Content="Org nummer (10 siffror)" HorizontalAlignment="Left" Margin="90,105,0,0" Foreground="Black" VerticalAlignment="Top" Width="136"/>
+            <!-- First page -->
+            <Border Grid.Row="1" Grid.Column="1" Background="LightGray" CornerRadius="5">
+                <StackPanel Orientation="Vertical" VerticalAlignment="Top" HorizontalAlignment="Center">
+                    <TextBlock Foreground="#222222" FontSize="24" Text="Registrera ny företagskund" FontFamily="Fonts/#Open Sans Regular" Margin="0,69,0,0" />
+                    <TextBlock Text="Fyll i företagsinformation om företaget som ska registreras." TextWrapping="Wrap" Width="240" FontSize="16" Margin="0,10,0,0" TextAlignment="Center"/>
 
-            <TextBox x:Name="contactPersonName" Text="{Binding ContactPersonName, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Margin="93,175,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
-            <Label Content="Kontaktperson namn" HorizontalAlignment="Left" Margin="90,155,0,0" Foreground="Black" VerticalAlignment="Top" Width="123"/>
+                    <TextBlock HorizontalAlignment="Center" FontSize="15" Margin="0,20,0,0">
+                        <Run Text="Fyll i " />
+                        <Run Text="Företagsnamn" FontWeight="Bold" />           
+                    </TextBlock>
 
-            <TextBox x:Name="cellPhoneNumberContactPerson" Text="{Binding CellPhoneNumberContactPerson, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Margin="93,225,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
-            <Label Content="Kontaktperson nummer (10 siffror)" HorizontalAlignment="Left" Margin="90,205,0,0" Foreground="Black" VerticalAlignment="Top" Width="199"/>
+                    <TextBox Style="{StaticResource RegisterTextBoxStyle}"
+                             Width="250"
+                             Height="40"
+                             FontSize="16"
+                             HorizontalAlignment="Center"
+                             VerticalAlignment="Top"
+                             x:Name="CompanyNameTextBox" 
+                            
+                            Text="{Binding CompanyName, UpdateSourceTrigger=LostFocus, ValidatesOnDataErrors=True}"/>
 
-            <TextBox x:Name="streetAddress" Text="{Binding StreetAdress, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Margin="93,275,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
-            <Label Content="Gatuadress" HorizontalAlignment="Left" Margin="90,255,0,0" Foreground="Black" VerticalAlignment="Top" Width="93"/>
+                    <TextBlock Foreground="Red" FontSize="12" Margin="0,3,0,0" TextAlignment="Center">
+                        <TextBlock.Style>
+                            <Style TargetType="TextBlock">
+                                
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                                <Setter Property="Text" Value=""/>
 
-            <TextBox x:Name="email" Text="{Binding Email,UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Margin="300,75,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
-            <Label Content="Mail adress" HorizontalAlignment="Left" Margin="297,55,0,0" VerticalAlignment="Top" Foreground="Black" Width="93"/>
+                              
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding (Validation.HasError), ElementName=CompanyNameTextBox}" Value="True">
+                                        <Setter Property="Visibility" Value="Visible"/>
+                                        <Setter Property="Text" Value="{Binding (Validation.Errors)[0].ErrorContent, ElementName=CompanyNameTextBox}"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+                    </TextBlock>
 
-            <TextBox x:Name="telephoneNumber" Text="{Binding TelephoneNumber, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Margin="300,125,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
-            <Label Content="Telefonnummer företag(5-8 siffror)" HorizontalAlignment="Left" Margin="297,105,0,0" Foreground="Black" VerticalAlignment="Top" Width="195"/>
 
-            <TextBox x:Name="postalCode" Text="{Binding PostalCode, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Margin="300,175,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
-            <Label Content="Postkod (5siffror)" HorizontalAlignment="Left" Margin="297,155,0,0" Foreground="Black" VerticalAlignment="Top" Width="114"/>
 
-            <TextBox x:Name="city" Text="{Binding City, UpdateSourceTrigger=PropertyChanged}"  HorizontalAlignment="Left" Margin="300,225,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
-            <Label Content="Stad" HorizontalAlignment="Left" Margin="297,205,0,0" Foreground="Black" VerticalAlignment="Top" Width="93"/>
+                    <TextBlock HorizontalAlignment="Center" FontSize="15" Margin="0,20,0,0">
+                        <Run Text="Fyll i"/>
+                        <Run Text="Organisationsnummer" FontWeight="Bold"/>
+                    </TextBlock>
+                    <TextBlock Text="(Ex. 123456-1234)" Margin="0,-2,0,0" TextAlignment="Center"/>
+                    <TextBox Style="{StaticResource RegisterTextBoxStyle}"
+                 Width="250"
+                 Height="40"
+                 FontSize="16"
+                 HorizontalAlignment="Center"
+                 VerticalAlignment="Top"
+                 
+                 Text="{Binding OrganisationNumber, UpdateSourceTrigger=LostFocus, ValidatesOnDataErrors=True}"
+                 x:Name="OrganisationNumberTextBox"/>
 
-            <Button Content="Avbryt" HorizontalAlignment="Left" Margin="534,404,0,0" VerticalAlignment="Top" Height="36" Width="73"/>
-            <Button x:Name="createCompanyCustomerCommand" Command="{Binding CreateCompanyCustomerCommand}" Content="Registrera" HorizontalAlignment="Left" Margin="634,404,0,0" VerticalAlignment="Top" Height="36" Width="73"/>
-            <Label FontSize="25" Content="Registrera företagskund" HorizontalAlignment="Left" Margin="93,24,0,0" VerticalAlignment="Top" Width="344"/>
+                    <TextBlock Foreground="Red" FontSize="12" Margin="0,3,0,0" TextAlignment="Center">
+                        <TextBlock.Style>
+                            <Style TargetType="TextBlock">
+                       
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                                <Setter Property="Text" Value=""/>
 
+                                
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding (Validation.HasError), ElementName=OrganisationNumberTextBox}" Value="True">
+                                        <Setter Property="Visibility" Value="Visible"/>
+                                        <Setter Property="Text" Value="{Binding (Validation.Errors)[0].ErrorContent, ElementName=OrganisationNumberTextBox}"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+                    </TextBlock>
+
+
+                  
+                    <Button Style="{StaticResource RegisterButtonStyle}"
+                            Command="{Binding NextPageCommand}"
+                            Height="40"
+                            Width="250"
+                            Content="Gå vidare"
+                            Margin="0,25,0,0"/>
+                </StackPanel>
+
+                <Border.Style>
+                    <Style TargetType="Border">
+                        <Setter Property="Visibility" Value="Visible"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding MenuPage}" Value="0">
+                                <Setter Property="Visibility" Value="Visible"/>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding MenuPage}" Value="1">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding MenuPage}" Value="2">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding MenuPage}" Value="3">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding MenuPage}" Value="4">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Border.Style>
+            </Border>
+
+            <!--Secound page-->
+            <Border Grid.Row="1" Grid.Column="1" Background="LightGray" CornerRadius="5">
+                <StackPanel Orientation="Vertical" VerticalAlignment="Top" HorizontalAlignment="Center">
+                    <Button Style="{StaticResource RegisterBackButton}"
+                Command="{Binding GoBackPageCommand}"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                Margin="-35,15,0,0"/>
+
+                    <TextBlock Foreground="#222222" FontSize="24" Text="Registrera ny företagskund" FontFamily="Fonts/#Open Sans Regular" Margin="0,14,0,0" />
+                    <TextBlock Text="Fyll i uppgifter om kontaktpersonen till företaget." TextWrapping="Wrap" Width="240" FontSize="16" Margin="0,7,0,0" TextAlignment="Center"/>
+
+
+                    <TextBlock HorizontalAlignment="Center" FontSize="15" Margin="0,20,0,0">
+                        <Run Text="Fyll i"/>
+                        <Run Text="Kontaktpersonens namn" FontWeight="Bold"/>
+                    </TextBlock>
+                    <TextBox Style="{StaticResource RegisterTextBoxStyle}"
+                 Width="250"
+                 Height="40"
+                 FontSize="16"
+                 HorizontalAlignment="Center"
+                 VerticalAlignment="Top"
+                 Text="{Binding ContactPersonName, UpdateSourceTrigger=LostFocus, ValidatesOnDataErrors=True}"
+                 x:Name="ContactPersonNameTextBox"/>
+
+                    
+                    <TextBlock Foreground="Red" FontSize="12" Margin="0,3,0,0" TextAlignment="Center">
+                        <TextBlock.Style>
+                            <Style TargetType="TextBlock">
+                                
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                                <Setter Property="Text" Value=""/>
+
+                                
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding (Validation.HasError), ElementName=ContactPersonNameTextBox}" Value="True">
+                                        <Setter Property="Visibility" Value="Visible"/>
+                                        <Setter Property="Text" Value="{Binding (Validation.Errors)[0].ErrorContent, ElementName=ContactPersonNameTextBox}"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+                    </TextBlock>
+
+
+                    <TextBlock HorizontalAlignment="Center" FontSize="15" Margin="0,20,0,0">
+                        <Run Text="Fyll i"/>
+                        <Run Text="Kontaktpersonens telefonnummer" FontWeight="Bold"/>
+                    </TextBlock>
+                    <TextBlock Text="(Ex. 0701234567)" TextAlignment="Center" Margin="0,-2,0,0"/>
+
+                    <TextBox Style="{StaticResource RegisterTextBoxStyle}"
+                             Width="250"
+                             Height="40"
+                             FontSize="16"
+                             HorizontalAlignment="Center"
+                             VerticalAlignment="Top"
+                             Text="{Binding CellPhoneNumberContactPerson, UpdateSourceTrigger=LostFocus, ValidatesOnDataErrors=True}"
+                             x:Name="CellPhoneNumberContactPersonTextBox"/>
+
+                    
+                    <TextBlock Foreground="Red" FontSize="12" Margin="0,3,0,0" TextAlignment="Center">
+                        <TextBlock.Style>
+                            <Style TargetType="TextBlock">
+                              
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                                <Setter Property="Text" Value=""/>
+
+                               
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding (Validation.HasError), ElementName=CellPhoneNumberContactPersonTextBox}" Value="True">
+                                        <Setter Property="Visibility" Value="Visible"/>
+                                        <Setter Property="Text" Value="{Binding (Validation.Errors)[0].ErrorContent, ElementName=CellPhoneNumberContactPersonTextBox}"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+                    </TextBlock>
+
+
+                    <Button Style="{StaticResource RegisterButtonStyle}"
+                            Command="{Binding NextPageCommand}"
+                            Height="40"
+                            Width="250"
+                            Content="Gå vidare"
+                            Margin="0,25,0,0"/>
+                </StackPanel>
+                <Border.Style>
+                    <Style TargetType="Border">
+                        <Setter Property="Visibility" Value="Visible"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding MenuPage}" Value="1">
+                                <Setter Property="Visibility" Value="Visible"/>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding MenuPage}" Value="0">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding MenuPage}" Value="2">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding MenuPage}" Value="3">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding MenuPage}" Value="4">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Border.Style>
+            </Border>
+
+
+            <!-- Third page -->
+            <Border Grid.Row="1" Grid.Column="1" Background="LightGray" CornerRadius="5">
+                <StackPanel Orientation="Vertical" VerticalAlignment="Top" HorizontalAlignment="Center">
+                    <Button Style="{StaticResource RegisterBackButton}"
+                Command="{Binding GoBackPageCommand}"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                Margin="-35,15,0,0"/>
+
+                    <TextBlock Foreground="#222222" FontSize="24" Text="Registrera ny företagskund" FontFamily="Fonts/#Open Sans Regular" Margin="0,14,0,0" />
+                    <TextBlock Text="Fyll i företagets kontaktuppgifter." TextWrapping="Wrap" Width="240" FontSize="16" Margin="0,7,0,0" TextAlignment="Center"/>
+
+                    <TextBlock HorizontalAlignment="Center" FontSize="15" Margin="0,20,0,0">
+                        <Run Text="Fyll i"/>
+                        <Run Text="Företagets epost" FontWeight="Bold"/>
+                    </TextBlock>
+                    <TextBlock Text="(Ex. exempel@hotmail.com)" TextAlignment="Center" Margin="0,-2,0,0"/>
+                    <TextBox Style="{StaticResource RegisterTextBoxStyle}" 
+                             Width="250"
+                             Height="40"
+                             FontSize="16"
+                             HorizontalAlignment="Center"
+                             VerticalAlignment="Top"
+                             Text="{Binding Email, UpdateSourceTrigger=LostFocus, ValidatesOnDataErrors=True}"
+                             x:Name="EmailTextBox"/>
+
+                    
+                    <TextBlock Foreground="Red" FontSize="12" Margin="0,3,0,0" TextAlignment="Center">
+                        <TextBlock.Style>
+                            <Style TargetType="TextBlock">
+                               
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                                <Setter Property="Text" Value=""/>
+
+                               
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding (Validation.HasError), ElementName=EmailTextBox}" Value="True">
+                                        <Setter Property="Visibility" Value="Visible"/>
+                                        <Setter Property="Text" Value="{Binding (Validation.Errors)[0].ErrorContent, ElementName=EmailTextBox}"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+                    </TextBlock>
+
+
+                   
+                    <TextBlock  HorizontalAlignment="Center" FontSize="15" Margin="0,20,0,0">
+                        <Run Text="Fyll i"/>
+                        <Run Text="Företagets telefonnummer" FontWeight="Bold"/>
+                    </TextBlock>
+                    <TextBlock Text="(5-8 siffror)" Margin="0,-2,0,0" TextAlignment="Center"/>
+                    <TextBox Style="{StaticResource RegisterTextBoxStyle}"
+                             Width="240"
+                             Height="40"
+                             FontSize="16"
+                             HorizontalAlignment="Center"
+                             VerticalAlignment="Top"
+                             
+                             Text="{Binding TelephoneNumber, UpdateSourceTrigger=LostFocus, ValidatesOnDataErrors=True}"
+                             x:Name="TelephoneNumberTextBox"/>
+
+                    <TextBlock Foreground="Red" FontSize="12" Margin="0,3,0,0" TextAlignment="Center">
+                        <TextBlock.Style>
+                            <Style TargetType="TextBlock">
+                                
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                                <Setter Property="Text" Value=""/>
+
+                                
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding (Validation.HasError), ElementName=TelephoneNumberTextBox}" Value="True">
+                                        <Setter Property="Visibility" Value="Visible"/>
+                                        <Setter Property="Text" Value="{Binding (Validation.Errors)[0].ErrorContent, ElementName=TelephoneNumberTextBox}"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+                    </TextBlock>
+
+
+                    <Button Style="{StaticResource RegisterButtonStyle}"
+                            Command="{Binding NextPageCommand}"
+                            Height="40"
+                            Width="250"
+                            Content="Gå vidare"
+                            Margin="0,25,0,0"/>
+                            </StackPanel>
+
+           
+                <Border.Style>
+                    <Style TargetType="Border">
+                        <Setter Property="Visibility" Value="Visible"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding MenuPage}" Value="2">
+                                <Setter Property="Visibility" Value="Visible"/>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding MenuPage}" Value="0">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding MenuPage}" Value="1">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding MenuPage}" Value="3">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding MenuPage}" Value="4">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Border.Style>
+            </Border>
+
+
+
+            <!--Fourth page -->
+            <Border Grid.Row="1" Grid.Column="1" Background="LightGray" CornerRadius="5">
+                <StackPanel Orientation="Vertical" VerticalAlignment="Top" HorizontalAlignment="Center">
+                    <Button Style="{StaticResource RegisterBackButton}"
+                Command="{Binding GoBackPageCommand}"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                Margin="-35,15,0,0"/>
+
+                    <TextBlock Foreground="#222222" FontSize="24" Text="Registrera ny företagskund" FontFamily="Fonts/#Open Sans Regular" Margin="0,14,0,0" />
+                    <TextBlock Text="Fyll i platsuppgifter om företaget." TextWrapping="Wrap" Width="240" FontSize="16" Margin="0,7,0,0" TextAlignment="Center"/>
+
+                 
+                    <TextBlock HorizontalAlignment="Center" FontSize="15" Margin="0,20,0,0">
+                        <Run Text="Fyll i"/>
+                        <Run Text="Företagets ort" FontWeight="Bold"/>
+                    </TextBlock>
+                    <TextBox Style="{StaticResource RegisterTextBoxStyle}"
+                             Width="250"
+                             Height="40"
+                             FontSize="16"
+                             HorizontalAlignment="Center"
+                             VerticalAlignment="Top"
+                             Text="{Binding City, UpdateSourceTrigger=LostFocus, ValidatesOnDataErrors=True}"
+                             x:Name="CityTextBox"/>
+
+                    <TextBlock Foreground="Red" FontSize="12" Margin="0,3,0,0" TextAlignment="Center">
+                        <TextBlock.Style>
+                            <Style TargetType="TextBlock">
+                               
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                                <Setter Property="Text" Value=""/>
+
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding (Validation.HasError), ElementName=CityTextBox}" Value="True">
+                                        <Setter Property="Visibility" Value="Visible"/>
+                                        <Setter Property="Text" Value="{Binding (Validation.Errors)[0].ErrorContent, ElementName=CityTextBox}"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+                    </TextBlock>
+
+
+
+                    <TextBlock HorizontalAlignment="Center" FontSize="15" Margin="0,10,0,0">
+                        <Run Text="Fyll i"/>
+                        <Run Text="Företagets address" FontWeight="Bold"/>
+                    </TextBlock>
+                    <TextBlock Text="(Ex. Allégatan 1)" Margin="0,-2,0,0" TextAlignment="Center"/>
+                    <TextBox Style="{StaticResource RegisterTextBoxStyle}"
+                             Width="250"
+                             Height="40"
+                             FontSize="16"
+                             HorizontalAlignment="Center"
+                             VerticalAlignment="Top"
+                          
+                             Text="{Binding StreetAdress, UpdateSourceTrigger=LostFocus, ValidatesOnDataErrors=True}"
+                             x:Name="StreetAdressTextBox"/>
+
+                    <TextBlock Foreground="Red" FontSize="12" Margin="0,3,0,0" TextAlignment="Center">
+                        <TextBlock.Style>
+                            <Style TargetType="TextBlock">
+                                
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                                <Setter Property="Text" Value=""/>
+
+                            
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding (Validation.HasError), ElementName=StreetAdressTextBox}" Value="True">
+                                        <Setter Property="Visibility" Value="Visible"/>
+                                        <Setter Property="Text" Value="{Binding (Validation.Errors)[0].ErrorContent, ElementName=StreetAdressTextBox}"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+                    </TextBlock>
+
+
+                    <TextBlock HorizontalAlignment="Center" FontSize="15" Margin="0,10,0,0">
+                       <Run Text="Fyll i"/>
+                        <Run Text="Företagets postkod" FontWeight="Bold"/>
+                    </TextBlock>
+                    <TextBlock Text="(Ex. 50467)" Margin="0,-2,0,0" TextAlignment="Center"/>
+                    <TextBox Style="{StaticResource RegisterTextBoxStyle}"
+                             Width="250"
+                             Height="40"
+                             FontSize="16"
+                             HorizontalAlignment="Center"
+                             VerticalAlignment="Top"
+                            
+                             Text="{Binding PostalCode, UpdateSourceTrigger=LostFocus, ValidatesOnDataErrors=True}"
+                             x:Name="PostalCodeTextBox"/>
+
+           
+                    <TextBlock Foreground="Red" FontSize="12" Margin="0,3,0,0" TextAlignment="Center">
+                        <TextBlock.Style>
+                            <Style TargetType="TextBlock">
+                               
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                                <Setter Property="Text" Value=""/>
+
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding (Validation.HasError), ElementName=PostalCodeTextBox}" Value="True">
+                                        <Setter Property="Visibility" Value="Visible"/>
+                                        <Setter Property="Text" Value="{Binding (Validation.Errors)[0].ErrorContent, ElementName=PostalCodeTextBox}"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+                    </TextBlock>
+
+
+                    <Button Style="{StaticResource RegisterButtonStyle}"
+                            Command="{Binding CreateCompanyCustomerCommand}"
+                            Height="40"
+                            Width="250"
+                            Content="Lägg till kund"
+                            Margin="0,25,0,0"/>
+                </StackPanel>
+
+                <Border.Style>
+                    <Style TargetType="Border">
+                        <Setter Property="Visibility" Value="Visible"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding MenuPage}" Value="3">
+                                <Setter Property="Visibility" Value="Visible"/>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding MenuPage}" Value="0">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding MenuPage}" Value="1">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding MenuPage}" Value="2">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding MenuPage}" Value="4">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Border.Style>
+            </Border>
+            <!--Final page-->
+            <Border Grid.Row="1" Grid.Column="1" Background="LightGray" CornerRadius="5">
+                <StackPanel Orientation="Vertical" VerticalAlignment="Top" HorizontalAlignment="Center">
+
+                 
+                    <TextBlock Foreground="#222222" FontSize="24" Text="Företagskund registrerad" FontFamily="Fonts/#Open Sans Regular" Margin="0,69,0,0" />
+
+                  
+                    <StackPanel Orientation="Vertical" Margin="0,15,0,0">
+                        <TextBlock Text="{Binding CompanyName, StringFormat='Företagsnamn: {0}'}" FontSize="16" Foreground="#333333" Margin="0,5,0,0"/>
+                        <TextBlock Text="{Binding OrganisationNumber, StringFormat='Organisationsnummer: {0}'}" FontSize="16" Foreground="#333333" Margin="0,5,0,0"/>
+                        <TextBlock Text="{Binding ContactPersonName, StringFormat='Kontaktperson: {0}'}" FontSize="16" Foreground="#333333" Margin="0,5,0,0"/>
+                        <TextBlock Text="{Binding CellPhoneNumberContactPerson, StringFormat='Mobilnummer: {0}'}" FontSize="16" Foreground="#333333" Margin="0,5,0,0"/>
+                        <TextBlock Text="{Binding TelephoneNumber, StringFormat='Telefonnummer: {0}'}" FontSize="16" Foreground="#333333" Margin="0,5,0,0"/>
+                        <TextBlock Text="{Binding Email, StringFormat='E-post: {0}'}" FontSize="16" Foreground="#333333" Margin="0,5,0,0"/>
+                        <TextBlock Text="{Binding StreetAdress, StringFormat='Adress: {0}'}" FontSize="16" Foreground="#333333" Margin="0,5,0,0"/>
+                        <TextBlock Text="{Binding PostalCode, StringFormat='Postnummer: {0}'}" FontSize="16" Foreground="#333333" Margin="0,5,0,0"/>
+                        <TextBlock Text="{Binding City, StringFormat='Stad: {0}'}" FontSize="16" Foreground="#333333" Margin="0,5,0,0"/>
+                    </StackPanel>
+
+                   
+                    <Button Style="{StaticResource RegisterButtonStyle}"
+                           
+                Command="{Binding ResetReigstrationCommand}"
+                Height="40"
+                Width="250"
+                Content="Återgå till registring!"
+                Margin="0,40,0,0"/>
+                </StackPanel>
+
+                <Border.Style>
+                    <Style TargetType="Border">
+                        <Setter Property="Visibility" Value="Collapsed"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding MenuPage}" Value="4">
+                                <Setter Property="Visibility" Value="Visible"/>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding MenuPage}" Value="0">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding MenuPage}" Value="1">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding MenuPage}" Value="2">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding MenuPage}" Value="3">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                            </DataTrigger>
+
+                        </Style.Triggers>
+                    </Style>
+                </Border.Style>
+            </Border>
+
+
+            <Border Grid.Row="0" Grid.Column="0"/>
+            <Border Grid.Row="0" Grid.Column="1"/>
+            <Border Grid.Row="0" Grid.Column="2"/>
+            <Border Grid.Row="1" Grid.Column="0"/>
+            <Border Grid.Row="1" Grid.Column="2"/>
+            <Border Grid.Row="2" Grid.Column="0"/>
+            <Border Grid.Row="2" Grid.Column="1"/>
+            <Border Grid.Row="2" Grid.Column="2"/>
         </Grid>
     </Border>
 </UserControl>

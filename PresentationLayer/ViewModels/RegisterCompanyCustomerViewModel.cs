@@ -397,11 +397,20 @@ namespace PresentationLayer.ViewModels
             }
             return string.Join(" ", words);
         }
-      
+
         private bool IsValidEmail(string email)
         {
-            return email.Contains("@") && email.IndexOf("@") > 0 && email.IndexOf("@") < email.Length - 1;
+           
+            if (string.IsNullOrWhiteSpace(email))
+            {
+                return false;
+            }
+
+            
+            var eRegex = new Regex(@"^[^@\s]+@[^@\s]+\.[^@\s]+$");
+            return eRegex.IsMatch(email);
         }
+
         private bool IsValidCellPhoneNumber(string phoneNumber)
         {
             return phoneNumber.Length == 10 && phoneNumber.All(char.IsDigit);

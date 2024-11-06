@@ -238,7 +238,7 @@ HorizontalAlignment="Stretch"
                             </DataTrigger>
 
                             <DataTrigger Binding="{Binding User.AuthorizationLevel}" Value="Salesperson">
-                                <Setter Property="Template" Value="{StaticResource SideMenuTemplateSalesPerson+SalesAssistant}" />
+                                <Setter Property="Template" Value="{StaticResource SideMenuTemplate}" />
                             </DataTrigger>
 
                             <DataTrigger Binding="{Binding User.AuthorizationLevel}" Value="CEO">

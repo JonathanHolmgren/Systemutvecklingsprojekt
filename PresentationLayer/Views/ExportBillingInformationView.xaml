@@ -6,7 +6,8 @@
              xmlns:local="clr-namespace:PresentationLayer.Views"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800"
-             xmlns:vm="clr-namespace:PresentationLayer.ViewModels" xmlns:services="clr-namespace:PresentationLayer.Services">
+             xmlns:vm="clr-namespace:PresentationLayer.ViewModels" 
+             xmlns:services="clr-namespace:PresentationLayer.Services">
 
     <UserControl.DataContext>
         <vm:ExportBillingInformationViewModel/>

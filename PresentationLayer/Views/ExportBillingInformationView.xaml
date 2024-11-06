@@ -118,6 +118,8 @@
                                             <DataGrid ItemsSource="{Binding FilteredListCompany}" AutoGenerateColumns="False"
                                               CanUserResizeColumns="True" HorizontalScrollBarVisibility="Auto" Margin="0,10,0,0"
                                                        HeadersVisibility="Column"
+                                                                                            SelectedItem="{Binding SelectedCustomer}"
+
  GridLinesVisibility="None"
  RowBackground="White"
  AlternatingRowBackground="#F3F3F3"

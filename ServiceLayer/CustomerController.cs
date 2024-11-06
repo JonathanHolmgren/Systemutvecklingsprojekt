@@ -234,7 +234,7 @@ namespace ServiceLayer
         {
             double totalPremie = 0;
             IList<Insurance> customerInsurances =
-                unitOfWork.InsuranceRepository.GetCustomerInsurances(customerId);
+                unitOfWork.InsuranceRepository.GetCompanyCustomerInsurancesById(customerId);
             foreach (Insurance insurance in customerInsurances)
             {
                 if (insurance.InsuranceStatus == InsuranceStatus.Active)
@@ -325,18 +325,15 @@ namespace ServiceLayer
             return unitOfWork.CustomerRepository.GetCompanyCustomers();
         }
 
-        public PrivateCustomer GetSpecificPrivateCustomer(string sSN)
+        public PrivateCustomer? GetOnePrivateCustomerBySsn(string ssn)
         {
-            PrivateCustomer privateCustomer =
-                unitOfWork.CustomerRepository.GetSpecificPrivateCustomer(sSN);
-
-            return privateCustomer;
+            return unitOfWork.CustomerRepository.GetPrivateCustomerBySsn(ssn);
         }
 
-        public CompanyCustomer GetSpecificCompanyCustomer(string organisationNumber)
+        public CompanyCustomer GetOneCompanyCustomerByOrgNr(string organisationNumber)
         {
             CompanyCustomer companyCustomer =
-                unitOfWork.CustomerRepository.GetSpecificCompanyCustomer(organisationNumber);
+                unitOfWork.CustomerRepository.GetSpecificCompanyCustomerByOrgNr(organisationNumber);
 
             return companyCustomer;
         }

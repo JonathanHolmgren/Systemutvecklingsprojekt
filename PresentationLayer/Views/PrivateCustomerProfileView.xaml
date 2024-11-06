@@ -1,0 +1,233 @@
+﻿<UserControl x:Class="PresentationLayer.Views.PrivateCustomerProfileView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:PresentationLayer.Views"
+             xmlns:vm="clr-namespace:PresentationLayer.ViewModels"
+             mc:Ignorable="d"
+             d:DesignHeight="800" d:DesignWidth="1080">
+    
+    
+    
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/DataTemplatesAndStyles/ResourceDictionary.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    
+    <Grid>
+  
+        <Grid  HorizontalAlignment="Stretch" VerticalAlignment="Top">
+    <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="2*"/>
+        <ColumnDefinition Width="2*"/>
+    </Grid.ColumnDefinitions>
+
+    <Grid.RowDefinitions>
+        <RowDefinition Height="Auto"/>
+        <RowDefinition Height="Auto"/>
+        <RowDefinition Height="Auto"/>
+        <RowDefinition Height="*"/>
+    </Grid.RowDefinitions>
+
+    <!-- Header Section -->
+    <StackPanel Grid.Row="0" Grid.ColumnSpan="2" Orientation="Horizontal" VerticalAlignment="Center">
+        <TextBlock Text="Kundinformation" FontSize="26" FontWeight="Bold" Margin="0,0,0,0"/>
+        <Label Content="Personnumer"  Height="30" Margin="0,0,5,0"/>
+        <TextBox Text="{Binding SearchValue, Mode=TwoWay}" Width="150" Height="30" Margin="0,0,5,0" Style="{StaticResource SearchTextBoxStyle}"/>
+        <Button Content="Sök kund" Command="{Binding FindPrivateCustomerCommand}" Width="100" Height="30" Margin="0,0,5,0" Style="{StaticResource GeneralButtonStyle}"/>
+    </StackPanel>
+
+    <!-- Private Details -->
+    <Border Grid.Row="1" Grid.Column="0" BorderBrush="LightGray" BorderThickness="1" CornerRadius="8" Padding="10" Margin="0,10,10,0">
+        <StackPanel>
+            <TextBlock Text="Kundinformation" FontSize="20" FontWeight="SemiBold" Margin="0,0,0,10"/>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="150"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                
+                
+                <TextBlock Text="Namn" Grid.Column="0" VerticalAlignment="Center" Margin="0,5"/>
+                <!-- <TextBlock  Text="{Binding ViewedPrivateCustomer.FirstName ViewedPrivateCustomer.FirstName , Mode=OneWay}" Grid.Column="1" /> -->
+                <TextBlock Grid.Column="1">
+                    <TextBlock.Text >
+                        <MultiBinding StringFormat="{}{0} {1}">
+                            <Binding Path="ViewedPrivateCustomer.FirstName" Mode="OneWay" />
+                            <Binding Path="ViewedPrivateCustomer.LastName" Mode="OneWay" />
+                        </MultiBinding>
+                    </TextBlock.Text>
+                </TextBlock>
+            
+                
+                <TextBlock Text="Personnummer:" Grid.Column="0" Grid.Row="1" VerticalAlignment="Center" Margin="0,5"/>
+                <TextBlock Text="{Binding ViewedPrivateCustomer.SSN, Mode=OneWay}" Grid.Column="1" Grid.Row="1" />
+                
+            </Grid>
+        </StackPanel>
+    </Border>
+
+    <!-- Contact Details -->
+    <Border Grid.Row="1" Grid.Column="1" BorderBrush="LightGray" BorderThickness="1" CornerRadius="8" Padding="10" Margin="10,10,0,0">
+        <StackPanel>
+            <TextBlock Text="Kontaktinformation" FontSize="20" FontWeight="SemiBold" Margin="0,0,0,10"/>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="150"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <TextBlock Text="Email:" Grid.Column="0" VerticalAlignment="Center" Margin="0,5"/>
+                <TextBlock Text="{Binding ViewedPrivateCustomer.Email, Mode=OneWay}" Grid.Column="1" />
+
+                <TextBlock Text="Telefonnummer:" Grid.Column="0" Grid.Row="1" VerticalAlignment="Center" Margin="0,5"/>
+                <TextBlock Text="{Binding ViewedPrivateCustomer.TelephoneNumber, Mode=OneWay}" Grid.Column="1" Grid.Row="1" />
+
+                <TextBlock Text="Telefonnummer Arbete:" Grid.Column="0" Grid.Row="2" VerticalAlignment="Center" Margin="0,5"/>
+                <TextBlock Text="{Binding ViewedPrivateCustomer.WorkTelephoneNumber, Mode=OneWay}" Grid.Column="1" Grid.Row="2" />
+                
+            </Grid>
+        </StackPanel>
+    </Border>
+
+    <!-- Address Details -->
+    <Border Grid.Row="2" Grid.Column="0" BorderBrush="LightGray" BorderThickness="1" CornerRadius="8" Padding="10" Margin="0,10,10,0">
+        <StackPanel>
+            <TextBlock Text="Adress" FontSize="20" FontWeight="SemiBold" Margin="0,0,0,10"/>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="150"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <TextBlock Text="Gatuadress:" Grid.Column="0" VerticalAlignment="Center" Margin="0,5"/>
+                <TextBlock Text="{Binding ViewedPrivateCustomer.StreetAddress, Mode=OneWay}" Grid.Column="1"  />
+
+                <TextBlock Text="Postkod:" Grid.Column="0" Grid.Row="1" VerticalAlignment="Center" Margin="0,5"/>
+                <TextBlock Text="{Binding ViewedPrivateCustomer.PostalCode, Mode=OneWay}" Grid.Column="1" Grid.Row="1"  />
+
+                <TextBlock Text="Ort:" Grid.Column="0" Grid.Row="2" VerticalAlignment="Center" Margin="0,5"/>
+                <TextBlock Text="{Binding ViewedPrivateCustomer.City, Mode=OneWay}" Grid.Column="1" Grid.Row="2" />
+            </Grid>
+        </StackPanel>
+    </Border>
+
+    <!-- Notes Section -->
+    <!-- <Border Grid.Row="2" Grid.Column="1" BorderBrush="LightGray" BorderThickness="1" CornerRadius="8" Padding="10" Margin="10,10,0,0"> -->
+    
+        <!-- <StackPanel> -->
+        <!--     <TextBlock Text="Noteringar" FontSize="20" FontWeight="SemiBold" Margin="0,0,0,10"/> -->
+        <!--     <DataGrid MaxHeight="100" ItemsSource="{Binding ProspectNotesList, UpdateSourceTrigger=PropertyChanged}" -->
+        <!--               AutoGenerateColumns="False" -->
+        <!--               Height="150" VerticalAlignment="Top" -->
+        <!--               HeadersVisibility="Column" -->
+        <!--               GridLinesVisibility="None" -->
+        <!--               RowBackground="White" -->
+        <!--               AlternatingRowBackground="#F3F3F3" -->
+        <!--               BorderThickness="0" -->
+        <!--               CanUserAddRows="False" -->
+        <!--               CanUserResizeRows="False"> -->
+        <!--         > -->
+        <!--         ~1~ ItemsSource="{Binding ProspectNotesList, UpdateSourceTrigger=PropertyChanged}" @1@ -->
+        <!--         <Style TargetType="DataGridColumnHeader"> -->
+        <!--             <Setter Property="Background" Value="White"/> -->
+        <!--             <Setter Property="Foreground" Value="Black"/> -->
+        <!--             <Setter Property="FontWeight" Value="Bold"/> -->
+        <!--             <Setter Property="Padding" Value="0,5"/> -->
+        <!--             <Setter Property="HorizontalContentAlignment" Value="Left"/> -->
+        <!--             <Setter Property="BorderBrush" Value="#E0E0E0"/> -->
+        <!--             <Setter Property="BorderThickness" Value="0,0,0,1"/> -->
+        <!--         </Style> -->
+        <!--         <Style TargetType="DataGridRow"> -->
+        <!--             <Setter Property="BorderBrush" Value="#E0E0E0"/> -->
+        <!--             <Setter Property="BorderThickness" Value="0,0,0,1"/> -->
+        <!--         </Style> -->
+        <!--         <DataGrid.Columns> -->
+        <!--             <DataGridTextColumn Header="Datum" Binding="{Binding Date}" Width="Auto"/> -->
+        <!--             <DataGridTextColumn Header="Agentnummer" Binding="{Binding User.Employee.AgentNumber}" Width="Auto"/> -->
+        <!--             <DataGridTextColumn Header="Notering" Binding="{Binding Note}" Width="*"/> -->
+        <!--         </DataGrid.Columns> -->
+        <!--     </DataGrid> -->
+        <!-- -->
+        <!--      -->
+        <!--     -->
+        <!-- -->
+        <!--     <TextBox Text="{Binding Note}" -->
+        <!--              TextWrapping="Wrap" -->
+        <!--              AcceptsReturn="True" -->
+        <!--              VerticalScrollBarVisibility="Auto" Height="60"  Margin="0,5,0,5"/> -->
+        <!--     <Button Content="Lägg till notering" Width="120" Height="30" Command="{Binding AddPrivateProspectNoteCommand}"  Margin="0,5,0,0" Style="{StaticResource GeneralButtonStyle}"/> -->
+        <!-- </StackPanel> -->
+    <!-- </Border> -->
+    
+    <Border Grid.Row="2" Grid.Column="1" BorderBrush="LightGray" BorderThickness="1" CornerRadius="8" Padding="10" Margin="10,10,0,0">
+    <StackPanel>
+    <DataGrid Grid.Row="2" Grid.Column="1" Width="320" Margin="5,10,0,0" HorizontalAlignment="Left" 
+              ItemsSource="{Binding ProspectNotesList, UpdateSourceTrigger=PropertyChanged}"  
+              AutoGenerateColumns="False"
+                Height="150" VerticalAlignment="Top"
+            HeadersVisibility="Column"
+        GridLinesVisibility="None"
+        RowBackground="White"
+        AlternatingRowBackground="#F3F3F3"
+        BorderThickness="0"
+        CanUserAddRows="False"
+        CanUserResizeRows="False">
+        <!-- <Style TargetType="DataGridColumnHeader">   -->
+        <!--     <Setter Property="Background" Value="White"/> -->
+        <!--     <Setter Property="Foreground" Value="Black"/> -->
+        <!--     <Setter Property="FontWeight" Value="Bold"/> -->
+        <!--     <Setter Property="Padding" Value="0,5"/> -->
+        <!--     <Setter Property="HorizontalContentAlignment" Value="Left"/> -->
+        <!--     <Setter Property="BorderBrush" Value="#E0E0E0"/> -->
+        <!--     <Setter Property="BorderThickness" Value="0,0,0,1"/> -->
+        <!-- </Style> -->
+        <!-- <Style TargetType="DataGridRow"> -->
+        <!--     <Setter Property="BorderBrush" Value="#E0E0E0"/> -->
+        <!--     <Setter Property="BorderThickness" Value="0,0,0,1"/> -->
+        <!-- </Style> -->
+        <DataGrid.Columns>
+            <DataGridTextColumn Header="Datum" Binding="{Binding Date}" Width="60"/>
+            <DataGridTextColumn Header="Agentnummer" Binding="{Binding User.Employee.AgentNumber}" Width="90"/>
+            <DataGridTextColumn Header="Notering" Binding="{Binding Note}" Width="230"/>
+        </DataGrid.Columns>
+    </DataGrid>
+    
+    <TextBox Text="{Binding Note}"
+             TextWrapping="Wrap"
+             AcceptsReturn="True"
+             VerticalScrollBarVisibility="Auto" Height="60"  Margin="0,5,0,5"/>
+    <Button Content="Lägg till notering" Width="120" Height="30" Command="{Binding AddPrivateProspectNoteCommand}"  Margin="0,5,0,0" Style="{StaticResource GeneralButtonStyle}"/>
+    </StackPanel>
+    </Border>
+    <!-- Action Buttons -->
+    <StackPanel Grid.Row="3" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,10,0,0">
+        <Button Content="Redigera kund" Width="120" Height="30" Command="{Binding OnEditPrivateCustomerClickedCommand}"  Margin="0,0,10,0" Style="{StaticResource GeneralButtonStyle}"/>
+        <Button Content="Ta bort kund" Width="120" Height="30" Command="{Binding RemovePrivateCustomerCommand}" Margin="0,0,10,0" Style="{StaticResource GeneralButtonStyle}"/>
+        <Button Content="Avtal" Width="120" Height="30" Command="{Binding InsuranceViewCommand}" Style="{StaticResource GeneralButtonStyle}" />
+    </StackPanel>
+</Grid>
+    </Grid>
+</UserControl>

@@ -12,8 +12,15 @@ namespace PresentationLayer.ViewModels
         private InsuranceController insuranceController;
         private CustomerController customerController;
 
-        public RegisterPreliminaryInsuranceViewModel()
+        public RegisterPreliminaryInsuranceViewModel() { }
+
+        public RegisterPreliminaryInsuranceViewModel(
+            User user,
+            PrivateCustomer selectedPrivateCustomer
+        )
         {
+            LoggedInUser = user;
+            SelectedPrivateCustomer = selectedPrivateCustomer;
             insuranceController = new InsuranceController();
             customerController = new CustomerController();
             LoadInsuranceTypeOptions();
@@ -586,7 +593,7 @@ namespace PresentationLayer.ViewModels
                     {
                         Insurance newInsurance =
                             insuranceController.CreatePrivateInsuranceFromInput(
-                                1,
+                                LoggedInUser.UserID,
                                 SelectedInsuranceType,
                                 InsuredPersonFirstName,
                                 InsuredPersonLastName,

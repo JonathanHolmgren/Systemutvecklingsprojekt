@@ -75,40 +75,46 @@ namespace DataLayer.Repositories
                 .ToList();
         }
 
-        public CompanyCustomer GetSpecificCompanyCustomer(string organisationNumber)
+        public CompanyCustomer? GetSpecificCompanyCustomerByOrgNr(string organisationNumber)
         {
+            if (string.IsNullOrEmpty(organisationNumber))
+            {
+                return null!;
+            }
             return Context
                 .Set<Customer>()
                 .OfType<CompanyCustomer>()
                 .Include(p => p.ProspectNotes)
-                .ThenInclude(i => i.User)
-                .ThenInclude(u => u.Employee)
-                .Include(c => c.Insurances)
-                .ThenInclude(a => a.User)
-                .ThenInclude(b => b.Employee)
-                .Include(c => c.Insurances)
-                //.ThenInclude(a => a.InsuranceType)
-                //.ThenInclude(b => b.InsuranceTypeAttributes)
                 .FirstOrDefault(c => c.OrganisationNumber == organisationNumber);
         }
 
-        public PrivateCustomer GetSpecificPrivateCustomer(string sSN)
+        public PrivateCustomer? GetPrivateCustomerBySsn(string ssn)
         {
+            if (string.IsNullOrEmpty(ssn))
+            {
+                return null!;
+            }
             return Context
                 .Set<Customer>()
                 .OfType<PrivateCustomer>()
                 .Include(p => p.ProspectNotes)
-                .ThenInclude(i => i.User)
-                .ThenInclude(u => u.Employee)
-                .Include(c => c.Insurances)
-                .ThenInclude(a => a.User)
-                .ThenInclude(b => b.Employee)
-                .Include(c => c.Insurances)
-                //.ThenInclude(a => a.InsuranceType)
-                //.ThenInclude(b => b.InsuranceTypeAttributes)
-                .Include(c => c.Insurances)
-                .ThenInclude(a => a.InsuredPerson)
-                .FirstOrDefault(c => c.SSN == sSN);
+                .FirstOrDefault(c => c.SSN == ssn);
+
+            // return Context
+            //     .Set<Customer>()
+            //     .OfType<PrivateCustomer>()
+            //     .Include(p => p.ProspectNotes)
+            //     .ThenInclude(i => i.User)
+            //     .ThenInclude(u => u.Employee)
+            //     .Include(c => c.Insurances)
+            //     .ThenInclude(a => a.User)
+            //     .ThenInclude(b => b.Employee)
+            //     .Include(c => c.Insurances)
+            //     //.ThenInclude(a => a.InsuranceType)
+            //     //.ThenInclude(b => b.InsuranceTypeAttributes)
+            //     .Include(c => c.Insurances)
+            //     .ThenInclude(a => a.InsuredPerson)
+            //     .FirstOrDefault(c => c.SSN == sSN);
         }
 
         //public void Changepostalcode(int customerId, string postalCode)

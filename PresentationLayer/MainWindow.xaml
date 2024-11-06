@@ -20,8 +20,46 @@
 
     <Window.Resources>
         <ResourceDictionary>
-            <!-- BooleanToVisibilityConverter -->
+            <!-- Konverterare -->
             <BooleanToVisibilityConverter x:Key="BooleanToVisibility"/>
+
+            <!-- DataTemplate för CustomerProfileViewModel -->
+            <DataTemplate DataType="{x:Type vm:SearchCustomerProfileViewModel}">
+                <views:SearchCustomerProfileView />
+            </DataTemplate>
+            
+            <DataTemplate DataType="{x:Type vm:PrivateCustomerProfileViewModel}">
+                <views:PrivateCustomerProfileView />
+            </DataTemplate>
+            
+            <DataTemplate DataType="{x:Type vm:CompanyCustomerProfileViewModel}">
+                <views:CompanyCustomerProfileView />
+            </DataTemplate>
+            
+            <DataTemplate DataType="{x:Type vm:EditPrivateCustomerViewModel}">
+                                           <views:EditPrivateCustomerView />
+                                       </DataTemplate>
+            
+            <DataTemplate DataType="{x:Type vm:EditCompanyCustomerViewModel}">
+                <views:EditCompanyCustomerView />
+            </DataTemplate>
+            
+            <DataTemplate DataType="{x:Type vm:InsuranceInformationPrivateViewModel}">
+                <views:InsuranceInformationPrivateView />
+            </DataTemplate>
+            
+            <DataTemplate DataType="{x:Type vm:InsuranceInformationCompanyViewModel}">
+                <views:InsuranceInformationCompanyView />
+            </DataTemplate>
+            
+            <DataTemplate DataType="{x:Type vm:RegisterPreliminaryInsuranceViewModel}">
+                <views:RegisterPreliminaryInsurance />
+            </DataTemplate>
+            
+            <DataTemplate DataType="{x:Type vm:RegisterPreliminaryInsuranceCompanyViewModel}">
+                <views:RegisterPreliminaryInsuranceCompanyView />
+            </DataTemplate>
+            
             
             <!-- Merged dictionaries -->
             <ResourceDictionary.MergedDictionaries>
@@ -31,10 +69,17 @@
         </ResourceDictionary>
     </Window.Resources>
 
+    <!-- ContentControl för vyhantering baserat på CurrentView -->
+
+    <!-- Ställ in datakontotext till MainWindowViewModel -->
     <Window.DataContext>
         <vm:MainWindowViewModel/>
-
     </Window.DataContext>
+    
+    <!-- ContentControl visar aktuell vy beroende på CurrentView -->
+
+    
+    
     <Border CornerRadius="7"
             Background="LightGray"
             BorderBrush="Gray"
@@ -42,11 +87,10 @@
             BorderThickness="0"
             >
        
-
         <Grid>
             
             <!--Responsive Layouts-->
-        <ContentControl Content="{Binding}">
+            <ContentControl  Content="{Binding}">
             <ContentControl.Style>
                 <Style TargetType="ContentControl">
                     <!--Default Layout (Laptop)-->

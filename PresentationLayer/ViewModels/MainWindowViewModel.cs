@@ -67,7 +67,6 @@ namespace PresentationLayer.ViewModels
             exitCommand ??= exitCommand = new RelayCommand(() => App.Current.Shutdown());
 
         private object _currentView;
-
         public object CurrentView
         {
             get { return _currentView; }
@@ -116,19 +115,26 @@ namespace PresentationLayer.ViewModels
 
         // Close App Command
 
-        public ICommand ChangeViewCommand { get; }
+
 
         public MainWindowViewModel()
         {
+             CurrentView = new SearchCustomerProfileViewModel(); // Startvy
+            Mediator.Register("ChangeView", ChangeView);
 
-      
         }
         public MainWindowViewModel(LoggedInUser logedInUser)
         {
             User = logedInUser;
             CurrentView = new CustomerProfileView(); // Startvy
             ChangeViewCommand = new RelayCommand<Type>(ChangeViewByType);
+ 
             DragWindowCommand = new RelayCommand<Window>(OnDragWindow);
+        }
+
+        private void ChangeView(object viewModel)
+        {
+            CurrentView = viewModel;
         }
 
         private void MaxApp(object parameter)
@@ -147,43 +153,6 @@ namespace PresentationLayer.ViewModels
                     window.WindowState = WindowState.Maximized;
                 }
             }
-        }
-
-        internal void ChangeViewByType(Type viewType)
-        {
-            if (viewType != null)
-            {
-                CurrentView = (UserControl)Activator.CreateInstance(viewType);
-            }
-        }
-        internal void ChangeViewByTypeWithParameter(Type viewType, object parameter = null)
-        {
-            if (viewType != null)
-            {
-                // Skapa instansen av UserControl med eller utan parameter
-                CurrentView = parameter == null
-                    ? (UserControl)Activator.CreateInstance(viewType)
-                    : (UserControl)Activator.CreateInstance(viewType, parameter);
-
-                // Om parametern skickas in efter att instansen är skapad
-                if (parameter != null && CurrentView != null)
-                {
-                    // Kontrollera om CurrentView har en metod eller egenskap för att ta emot parametern
-                    var setParameterMethod = CurrentView.GetType().GetMethod("SetParameter");
-                    if (setParameterMethod != null)
-                    {
-                        // Anropa metoden för att sätta parametern
-                        setParameterMethod.Invoke(CurrentView, new[] { parameter });
-                    }
-                }
-            }
-        }
-
-
-
-        public void ChangeView(UserControl newView)
-        {
-            CurrentView = newView;
         }
 
         private void MinApp(object parameter)

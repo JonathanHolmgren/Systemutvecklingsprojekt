@@ -26,11 +26,6 @@ namespace ServiceLayer
             unitOfWork.SaveChanges();
         }
 
-        public void AddCompanyCustomer(CompanyCustomer companyCustomer)
-        {
-            unitOfWork.CustomerRepository.Add(companyCustomer);
-            unitOfWork.SaveChanges();
-        }
 
         public void UpdateCompanyCustomer(CompanyCustomer updatedCompanyCustomer)
         {
@@ -180,6 +175,32 @@ namespace ServiceLayer
                 unitOfWork.InsuranceRepository.Remove(insurance);
             }
         }
+
+        public void AddCompanyCustomer(CompanyCustomer companyCustomer)
+        {
+            try
+            {
+                // Kontrollera om organisationsnumret redan finns i databasen
+                var existingCompanyCustomer = unitOfWork
+                    .CustomerRepository
+                    .GetSpecificCompanyCustomer(companyCustomer.OrganisationNumber);
+
+                if (existingCompanyCustomer != null)
+                {
+                    throw new Exception("Organisationsnummer finns redan.");
+                }
+
+        
+                unitOfWork.CustomerRepository.Add(companyCustomer);
+                unitOfWork.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Ett fel uppstod vid sparandet av kunden: {ex.Message}");
+            }
+        }
+
+
 
         public IList<PrivateCustomer> GetAllPrivateCustomers()
         {

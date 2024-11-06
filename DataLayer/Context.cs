@@ -36,9 +36,10 @@ namespace DataLayer
             // optionsBuilder.UseSqlServer(@"Server=(localdb)\mssqllocaldb;Database=ToppFörsäkringar;Trusted_Connection=True;");
             // base.OnConfiguring(optionsBuilder);
 
-            optionsBuilder.UseSqlServer(
-                @"Server=(localdb)\MSSQLLocalDB;Database=ToppForsakringar;Trusted_Connection=True;"
-            );
+
+            //optionsBuilder.UseSqlServer(
+            //    @"Server=(localdb)\MSSQLLocalDB;Database=ToppForsakringar;Trusted_Connection=True;"
+            //);
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

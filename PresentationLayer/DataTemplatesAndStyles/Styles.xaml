@@ -21,6 +21,8 @@
 
     </Style>
 
+   
+
     <Style x:Key="MenuButtonRegisterPrivateCustomer" TargetType="Button">
         <Setter Property="Template">
             <Setter.Value>
@@ -176,10 +178,11 @@
                                         VerticalAlignment="Bottom"
                                         HorizontalAlignment="Center"
                                         FontSize="8"
-                                        Text="Registera privatkund"
+                                        Text="Registera företagskund"
                                         FontFamily="Fonts/#Open Sans Regular"
-                                        Margin="0,2,0,0" 
-                                        TextWrapping="Wrap"/>
+                                        Margin="2,2,0,0" 
+                                        TextWrapping="Wrap"
+                                               TextAlignment="Center"/>
                                 </StackPanel>
                             </StackPanel>
                         </Border>
@@ -202,6 +205,100 @@
                             <Setter TargetName="extraImage" Property="Visibility" Value="Visible"/>
                             <Setter TargetName="iconImage" Property="Visibility" Value="Collapsed"/>
                             <Setter TargetName="selectedImage" Property="Visibility" Value="Visible"/>
+                            <Setter TargetName="iconStackPanel" Property="Margin" Value="-14,0,0,0"/>
+                        </DataTrigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    
+    <Style x:Key="MenuButtonAddinsurance" TargetType="Button">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Grid>
+                        <Border x:Name="border"
+                     Background="LightGray"
+                     Height="55"
+                     Width="55"
+                     VerticalAlignment="Top"
+                     HorizontalAlignment="Left"
+                     CornerRadius="5"
+                     Margin="5">
+                            <StackPanel Orientation="Horizontal">
+                                <!-- Extra bild, visas endast när CurrentView är specificerad -->
+                                <Image x:Name="extraImage"
+                            Height="45"
+                            Width="25"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
+                            Margin="-8,0,0,0"
+                            Stretch="Fill"
+                            Source="Assets/select_line.png"
+                            Visibility="Collapsed"/>
+
+                                <!-- Ikon och textblock -->
+                                <StackPanel x:Name="iconStackPanel"
+                                 Height="55"
+                                 Width="55"
+                                 HorizontalAlignment="Center"
+                                 VerticalAlignment="Center"
+                                 Orientation="Vertical"
+                                 Margin="0,0,0,0">
+
+                                    <!-- Standardikon som visas när ingen specifik vy är aktiv -->
+                                    <Image x:Name="iconImage"
+                                Height="25"
+                                Width="25"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Bottom"
+                                Margin="0,7,0,0"
+                                Stretch="Fill"
+                                Source="Assets/insurance_icon.png"
+                                Visibility="Visible"/>
+
+                                    <!-- Alternativ ikon som visas när specifik vy är aktiv -->
+                                    <Image x:Name="selectedImage"
+                                Height="25"
+                                Width="25"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Bottom"
+                                Margin="0,7,0,0"
+                                Stretch="Fill"
+                                Source="{Binding CurrentView, Converter={StaticResource ViewTypeToImageSourceConverter}}" 
+                                 Visibility="Collapsed"/>
+
+                                    <TextBlock Foreground="Black"
+                                    VerticalAlignment="Bottom"
+                                    HorizontalAlignment="Center"
+                                    FontSize="8"
+                                    Text="Lägg till försäkring"
+                                    FontFamily="Fonts/#Open Sans Regular"
+                                    Margin="0,2,0,0" 
+                                    TextWrapping="Wrap"/>
+                                </StackPanel>
+                            </StackPanel>
+                        </Border>
+                    </Grid>
+
+                    <ControlTemplate.Triggers>
+                        <!-- Hover-effekt -->
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" TargetName="border" Value="#E9EBED" />
+                        </Trigger>
+
+                        <!-- Tryck-effekt -->
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter Property="Background" TargetName="border" Value="#C1C1C1" />
+                        </Trigger>
+
+                        <!-- DataTrigger för att visa extraImage och selectedImage, samt dölja iconImage -->
+                        <DataTrigger Binding="{Binding CurrentView, Converter={StaticResource ViewTypeToImageSourceConverter}}" 
+                          Value="Assets/insurance_pressed.png">
+                            <Setter TargetName="extraImage" Property="Visibility" Value="Visible"/>
+                            <Setter TargetName="iconImage" Property="Visibility" Value="Collapsed"/>
+                            <Setter TargetName="selectedImage" Property="Visibility" Value="Visible"/>
                             <Setter TargetName="iconStackPanel" Property="Margin" Value="-16,0,0,0"/>
                         </DataTrigger>
                     </ControlTemplate.Triggers>
@@ -209,78 +306,8 @@
             </Setter.Value>
         </Setter>
     </Style>
-<!--Kvar att göra-->
-    <Style x:Key="MenuButtonAddInsurance"
-           TargetType="Button">
-
-        <Setter Property="Template">
-
-            <Setter.Value>
-
-                <ControlTemplate TargetType="Button">
-
-                    <Grid>
-                        <Border x:Name="border"
-                                Background="LightGray"
-                                Height="55"
-                                Width="55"
-                                VerticalAlignment="Top"
-                                HorizontalAlignment="Left"
-                                CornerRadius="5"
-                                Margin="5">
-                            <StackPanel Height="55"
-                                         Width="55"
-                                         HorizontalAlignment="Left"
-                                         VerticalAlignment="Top"
-                                         Margin="0,0,0,0">
-
-                                <Image Source="Assets/insurance_icon.png"
-                                        Height="25"
-                                        Width="25"
-                                        HorizontalAlignment="Center"
-                                        VerticalAlignment="Bottom"
-                                        Margin="0,7,0,0"
-                                        Stretch="Fill" />
-
-                                <TextBlock Foreground="Black"
-                                            VerticalAlignment="Center"
-                                            HorizontalAlignment="Center"
-                                            FontSize="8"
-                                            Text="Lägg till försäkring"
-                                            FontFamily="Fonts/#Open Sans Regular"
-                                            Margin="0,2,0,0" 
-                                            TextWrapping="Wrap"/>
-
-                            </StackPanel>
-
-                        </Border>
-                       
-                    </Grid>
-
-                    <ControlTemplate.Triggers>
-
-                        <Trigger Property="IsMouseOver"
-                         Value="True">
-                            <Setter Property="Background"
-                            TargetName="border"
-                            Value="#E9EBED" />
-                        </Trigger>
-                        <Trigger Property="IsPressed"
-                         Value="True">
-                            <Setter Property="Background"
-                            TargetName="border"
-                            Value="#C1C1C1" />
-
-                        </Trigger>
-
-                    </ControlTemplate.Triggers>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-
-    </Style>
-
-   <Style x:Key="MenuButtonShowProspects" TargetType="Button">
+    
+    <Style x:Key="MenuButtonShowProspects" TargetType="Button">
     <Setter Property="Template">
         <Setter.Value>
             <ControlTemplate TargetType="Button">
@@ -437,7 +464,8 @@
                                     Text="Faktura information"
                                     FontFamily="Fonts/#Open Sans Regular"
                                     Margin="0,2,0,0" 
-                                    TextWrapping="Wrap"/>
+                                    TextWrapping="Wrap"
+                                               TextAlignment="Center"/>
                                 </StackPanel>
                             </StackPanel>
                         </Border>
@@ -1084,7 +1112,9 @@
                             Command="{Binding ChangeViewCommand}"
                             CommandParameter="{x:Type views:RegisterPrivateCustomerView}"/>
 
-                    <Button Style="{StaticResource MenuButtonAddInsurance}" />
+                    <Button Style="{StaticResource MenuButtonAddinsurance}"
+                            Command="{Binding ChangeViewCommand}"
+                            CommandParameter="{x:Type views:RegisterPreliminaryInsurance}"/>
 
                     <Button Style="{StaticResource MenuButtonShowProspects}"
                             Command="{Binding ChangeViewCommand}"
@@ -1148,7 +1178,7 @@
                         Command="{Binding DataContext.ChangeViewCommand, RelativeSource={RelativeSource AncestorType=Window}}"
                         CommandParameter="{x:Type views:RegisterCompanyCustomer}" />
 
-                    <Button Style="{StaticResource MenuButtonAddInsurance}" />
+                    <Button Style="{StaticResource MenuButtonAddinsurance}" />
 
                     <Button Style="{StaticResource MenuButtonShowProspects}"
                         Command="{Binding DataContext.ChangeViewCommand, RelativeSource={RelativeSource AncestorType=Window}}"

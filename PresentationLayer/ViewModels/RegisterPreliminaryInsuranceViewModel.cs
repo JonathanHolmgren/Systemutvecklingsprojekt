@@ -370,35 +370,7 @@ namespace PresentationLayer.ViewModels
         private string insuranceType2 = "Sjuk- och olycksfallsförsäkring för vuxen";
         private string insuranceType3 = "Livförsäkring för vuxen";
 
-        private void ClearFields()
-        {
-            InputSocialSecurityNumber = null;
-            SelectedPrivateCustomer.FirstName = string.Empty;
-            SelectedPrivateCustomer.LastName = string.Empty;
-            SelectedPrivateCustomer.StreetAddress = string.Empty;
-            SelectedPrivateCustomer.TelephoneNumber = string.Empty;
-            SelectedPrivateCustomer.WorkTelephoneNumber = string.Empty;
-            SelectedPrivateCustomer.SSN = string.Empty;
-            SelectedPrivateCustomer.PostalCode = string.Empty;
-            SelectedPrivateCustomer.City = string.Empty;
-            // SelectedPrivateCustomer.PostalCodeCity.PostalCode = string.Empty;
-            // SelectedPrivateCustomer.PostalCodeCity.City = string.Empty;
-            SelectedPrivateCustomer.Email = string.Empty;
-
-            InsuredPersonFirstName = string.Empty;
-            InsuredPersonLastName = string.Empty;
-            InsuredPersonSSN = string.Empty;
-            SelectedInsuranceType = null;
-            SelectedBasePrice = null;
-            SelectedAddOnOption1 = "Inget";
-            SelectedAddOnBasePrice1 = null;
-            SelectedAddOnOption2 = "Inget";
-            SelectedAddOnBasePrice2 = null;
-            TotalPremium = null;
-            Notes = null;
-
-            OnPropertyChanged(nameof(SelectedPrivateCustomer));
-        }
+       
 
         private void UpdateBasePriceOptions()
         {
@@ -637,8 +609,7 @@ namespace PresentationLayer.ViewModels
                                 SelectedAddOnOption1,
                                 SelectedAddOnOption2
                             );
-                        ClearFields();
-                        CurrentView = "Försäkringstagare";
+                        CurrentView = "KlarVy";
                     }
                 },
                 () =>

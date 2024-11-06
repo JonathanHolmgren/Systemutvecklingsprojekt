@@ -22,9 +22,19 @@ namespace ServiceLayer
 
         public void AddPrivateCustomer(PrivateCustomer privateCustomer)
         {
-            unitOfWork.PrivateCustomerRepository.Add(privateCustomer);
-            unitOfWork.SaveChanges();
+          
+            try
+            {
+                unitOfWork.PrivateCustomerRepository.Add(privateCustomer);
+                unitOfWork.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                // Hantera felet, till exempel logga det eller visa ett användarmeddelande
+                throw new InvalidOperationException("Misslyckades att lägga till kund till databas.", ex);
+            }
         }
+
 
 
         public void UpdateCompanyCustomer(CompanyCustomer updatedCompanyCustomer)

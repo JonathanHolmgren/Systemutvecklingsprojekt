@@ -21,8 +21,8 @@ namespace PresentationLayer.ViewModels
 {
     public class MainWindowViewModel : ObservableObject, ICloseWindows
     {
-        private User user = null;
-        public User User
+        private LoggedInUser user = null;
+        public LoggedInUser User
         {
             get { return user; }
             set
@@ -119,8 +119,16 @@ namespace PresentationLayer.ViewModels
 
         public MainWindowViewModel()
         {
-            CurrentView = new SearchCustomerProfileViewModel(); // Startvy
+             CurrentView = new SearchCustomerProfileViewModel(); // Startvy
             Mediator.Register("ChangeView", ChangeView);
+
+        }
+        public MainWindowViewModel(LoggedInUser logedInUser)
+        {
+            User = logedInUser;
+            CurrentView = new CustomerProfileView(); // Startvy
+            ChangeViewCommand = new RelayCommand<Type>(ChangeViewByType);
+ 
             DragWindowCommand = new RelayCommand<Window>(OnDragWindow);
         }
 

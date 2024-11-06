@@ -346,8 +346,65 @@
                                 VerticalAlignment="Center"
                                 Margin="-2,3,0,0"
                                 Stretch="Fill"
-                                Source="/DataTemplatesAndStyles/back_button.png"
+                                Source="Assets/back_button.png"
                                 Visibility="Visible"/>
+
+
+                                </StackPanel>
+                            </StackPanel>
+                        </Border>
+                    </Grid>
+
+                    <ControlTemplate.Triggers>
+                        <!-- Hover-effekt -->
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" TargetName="border" Value="#E9EBED" />
+                        </Trigger>
+
+                        <!-- Tryck-effekt -->
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter Property="Background" TargetName="border" Value="#C1C1C1" />
+                        </Trigger>
+
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="RegisterBigBackButton" TargetType="Button">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Grid>
+                        <Border x:Name="border"
+                             Background="LightGray"
+                             Height="40"
+                             Width="40"
+                             VerticalAlignment="Top"
+                             HorizontalAlignment="Left"
+                             CornerRadius="100"
+                             Margin="5">
+                            <StackPanel Orientation="Horizontal">
+
+                                <StackPanel x:Name="iconStackPanel"
+                             Height="40"
+                             Width="40"
+                             HorizontalAlignment="Center"
+                             VerticalAlignment="Center"
+                             Orientation="Vertical"
+                             Margin="0,0,0,0">
+
+
+                                    <Image
+                            Height="35"
+                            Width="35"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Margin="-2,3,0,0"
+                            Stretch="Fill"
+                            Source="Assets/back_button.png"
+                            Visibility="Visible"/>
 
 
                                 </StackPanel>
@@ -447,6 +504,7 @@
             </Setter.Value>
         </Setter>
     </Style>
+   
 
 
     <Style x:Key="ComboBoxStyleTemplate" TargetType="ComboBox">
@@ -600,7 +658,8 @@
                         BorderBrush="#E1E1E1"
                         BorderThickness="1"
                         CornerRadius="5"
-                        Width="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType=ComboBox}}">
+                        Width="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType=ComboBox}}"
+                                Height="102">
                                 <ScrollViewer x:Name="DropDownScrollViewer">
                                     <!-- ItemsPresenter för att visa datan i ComboBox -->
                                     <ItemsPresenter/>

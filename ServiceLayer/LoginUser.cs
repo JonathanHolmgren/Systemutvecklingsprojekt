@@ -9,9 +9,11 @@ public class LoginUser
     UnitOfWork unitOfWork = new UnitOfWork();
     PasswordHasher passwordHasher = new PasswordHasher();
 
-    public User ValidateUser(string username, string password)
+    public LoggedInUser ValidateUser(string username, string password)
     {
-        User? user = unitOfWork.UserRepository.FirstOrDefault(u => u.UserName == username);
+        User user = unitOfWork.UserRepository.GetSpecificUser(username);
+            
+       
 
         if (user is null)
         {
@@ -24,7 +26,15 @@ public class LoginUser
         {
             throw new Exception("Ogiltigt användarnamn eller lösenord");
         }
+        LoggedInUser loggedInUser = new LoggedInUser();
+        loggedInUser.FirstName = user.Employee.FirstName;
+        loggedInUser.LastName = user.Employee.LastName;
+        loggedInUser.AgentNumber = user.Employee.AgentNumber;
+        loggedInUser.AuthorizationLevel = user.AuthorizationLevel;
+        loggedInUser.UserName=user.UserName;
+        loggedInUser.Email=user.Employee.Email;
 
-        return user;
+
+        return loggedInUser;
     }
 }

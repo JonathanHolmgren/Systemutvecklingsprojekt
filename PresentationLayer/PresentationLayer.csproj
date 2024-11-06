@@ -9,10 +9,15 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="DataTemplatesAndStyles\Assets\add_user.png" />
+    <None Remove="DataTemplatesAndStyles\Assets\add_user_pressed.png" />
     <None Remove="DataTemplatesAndStyles\Assets\arrow.png" />
+    <None Remove="DataTemplatesAndStyles\Assets\back_button.png" />
     <None Remove="DataTemplatesAndStyles\Assets\calculate_comission.png" />
     <None Remove="DataTemplatesAndStyles\Assets\calculate_comission_pressed.png" />
     <None Remove="DataTemplatesAndStyles\Assets\cross.png" />
+    <None Remove="DataTemplatesAndStyles\Assets\customer_profile.png" />
+    <None Remove="DataTemplatesAndStyles\Assets\customer_profile_pressed.png" />
     <None Remove="DataTemplatesAndStyles\Assets\export_bill.png" />
     <None Remove="DataTemplatesAndStyles\Assets\export_bill_pressed.png" />
     <None Remove="DataTemplatesAndStyles\Assets\icons8-customer-100.png" />
@@ -55,9 +60,14 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="DataTemplatesAndStyles\Assets\add_user.png" />
+    <Resource Include="DataTemplatesAndStyles\Assets\add_user_pressed.png" />
+    <Resource Include="DataTemplatesAndStyles\Assets\back_button.png" />
     <Resource Include="DataTemplatesAndStyles\Assets\calculate_comission_pressed.png" />
     <Resource Include="DataTemplatesAndStyles\Assets\calculate_comission.png" />
     <Resource Include="DataTemplatesAndStyles\Assets\cross.png" />
+    <Resource Include="DataTemplatesAndStyles\Assets\customer_profile.png" />
+    <Resource Include="DataTemplatesAndStyles\Assets\customer_profile_pressed.png" />
     <Resource Include="DataTemplatesAndStyles\Assets\export_bill.png" />
     <Resource Include="DataTemplatesAndStyles\Assets\arrow.png" />
     <Resource Include="DataTemplatesAndStyles\Assets\export_bill_pressed.png" />

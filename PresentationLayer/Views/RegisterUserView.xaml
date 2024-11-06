@@ -7,7 +7,8 @@
              xmlns:models="clr-namespace:Models;assembly=Models"
              xmlns:sys="clr-namespace:System;assembly=mscorlib"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+              xmlns:sv="clr-namespace:PresentationLayer.Services"
+              d:DesignHeight="800" d:DesignWidth="1000">
 
     <UserControl.Resources>
         <ResourceDictionary>
@@ -31,108 +32,639 @@
     </UserControl.DataContext>
 
     <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="*"/>
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="*" />
-        </Grid.RowDefinitions>
+        <Border CornerRadius="10"         
+       Background="LightGray"
+       Padding="10"
+       Margin="0">
 
-        <Border Grid.Column="0" BorderBrush="Black" BorderThickness="1" Width="Auto" Height="Auto" Margin="10,20" VerticalAlignment="Top">
-            <StackPanel Orientation="Horizontal">
-                <StackPanel Orientation="Vertical" Height="117">
-                    <Label Content="Find Employee:" Margin="20,0"/>
-                    <TextBox Style="{StaticResource SearchTextBoxStyle}" Name="employeeInput" Text="{Binding EmployeeInput, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Height="30" Width="200" Margin="20,0,10,0" />
-                    <Button Style="{StaticResource GeneralButtonStyle}" Content="Sök" Height="30" Width="100" Command="{Binding SearchEmployee}" Margin="20,10" HorizontalAlignment="Left"/>
 
-                </StackPanel>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="100" />
 
-            </StackPanel>
-        </Border>
-        <!-- Add User Section -->
-        <StackPanel Grid.Column="1" >
-            <GroupBox Header="Lägg till användare" Grid.Row="0" Margin="10" Width="Auto" BorderBrush="Black">
-                <StackPanel>
+                    <RowDefinition Height="*" />
 
-                    <!-- Search for Employee -->
-                    <StackPanel Orientation="Horizontal" Margin="0">
-                        <StackPanel Orientation="Vertical" HorizontalAlignment="left">
-                            <Label Content="Förnamn" Margin="20,0"/>
-                            <TextBox Style="{StaticResource TextBoxStyle}" Text="{Binding EmployeeSelected.FirstName}" Height="30" Width="200" Margin="20,0,0,0" IsReadOnly="True"/>
-                        </StackPanel>
-                        <StackPanel Orientation="Vertical" Margin="70,0,0,0">
-                            <Label Content="Användarnamn"/>
-                            <TextBox Style="{StaticResource TextBoxStyle}" Text="{Binding NewUserName}" Width="200" Height="30" HorizontalAlignment="Right" IsReadOnly="True"/>
-                        </StackPanel>
-                       
-                    </StackPanel>
+                    <RowDefinition Height="125" />
 
-                    <!-- Password -->
-                    <StackPanel Orientation="Vertical" Margin="0,0,10,0">
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*" />
 
-                        <Label Content="Lösenord:" Margin="20,0"/>
-                        <TextBox Style="{StaticResource TextBoxStyle}"
-                             Name="passwordInput" 
-                             Width="200" 
-                             Margin="20,0,0,0" 
-                             Text="{Binding PasswordInput, Mode=TwoWay}"
-                             Height="30"
-                             HorizontalAlignment="Left"/>
-                        <!-- <Button Content="Generate" Width="75" Command="{Binding GeneratePasswordCommand}"/> -->
+                    <ColumnDefinition Width="2*"/>
+
+                    <ColumnDefinition Width="1*" />
+
+                </Grid.ColumnDefinitions>
+
+
+                <Border Grid.Row="0" Grid.Column="0"
+                       BorderBrush="Black"
+                       BorderThickness="0,0,0,1"/>
+                <Border Grid.Row="0" Grid.Column="1"
+                       BorderBrush="Black"
+                       BorderThickness="0,0,0,1">
+                    <StackPanel>
+                        <TextBlock Text="Hantera profiler för anställda"
+                                   FontSize="30"
+                                   Margin="0,30,0,0"/>
 
                     </StackPanel>
 
-                    <!-- Role/Permission Level -->
-                    <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+
+                </Border>
+                <Border Grid.Row="0" Grid.Column="2"
+                        BorderBrush="Black"
+                        BorderThickness="0,0,0,1"/>
+                <Border Grid.Row="1" Grid.Column="0"/>
+
+
+
+                <!-- Center cell -->
+                <Grid Grid.Row="1" Grid.Column="1">
+                    <Grid>
                         <StackPanel>
-                            <Label Content="Roll:" Margin="20,0,0,0" />
-                            <ComboBox 
-                            Style="{StaticResource NonObjectComboBoxStyle}"
-                            Name="roleComboBox" 
-                            Width="200" 
-                            Height="30"
-                            Margin="20,0,0,0"
-                            ItemsSource="{Binding Source={StaticResource AuthorizationLevelEnumValues}}" 
-                            SelectedItem="{Binding AuthorizationLevelSelected, Mode=TwoWay}" />
+                            <TextBlock Text="Sök på namn eller agentnummer på den anställdes konton du ska redigera."
+                                        TextAlignment="Center"
+                                        TextWrapping="Wrap"
+                                        Width="210"
+                                        VerticalAlignment="Bottom"
+                                        HorizontalAlignment="Left"
+                                        Margin="0,20,0,0"/>
+                            <StackPanel Orientation="Horizontal">
+
+                                <TextBox Style="{StaticResource SearchTextBoxStyle}"
+                                           Height="30"
+                                           Width="170"
+                                           VerticalAlignment="Top"
+                                           HorizontalAlignment="Left"
+                                           Text="{Binding FilterText, UpdateSourceTrigger=PropertyChanged}"/>
+                                <TextBlock Foreground="Red" FontSize="12"
+                                        Margin="0,16,0,0"
+                                        TextAlignment="Center"
+                                        HorizontalAlignment="Right"
+                                        VerticalAlignment="Top"
+       
+                                        Text="{Binding ErrorLabel}"/>
+
+
+
+                            </StackPanel>
+                            <Border CornerRadius="10"
+                                     Background="White"
+                                     Padding="5"
+                                     Height="350"
+                                     HorizontalAlignment="Stretch"
+                                     Margin="0,0,0,0">
+                                <ListBox ItemsSource="{Binding FilteredEmployees, UpdateSourceTrigger=PropertyChanged}"
+                                          SelectedItem="{Binding EmployeeSelected, Mode=TwoWay}" 
+                                          SelectionMode="Single">
+
+
+                                    <ListBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <Grid>
+
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="100" />
+
+                                                    <ColumnDefinition Width="100" />
+
+                                                    <ColumnDefinition Width="*" />
+
+                                                </Grid.ColumnDefinitions>
+
+
+                                                <TextBlock Text="{Binding FirstName}" 
+                    Grid.Column="0" 
+                    Margin="5,0,10,0" 
+                    VerticalAlignment="Center"
+                    FontSize="17"/>
+
+
+                                                <TextBlock Text="{Binding LastName}" 
+                        Grid.Column="1" 
+                        Margin="5,0,10,0" 
+                        VerticalAlignment="Center"
+                        FontSize="17"/>
+
+
+                                                <TextBlock Text="{Binding AgentNumber}" 
+                        Grid.Column="2" 
+                        Margin="5,0,10,0" 
+                        VerticalAlignment="Center"
+                        FontSize="17"/>
+                                            </Grid>
+                                        </DataTemplate>
+                                    </ListBox.ItemTemplate>
+                                    <ListBox.ItemContainerStyle>
+                                        <Style TargetType="ListBoxItem">
+                                            <Setter Property="Background" Value="Transparent"/>
+                                            <Setter Property="Padding" Value="5"/>
+                                            <Setter Property="Margin" Value="2"/>
+                                            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+
+                                            <Style.Triggers>
+                                                <Trigger Property="IsSelected" Value="True">
+                                                    <Setter Property="Background" Value="LightBlue"/>
+                                                    <Setter Property="FontWeight" Value="Bold"/>
+                                                </Trigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </ListBox.ItemContainerStyle>
+                                </ListBox>
+                            </Border>
                         </StackPanel>
 
-                        <Button Style="{StaticResource CRUDButtonStyle}" Margin="169,26,10,0" Height="30" Content="Lägg till" Width="100" Command="{Binding AddUserCommand}"/>
-                    </StackPanel>
+                    </Grid>
+                </Grid>
+                <Border Grid.Row="1" Grid.Column="2" />
+                <Border Grid.Row="2" Grid.Column="0"/>
+                <Grid Grid.Row="2" Grid.Column="1">
+                    <Button Style="{StaticResource RegisterButtonStyle}"
+                   Command="{Binding NextPageCommand}"
+                   Height="30"
+                   Width="130"
+                   Content="Gå vidare"
+                   VerticalAlignment="Bottom"
+                   HorizontalAlignment="Right"
+                   Margin="0,0,0,45"/>
 
-                    <!-- Add User Button -->
-                    <!--<Button Style="{StaticResource CRUDButtonStyle}" Content="Add User" Width="100" HorizontalAlignment="Left" Command="{Binding AddUserCommand}"/>-->
-                </StackPanel>
-            </GroupBox>
+                </Grid>
+                <Border Grid.Row="2" Grid.Column="2" />
+            </Grid>
+            <Border.Style>
+                <Style TargetType="Border">
+                    <Setter Property="Visibility" Value="Visible"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding MenuPage}" Value="0">
+                            <Setter Property="Visibility" Value="Visible"/>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding MenuPage}" Value="1">
+                            <Setter Property="Visibility" Value="Collapsed"/>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding MenuPage}" Value="2">
+                            <Setter Property="Visibility" Value="Collapsed"/>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding MenuPage}" Value="3">
+                            <Setter Property="Visibility" Value="Collapsed"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Border.Style>
+        </Border>
 
-            <!-- Remove User Section -->
-            <GroupBox Header="Ta bort användare" Grid.Row="1" Margin="10" BorderBrush="Black">
-                <StackPanel Orientation="Horizontal">
-                    <!-- Search for User -->
+        
+        <Border CornerRadius="10"         
+                Background="LightGray"
+                Padding="10"
+                Margin="0">
+            <Grid>
+                
+                
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+
+                    <RowDefinition Height="400" />
+
+                    <RowDefinition Height="*" />
+
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+
+                    <ColumnDefinition Width="600"/>
+
+                    <ColumnDefinition Width="*" />
+
+                </Grid.ColumnDefinitions>
+                <Border Grid.Row="0" Grid.Column="0"
+   BorderBrush="Black"
+   BorderThickness="0,0,0,1"/>
+                <Border Grid.Row="0" Grid.Column="2"
+BorderBrush="Black"
+BorderThickness="0,0,0,1"/>
+                <Border Grid.Row="0" Grid.Column="1"
+        BorderBrush="Black"
+        BorderThickness="0,0,0,1">
+
                     
-                    <StackPanel Orientation="Horizontal" Margin="20,20,0,10">
-                        <ListBox ItemsSource="{Binding Users}" SelectedItem="{Binding UserSelected, Mode=TwoWay}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="200" Height="150" BorderBrush="Black" ScrollViewer.VerticalScrollBarVisibility="Disabled" 
-    ScrollViewer.HorizontalScrollBarVisibility="Disabled">
-                            <ListBox.ItemTemplate>
-                                <DataTemplate>
-                                    <StackPanel Orientation="Horizontal">
-                                        <!-- Visar UserID -->
-                                        <TextBlock Text="{Binding UserID}" Width="100"/>
+                    <StackPanel>
+                        <TextBlock Text="Hantera profiler för anställda"
+                    FontSize="30"
+                    Margin="0,30,0,0"/>
 
-                                        <!-- Visar Employee's AgentNumber -->
-                                        <TextBlock Text="{Binding AuthorizationLevel}" Width="150"/>
-                                    </StackPanel>
-                                </DataTemplate>
-                            </ListBox.ItemTemplate>
-                        </ListBox>
-                        <!-- Remove User Button -->
-                        <Button Style="{StaticResource CRUDButtonStyle}" Content="Ta bort" Command="{Binding RemoveUser}" Height="30" Width="100" Margin="169,0" VerticalAlignment="Bottom" HorizontalAlignment="Right"/>
                     </StackPanel>
 
-                </StackPanel>
-            </GroupBox>
-        </StackPanel>
+
+                </Border>
+                <Grid Grid.Row="0"
+                      Grid.Column="0">
+                    
+                    <Button Style="{StaticResource RegisterBigBackButton}"
+                        Command="{Binding BackPageCommand}"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+        />
+                </Grid>
+                <Grid Grid.Row="1"
+                      Grid.Column="1">
+                    <StackPanel Margin="0,40,0,0">
+                        <TextBlock Foreground="Red" FontSize="12"
+             Margin="0,0,0,15"
+                     TextAlignment="Center"
+                     HorizontalAlignment="Center"
+                     VerticalAlignment="Top"
+       
+                     Text="{Binding ErrorLabel}"/>
+                        <StackPanel VerticalAlignment="Center"
+             HorizontalAlignment="Center"
+             Orientation="Horizontal"
+             Width="600">
+                            <Button Width="250" Height="250"
+         HorizontalAlignment="Left"
+             Command="{Binding AddProfilePageCommand}"
+                                    >
+                                <Button.Template>
+                                    <ControlTemplate TargetType="Button">
+                                        <Grid>
+                                            <Border x:Name="border"
+             Background="DarkGray"
+             Height="250"
+             Width="250"
+             VerticalAlignment="Top"
+             HorizontalAlignment="Left"
+             CornerRadius="40"
+             Margin="0,0,0,0">
+                                                <StackPanel Orientation="Horizontal">
+                                                    <TextBlock Foreground="#222222"
+                        VerticalAlignment="Center"
+                        HorizontalAlignment="Center"
+                        FontSize="25"
+                        FontFamily="Fonts/#Open Sans Regular"
+                        Margin="25,2,0,0"
+                                    Width="200"
+                        Text="Lägg till konto för anställd."
+                        TextWrapping="Wrap"
+                        TextAlignment="Center"/>
+                                                </StackPanel>
+                                            </Border>
+                                        </Grid>
+
+                                        <ControlTemplate.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter Property="Background" TargetName="border" Value="#E9EBED" />
+                                            </Trigger>
+                                            <Trigger Property="IsPressed" Value="True">
+                                                <Setter Property="Background" TargetName="border" Value="#C1C1C1" />
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </Button.Template>
+                            </Button>
+
+                            <Button Width="250" Height="250"
+             HorizontalAlignment="Right"
+             Margin="100,0,0,0"
+             Command="{Binding RemoveProfilePageCommand}">
+                                <Button.Template>
+                                    <ControlTemplate TargetType="Button">
+                                        <Grid>
+                                            <Border x:Name="border"
+                         Background="DarkGray"
+                         Height="250"
+                         Width="250"
+                         VerticalAlignment="Top"
+                         HorizontalAlignment="Left"
+                         CornerRadius="40"
+                         Margin="0,0,0,0">
+                                                <StackPanel Orientation="Horizontal">
+                                                    <TextBlock Foreground="#222222"
+                            VerticalAlignment="Center"
+                            HorizontalAlignment="Center"
+                            FontSize="25"
+                            FontFamily="Fonts/#Open Sans Regular"
+                            Margin="25,2,0,0"
+                                        Width="200"
+                            Text="Ta bort konto för anställd."
+                            TextWrapping="Wrap"
+                            TextAlignment="Center"/>
+                                                </StackPanel>
+                                            </Border>
+                                        </Grid>
+
+                                        <ControlTemplate.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter Property="Background" TargetName="border" Value="#E9EBED" />
+                                            </Trigger>
+                                            <Trigger Property="IsPressed" Value="True">
+                                                <Setter Property="Background" TargetName="border" Value="#C1C1C1" />
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </Button.Template>
+                            </Button>
+                        </StackPanel>
+                    </StackPanel>
+                   
+                </Grid>
+            </Grid>
+            <Border.Style>
+                <Style TargetType="Border">
+                    <Setter Property="Visibility" Value="Visible"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding MenuPage}" Value="1">
+                            <Setter Property="Visibility" Value="Visible"/>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding MenuPage}" Value="0">
+                            <Setter Property="Visibility" Value="Collapsed"/>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding MenuPage}" Value="2">
+                            <Setter Property="Visibility" Value="Collapsed"/>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding MenuPage}" Value="3">
+                            <Setter Property="Visibility" Value="Collapsed"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Border.Style>
+        </Border>
+
+        <Border CornerRadius="10"         
+                Background="LightGray"
+                Padding="10"
+                Margin="0">
+            <Grid>
+
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+
+                    <RowDefinition Height="400" />
+
+                    <RowDefinition Height="*" />
+
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+
+                    <ColumnDefinition Width="400"/>
+
+                    <ColumnDefinition Width="*" />
+
+                </Grid.ColumnDefinitions>
+                <Grid Grid.Row="0"
+              Grid.Column="0">
+
+                    <Button Style="{StaticResource RegisterBigBackButton}"
+                Command="{Binding ChoíceMenuPageCommand}"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+/>
+                </Grid>
+                <Border Grid.Row="0" Grid.Column="0"
+                           BorderBrush="Black"
+                           BorderThickness="0,0,0,1"/>
+                <Border Grid.Row="0" Grid.Column="2"
+                        BorderBrush="Black"
+                        BorderThickness="0,0,0,1"/>
+                <Border Grid.Row="0" Grid.Column="1"
+                        BorderBrush="Black"
+                        BorderThickness="0,0,0,1">
+                    
+
+                    <StackPanel>
+                        <TextBlock Text="Ta bort profil för anställd"
+                    FontSize="30"
+                    Margin="0,30,0,0"/>
+                    </StackPanel>
+                  
+                </Border>
+                <Grid Grid.Row="1"
+                      Grid.Column="1">
+                   
+                        <StackPanel Orientation="Vertical">
+                        <TextBlock Text="Välj ett konto att ta bort för användaren." FontSize="16"/>
+                        <TextBlock  Margin="20,10,0,0">
+                                <Run Text="Ta bort ett konto för"/>
+                                <Run Text="{Binding EmployeeSelected.FirstName}" FontWeight="Bold"/>
+                                <Run Text="{Binding EmployeeSelected.LastName}" FontWeight="Bold"/>
+                            </TextBlock>
+                            <StackPanel Orientation="Horizontal" Margin="20,3,0,10">
+                            <Border BorderBrush="Black" BorderThickness="1" CornerRadius="10" Padding="2" Width="300" Height="250"
+                                    Background="White">
+                                <ListBox ItemsSource="{Binding Users, UpdateSourceTrigger=PropertyChanged}" 
+                                         SelectedItem="{Binding UserSelected, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                         ScrollViewer.VerticalScrollBarVisibility="Disabled" 
+                                         ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                                         Background="White"
+                                         Width="400">
+
+                                    <ListBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <StackPanel Orientation="Horizontal">
+                                                
+                                                <TextBlock Text="{Binding UserName}" Width="200"/>
+                                                <TextBlock Text="{Binding AuthorizationLevel}" Width="100"/>
+
+
+                                            </StackPanel>
+                                        </DataTemplate>
+                                    </ListBox.ItemTemplate>
+                                </ListBox>
+                            </Border>
+
+
+                            <!-- Remove User Button -->
+                                
+                            </StackPanel>
+
+                        </StackPanel>
+                    <Grid Grid.Row="2"
+                          Grid.Column="1">
+                        <Button Style="{StaticResource CRUDButtonStyle}"
+                                Content="Ta bort"
+                                Command="{Binding RemoveUserCommand}"
+                                Height="30" Width="100" Margin="-50,-25" VerticalAlignment="Bottom" HorizontalAlignment="Right"/>
+                    </Grid>
+                  
+                </Grid>
+            </Grid>
+            <Border.Style>
+                <Style TargetType="Border">
+                    <Setter Property="Visibility" Value="Visible"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding MenuPage}" Value="2">
+                            <Setter Property="Visibility" Value="Visible"/>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding MenuPage}" Value="1">
+                            <Setter Property="Visibility" Value="Collapsed"/>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding MenuPage}" Value="0">
+                            <Setter Property="Visibility" Value="Collapsed"/>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding MenuPage}" Value="3">
+                            <Setter Property="Visibility" Value="Collapsed"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Border.Style>
+        </Border>
+
+        <Border CornerRadius="10"         
+                Background="LightGray"
+                Padding="10"
+                Margin="0">
+            <Grid>
+
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+
+                    <RowDefinition Height="400" />
+
+                    <RowDefinition Height="*" />
+
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+
+                    <ColumnDefinition Width="500"/>
+
+                    <ColumnDefinition Width="*" />
+
+                </Grid.ColumnDefinitions>
+                <Grid Grid.Row="0"
+              Grid.Column="0">
+
+                    <Button Style="{StaticResource RegisterBigBackButton}"
+                Command="{Binding ChoíceMenuPageCommand}"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+/>
+                </Grid>
+                <Border Grid.Row="0" Grid.Column="0"
+                           BorderBrush="Black"
+                           BorderThickness="0,0,0,1"/>
+                <Border Grid.Row="0" Grid.Column="2"
+                        BorderBrush="Black"
+                        BorderThickness="0,0,0,1"/>
+                <Border Grid.Row="0" Grid.Column="1"
+                        BorderBrush="Black"
+                        BorderThickness="0,0,0,1">
+
+
+                    <StackPanel>
+                        <TextBlock Text="Lägg till profil för anställd"
+                    FontSize="30"
+                    Margin="0,30,0,0"/>
+                    </StackPanel>
+
+                </Border>
+                <Grid Grid.Row="1"
+      Grid.Column="1">
+                    <StackPanel Orientation="Horizontal">
+
+                       
+                        <StackPanel Orientation="Vertical" Margin="0">
+                            <StackPanel Orientation="Vertical" HorizontalAlignment="left">
+                                <TextBlock>
+                                    <Run Text="Lägg till ny användare för" FontSize="17"/>
+                                    <Run Text="{Binding EmployeeSelected.FirstName}" FontSize="17" FontWeight="Bold"/>
+                                    <Run Text="{Binding EmployeeSelected.LastName}" FontSize="17" FontWeight="Bold"/>
+                                </TextBlock>
+                            </StackPanel>
+                            <StackPanel Orientation="Vertical" HorizontalAlignment="left">
+                            
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                
+                               
+                                    <StackPanel>
+                                        <Label Content="Vilken roll har den anställda?" Margin="20,0,0,0" />
+                                            <ComboBox 
+                                                Style="{StaticResource NonObjectComboBoxStyle}"
+                                                Name="roleComboBox" 
+                                                Width="200" 
+                                                Height="30"
+                                                Margin="20,0,0,0"
+                                                ItemsSource="{Binding Source={StaticResource AuthorizationLevelEnumValues}}" 
+                                                SelectedItem="{Binding AuthorizationLevelSelected, Mode=TwoWay}" />
+                                    </StackPanel>
+                                <TextBlock Margin="30,20,0,0"
+                                           Width="190"
+                                           TextWrapping="Wrap"
+                                           TextAlignment="Center">
+                                     <Run Text="Ditt nya användarnamn:" FontSize="17"/>
+                                     <Run Text="{Binding NewUserName, UpdateSourceTrigger=PropertyChanged}" FontSize="17" FontWeight="Bold"/>
+                                </TextBlock>
+                            </StackPanel>
+                            <StackPanel Margin="0,20,0,0">
+                                
+                                <StackPanel Orientation="Horizontal">
+                                    
+                                    <StackPanel>
+                                        <StackPanel Orientation="Vertical" Margin="20,0,0,0" >
+
+                                            <Label Content="Välj ett lösenord" Margin="0,0,0,0"/>
+                                            <PasswordBox sv:PasswordHelper.BoundPassword="{Binding PasswordInput, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                                        Style="{StaticResource PasswordBoxStyle}"
+                                                        Name="PasswordBox" 
+                                                        Width="200"
+                                                        Height="30"
+                                                        Margin="0,0,0,0"
+                                                        HorizontalAlignment="Left"/>
+                                            <Label Content="Upprepa för att kontrollera att dem stämmer." Margin="0,0,0,0"/>
+                                            <PasswordBox sv:PasswordHelper.BoundPassword="{Binding PasswordInputControll , UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                                        Style="{StaticResource PasswordBoxStyle}"
+                                                        Name="ConfirmPasswordBox" 
+                                                        Width="200"
+                                                        Height="30"
+                                                        Margin="0,0,0,0"
+                                                        HorizontalAlignment="Left"/>
+                                        </StackPanel>
+                                    </StackPanel>
+                                <TextBlock Foreground="Red" FontSize="12"
+                                                Margin="0,0,0,0"
+                                                TextAlignment="Center"
+                                                HorizontalAlignment="Right"
+                                                VerticalAlignment="Center"
+                                                Text="{Binding ErrorLabel, UpdateSourceTrigger=PropertyChanged}"/>
+
+                            </StackPanel>
+                            </StackPanel>
+                            <Button Style="{StaticResource CRUDButtonStyle}" Margin="0,70,20,0" HorizontalAlignment="Right" Height="30" Content="Lägg till" Width="100" Command="{Binding AddUserCommand}"/>
+
+                        </StackPanel>
+                        <StackPanel>
+                            
+                            
+                        </StackPanel>
+
+                    </StackPanel>
+                </Grid>
+
+            </Grid>
+            
+            <Border.Style>
+                <Style TargetType="Border">
+                    <Setter Property="Visibility" Value="Visible"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding MenuPage}" Value="3">
+                            <Setter Property="Visibility" Value="Visible"/>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding MenuPage}" Value="1">
+                            <Setter Property="Visibility" Value="Collapsed"/>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding MenuPage}" Value="2">
+                            <Setter Property="Visibility" Value="Collapsed"/>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding MenuPage}" Value="0">
+                            <Setter Property="Visibility" Value="Collapsed"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Border.Style>
+        </Border>
+
     </Grid>
 </UserControl>

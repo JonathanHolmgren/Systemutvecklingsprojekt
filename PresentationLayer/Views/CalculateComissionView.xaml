@@ -6,70 +6,375 @@
              xmlns:local="clr-namespace:PresentationLayer.Views"
              xmlns:vm="clr-namespace:PresentationLayer.ViewModels"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="800" d:DesignWidth="1000"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib">
 
     <UserControl.Resources>
-        <ResourceDictionary  Source="/DataTemplatesAndStyles/ResourceDictionary.xaml"/>
+        <ResourceDictionary Source="/DataTemplatesAndStyles/ResourceDictionary.xaml"/>
     </UserControl.Resources>
 
     <UserControl.DataContext>
         <vm:CalculateComissionViewModel/>
     </UserControl.DataContext>
-    <UserControl.Resources>
-        <ResourceDictionary Source="/DataTemplatesAndStyles/ResourceDictionary.xaml"/>
-    </UserControl.Resources>
-    <Border CornerRadius="10"         
-     Background="White"
-     
-     
-     Padding="10"
-     
-     Margin="0">
-        <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="400"/>
-            <ColumnDefinition Width="400"/>
-        </Grid.ColumnDefinitions>
+<!--First Page-->
+    <Grid>
+        <Border CornerRadius="10"         
+        Background="LightGray"
+        Padding="10"
+        Margin="0">
 
-        <Grid.RowDefinitions>
-            <RowDefinition Height="50"/>
-            <RowDefinition Height="400"/>
-        </Grid.RowDefinitions>
-        <Label Content="Provision per säljare" HorizontalAlignment="Center" FontSize="30" Grid.Row="0" Grid.ColumnSpan="2"/>
-        <StackPanel HorizontalAlignment="Stretch" Width="400" Height="400" Grid.Column="0" Grid.Row="1">
-            <Label Content="Välj säljare" HorizontalAlignment="Left" Margin="20,30,0,0" FontSize="14" Foreground="Black"/>
-            <ComboBox Style="{StaticResource ComboBoxStyleTemplate}" Height="30" Width="150" HorizontalAlignment="Left" Margin="20,0" ItemsSource="{Binding Employees}" DisplayMemberPath="AgentNumber" SelectedItem="{Binding SelectedEmployee, Mode=TwoWay}">
-            </ComboBox>
 
-            <Label Content="Förnamn" HorizontalAlignment="Left" Margin="20,30,0,0" FontSize="14" Foreground="Black"/>
-            <TextBox Style="{StaticResource TextBoxStyle}" IsReadOnly="True" Text="{Binding SelectedEmployee.FirstName, UpdateSourceTrigger=PropertyChanged}" Margin="20,0" Height="40" FontSize="16"/>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="100" />
 
-            <Label Content="År" HorizontalAlignment="Left" Margin="20,30,0,0" FontSize="14" Foreground="Black"/>
-            <ComboBox Style="{StaticResource NonObjectComboBoxStyle}" Height="30" Width="150" HorizontalAlignment="Left" Margin="20,0" ItemsSource="{Binding Years}" SelectedItem="{Binding SelectedYear}"/>
+                    <RowDefinition Height="*" />
 
-            <Label Content="Månad" HorizontalAlignment="Left" Margin="20,30,0,0" FontSize="14" Foreground="Black"/>
-            <ComboBox Style="{StaticResource NonObjectComboBoxStyle}" Height="30" Width="150" HorizontalAlignment="Left" Margin="20,0" ItemsSource="{Binding Months}" 
-          SelectedIndex="{Binding SelectedMonth, Mode=TwoWay}"/>
-            
-        </StackPanel>
+                    <RowDefinition Height="125" />
 
-        <StackPanel HorizontalAlignment="Stretch" Width="400" Height="400" Grid.Column="1" Grid.Row="1">
-            <Label Content="Personnummer" HorizontalAlignment="Left" Margin="20,30,0,0" FontSize="14" Foreground="Black"/>
-            <TextBox Style="{StaticResource TextBoxStyle}" IsReadOnly="True" Text="{Binding SelectedEmployee.SSN, UpdateSourceTrigger=PropertyChanged}" Margin="20,0" Height="40" FontSize="16"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*" />
 
-            <Label Content="Efternamn" HorizontalAlignment="Left" Margin="20,20,0,0" FontSize="14" Foreground="Black"/>
-            <TextBox Style="{StaticResource TextBoxStyle}" IsReadOnly="True" Text="{Binding SelectedEmployee.LastName, UpdateSourceTrigger=PropertyChanged}" Margin="20,0" Height="40" FontSize="16"/>
+                    <ColumnDefinition Width="2*"/>
 
-            <Label Content="Provision för period" HorizontalAlignment="Left" Margin="20,30,0,0" FontSize="14" Foreground="Black"/>
-            <TextBox Style="{StaticResource TextBoxStyle}" IsReadOnly="True" Text="{Binding TotalCommission, Mode=OneWay,StringFormat=\{0\} SEK}" Margin="20,0" Height="40" FontSize="16"/>
+                    <ColumnDefinition Width="1*" />
 
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="20,70">
-                <Button Style="{StaticResource GeneralButtonStyle}" Content="Avbryt" Height="20" Width="80" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="10,0"/>
-                <Button Style="{StaticResource CRUDButtonStyle}" Content="Exportera" Height="20" Width="80" HorizontalAlignment="Right" VerticalAlignment="Bottom" Command="{Binding ExportCommand}"/>
+                </Grid.ColumnDefinitions>
 
-            </StackPanel>
-        </StackPanel>
-      
+
+                <Border Grid.Row="0" Grid.Column="0"
+                        BorderBrush="Black"
+                        BorderThickness="0,0,0,1"/>
+                <Border Grid.Row="0" Grid.Column="1"
+                        BorderBrush="Black"
+                        BorderThickness="0,0,0,1">
+                    <StackPanel>
+                        <TextBlock Text="Räkna ut provision för säljare"
+                                    FontSize="30"
+                                    Margin="0,30,0,0"/>
+                        
+                    </StackPanel>
+                   
+
+                </Border>
+                <Border Grid.Row="0" Grid.Column="2"
+                         BorderBrush="Black"
+ BorderThickness="0,0,0,1"/>
+                <Border Grid.Row="1" Grid.Column="0"/>
+               
+                      
+
+                <!-- Center cell -->
+                <Grid Grid.Row="1" Grid.Column="1">
+                    <Grid>
+                        <StackPanel>
+                            <TextBlock Text="Sök på namn eller agentnummer för säljaren du ska räkna provision för."
+             TextAlignment="Center"
+             TextWrapping="Wrap"
+             Width="200"
+             VerticalAlignment="Bottom"
+             HorizontalAlignment="Left"
+             Margin="0,20,0,0"/>
+                            <StackPanel Orientation="Horizontal">
+
+                                <TextBox Style="{StaticResource SearchTextBoxStyle}"
+        Height="30"
+        Width="170"
+        VerticalAlignment="Top"
+        HorizontalAlignment="Left"
+        Text="{Binding FilterText, UpdateSourceTrigger=PropertyChanged}"/>
+                                <TextBlock Foreground="Red" FontSize="12"
+         Margin="0,16,0,0"
+         TextAlignment="Center"
+         HorizontalAlignment="Right"
+         VerticalAlignment="Top"
+        
+         Text="{Binding ErrorLabel}"/>
+
+
+
+                            </StackPanel>
+                            <Border CornerRadius="10"
+  Background="White"
+  Padding="5"
+  
+  HorizontalAlignment="Stretch"
+  Margin="0,0,0,0">
+                                <ListBox ItemsSource="{Binding FilteredEmployees, UpdateSourceTrigger=PropertyChanged}"
+       SelectedItem="{Binding SelectedEmployee, Mode=TwoWay}" 
+       SelectionMode="Single">
+
+
+                                    <ListBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <Grid>
+
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="100" />
+
+                                                    <ColumnDefinition Width="100" />
+
+                                                    <ColumnDefinition Width="*" />
+
+                                                </Grid.ColumnDefinitions>
+
+
+                                                <TextBlock Text="{Binding FirstName}" 
+                     Grid.Column="0" 
+                     Margin="5,0,10,0" 
+                     VerticalAlignment="Center"
+                     FontSize="17"/>
+
+
+                                                <TextBlock Text="{Binding LastName}" 
+                         Grid.Column="1" 
+                         Margin="5,0,10,0" 
+                         VerticalAlignment="Center"
+                         FontSize="17"/>
+
+
+                                                <TextBlock Text="{Binding AgentNumber}" 
+                         Grid.Column="2" 
+                         Margin="5,0,10,0" 
+                         VerticalAlignment="Center"
+                         FontSize="17"/>
+                                            </Grid>
+                                        </DataTemplate>
+                                    </ListBox.ItemTemplate>
+                                    <ListBox.ItemContainerStyle>
+                                        <Style TargetType="ListBoxItem">
+                                            <Setter Property="Background" Value="Transparent"/>
+                                            <Setter Property="Padding" Value="5"/>
+                                            <Setter Property="Margin" Value="2"/>
+                                            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+
+                                            <Style.Triggers>
+                                                <Trigger Property="IsSelected" Value="True">
+                                                    <Setter Property="Background" Value="LightBlue"/>
+                                                    <Setter Property="FontWeight" Value="Bold"/>
+                                                </Trigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </ListBox.ItemContainerStyle>
+                                </ListBox>
+                            </Border>
+                        </StackPanel>
+                      
+                    </Grid>
+                </Grid>
+                <Border Grid.Row="1" Grid.Column="2" />
+                <Border Grid.Row="2" Grid.Column="0"/>
+                <Grid Grid.Row="2" Grid.Column="1">
+                    <Button Style="{StaticResource RegisterButtonStyle}"
+                    Command="{Binding NextPageCommand}"
+                    Height="30"
+                    Width="130"
+                    Content="Gå vidare"
+                    VerticalAlignment="Bottom"
+                    HorizontalAlignment="Right"
+                    Margin="0,0,0,45"/>
+
+                </Grid>
+                <Border Grid.Row="2" Grid.Column="2" />
+            </Grid>
+            <Border.Style>
+                <Style TargetType="Border">
+                    <Setter Property="Visibility" Value="Visible"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding MenuPage}" Value="0">
+                            <Setter Property="Visibility" Value="Visible"/>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding MenuPage}" Value="1">
+                            <Setter Property="Visibility" Value="Collapsed"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Border.Style>
+        </Border>
+
+        <Border CornerRadius="10"         
+                Background="LightGray"
+                Padding="10"
+                Margin="0">
+
+
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="117" />
+
+                    <RowDefinition Height="*" />
+
+                    <RowDefinition Height="125" />
+
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*" />
+
+                    <ColumnDefinition Width="2*"/>
+
+                    <ColumnDefinition Width="1*" />
+
+                </Grid.ColumnDefinitions>
+
+
+                <Border Grid.Row="0" Grid.Column="0"
+                        BorderBrush="Black"
+                        BorderThickness="0,0,0,1"
+                       
+                        >
+                    <Button Style="{StaticResource RegisterBigBackButton}"
+                            Command="{Binding BackPageCommand}"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            />
+                </Border>
+                <Border Grid.Row="0" Grid.Column="1"
+                        BorderBrush="Black"
+                        BorderThickness="0,0,0,1">
+                <StackPanel>
+                        <TextBlock Text="Räkna ut provision för säljare"
+                                    FontSize="30"
+                                    Margin="0,30,0,0"/>
+                        <TextBlock>
+                            <Run Text="Säljare:" FontSize="16"/>
+                            <Run Text="{Binding SelectedEmployee.FirstName}" FontWeight="Bold" FontSize="16"/>
+                            <Run Text="{Binding SelectedEmployee.LastName}" FontWeight="Bold" FontSize="16"/>
+                        </TextBlock>
+                        <TextBlock>
+                            <Run Text="Agentnummer:" FontSize="16"/>
+                            <Run Text="{Binding SelectedEmployee.AgentNumber}" FontWeight="Bold" FontSize="16"/>
+                        </TextBlock>
+                       
+                    </StackPanel>
+
+                </Border>
+                <Border Grid.Row="0" Grid.ColumnSpan="3" Background="Black" Height="1"
+        Margin="0,83"/>
+
+                <Border Grid.Row="0" Grid.Column="2"
+                        BorderBrush="Black"
+BorderThickness="0,0,0,1"/>
+                <Border Grid.Row="1" Grid.Column="0"/>
+
+                <!-- Center cell -->
+                <Grid Grid.Row="1" Grid.Column="1">
+                    <Grid>
+                        <StackPanel 
+                            HorizontalAlignment="Left"
+                                    VerticalAlignment="Top">
+                            <TextBlock Text="Välj månad och år för säljaren du skall räkna provisionen för."
+            TextAlignment="Center"
+            TextWrapping="Wrap"
+            Width="200"
+            VerticalAlignment="Bottom"
+            HorizontalAlignment="Left"
+            Margin="0,20,0,0"
+            />
+                            <Label Content="Välj År" HorizontalAlignment="Left" Margin="0,0,0,0" FontSize="14" FontWeight="Bold" Foreground="Black"/>
+                            <ComboBox Style="{StaticResource NonObjectComboBoxStyle}" Height="30" Width="150" 
+                                      HorizontalAlignment="Left"
+                                      Margin="0,0,0,0"
+                                      ItemsSource="{Binding Years}"
+                                      SelectedItem="{Binding SelectedYear}"/>
+                            <StackPanel Orientation="Horizontal"
+                                        HorizontalAlignment="Left">
+                                <StackPanel>
+                                    <Label Content="Välj Månad" HorizontalAlignment="Left" Margin="0,105,0,0" FontSize="14" FontWeight="Bold" Foreground="Black"/>
+                                    <ComboBox Style="{StaticResource NonObjectComboBoxStyle}" Height="30" Width="150" 
+                                                HorizontalAlignment="Left"
+                                                Margin="0,0,0,0"
+                                                ItemsSource="{Binding Months}"
+                                                SelectedItem="{Binding SelectedMonth}"/>
+                                </StackPanel>
+
+                                <StackPanel Margin="30,220,0,0">
+                                    <TextBlock>
+                                        <TextBlock.Style>
+                                            <Style TargetType="TextBlock">
+                                                <Style.Triggers>
+                                                    <!-- DataTrigger för att dölja TextBlock om IsProvisionVisible är false -->
+                                                    <DataTrigger Binding="{Binding IsProvisionVisible}" Value="False">
+                                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                                    </DataTrigger>
+                                                    <DataTrigger Binding="{Binding IsProvisionVisible}" Value="True">
+                                                        <Setter Property="Visibility" Value="Visible"/>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </TextBlock.Style>
+
+                                         <Run Text="Provision över perioden" FontSize="16"/>
+                                      <Run Text="{Binding SelectedMonth, UpdateSourceTrigger=Explicit}" FontSize="16" FontWeight="Bold"/>
+                                         <Run Text="{Binding SelectedYear, UpdateSourceTrigger=Explicit}" FontSize="16" FontWeight="Bold"/>
+                                         <Run Text="=" FontSize="16"/>
+                                         <Run Text="{Binding TotalCommission, StringFormat=\{0\} SEK, UpdateSourceTrigger=Explicit}" FontSize="16" FontWeight="Bold"/>
+                                    </TextBlock>
+                                    <TextBlock Foreground="Red" FontSize="12"
+                                                  Margin="0,16,0,0"
+                                                  TextAlignment="Center"
+                                                  HorizontalAlignment="Right"
+                                                  VerticalAlignment="Top"
+ 
+                                                  Text="{Binding ErrorLabel}"/>
+
+                               
+                            </StackPanel>
+                               
+                              
+                               
+                            </StackPanel>
+                           
+                            
+
+                        </StackPanel>
+                   
+                    </Grid>
+                </Grid>
+                <Border Grid.Row="1" Grid.Column="2" />
+                <Border Grid.Row="2" Grid.Column="0"/>
+                <Grid Grid.Row="2" Grid.Column="1">
+                    <StackPanel Orientation="Horizontal"
+                                VerticalAlignment="Bottom"
+                                HorizontalAlignment="Right">
+                        <Button Style="{StaticResource RegisterButtonStyle}"
+                                Command="{Binding CalculateCommisionCommand}"
+                                Height="30"
+                                Width="130"
+                                Content="Beräkna provison"
+                                VerticalAlignment="Bottom"
+                                HorizontalAlignment="Right"
+                                Margin="0,0,0,0"/>
+                        
+                        <Button Style="{StaticResource RegisterButtonStyle}"
+                                 Command="{Binding ExportCommand}"
+                                 Height="30"
+                                 Width="130"
+                                 Content="Exportera provision"
+                                 VerticalAlignment="Bottom"
+                                 HorizontalAlignment="Right"
+                                 Margin="10,0,0,0"/>
+                    </StackPanel>
+                   
+                </Grid>
+                <Border Grid.Row="2" Grid.Column="2" />
+            </Grid>
+            <Border.Style>
+                <Style TargetType="Border">
+                    <Setter Property="Visibility" Value="Visible"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding MenuPage}" Value="1">
+                            <Setter Property="Visibility" Value="Visible"/>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding MenuPage}" Value="0">
+                            <Setter Property="Visibility" Value="Collapsed"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Border.Style>
+        </Border>
     </Grid>
-    </Border>
+    
+    
+
 </UserControl>

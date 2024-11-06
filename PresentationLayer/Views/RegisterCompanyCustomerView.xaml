@@ -15,7 +15,7 @@
     </UserControl.Resources>
 
     <!--Outer border -->
-    <Border CornerRadius="10" Background="White" Padding="10" Margin="0">
+    <Border CornerRadius="10" Background="LightGray" Padding="10" Margin="0">
         
         <Grid>
             <Grid.RowDefinitions>
@@ -77,14 +77,13 @@
                     </TextBlock>
                     <TextBlock Text="(Ex. 123456-1234)" Margin="0,-2,0,0" TextAlignment="Center"/>
                     <TextBox Style="{StaticResource RegisterTextBoxStyle}"
-                 Width="250"
-                 Height="40"
-                 FontSize="16"
-                 HorizontalAlignment="Center"
-                 VerticalAlignment="Top"
-                 
-                 Text="{Binding OrganisationNumber, UpdateSourceTrigger=LostFocus, ValidatesOnDataErrors=True}"
-                 x:Name="OrganisationNumberTextBox"/>
+                             Width="250"
+                             Height="40"
+                             FontSize="16"
+                             HorizontalAlignment="Center"
+                             VerticalAlignment="Top"
+                             Text="{Binding OrganisationNumber, UpdateSourceTrigger=LostFocus, ValidatesOnDataErrors=True}"
+                             x:Name="OrganisationNumberTextBox"/>
 
                     <TextBlock Foreground="Red" FontSize="12" Margin="0,3,0,0" TextAlignment="Center">
                         <TextBlock.Style>

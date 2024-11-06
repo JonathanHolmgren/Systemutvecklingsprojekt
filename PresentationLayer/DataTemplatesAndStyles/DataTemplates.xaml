@@ -75,12 +75,46 @@ Height="30">
             </Grid>
 
             <!-- Side Menu -->
-            <ContentControl Grid.Row="0"
-                        Grid.RowSpan="3"
-                        Grid.Column="0"
-                            Margin="0,30,0,0"
-                        Template="{DynamicResource SideMenuTemplate}" />
+            <ContentControl 
+                    Grid.Row="0" 
+                    Grid.RowSpan="3" 
+                    Grid.Column="0"
+                    Margin="0,30,0,0">
+                <ContentControl.Style>
+                    <Style TargetType="ContentControl">
+                        <!-- Ange standardtemplate för Guest -->
+                        <Setter Property="Template" Value="{StaticResource SideMenuTemplate}" />
 
+                        <Style.Triggers>
+
+                            <DataTrigger Binding="{Binding User.AuthorizationLevel}" Value="Admin">
+                                <Setter Property="Template" Value="{StaticResource SideMenuTemplateAdmin}" />
+                            </DataTrigger>
+
+                            <DataTrigger Binding="{Binding User.AuthorizationLevel}" Value="Economyassistant">
+                                <Setter Property="Template" Value="{StaticResource SideMenuTemplateEconomyAssistant}" />
+                            </DataTrigger>
+
+                            <DataTrigger Binding="{Binding User.AuthorizationLevel}" Value="Salesmanager">
+                                <Setter Property="Template" Value="{StaticResource SideMenuTemplateCEO+SaleManagement}" />
+                            </DataTrigger>
+
+                            <DataTrigger Binding="{Binding User.AuthorizationLevel}" Value="Salesperson">
+                                <Setter Property="Template" Value="{StaticResource SideMenuTemplateSalesPerson+SalesAssistant}" />
+                            </DataTrigger>
+
+                            <DataTrigger Binding="{Binding User.AuthorizationLevel}" Value="CEO">
+                                <Setter Property="Template" Value="{StaticResource SideMenuTemplateCEO+SaleManagement}" />
+                            </DataTrigger>
+
+                            <DataTrigger Binding="{Binding User.AuthorizationLevel}" Value="Salesassistant">
+                                <Setter Property="Template" Value="{StaticResource SideMenuTemplateSalesPerson+SalesAssistant}" />
+                            </DataTrigger>
+
+                        </Style.Triggers>
+                    </Style>
+                </ContentControl.Style>
+            </ContentControl>
             <!-- Main content area with ScrollViewer -->
             <ScrollViewer Grid.Row="1"
                       Grid.Column="1"

@@ -15,7 +15,7 @@
     </UserControl.Resources>
 
     <!--Outer border -->
-    <Border CornerRadius="10" Background="White" Padding="10" Margin="0">
+    <Border CornerRadius="10" Background="LightGray" Padding="10" Margin="0">
 
         <Grid>
             <Grid.RowDefinitions>
@@ -33,7 +33,7 @@
             <!-- First page -->
             <Border Grid.Row="1" Grid.Column="1" Background="LightGray" CornerRadius="5">
                 <StackPanel Orientation="Vertical" VerticalAlignment="Top" HorizontalAlignment="Center">
-                    <TextBlock Foreground="#222222" FontSize="24" Text="Registrera ny företagskund" FontFamily="Fonts/#Open Sans Regular" Margin="0,69,0,0" />
+                    <TextBlock Foreground="#222222" FontSize="24" Text="Registrera ny privatkund" FontFamily="Fonts/#Open Sans Regular" Margin="0,69,0,0" />
                     <TextBlock Text="Fyll i personuppgifter om kunden som ska registeras." TextWrapping="Wrap" Width="240" FontSize="16" Margin="0,10,0,0" TextAlignment="Center"/>
 
                     <TextBlock HorizontalAlignment="Center" FontSize="15" Margin="0,20,0,0">

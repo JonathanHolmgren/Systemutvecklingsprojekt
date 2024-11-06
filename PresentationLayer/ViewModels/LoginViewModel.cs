@@ -66,9 +66,9 @@ public class LoginViewModel : ObservableObject, ICloseWindows
         {
             try
             {
-                User user = loginUser.ValidateUser(userNameInput, passwordInput);
-                userSelected = user;
-                MainWindowViewModel mainWindowViewModel = new MainWindowViewModel();
+                LoggedInUser loggedInUser = loginUser.ValidateUser(userNameInput, passwordInput);
+                
+                MainWindowViewModel mainWindowViewModel = new MainWindowViewModel(loggedInUser);
 
                 
                 windowService.ShowWindow(mainWindowViewModel);

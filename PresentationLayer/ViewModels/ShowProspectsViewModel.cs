@@ -17,11 +17,20 @@ namespace PresentationLayer.ViewModels
     {
         private CustomerController customerController = new CustomerController();
 
-        private string note;
+        private string note = null;
         public string Note
         {
             get { return note; }
-            set { note = value; OnPropertyChanged(nameof(Note)); }
+            set { note = value; OnPropertyChanged(nameof(Note)); 
+                IsNoteFilled = true;
+            }
+        }
+
+        private bool isNoteFilled;
+        public bool IsNoteFilled
+        {
+            get { return isNoteFilled; }
+            set {  isNoteFilled = value; OnPropertyChanged(); }
         }
 
         private ObservableCollection<ProspectNote> prospectNotesList = null;
@@ -202,13 +211,14 @@ namespace PresentationLayer.ViewModels
             ReturnCommand = new RelayCommand(Return);
 
             IsCompanySelected = true;
+            IsNoteFilled = true;
         }
 
         #region Methods
 
         private ObservableCollection<PrivateCustomer> FilterPrivateProspects()
         {
-            ObservableCollection<PrivateCustomer> filteredList = new ObservableCollection<PrivateCustomer>(customerController.GetPrivateCustomerList());
+            ObservableCollection<PrivateCustomer> filteredList = new ObservableCollection<PrivateCustomer>();
 
             if (PrivateCustomers != null) 
             { 
@@ -225,7 +235,7 @@ namespace PresentationLayer.ViewModels
      
         private ObservableCollection<CompanyCustomer> FilterCompanyProspects()
         {
-            ObservableCollection<CompanyCustomer> filteredList = new ObservableCollection<CompanyCustomer>(customerController.GetCompanyCustomerList());
+            ObservableCollection<CompanyCustomer> filteredList = new ObservableCollection<CompanyCustomer>();
 
             if (CompanyCustomers != null)
             {
@@ -264,12 +274,11 @@ namespace PresentationLayer.ViewModels
                 customerController.AddProspectNote(prospectNote);
                 PrivateProspectSelectedItem.ProspectNotes.Add(prospectNote);
                 ProspectNotesList.Add(prospectNote);
-                MessageBox.Show("Anteckning tillagd");
                 Note = string.Empty;
             }
             else
             {
-                MessageBox.Show("Var god fyll i utfall");
+                IsNoteFilled = false;
             }
         }
 
@@ -285,12 +294,11 @@ namespace PresentationLayer.ViewModels
                 customerController.AddProspectNote(prospectNote);
                 CompanyProspectSelectedItem.ProspectNotes.Add(prospectNote);
                 ProspectNotesList.Add(prospectNote);
-                MessageBox.Show("Anteckning tillagd");
                 Note = string.Empty;
             }
             else
             {
-                MessageBox.Show("Var god fyll i utfall");
+                IsNoteFilled = false;
             }
         }
 

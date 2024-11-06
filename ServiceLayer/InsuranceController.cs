@@ -23,9 +23,14 @@ namespace ServiceLayer
         // public List<Insurance> GetAllPreliminaryInsurances()
 
 
-        public IList<Insurance> GetCustomerInsurances(int customerId)
+        public List<Insurance> GetCompanyCustomerInsurancesByCustomerId(int customerId)
         {
-            return unitOfWork.InsuranceRepository.GetCustomerInsurances(customerId);
+            return unitOfWork.InsuranceRepository.GetCompanyCustomerInsurancesById(customerId);
+        }
+
+        public List<Insurance> GetPrivateCustomerInsurancesByCustomerId(int customerId)
+        {
+            return unitOfWork.InsuranceRepository.GetPrivateCustomerInsurancesById(customerId);
         }
 
         public void SetInsuranceStatusToActive(Insurance selectedInsurance)

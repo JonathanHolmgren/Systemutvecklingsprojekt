@@ -19,6 +19,11 @@ public class UserController
         return unitOfWork.UserRepository.GetUsersByAgentNumber(agentNumber);
     }
 
+    public User GetUser(int id)
+    {
+        return unitOfWork.UserRepository.GetUserByID(id);
+    }
+
     public void CreateUser(
         string password,
         Employee employee,

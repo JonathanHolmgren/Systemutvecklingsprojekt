@@ -14,12 +14,24 @@ namespace DataLayer.Repositories
         public InsuranceRepository(Context context)
             : base(context) { }
 
-        public IList<Insurance> GetCustomerInsurances(int customerId)
+        public List<Insurance> GetCompanyCustomerInsurancesById(int customerId)
         {
             return Context
                 .Set<Insurance>()
                 .Where(insurance => insurance.Customer.CustomerID == customerId)
                 .Include(i => i.InsuranceType)
+                .Include(i => i.User) // Jag la till dessa
+                .ThenInclude(a => a.Employee) // Ta bort om de krånglar
+                .ToList();
+        }
+
+        public List<Insurance> GetPrivateCustomerInsurancesById(int customerId)
+        {
+            return Context
+                .Set<Insurance>()
+                .Where(insurance => insurance.Customer.CustomerID == customerId)
+                .Include(i => i.InsuranceType)
+                .Include(i => i.InsuredPerson)
                 .Include(i => i.User) // Jag la till dessa
                 .ThenInclude(a => a.Employee) // Ta bort om de krånglar
                 .ToList();

@@ -15,249 +15,251 @@ namespace PresentationLayer.ViewModels
 {
     public class RegisterPreliminaryInsuranceCompanyViewModel : ObservableObject
     {
-        InsuranceController insuranceController;
-        CustomerController customerController;
+        private readonly InsuranceController _insuranceController;
+        private readonly CustomerController _customerController;
+        private readonly UserController _userController;
 
-        public RegisterPreliminaryInsuranceCompanyViewModel()
+        public RegisterPreliminaryInsuranceCompanyViewModel() { }
+
+        public RegisterPreliminaryInsuranceCompanyViewModel(
+            User user,
+            CompanyCustomer selectedCompanyCustomer
+        )
         {
-            insuranceController = new InsuranceController();
-            customerController = new CustomerController();
+            LoggedInUser = user;
+            SelectedCompanyCustomer = selectedCompanyCustomer;
+            _insuranceController = new InsuranceController();
+            _customerController = new CustomerController();
+            _userController = new UserController();
 
             LoadInsuranceTypeOptions();
             LoadBillingIntervalOptions();
+            CurrentView = "Företagsuppgifter";
+        }
+
+        private string _currentView = null!;
+        public string CurrentView
+        {
+            get => _currentView;
+            set
+            {
+                _currentView = value;
+                OnPropertyChanged(nameof(CurrentView));
+            }
         }
 
         #region User
-        private User loggedInUser;
+        private User _loggedInUser = null!;
         public User LoggedInUser
         {
-            get { return loggedInUser; }
+            get { return _loggedInUser; }
             set
             {
-                if (loggedInUser != value)
+                if (_loggedInUser != value)
                 {
-                    loggedInUser = value;
+                    _loggedInUser = value;
                     OnPropertyChanged();
                 }
             }
         }
         #endregion
-
         #region Customer
-        private CompanyCustomer selectedCompanyCustomer = null!;
+        private CompanyCustomer _selectedCompanyCustomer = null!;
         public CompanyCustomer SelectedCompanyCustomer
         {
-            get { return selectedCompanyCustomer; }
+            get { return _selectedCompanyCustomer; }
             set
             {
-                selectedCompanyCustomer = value;
+                _selectedCompanyCustomer = value;
                 OnPropertyChanged();
             }
         }
-
-        private string inputOrgNumber = null!;
+        private string _inputOrgNumber = null!;
         public string InputOrgNumber
         {
-            get { return inputOrgNumber; }
+            get { return _inputOrgNumber; }
             set
             {
-                inputOrgNumber = value;
+                _inputOrgNumber = value;
                 OnPropertyChanged();
             }
         }
         #endregion
-
         #region InsuranceTypes
-        private ObservableCollection<string> availableInsuranceTypes = null!;
+        private ObservableCollection<string> _availableInsuranceTypes = null!;
         public ObservableCollection<string> AvailableInsuranceTypes
         {
-            get => availableInsuranceTypes;
+            get => _availableInsuranceTypes;
             set
             {
-                if (availableInsuranceTypes != value)
+                if (_availableInsuranceTypes != value)
                 {
-                    availableInsuranceTypes = value;
+                    _availableInsuranceTypes = value;
                     OnPropertyChanged(nameof(AvailableInsuranceTypes));
                 }
             }
         }
-
-        private string selectedInsuranceType = null!;
+        private string _selectedInsuranceType = null!;
         public string SelectedInsuranceType
         {
-            get => selectedInsuranceType;
+            get => _selectedInsuranceType;
             set
             {
-                selectedInsuranceType = value;
+                _selectedInsuranceType = value;
                 CalculatePropertyPremie();
                 CalcultateInventoriesPremie();
-
                 OnPropertyChanged();
                 LoadCarInsuranceOptions();
                 LoadDeductibles();
                 LoadZones();
                 CalculateCarPremie();
-
                 LoadLiabiltyAmounts();
                 LoadLiabiltyDeductibles();
                 CalculateLiabiltyPremie();
-
                 CalculateTotalPremie();
             }
         }
         #endregion
-
         #region PropertyInsurance
-        private string propertyAddress = null!;
+        private string _propertyAddress = null!;
         public string PropertyAddress
         {
-            get => propertyAddress;
+            get => _propertyAddress;
             set
             {
-                propertyAddress = value;
+                _propertyAddress = value;
                 OnPropertyChanged();
             }
         }
-
-        private string propertyValue = null!;
+        private string _propertyValue = null!;
         public string PropertyValue
         {
-            get => propertyValue;
+            get => _propertyValue;
             set
             {
-                propertyValue = value;
+                _propertyValue = value;
                 OnPropertyChanged();
                 CalculatePropertyPremie();
             }
         }
-
-        private string propertyPremie = null!;
+        private string _propertyPremie = null!;
         public string PropertyPremie
         {
-            get => propertyPremie;
+            get => _propertyPremie;
             set
             {
-                propertyPremie = value;
+                _propertyPremie = value;
                 OnPropertyChanged();
                 CalculateTotalPremie();
             }
         }
-
-        private string inventoriesValue = null!;
+        private string _inventoriesValue = null!;
         public string InventoriesValue
         {
-            get => inventoriesValue;
+            get => _inventoriesValue;
             set
             {
-                inventoriesValue = value;
+                _inventoriesValue = value;
                 OnPropertyChanged();
                 CalcultateInventoriesPremie();
             }
         }
-
-        private string inventoriesPremie = null!;
+        private string _inventoriesPremie = null!;
         public string InventoriesPremie
         {
-            get => inventoriesPremie;
+            get => _inventoriesPremie;
             set
             {
-                inventoriesPremie = value;
+                _inventoriesPremie = value;
                 OnPropertyChanged();
                 CalculateTotalPremie();
             }
         }
         #endregion
-
         #region CarInsurance
-        private ObservableCollection<string> availableCarInsuranceTypes = null!;
+        private ObservableCollection<string> _availableCarInsuranceTypes = null!;
         public ObservableCollection<string> AvailableCarInsuranceTypes
         {
-            get => availableCarInsuranceTypes;
+            get => _availableCarInsuranceTypes;
             set
             {
-                if (availableCarInsuranceTypes != value)
+                if (_availableCarInsuranceTypes != value)
                 {
-                    availableCarInsuranceTypes = value;
+                    _availableCarInsuranceTypes = value;
                     OnPropertyChanged();
                 }
             }
         }
-
-        private string selectedCarInsuranceType = null!;
+        private string _selectedCarInsuranceType = null!;
         public string SelectedCarInsuranceType
         {
-            get => selectedCarInsuranceType;
+            get => _selectedCarInsuranceType;
             set
             {
-                selectedCarInsuranceType = value;
+                _selectedCarInsuranceType = value;
                 OnPropertyChanged();
                 CalculateCarPremie();
             }
         }
-
-        private ObservableCollection<string> availableCarDeductibles = null!;
+        private ObservableCollection<string> _availableCarDeductibles = null!;
         public ObservableCollection<string> AvailableCarDeductibles
         {
-            get => availableCarDeductibles;
+            get => _availableCarDeductibles;
             set
             {
-                if (availableCarDeductibles != value)
+                if (_availableCarDeductibles != value)
                 {
-                    availableCarDeductibles = value;
+                    _availableCarDeductibles = value;
                     OnPropertyChanged();
                 }
             }
         }
-
-        private string selectedCarDeductible = null!;
+        private string _selectedCarDeductible = null!;
         public string SelectedCarDeductible
         {
-            get => selectedCarDeductible;
+            get => _selectedCarDeductible;
             set
             {
-                selectedCarDeductible = value;
+                _selectedCarDeductible = value;
                 OnPropertyChanged();
                 CalculateCarPremie();
             }
         }
-
-        private ObservableCollection<string> availableZones = null!;
+        private ObservableCollection<string> _availableZones = null!;
         public ObservableCollection<string> AvailableZones
         {
-            get => availableZones;
+            get => _availableZones;
             set
             {
-                if (availableZones != value)
+                if (_availableZones != value)
                 {
-                    availableZones = value;
+                    _availableZones = value;
                     OnPropertyChanged();
                 }
             }
         }
-
-        private string selectedZone = null!;
+        private string _selectedZone = null!;
         public string SelectedZone
         {
-            get => selectedZone;
+            get => _selectedZone;
             set
             {
-                selectedZone = value;
+                _selectedZone = value;
                 OnPropertyChanged();
                 CalculateCarPremie();
             }
         }
-        private string carPremie = null!;
+        private string _carPremie = null!;
         public string CarPremie
         {
-            get => carPremie;
+            get => _carPremie;
             set
             {
-                carPremie = value;
+                _carPremie = value;
                 OnPropertyChanged();
                 CalculateTotalPremie();
             }
         }
-
         private readonly Dictionary<
             (string carInsuranceType, string deductible),
             double
@@ -272,137 +274,127 @@ namespace PresentationLayer.ViewModels
                 { ("Halv", "3000"), 400 },
                 { ("Hel", "1000"), 800 },
                 { ("Hel", "2000"), 700 },
-                { ("Hel", "3000"), 600 }
+                { ("Hel", "3000"), 600 },
             };
-
         #endregion
-
         #region LiabilityInsurance
-        private ObservableCollection<string> availableLiabilityAmount = null!;
+        private ObservableCollection<string> _availableLiabilityAmount = null!;
         public ObservableCollection<string> AvailableLiabilityAmount
         {
-            get => availableLiabilityAmount;
+            get => _availableLiabilityAmount;
             set
             {
-                availableLiabilityAmount = value;
+                _availableLiabilityAmount = value;
                 OnPropertyChanged();
             }
         }
-
-        private string selectedLiabilityAmount = null!;
+        private string _selectedLiabilityAmount = null!;
         public string SelectedLiabilityAmount
         {
-            get => selectedLiabilityAmount;
+            get => _selectedLiabilityAmount;
             set
             {
-                selectedLiabilityAmount = value;
+                _selectedLiabilityAmount = value;
                 OnPropertyChanged();
                 CalculateLiabiltyPremie();
             }
         }
-
-        private ObservableCollection<string> availableLiabilityDeductibles = null!;
+        private ObservableCollection<string> _availableLiabilityDeductibles = null!;
         public ObservableCollection<string> AvailableLiabilityDeductibles
         {
-            get => availableLiabilityDeductibles;
+            get => _availableLiabilityDeductibles;
             set
             {
-                if (availableLiabilityDeductibles != value)
+                if (_availableLiabilityDeductibles != value)
                 {
-                    availableLiabilityDeductibles = value;
+                    _availableLiabilityDeductibles = value;
                     OnPropertyChanged();
                 }
             }
         }
-
-        private string selectedLiabilityDeductible = null!;
+        private string _selectedLiabilityDeductible = null!;
         public string SelectedLiabilityDeductible
         {
-            get => selectedLiabilityDeductible;
+            get => _selectedLiabilityDeductible;
             set
             {
-                selectedLiabilityDeductible = value;
+                _selectedLiabilityDeductible = value;
                 OnPropertyChanged();
                 CalculateLiabiltyPremie();
             }
         }
-
-        private string liabilityPremie = null!;
+        private string _liabilityPremie = null!;
         public string LiabilityPremie
         {
-            get => liabilityPremie;
+            get => _liabilityPremie;
             set
             {
-                liabilityPremie = value;
+                _liabilityPremie = value;
                 OnPropertyChanged();
                 CalculateTotalPremie();
             }
         }
-
         #endregion
 
         #region GenerellForInsurance
-        private DateTime activationDate;
+        // private DateTime activationDate;
+        private DateTime _activationDate = DateTime.Now;
         public DateTime ActivationDate
         {
-            get => activationDate;
+            get => _activationDate;
             set
             {
-                activationDate = value;
+                _activationDate = value;
                 OnPropertyChanged();
             }
         }
 
-        private DateTime expiryDate;
+        // private DateTime expiryDate;
+        private DateTime _expiryDate = DateTime.Now.AddMonths(1);
         public DateTime ExpiryDate
         {
-            get => expiryDate;
+            get => _expiryDate;
             set
             {
-                expiryDate = value;
+                _expiryDate = value;
                 OnPropertyChanged();
             }
         }
-
-        public ObservableCollection<BillingInterval> BillingIntervals { get; private set; }
-
-        private BillingInterval selectedInterval;
+        public ObservableCollection<BillingInterval> BillingIntervals { get; private set; } = null!;
+        private BillingInterval _selectedInterval;
         public BillingInterval SelectedInterval
         {
-            get => selectedInterval;
+            get => _selectedInterval;
             set
             {
-                if (selectedInterval != value)
+                if (_selectedInterval != value)
                 {
-                    selectedInterval = value;
+                    _selectedInterval = value;
                     OnPropertyChanged();
                     CalculateTotalPremie();
                 }
             }
         }
-
-        private string totalPremie = null!;
+        private string _totalPremie = null!;
         public string TotalPremie
         {
-            get => totalPremie;
+            get => _totalPremie;
             set
             {
-                totalPremie = value;
+                _totalPremie = value;
                 OnPropertyChanged();
             }
         }
-
         #endregion
-
         #region Methods
         #region CalculateMethods
         public void CalculatePropertyPremie()
         {
-            if (selectedInsuranceType == insuranceType1)
+            if (_selectedInsuranceType == insuranceType1)
             {
                 if (
-                    !string.IsNullOrWhiteSpace(propertyValue)
-                    && double.TryParse(propertyValue, out double value)
+                    !string.IsNullOrWhiteSpace(_propertyValue)
+                    && double.TryParse(_propertyValue, out double value)
                 )
                 {
                     double premie = value * 0.002;
@@ -417,11 +409,11 @@ namespace PresentationLayer.ViewModels
 
         public void CalcultateInventoriesPremie()
         {
-            if (selectedInsuranceType == insuranceType1)
+            if (_selectedInsuranceType == insuranceType1)
             {
                 if (
-                    !string.IsNullOrWhiteSpace(inventoriesValue)
-                    && double.TryParse(inventoriesValue, out double value)
+                    !string.IsNullOrWhiteSpace(_inventoriesValue)
+                    && double.TryParse(_inventoriesValue, out double value)
                 )
                 {
                     double premie = value * 0.002;
@@ -436,7 +428,7 @@ namespace PresentationLayer.ViewModels
 
         private void CalculateCarPremie()
         {
-            if (selectedInsuranceType == insuranceType2)
+            if (_selectedInsuranceType == insuranceType2)
             {
                 if (
                     string.IsNullOrEmpty(SelectedCarInsuranceType)
@@ -446,7 +438,6 @@ namespace PresentationLayer.ViewModels
                     CarPremie = "";
                     return;
                 }
-
                 if (
                     !basePremiums.TryGetValue(
                         (SelectedCarInsuranceType, SelectedCarDeductible),
@@ -457,15 +448,13 @@ namespace PresentationLayer.ViewModels
                     CarPremie = "";
                     return;
                 }
-
                 double zoneMultiplier = SelectedZone switch
                 {
                     "1 (högst risk)" => 1.3,
                     "2" => 1.2,
                     "3" => 1.1,
-                    _ => 1.0
+                    _ => 1.0,
                 };
-
                 double totalPremium = basePremium * zoneMultiplier;
                 CarPremie = totalPremium.ToString("F2");
             }
@@ -477,88 +466,88 @@ namespace PresentationLayer.ViewModels
 
         public void CalculateLiabiltyPremie()
         {
-            if (selectedInsuranceType == insuranceType3)
+            if (_selectedInsuranceType == insuranceType3)
             {
                 if (
-                    selectedLiabilityAmount == amount1
-                    && selectedLiabilityDeductible == liabilityDeductibles1
+                    _selectedLiabilityAmount == amount1
+                    && _selectedLiabilityDeductible == liabilityDeductibles1
                 )
                 {
                     LiabilityPremie = "800";
                 }
                 else if (
-                    selectedLiabilityAmount == amount1
-                    && selectedLiabilityDeductible == liabilityDeductibles2
+                    _selectedLiabilityAmount == amount1
+                    && _selectedLiabilityDeductible == liabilityDeductibles2
                 )
                 {
                     LiabilityPremie = "700";
                 }
                 else if (
-                    selectedLiabilityAmount == amount1
-                    && selectedLiabilityDeductible == liabilityDeductibles3
+                    _selectedLiabilityAmount == amount1
+                    && _selectedLiabilityDeductible == liabilityDeductibles3
                 )
                 {
                     LiabilityPremie = "600";
                 }
                 else if (
-                    selectedLiabilityAmount == amount1
-                    && selectedLiabilityDeductible == liabilityDeductibles4
+                    _selectedLiabilityAmount == amount1
+                    && _selectedLiabilityDeductible == liabilityDeductibles4
                 )
                 {
                     LiabilityPremie = "500";
                 }
                 else if (
-                    selectedLiabilityAmount == amount2
-                    && selectedLiabilityDeductible == liabilityDeductibles1
+                    _selectedLiabilityAmount == amount2
+                    && _selectedLiabilityDeductible == liabilityDeductibles1
                 )
                 {
                     LiabilityPremie = "1300";
                 }
                 else if (
-                    selectedLiabilityAmount == amount2
-                    && selectedLiabilityDeductible == liabilityDeductibles2
+                    _selectedLiabilityAmount == amount2
+                    && _selectedLiabilityDeductible == liabilityDeductibles2
                 )
                 {
                     LiabilityPremie = "1200";
                 }
                 else if (
-                    selectedLiabilityAmount == amount2
-                    && selectedLiabilityDeductible == liabilityDeductibles3
+                    _selectedLiabilityAmount == amount2
+                    && _selectedLiabilityDeductible == liabilityDeductibles3
                 )
                 {
                     LiabilityPremie = "1100";
                 }
                 else if (
-                    selectedLiabilityAmount == amount2
-                    && selectedLiabilityDeductible == liabilityDeductibles4
+                    _selectedLiabilityAmount == amount2
+                    && _selectedLiabilityDeductible == liabilityDeductibles4
                 )
                 {
                     LiabilityPremie = "1000";
                 }
                 else if (
-                    selectedLiabilityAmount == amount3
-                    && selectedLiabilityDeductible == liabilityDeductibles1
+                    _selectedLiabilityAmount == amount3
+                    && _selectedLiabilityDeductible == liabilityDeductibles1
                 )
                 {
                     LiabilityPremie = "1800";
                 }
                 else if (
-                    selectedLiabilityAmount == amount3
-                    && selectedLiabilityDeductible == liabilityDeductibles2
+                    _selectedLiabilityAmount == amount3
+                    && _selectedLiabilityDeductible == liabilityDeductibles2
                 )
                 {
                     LiabilityPremie = "1700";
                 }
                 else if (
-                    selectedLiabilityAmount == amount3
-                    && selectedLiabilityDeductible == liabilityDeductibles3
+                    _selectedLiabilityAmount == amount3
+                    && _selectedLiabilityDeductible == liabilityDeductibles3
                 )
                 {
                     LiabilityPremie = "1600";
                 }
                 else if (
-                    selectedLiabilityAmount == amount3
-                    && selectedLiabilityDeductible == liabilityDeductibles4
+                    _selectedLiabilityAmount == amount3
+                    && _selectedLiabilityDeductible == liabilityDeductibles4
                 )
                 {
                     LiabilityPremie = "1500";
@@ -573,32 +562,30 @@ namespace PresentationLayer.ViewModels
         public void CalculateTotalPremie()
         {
             double totalPremie = 0.0;
-
-            if (selectedInsuranceType == insuranceType1)
+            if (_selectedInsuranceType == insuranceType1)
             {
                 double.TryParse(InventoriesPremie, out double inventoriesPremie);
                 double.TryParse(PropertyPremie, out double propertyPremie);
                 totalPremie = inventoriesPremie + propertyPremie;
             }
-            else if (selectedInsuranceType == insuranceType2)
+            else if (_selectedInsuranceType == insuranceType2)
             {
-                double.TryParse(carPremie, out totalPremie);
+                double.TryParse(_carPremie, out totalPremie);
             }
-            else if (selectedInsuranceType == insuranceType3)
+            else if (_selectedInsuranceType == insuranceType3)
             {
-                double.TryParse(liabilityPremie, out totalPremie);
+                double.TryParse(_liabilityPremie, out totalPremie);
             }
             else
             {
                 totalPremie = 0.0;
             }
-
             TotalPremie = AdjustForBillingInterval(totalPremie);
         }
 
         private string AdjustForBillingInterval(double totalPremie)
         {
-            switch (selectedInterval)
+            switch (_selectedInterval)
             {
                 case BillingInterval.Månad:
                     return totalPremie.ToString();
@@ -613,7 +600,6 @@ namespace PresentationLayer.ViewModels
             }
         }
         #endregion
-
         #region LoadData
         string insuranceType1 = "Fastighet och inventarieförsäkring";
         string insuranceType2 = "Fordonsförsäkring";
@@ -625,7 +611,7 @@ namespace PresentationLayer.ViewModels
             {
                 insuranceType1,
                 insuranceType2,
-                insuranceType3
+                insuranceType3,
             };
         }
 
@@ -635,13 +621,13 @@ namespace PresentationLayer.ViewModels
 
         public void LoadCarInsuranceOptions()
         {
-            if (selectedInsuranceType == insuranceType2)
+            if (_selectedInsuranceType == insuranceType2)
             {
                 AvailableCarInsuranceTypes = new ObservableCollection<string>
                 {
                     carInsuranceType1,
                     carInsuranceType2,
-                    carInsuranceType3
+                    carInsuranceType3,
                 };
             }
             else
@@ -656,13 +642,13 @@ namespace PresentationLayer.ViewModels
 
         public void LoadDeductibles()
         {
-            if (selectedInsuranceType == insuranceType2)
+            if (_selectedInsuranceType == insuranceType2)
             {
                 AvailableCarDeductibles = new ObservableCollection<string>
                 {
                     deductible1,
                     deductible2,
-                    deductible3
+                    deductible3,
                 };
             }
             else
@@ -678,7 +664,7 @@ namespace PresentationLayer.ViewModels
 
         public void LoadZones()
         {
-            if (selectedInsuranceType == insuranceType2)
+            if (_selectedInsuranceType == insuranceType2)
             {
                 AvailableZones = new ObservableCollection<string> { zone1, zone2, zone3, zone4 };
             }
@@ -694,13 +680,13 @@ namespace PresentationLayer.ViewModels
 
         public void LoadLiabiltyAmounts()
         {
-            if (selectedInsuranceType == insuranceType3)
+            if (_selectedInsuranceType == insuranceType3)
             {
                 AvailableLiabilityAmount = new ObservableCollection<string>
                 {
                     amount1,
                     amount2,
-                    amount3
+                    amount3,
                 };
             }
             else
@@ -716,14 +702,14 @@ namespace PresentationLayer.ViewModels
 
         public void LoadLiabiltyDeductibles()
         {
-            if (selectedInsuranceType == insuranceType3)
+            if (_selectedInsuranceType == insuranceType3)
             {
                 AvailableLiabilityDeductibles = new ObservableCollection<string>
                 {
                     liabilityDeductibles1,
                     liabilityDeductibles2,
                     liabilityDeductibles3,
-                    liabilityDeductibles4
+                    liabilityDeductibles4,
                 };
             }
             else
@@ -742,27 +728,31 @@ namespace PresentationLayer.ViewModels
         #endregion
 
         #region Commands
+        public ICommand ShowCompanyCommand =>
+            new RelayCommand(() => CurrentView = "Företagsuppgifter");
+        public ICommand ShowInsuranceTypeCommand =>
+            new RelayCommand(() => CurrentView = "Försäkringstyp");
+        public ICommand ShowInsuranceDetailsCommand => new RelayCommand(ExecuteShowNextView);
         private ICommand searchCommand = null!;
         public ICommand SearchCommand =>
             searchCommand ??= searchCommand = new RelayCommand(
                 () =>
                 {
                     SelectedCompanyCustomer =
-                        customerController.GetSpecificCompanyCustomerForInsuranceByOrgNumber(
-                            inputOrgNumber
+                        _customerController.GetSpecificCompanyCustomerForInsuranceByOrgNumber(
+                            _inputOrgNumber
                         );
                 },
                 () => InputOrgNumber != null
             );
-
         private ICommand addCommand = null!;
         public ICommand AddCommand =>
             addCommand ??= addCommand = new RelayCommand(
                 () =>
                 {
-                    if (selectedInsuranceType == insuranceType1)
+                    if (_selectedInsuranceType == insuranceType1)
                     {
-                        insuranceController.CreatePropertyInsuranceFromInput(
+                        _insuranceController.CreatePropertyInsuranceFromInput(
                             LoggedInUser,
                             SelectedCompanyCustomer,
                             SelectedInsuranceType,
@@ -776,10 +766,11 @@ namespace PresentationLayer.ViewModels
                             SelectedInterval,
                             TotalPremie
                         );
+                        CurrentView = "KlarVy";
                     }
-                    if (selectedInsuranceType == insuranceType2)
+                    if (_selectedInsuranceType == insuranceType2)
                     {
-                        insuranceController.CreateCarInsuranceFromInput(
+                        _insuranceController.CreateCarInsuranceFromInput(
                             LoggedInUser,
                             SelectedCompanyCustomer,
                             SelectedInsuranceType,
@@ -792,10 +783,11 @@ namespace PresentationLayer.ViewModels
                             SelectedInterval,
                             TotalPremie
                         );
+                        CurrentView = "KlarVy";
                     }
-                    if (selectedInsuranceType == insuranceType3)
+                    if (_selectedInsuranceType == insuranceType3)
                     {
-                        insuranceController.CreateLiabilityInsuranceFromInput(
+                        _insuranceController.CreateLiabilityInsuranceFromInput(
                             LoggedInUser,
                             SelectedCompanyCustomer,
                             SelectedInsuranceType,
@@ -807,10 +799,27 @@ namespace PresentationLayer.ViewModels
                             SelectedInterval,
                             TotalPremie
                         );
+                        CurrentView = "KlarVy";
                     }
                 },
                 () => true
             );
+
+        private void ExecuteShowNextView()
+        {
+            if (SelectedInsuranceType == insuranceType1)
+            {
+                CurrentView = "FörsäkringsUppgifter1";
+            }
+            else if (SelectedInsuranceType == insuranceType2)
+            {
+                CurrentView = "FörsäkringsUppgifter2";
+            }
+            else if (SelectedInsuranceType == insuranceType3)
+            {
+                CurrentView = "FörsäkringsUppgifter3";
+            }
+        }
 
         #endregion
     }

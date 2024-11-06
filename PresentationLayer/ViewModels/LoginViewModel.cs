@@ -70,6 +70,7 @@ public class LoginViewModel : ObservableObject, ICloseWindows
                 
                 MainWindowViewModel mainWindowViewModel = new MainWindowViewModel(loggedInUser);
 
+
                 
                 windowService.ShowWindow(mainWindowViewModel);
                 Close?.Invoke();

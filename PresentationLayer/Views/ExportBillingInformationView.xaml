@@ -38,7 +38,7 @@
             
             <StackPanel Grid.Row="0" Orientation="Horizontal">
                 <!-- StackPanel for RadioButtons -->
-                <StackPanel Orientation="Vertical" Margin="10,0,0,20">
+                <StackPanel Orientation="Vertical" Margin="20,0,0,20">
                     <RadioButton Style="{StaticResource TeamsRadioButtonStyle}" Content="Privata Kunder" IsChecked="{Binding IsPrivateCustomerSelected}" GroupName="CustomerType" Margin="0,5"/>
                     <RadioButton Style="{StaticResource TeamsRadioButtonStyle}" Content="Företags Kunder" IsChecked="{Binding IsCompanyCustomerSelected}" GroupName="CustomerType" Margin="0,-10"/>
                 </StackPanel>
@@ -58,76 +58,98 @@
         <!-- Content Control for DataGrids -->
         <ContentControl Margin="10,0,10,10" Grid.Row="1">
             <ContentControl.Style>
-                <Style  TargetType="ContentControl">
-                    <Setter Property="Content">
-                        <Setter.Value>
-                            <!-- DataGrid for Private Customers -->
-                            <DataGrid Style="{StaticResource DataGridStyle}"  ItemsSource="{Binding FilteredListPrivate}" AutoGenerateColumns="False"
+                    <Style  TargetType="ContentControl">
+
+                        <Setter Property="Content">
+                            <Setter.Value>
+                                <!-- DataGrid for Private Customers -->
+                                <Border Margin="10,3" Padding="10" Background="White" CornerRadius="5" BorderBrush="#DDD" BorderThickness="1">
+                                    <DataGrid ItemsSource="{Binding FilteredListPrivate}" AutoGenerateColumns="False"
                                       SelectedValuePath="SSN"
                                       SelectedItem="{Binding SelectedCustomer}"
-                                      CanUserResizeColumns="True" HorizontalScrollBarVisibility="Auto" Margin="0,10,0,0">
-                                <DataGrid.Columns>
-                                    <DataGridTextColumn Header="Förnamn" Binding="{Binding FirstName}" />
-                                    <DataGridTextColumn Header="Efternamn" Binding="{Binding LastName}" />
-                                    <DataGridTextColumn Header="Personnummer" Binding="{Binding SSN}"  />
-                                    <DataGridTextColumn Header="Address" Binding="{Binding Address}" />
-                                    <DataGridTextColumn Header="Postnummer" Binding="{Binding PostalCode}" />
-                                    <DataGridTextColumn Header="Ort" Binding="{Binding City}"  />
-                                    <DataGridTextColumn Header="Total Premium" Binding="{Binding TotalPremium}" />
-                                
-                                        <!-- Försäkringar visas som en lista på separata rader -->
-                                        <DataGridTemplateColumn Header="Försäkringar" Width="Auto">
-                                            <DataGridTemplateColumn.CellTemplate>
-                                                <DataTemplate>
-                                                    <ItemsControl ItemsSource="{Binding InsuranceSummary}">
-                                                        <ItemsControl.ItemTemplate>
-                                                            <DataTemplate>
-                                                                <TextBlock Text="{Binding}" />
-                                                            </DataTemplate>
-                                                        </ItemsControl.ItemTemplate>
-                                                    </ItemsControl>
-                                                </DataTemplate>
-                                            </DataGridTemplateColumn.CellTemplate>
-                                        </DataGridTemplateColumn>
-                                    </DataGrid.Columns>
-                                </DataGrid>
+                                      CanUserResizeColumns="True" HorizontalScrollBarVisibility="Auto" Margin="0,10,0,0"
+ HeadersVisibility="Column"
+ GridLinesVisibility="None"
+ RowBackground="White"
+ AlternatingRowBackground="#F3F3F3"
+ BorderThickness="0"
+ CanUserAddRows="False"
+ CanUserResizeRows="False">
+                                        <DataGrid.Columns>
+                                            <DataGridTextColumn Header="Förnamn" Binding="{Binding FirstName}" Width="*" IsReadOnly="True"/>
+                                            <DataGridTextColumn Header="Efternamn" Binding="{Binding LastName}" Width="*" IsReadOnly="True"/>
+                                            <DataGridTextColumn Header="Personnummer" Binding="{Binding SSN}"  Width="*" IsReadOnly="True"/>
+                                            <DataGridTextColumn Header="Address" Binding="{Binding Address}" Width="*" IsReadOnly="True"/>
+                                            <DataGridTextColumn Header="Postnummer" Binding="{Binding PostalCode}" Width="*" IsReadOnly="True"/>
+                                            <DataGridTextColumn Header="Ort" Binding="{Binding City}"  Width="*" IsReadOnly="True"/>
+                                            <DataGridTextColumn Header="Total Premium" Binding="{Binding TotalPremium}" Width="*" IsReadOnly="True"/>
+
+                                            <!-- Försäkringar visas som en lista på separata rader -->
+                                            <DataGridTemplateColumn Header="Försäkringar" Width="Auto">
+                                                <DataGridTemplateColumn.CellTemplate>
+                                                    <DataTemplate>
+                                                        <ItemsControl ItemsSource="{Binding InsuranceSummary}">
+                                                            <ItemsControl.ItemTemplate>
+                                                                <DataTemplate>
+                                                                    <TextBlock Text="{Binding}" Width="Auto"/>
+                                                                </DataTemplate>
+                                                            </ItemsControl.ItemTemplate>
+                                                        </ItemsControl>
+                                                    </DataTemplate>
+                                                </DataGridTemplateColumn.CellTemplate>
+                                            </DataGridTemplateColumn>
+                                        </DataGrid.Columns>
+                                    </DataGrid>
+                                </Border>
                             </Setter.Value>
                         </Setter>
 
 
-                    <Style.Triggers>
-                        <!-- Trigger to show Company Customers DataGrid when selected -->
-                        <DataTrigger Binding="{Binding IsCompanyCustomerSelected}" Value="True">
-                            <Setter Property="Content">
-                                <Setter.Value>
-                                    <!-- DataGrid for Company Customers -->
-                                    <DataGrid Style="{StaticResource DataGridStyle}" ItemsSource="{Binding FilteredListCompany}" AutoGenerateColumns="False"
-                                              CanUserResizeColumns="True" HorizontalScrollBarVisibility="Auto" Margin="0,10,0,0">
-                                         <DataGrid.Columns>
-                                            <DataGridTextColumn Header="Företagsnamn" Binding="{Binding CompanyName}"  />
-                                            <DataGridTextColumn Header="Organisationsnummer" Binding="{Binding OrganisationNumber}"  />
-                                            <DataGridTextColumn Header="Kontaktperson" Binding="{Binding ContactPerson}"  />
-                                            <DataGridTextColumn Header="Address" Binding="{Binding Address}"  />
-                                            <DataGridTextColumn Header="Postnummer" Binding="{Binding PostalCode}"  />
-                                            <DataGridTextColumn Header="Ort" Binding="{Binding City}" />
-                                            <DataGridTextColumn Header="Total Premium" Binding="{Binding TotalPremium}"  />
-                            
-                                                <!-- Försäkringar visas som en lista på separata rader -->
-                                                <DataGridTemplateColumn Header="Försäkringar" Width="Auto">
-                                                    <DataGridTemplateColumn.CellTemplate>
-                                                        <DataTemplate>
-                                                            <ItemsControl ItemsSource="{Binding InsuranceSummary}">
-                                                                <ItemsControl.ItemTemplate>
-                                                                    <DataTemplate>
-                                                                        <TextBlock Text="{Binding}" />
-                                                                    </DataTemplate>
-                                                                </ItemsControl.ItemTemplate>
-                                                            </ItemsControl>
-                                                        </DataTemplate>
-                                                    </DataGridTemplateColumn.CellTemplate>
-                                                </DataGridTemplateColumn>
-                                            </DataGrid.Columns>
-                                        </DataGrid>
+
+
+                        <Style.Triggers>
+                            <!-- Trigger to show Company Customers DataGrid when selected -->
+                            <DataTrigger Binding="{Binding IsCompanyCustomerSelected}" Value="True">
+                                <Setter Property="Content">
+                                    <Setter.Value>
+                                        <!-- DataGrid for Company Customers -->
+                                        <Border Margin="10,3" Padding="10" Background="White" CornerRadius="5" BorderBrush="#DDD" BorderThickness="1">
+
+                                            <DataGrid ItemsSource="{Binding FilteredListCompany}" AutoGenerateColumns="False"
+                                              CanUserResizeColumns="True" HorizontalScrollBarVisibility="Auto" Margin="0,10,0,0"
+                                                       HeadersVisibility="Column"
+ GridLinesVisibility="None"
+ RowBackground="White"
+ AlternatingRowBackground="#F3F3F3"
+ BorderThickness="0"
+ CanUserAddRows="False"
+ CanUserResizeRows="False">
+                                                <DataGrid.Columns>
+                                                    <DataGridTextColumn Header="Företagsnamn" Binding="{Binding CompanyName}"  Width="*" IsReadOnly="True"/>
+                                                    <DataGridTextColumn Header="Organisationsnummer" Binding="{Binding OrganisationNumber}" Width="*" IsReadOnly="True" />
+                                                    <DataGridTextColumn Header="Kontaktperson" Binding="{Binding ContactPerson}" Width="*" IsReadOnly="True" />
+                                                    <DataGridTextColumn Header="Address" Binding="{Binding Address}" Width="*" IsReadOnly="True" />
+                                                    <DataGridTextColumn Header="Postnummer" Binding="{Binding PostalCode}"  Width="*" IsReadOnly="True"/>
+                                                    <DataGridTextColumn Header="Ort" Binding="{Binding City}" Width="*" IsReadOnly="True"/>
+                                                    <DataGridTextColumn Header="Total Premium" Binding="{Binding TotalPremium}"  Width="*" IsReadOnly="True"/>
+
+                                                    <!-- Försäkringar visas som en lista på separata rader -->
+                                                    <DataGridTemplateColumn Header="Försäkringar" Width="Auto">
+                                                        <DataGridTemplateColumn.CellTemplate>
+                                                            <DataTemplate>
+                                                                <ItemsControl ItemsSource="{Binding InsuranceSummary}">
+                                                                    <ItemsControl.ItemTemplate>
+                                                                        <DataTemplate>
+                                                                            <TextBlock Text="{Binding}" Width="Auto"/>
+                                                                        </DataTemplate>
+                                                                    </ItemsControl.ItemTemplate>
+                                                                </ItemsControl>
+                                                            </DataTemplate>
+                                                        </DataGridTemplateColumn.CellTemplate>
+                                                    </DataGridTemplateColumn>
+                                                </DataGrid.Columns>
+                                            </DataGrid>
+                                        </Border>
                                     </Setter.Value>
                                 </Setter>
                             </DataTrigger>
@@ -139,3 +161,5 @@
         </Grid>
     </Border>
 </UserControl>
+
+

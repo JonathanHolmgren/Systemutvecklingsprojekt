@@ -15,7 +15,7 @@
     </UserControl.Resources>
 
     <!--Outer border -->
-    <Border CornerRadius="10" Background="White" Padding="10" Margin="0">
+    <Border CornerRadius="10" Background="LightGray" Padding="10" Margin="0">
         
         <Grid>
             <Grid.RowDefinitions>

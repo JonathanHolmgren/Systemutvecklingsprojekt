@@ -44,9 +44,8 @@
         <Border Grid.Column="0" BorderBrush="Black" BorderThickness="1" Width="Auto" Height="Auto" Margin="10,20" VerticalAlignment="Top">
             <StackPanel Orientation="Horizontal">
                 <StackPanel Orientation="Vertical" Height="117">
-                    <Label Content="Find Employee:" Margin="20,0"/>
-                    <TextBox Style="{StaticResource SearchTextBoxStyle}" Name="employeeInput" Text="{Binding EmployeeInput, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Height="30" Width="200" Margin="20,0,10,0" />
-                    <Button Style="{StaticResource GeneralButtonStyle}" Content="Sök" Height="30" Width="100" Command="{Binding SearchEmployee}" Margin="20,10" HorizontalAlignment="Left"/>
+                    <Label Content="Välj anställd:" Margin="10,3"/>
+                    <ComboBox Style="{StaticResource ComboBoxStyleTemplate}" ItemsSource="{Binding Employees, Mode=TwoWay}" SelectedItem="{Binding EmployeeSelected}" DisplayMemberPath="AgentNumber" Height="30" Width="200" Margin="10,0,10,0" />
 
                 </StackPanel>
 
@@ -55,64 +54,67 @@
         <!-- Add User Section -->
         <StackPanel Grid.Column="1" >
             <GroupBox Header="Lägg till användare" Grid.Row="0" Margin="10" Width="Auto" BorderBrush="Black">
-                <StackPanel>
+                <StackPanel Orientation="Horizontal">
 
                     <!-- Search for Employee -->
-                    <StackPanel Orientation="Horizontal" Margin="0">
+                    <StackPanel Orientation="Vertical" Margin="0">
                         <StackPanel Orientation="Vertical" HorizontalAlignment="left">
                             <Label Content="Förnamn" Margin="20,0"/>
                             <TextBox Style="{StaticResource TextBoxStyle}" Text="{Binding EmployeeSelected.FirstName}" Height="30" Width="200" Margin="20,0,0,0" IsReadOnly="True"/>
                         </StackPanel>
-                        <StackPanel Orientation="Vertical" Margin="70,0,0,0">
-                            <Label Content="Användarnamn"/>
-                            <TextBox Style="{StaticResource TextBoxStyle}" Text="{Binding NewUserName}" Width="200" Height="30" HorizontalAlignment="Right" IsReadOnly="True"/>
+                        <StackPanel Orientation="Vertical" HorizontalAlignment="left">
+                            <Label Content="Efternamn" Margin="20,0"/>
+                            <TextBox Style="{StaticResource TextBoxStyle}" Text="{Binding EmployeeSelected.LastName}" Height="30" Width="200" Margin="20,0,0,0" IsReadOnly="True"/>
                         </StackPanel>
-                       
-                    </StackPanel>
-
-                    <!-- Password -->
-                    <StackPanel Orientation="Vertical" Margin="0,0,10,0">
-
-                        <Label Content="Lösenord:" Margin="20,0"/>
-                        <TextBox Style="{StaticResource TextBoxStyle}"
-                             Name="passwordInput" 
-                             Width="200" 
-                             Margin="20,0,0,0" 
-                             Text="{Binding PasswordInput, Mode=TwoWay}"
-                             Height="30"
-                             HorizontalAlignment="Left"/>
-                        <!-- <Button Content="Generate" Width="75" Command="{Binding GeneratePasswordCommand}"/> -->
-
-                    </StackPanel>
-
-                    <!-- Role/Permission Level -->
-                    <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
                         <StackPanel>
-                            <Label Content="Roll:" Margin="20,0,0,0" />
+                            <Label Content="Vilken roll har den anställda?" Margin="20,0,0,0" />
                             <ComboBox 
-                            Style="{StaticResource NonObjectComboBoxStyle}"
-                            Name="roleComboBox" 
-                            Width="200" 
-                            Height="30"
-                            Margin="20,0,0,0"
-                            ItemsSource="{Binding Source={StaticResource AuthorizationLevelEnumValues}}" 
-                            SelectedItem="{Binding AuthorizationLevelSelected, Mode=TwoWay}" />
+    Style="{StaticResource NonObjectComboBoxStyle}"
+    Name="roleComboBox" 
+    Width="200" 
+    Height="30"
+    Margin="20,0,0,0"
+    ItemsSource="{Binding Source={StaticResource AuthorizationLevelEnumValues}}" 
+    SelectedItem="{Binding AuthorizationLevelSelected, Mode=TwoWay}" />
                         </StackPanel>
 
-                        <Button Style="{StaticResource CRUDButtonStyle}" Margin="169,26,10,0" Height="30" Content="Lägg till" Width="100" Command="{Binding AddUserCommand}"/>
+                    </StackPanel>
+                    <StackPanel>
+                        <Border BorderBrush="White" BorderThickness="2" CornerRadius="5" Margin="10,5,10,5" Width="280">
+                            <StackPanel>
+                                <StackPanel Orientation="Vertical" Margin="30,-2">
+                                    <Label Content="Användarnamn" Margin="10,-3"/>
+                                    <TextBox Style="{StaticResource TextBoxStyle}" Text="{Binding NewUserName}" Width="200" Height="30" IsReadOnly="True"/>
+                                </StackPanel>
+                                <StackPanel Orientation="Vertical" Margin="30,5">
+
+                                    <Label Content="Välj ett lösenord" Margin="10,0,0,-3"/>
+                                    <TextBox Style="{StaticResource TextBoxStyle}"
+Name="passwordInput" 
+Width="200" 
+Text="{Binding PasswordInput, Mode=TwoWay}"
+Height="30"
+/>
+                                    <!-- <Button Content="Generate" Width="75" Command="{Binding GeneratePasswordCommand}"/> -->
+
+                                </StackPanel>
+
+                            </StackPanel>
+                           
+                        </Border>
+                        <Button Style="{StaticResource CRUDButtonStyle}" Margin="0,15,10,0" HorizontalAlignment="Right" Height="30" Content="Lägg till" Width="100" Command="{Binding AddUserCommand}"/>
+
                     </StackPanel>
 
-                    <!-- Add User Button -->
-                    <!--<Button Style="{StaticResource CRUDButtonStyle}" Content="Add User" Width="100" HorizontalAlignment="Left" Command="{Binding AddUserCommand}"/>-->
                 </StackPanel>
             </GroupBox>
 
             <!-- Remove User Section -->
             <GroupBox Header="Ta bort användare" Grid.Row="1" Margin="10" BorderBrush="Black">
-                <StackPanel Orientation="Horizontal">
+                <StackPanel Orientation="Vertical">
                     <!-- Search for User -->
-                    
-                    <StackPanel Orientation="Horizontal" Margin="20,20,0,10">
+                    <TextBlock Text="Välj en användare" Margin="20,10,0,0" FontWeight="Bold"/>
+                    <StackPanel Orientation="Horizontal" Margin="20,3,0,10">
                         <ListBox ItemsSource="{Binding Users}" SelectedItem="{Binding UserSelected, Mode=TwoWay}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="200" Height="150" BorderBrush="Black" ScrollViewer.VerticalScrollBarVisibility="Disabled" 
     ScrollViewer.HorizontalScrollBarVisibility="Disabled">
                             <ListBox.ItemTemplate>
@@ -128,7 +130,7 @@
                             </ListBox.ItemTemplate>
                         </ListBox>
                         <!-- Remove User Button -->
-                        <Button Style="{StaticResource CRUDButtonStyle}" Content="Ta bort" Command="{Binding RemoveUser}" Height="30" Width="100" Margin="169,0" VerticalAlignment="Bottom" HorizontalAlignment="Right"/>
+                        <Button Style="{StaticResource CRUDButtonStyle}" Content="Ta bort" Command="{Binding RemoveUser}" Height="30" Width="100" Margin="187,0" VerticalAlignment="Bottom" HorizontalAlignment="Right"/>
                     </StackPanel>
 
                 </StackPanel>

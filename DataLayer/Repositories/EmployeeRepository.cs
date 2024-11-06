@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+
 namespace DataLayer.Repositories
 {
     public class EmployeeRepository : Repository<Employee>
@@ -23,6 +24,11 @@ namespace DataLayer.Repositories
 
                 return employeesWithCommissions;
             }
+        }
+
+        public IList<Employee> GetEmployees()
+        {
+            return Context.Set<Employee>().ToList();
         }
 
     }

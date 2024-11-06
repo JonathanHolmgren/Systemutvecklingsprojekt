@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Windows.Input;
 using Azure.Identity;
 using Microsoft.IdentityModel.Tokens;
@@ -13,20 +14,34 @@ namespace PresentationLayer.ViewModels;
 public class RegisterUserViewModel : ObservableObject
 {
     private readonly UserController userController;
+    private EmployeeController employeeController = new EmployeeController();
+
     private AcronymForPermissionLevel acronymForPermissionLevel = new AcronymForPermissionLevel();
+    public ObservableCollection<Employee> Employees { get; set; } = new ObservableCollection<Employee>();
+
+
     public RegisterUserViewModel()
     {
         this.userController = new UserController();
+        LoadEmployees();
     }
 
-    private Employee employeeSelected = null!;
+    private Employee employeeSelected ;
     public Employee EmployeeSelected
     {
         get { return employeeSelected; }
         set
         {
             employeeSelected = value;
-            OnPropertyChanged();
+            OnPropertyChanged(nameof(EmployeeSelected));
+            if (employeeSelected != null)
+            {
+                Users = userController.GetUsers(employeeSelected.AgentNumber);
+            }
+            else
+            {
+                Users = Enumerable.Empty<User>(); 
+            }
         }
     }
     private IEnumerable<User> users = null!;
@@ -62,31 +77,6 @@ public class RegisterUserViewModel : ObservableObject
         }
     }
 
-    private ICommand searchEmployee = null!;
-    public ICommand SearchEmployee =>
-        searchEmployee ??= new RelayCommand(
-            () =>
-            {
-                EmployeeSelected = userController.GetEmployee(employeeInput);
-                            Users = userController.GetUsers(employeeInput);
-
-                if (EmployeeSelected != null)
-                {
-                    Debug.WriteLine(EmployeeSelected);
-                }
-                else
-                {
-                    Debug.WriteLine("No employee selected");
-                }
-            },
-            () => !EmployeeInput.IsNullOrEmpty()
-        );
-    private ICommand searchUser = null!;
-    public ICommand SearchUser =>
-        searchUser ??= new RelayCommand(() =>
-        {
-            Users = userController.GetUsers(employeeInput);
-        });
 
     private string newUserName = null!;
     public string NewUserName
@@ -152,5 +142,17 @@ public class RegisterUserViewModel : ObservableObject
                 AuthorizationLevelSelected = AuthorizationLevel.Admin;
             },
             () => EmployeeSelected != null
+              && !string.IsNullOrWhiteSpace(PasswordInput)
+              && AuthorizationLevelSelected != null
         );
+    private void LoadEmployees()
+    {
+       
+        var employees = employeeController.GetEmployees();
+        foreach (var employee in employees)
+        {
+            Employees.Add(employee);
+        }
+    }
+
 }

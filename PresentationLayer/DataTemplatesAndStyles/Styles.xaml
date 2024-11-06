@@ -875,101 +875,6 @@
         </Setter>
     </Style>
 
-    <Style x:Key="MenuButtonRemoveCustomer" TargetType="Button">
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="Button">
-                    <Grid>
-                        <Border x:Name="border"
-                  Background="LightGray"
-                  Height="55"
-                  Width="55"
-                  VerticalAlignment="Top"
-                  HorizontalAlignment="Left"
-                  CornerRadius="5"
-                  Margin="5">
-                            <StackPanel Orientation="Horizontal">
-                                <!-- Extra bild, visas endast när CurrentView är specificerad -->
-                                <Image x:Name="extraImage"
-                         Height="45"
-                         Width="25"
-                         HorizontalAlignment="Left"
-                         VerticalAlignment="Center"
-                         Margin="-8,0,0,0"
-                         Stretch="Fill"
-                         Source="Assets/select_line.png"
-                         Visibility="Collapsed"/>
-
-                                <!-- Ikon och textblock -->
-                                <StackPanel x:Name="iconStackPanel"
-                              Height="55"
-                              Width="55"
-                              HorizontalAlignment="Center"
-                              VerticalAlignment="Center"
-                              Orientation="Vertical"
-                              Margin="0,0,0,0">
-
-                                    <!-- Standardikon som visas när ingen specifik vy är aktiv -->
-                                    <Image x:Name="iconImage"
-                             Height="25"
-                             Width="25"
-                             HorizontalAlignment="Center"
-                             VerticalAlignment="Bottom"
-                             Margin="0,7,0,0"
-                             Stretch="Fill"
-                             Source="Assets/remove_customer.png"
-                             Visibility="Visible"/>
-
-                                    <!-- Alternativ ikon som visas när specifik vy är aktiv -->
-                                    <Image x:Name="selectedImage"
-                             Height="25"
-                             Width="25"
-                             HorizontalAlignment="Center"
-                             VerticalAlignment="Bottom"
-                             Margin="0,7,0,0"
-                             Stretch="Fill"
-                             Source="{Binding CurrentView, Converter={StaticResource ViewTypeToImageSourceConverter}}" 
-                              Visibility="Collapsed"/>
-
-                                    <TextBlock Foreground="Black"
-                                 VerticalAlignment="Bottom"
-                                 HorizontalAlignment="Center"
-                                 FontSize="8"
-                                 Text="Ta bort kund"
-                                 FontFamily="Fonts/#Open Sans Regular"
-                                 Margin="0,2,0,0" 
-                                 TextWrapping="Wrap"
-                                            TextAlignment="Center"/>
-                                </StackPanel>
-                            </StackPanel>
-                        </Border>
-                    </Grid>
-
-                    <ControlTemplate.Triggers>
-                        <!-- Hover-effekt -->
-                        <Trigger Property="IsMouseOver" Value="True">
-                            <Setter Property="Background" TargetName="border" Value="#E9EBED" />
-                        </Trigger>
-
-                        <!-- Tryck-effekt -->
-                        <Trigger Property="IsPressed" Value="True">
-                            <Setter Property="Background" TargetName="border" Value="#C1C1C1" />
-                        </Trigger>
-
-                        <!-- DataTrigger för att visa extraImage och selectedImage, samt dölja iconImage -->
-                        <DataTrigger Binding="{Binding CurrentView, Converter={StaticResource ViewTypeToImageSourceConverter}}" 
-                       Value="Assets/remove_customer_pressed.png">
-                            <Setter TargetName="extraImage" Property="Visibility" Value="Visible"/>
-                            <Setter TargetName="iconImage" Property="Visibility" Value="Collapsed"/>
-                            <Setter TargetName="selectedImage" Property="Visibility" Value="Visible"/>
-                            <Setter TargetName="iconStackPanel" Property="Margin" Value="-15,0,0,0"/>
-                        </DataTrigger>
-                    </ControlTemplate.Triggers>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
-
     <Style x:Key="MenuButtonLogOut"
        TargetType="Button">
 
@@ -1422,9 +1327,7 @@
                             Command="{Binding ChangeViewCommand}"
                             CommandParameter="{x:Type views:RegisterUserView}" />
 
-                    <Button Style="{StaticResource MenuButtonRemoveCustomer}"
-                            Command="{Binding ChangeViewCommand}"
-                            CommandParameter="{x:Type views:RemoveCustomerView}" />
+                    
                     <Button Style="{StaticResource MenuButtonCustomerProfile}"
                             Command="{Binding ChangeViewCommand}"
                             CommandParameter="{x:Type views:CustomerProfileView}" />
@@ -1628,11 +1531,6 @@
                     <Button Style="{StaticResource MenuButtonRegisterUser}"
                 Command="{Binding ChangeViewCommand}"
                 CommandParameter="{x:Type views:RegisterUserView}"/>
-
-                    <Button Style="{StaticResource MenuButtonRemoveCustomer}"
-                Command="{Binding ChangeViewCommand}"
-                CommandParameter="{x:Type views:RemoveCustomerView}"/>
-
 
                 </StackPanel>
 

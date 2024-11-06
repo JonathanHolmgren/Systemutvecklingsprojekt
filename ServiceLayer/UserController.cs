@@ -33,7 +33,7 @@ public class UserController
         );
 
         User user = new User(hashPassoword, authorizationLevel, employee, userName);
-
+        unitOfWork.Update(employee);
         unitOfWork.UserRepository.Add(user);
         unitOfWork.SaveChanges();
     }

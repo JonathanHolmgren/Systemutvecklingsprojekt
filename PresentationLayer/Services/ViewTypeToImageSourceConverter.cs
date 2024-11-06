@@ -45,10 +45,6 @@ namespace PresentationLayer.Services
             {
                 return "Assets/add_user_pressed.png";
             }
-            else if (value is RemoveCustomerView)
-            {
-                return "Assets/remove_customer_pressed.png";
-            }
             else if (value is CustomerProfileView)
             {
                 return "Assets/customer_profile_pressed.png";

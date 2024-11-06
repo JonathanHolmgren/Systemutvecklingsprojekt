@@ -36,7 +36,7 @@ namespace PresentationLayer.ViewModels
    
             }
         }
-        ObservableCollection<Employee> employees = null;
+        ObservableCollection<Employee> employees;
         public ObservableCollection<Employee> Employees
         {
             get { return employees; }
@@ -48,7 +48,7 @@ namespace PresentationLayer.ViewModels
             }
         }
 
-        ObservableCollection<Employee> filteredEmployees = null;
+        ObservableCollection<Employee> filteredEmployees;
         public ObservableCollection<Employee> FilteredEmployees
         {
             get { return filteredEmployees; }
@@ -105,7 +105,7 @@ namespace PresentationLayer.ViewModels
 
             }
         }
-        private string errorLabel = null;
+        private string errorLabel = string.Empty;
         public string ErrorLabel
         {
             get => errorLabel;

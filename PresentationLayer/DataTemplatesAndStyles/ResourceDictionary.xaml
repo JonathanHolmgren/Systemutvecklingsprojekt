@@ -378,13 +378,13 @@
                 <ControlTemplate TargetType="Button">
                     <Grid>
                         <Border x:Name="border"
-                 Background="LightGray"
-                 Height="40"
-                 Width="40"
-                 VerticalAlignment="Top"
-                 HorizontalAlignment="Left"
-                 CornerRadius="100"
-                 Margin="5">
+                             Background="LightGray"
+                             Height="40"
+                             Width="40"
+                             VerticalAlignment="Top"
+                             HorizontalAlignment="Left"
+                             CornerRadius="100"
+                             Margin="5">
                             <StackPanel Orientation="Horizontal">
 
                                 <StackPanel x:Name="iconStackPanel"
@@ -504,6 +504,7 @@
             </Setter.Value>
         </Setter>
     </Style>
+   
 
 
     <Style x:Key="ComboBoxStyleTemplate" TargetType="ComboBox">

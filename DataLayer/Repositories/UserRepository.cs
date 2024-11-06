@@ -6,7 +6,6 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Models;
-using Models;
 
 namespace DataLayer.Repositories
 {

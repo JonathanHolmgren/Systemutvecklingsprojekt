@@ -561,7 +561,7 @@ BorderThickness="0,0,0,1"/>
 
                 </Border>
                 <Grid Grid.Row="1"
-      Grid.Column="1">
+                    Grid.Column="1">
                     <StackPanel Orientation="Horizontal">
 
                        

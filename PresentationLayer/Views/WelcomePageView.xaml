@@ -1,0 +1,72 @@
+﻿<UserControl x:Class="PresentationLayer.Views.WelcomePageView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:PresentationLayer.Views"
+             mc:Ignorable="d"
+             d:DesignHeight="800" d:DesignWidth="1000">
+    <Grid Background="#f4f4f4">
+    <!-- Row Definitions -->
+    <Grid.RowDefinitions>
+        <RowDefinition Height="Auto" /> <!-- Header -->
+        <RowDefinition Height="*" />     <!-- Main Content -->
+    </Grid.RowDefinitions>
+
+    <!-- Header Section -->
+    <Grid Grid.Row="0" Background="#006400" >
+        <TextBlock Text="Välkommen till startsidan" 
+                   FontSize="36" 
+                   FontWeight="Bold" 
+                   Foreground="White" 
+                   HorizontalAlignment="Center" 
+                   VerticalAlignment="Center" />
+    </Grid>
+
+    <!-- Main Content Section -->
+    <StackPanel Grid.Row="1" Margin="20">
+        <!-- Latest Updates Section -->
+        <TextBlock Text="Senaste uppdateringarna" 
+                   FontSize="28" 
+                   FontWeight="Bold" 
+                   Foreground="Black" 
+                   Margin="0,0,0,10" />
+
+        <StackPanel Margin="0,0,0,20">
+            <TextBlock Text="• Ny förbättrad användargränssnitt för enklare navigering."
+                       FontSize="16" 
+                       Foreground="Black" />
+            <TextBlock Text="• Buggrättningar och stabilitetsförbättringar för bättre prestanda."
+                       FontSize="16" 
+                       Foreground="Black" />
+            <TextBlock Text="• Nya funktioner för att förbättra datavisualisering och rapportering."
+                       FontSize="16" 
+                       Foreground="Black" />
+        </StackPanel>
+
+        <!-- What's New Section -->
+        <TextBlock Text="Vad är nytt" 
+                   FontSize="28" 
+                   FontWeight="Bold" 
+                   Foreground="Black" 
+                   Margin="0,0,0,10" />
+
+        <TextBlock Text="Vi är glada att kunna presentera flera nya funktioner som förbättrar din upplevelse med systemet. Här är några viktiga förbättringar:" 
+                   FontSize="16" 
+                   Foreground="Black" 
+                   Margin="0,0,0,20" />
+
+        <StackPanel>
+            <TextBlock Text="• Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+                       FontSize="16" 
+                       Foreground="Black" />
+            <TextBlock Text="• Cras venenatis turpis venenatis eros gravida, vitae vulputate dui faucibus."
+                       FontSize="16" 
+                       Foreground="Black" />
+            <TextBlock Text="• Etiam porta ligula neque, sed tincidunt risus gravida sit amet."
+                       FontSize="16" 
+                       Foreground="Black" />
+        </StackPanel>
+    </StackPanel>
+</Grid>
+</UserControl>

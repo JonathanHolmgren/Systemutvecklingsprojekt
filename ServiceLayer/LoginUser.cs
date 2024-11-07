@@ -12,8 +12,6 @@ public class LoginUser
     public LoggedInUser ValidateUser(string username, string password)
     {
         User user = unitOfWork.UserRepository.GetSpecificUser(username);
-            
-       
 
         if (user is null)
         {
@@ -27,13 +25,13 @@ public class LoginUser
             throw new Exception("Ogiltigt användarnamn eller lösenord");
         }
         LoggedInUser loggedInUser = new LoggedInUser();
+        loggedInUser.UserID = user.UserID;
         loggedInUser.FirstName = user.Employee.FirstName;
         loggedInUser.LastName = user.Employee.LastName;
         loggedInUser.AgentNumber = user.Employee.AgentNumber;
         loggedInUser.AuthorizationLevel = user.AuthorizationLevel;
-        loggedInUser.UserName=user.UserName;
-        loggedInUser.Email=user.Employee.Email;
-
+        loggedInUser.UserName = user.UserName;
+        loggedInUser.Email = user.Employee.Email;
 
         return loggedInUser;
     }

@@ -105,7 +105,7 @@ namespace ServiceLayer
         }
 
         public Insurance CreatePropertyInsuranceFromInput(
-            User loggedInUser,
+            LoggedInUser loggedInUser,
             CompanyCustomer selectedCompanyCustomer,
             string selectedInsuranceType,
             string propertyAddress,
@@ -119,7 +119,7 @@ namespace ServiceLayer
             string totalPremie
         )
         {
-            User user = GetUserByID(1);
+            User user = GetUserByID(loggedInUser.UserID);
             InsuranceType insuranceType = GetInsuranceType(selectedInsuranceType);
 
             Insurance newInsurance = RegisterCompanyPreliminaryInsurance(
@@ -151,7 +151,7 @@ namespace ServiceLayer
         }
 
         public Insurance CreateCarInsuranceFromInput(
-            User loggedInUser,
+            LoggedInUser loggedInUser,
             CompanyCustomer selectedCompanyCustomer,
             string selectedInsuranceType,
             string selectedCarInsuranceType,
@@ -164,7 +164,7 @@ namespace ServiceLayer
             string totalPremie
         )
         {
-            User user = GetUserByID(1);
+            User user = GetUserByID(loggedInUser.UserID);
             InsuranceType insuranceType = GetInsuranceType(selectedInsuranceType);
 
             Insurance newInsurance = RegisterCompanyPreliminaryInsurance(
@@ -195,7 +195,7 @@ namespace ServiceLayer
         }
 
         public Insurance CreateLiabilityInsuranceFromInput(
-            User loggedInUser,
+            LoggedInUser loggedInUser,
             CompanyCustomer selectedCompanyCustomer,
             string selectedInsuranceType,
             string selectedLiabilityAmount,
@@ -207,7 +207,7 @@ namespace ServiceLayer
             string totalPremie
         )
         {
-            User user = GetUserByID(1);
+            User user = GetUserByID(loggedInUser.UserID);
             InsuranceType insuranceType = GetInsuranceType(selectedInsuranceType);
 
             Insurance newInsurance = RegisterCompanyPreliminaryInsurance(
@@ -405,6 +405,7 @@ namespace ServiceLayer
             CompanyCustomer companyCustomer
         )
         {
+            insurance.IsPrivateCustomer = false;
             unitOfWork.InsuranceRepository.Add(insurance);
             unitOfWork.Update(companyCustomer);
             unitOfWork.Update(insurance.InsuranceType);
@@ -450,7 +451,7 @@ namespace ServiceLayer
             string selectedAddOnOption2
         )
         {
-            User user = GetUserByID(1); //denna ska hämta den användaren som är inloggad!
+            User user = GetUserByID(userId); //denna ska hämta den användaren som är inloggad!
             InsuranceType insuranceType = GetInsuranceType(selectedInsuranceType);
 
             List<InsuranceTypeAttribute> insuranceTypeAttributesList =
@@ -597,7 +598,9 @@ namespace ServiceLayer
             PrivateCustomer privateCustomer
         )
         {
+            insurance.IsPrivateCustomer = true;
             unitOfWork.InsuranceRepository.Add(insurance);
+            // unitOfWork.Update(privateCustomer.ProspectNotes);
             unitOfWork.Update(privateCustomer);
             unitOfWork.Update(insurance.InsuranceType);
             unitOfWork.SaveChanges();

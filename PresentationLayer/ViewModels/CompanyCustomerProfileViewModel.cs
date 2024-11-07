@@ -15,6 +15,7 @@ public class CompanyCustomerProfileViewModel : ObservableObject
     private CustomerController customerController = new CustomerController();
     private InsuranceController insuranceController = new InsuranceController();
     private InsuranceSpecController insuranceSpecController = new InsuranceSpecController();
+    private LoggedInUser _user;
 
     private string searchValue;
     public string SearchValue
@@ -106,19 +107,19 @@ public class CompanyCustomerProfileViewModel : ObservableObject
         }
     }
 
-    private CompanyCustomer viewedCompanyCustomer;
+    private CompanyCustomer _viewedCompanyCustomer;
     public CompanyCustomer ViewedCompanyCustomer
     {
-        get { return viewedCompanyCustomer; }
+        get { return _viewedCompanyCustomer; }
         set
         {
-            viewedCompanyCustomer = value;
+            _viewedCompanyCustomer = value;
             OnPropertyChanged();
 
-            if (viewedCompanyCustomer != null)
+            if (_viewedCompanyCustomer != null)
             {
                 ProspectNotesList = new ObservableCollection<ProspectNote>(
-                    viewedCompanyCustomer.ProspectNotes
+                    _viewedCompanyCustomer.ProspectNotes
                 );
             }
             else
@@ -170,6 +171,12 @@ public class CompanyCustomerProfileViewModel : ObservableObject
             OnPropertyChanged(nameof(IsValidated));
         }
     }
+    private ICommand _navigateBackCommand = null!;
+    public ICommand NavigateBackCommand =>
+        _navigateBackCommand ??= new RelayCommand(() =>
+        {
+            Mediator.Notify("ChangeView", new SearchCustomerProfileViewModel());
+        });
 
     private ICommand _onEditCompanyCustomerClickedCommand = null!;
     public ICommand OnEditCompanyCustomerClickedCommand =>
@@ -181,20 +188,29 @@ public class CompanyCustomerProfileViewModel : ObservableObject
 
     private ICommand _insuranceViewCommand = null!;
     public ICommand InsuranceViewCommand =>
-        _insuranceViewCommand ??= new RelayCommand(() =>
-        {
-            Mediator.Notify(
-                "ChangeView",
-                new InsuranceInformationCompanyViewModel(ViewedCompanyCustomer)
-            );
-        });
+        _insuranceViewCommand ??= new RelayCommand(
+            () =>
+            {
+                Mediator.Notify(
+                    "ChangeView",
+                    new InsuranceInformationCompanyViewModel(_user, _viewedCompanyCustomer)
+                );
+            },
+            () => _viewedCompanyCustomer != null
+        );
+
+    private ICommand _removeCompanyCustomerCommand = null!;
+    public ICommand RemoveCompanyCustomerCommand =>
+        _removeCompanyCustomerCommand ??= new RelayCommand(
+            RemoveCompanyCustomer,
+            () => _viewedCompanyCustomer != null
+        );
 
     public ICommand FindCompanyCustomerCommand { get; private set; }
     public ICommand AddCompanyProspectNoteCommand { get; private set; }
     public ICommand ReturnCommand { get; private set; }
     public ICommand GoToInsurancesCommand { get; private set; }
 
-    public ICommand RemoveCompanyCustomerCommand { get; private set; }
     public ICommand ContinueCommand { get; set; }
     public ICommand CancelCommand { get; set; }
     public ICommand RemoveInsuranceCommand { get; private set; }
@@ -214,12 +230,12 @@ public class CompanyCustomerProfileViewModel : ObservableObject
         ViewedCompanyCustomer = companyCustomer;
     }
 
-    public CompanyCustomerProfileViewModel()
+    public CompanyCustomerProfileViewModel(LoggedInUser user)
     {
+        _user = user;
         FindCompanyCustomerCommand = new RelayCommand(GetOneCompanyCustomerByOrgNr);
         AddCompanyProspectNoteCommand = new RelayCommand(AddCompanyProspectNote);
 
-        RemoveCompanyCustomerCommand = new RelayCommand(RemoveCompanyCustomer);
         ContinueCommand = new RelayCommand(OnContinueClicked);
         CancelCommand = new RelayCommand(OnCancelClicked);
         // RemoveInsuranceCommand = new RelayCommand(RemoveChosenInsurance);

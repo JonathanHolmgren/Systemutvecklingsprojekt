@@ -23,7 +23,7 @@ public class Seed
             "Vasagatan 12",
             "50100",
             "Borås",
-            "Sten.Hård@exempel.se",
+            "Sten.Hård@toppforsakringar.se",
             "VD",
             "070-123 45 67"
         );
@@ -35,7 +35,7 @@ public class Seed
             "Storgatan 45",
             "52298",
             "Borås",
-            "Ann-Sofie.Larsson@exempel.se",
+            "Ann-Sofie.Larsson@toppforsakringar.se",
             "Ekonomiassistent",
             "070-234 56 78"
         );
@@ -47,7 +47,7 @@ public class Seed
             "Kungsgatan 5",
             "51111",
             "Borås",
-            "Iren.Panik@exempel.se",
+            "Iren.Panik@toppforsakringar.se",
             "Försäljningschef",
             "070-345 67 89"
         );
@@ -60,7 +60,7 @@ public class Seed
             "Sveavägen 23",
             "50109",
             "Borås",
-            "maria.lindgren@exempel.se",
+            "maria.lindgren@toppforsakringar.se",
             "Försäljningsassistent, Innesäljare",
             "070-456 78 90",
             commissionRate1
@@ -73,7 +73,7 @@ public class Seed
             "Norrlandsgatan 8",
             "50555",
             "Borås",
-            "oskar.berg@exempel.se",
+            "oskar.berg@toppforsakringar.se",
             "Innesäljare",
             "070-567 89 01",
             commissionRate1
@@ -86,7 +86,7 @@ public class Seed
             "Drottninggatan 14",
             "51234",
             "Borås",
-            "sofia.eriksson@exempel.se",
+            "sofia.eriksson@toppforsakringar.se",
             "Innesäljare",
             "070-678 90 12",
             commissionRate1
@@ -100,7 +100,7 @@ public class Seed
             "Norrlandsgatan 8",
             "50101",
             "Borås",
-            "oskar.berg@exempel.se",
+            "oskar.berg@toppforsakringar.se",
             "Utesäljare",
             "070-567 89 01",
             commissionRate1
@@ -113,7 +113,7 @@ public class Seed
             "Drottninggatan 14",
             "58992",
             "Borås",
-            "sofia.eriksson@exempel.se",
+            "sofia.eriksson@toppforsakringar.se",
             "Utesäljare",
             "070-678 90 12",
             commissionRate1
@@ -126,7 +126,7 @@ public class Seed
             "Hamngatan 9",
             "50567",
             "Borås",
-            "viktor.nystrom@exempel.se",
+            "viktor.nystrom@toppforsakringar.se",
             "Utesäljare",
             "070-789 01 23",
             commissionRate1
@@ -139,7 +139,7 @@ public class Seed
             "Norrlandsgatan 8",
             "54321",
             "Borås",
-            "oskar.berg@exempel.se",
+            "oskar.berg@toppforsakringar.se",
             "Utesäljare",
             "070-567 89 01",
             commissionRate1
@@ -152,7 +152,7 @@ public class Seed
             "Drottninggatan 14",
             "50251",
             "Borås",
-            "sofia.eriksson@exempel.se",
+            "sofia.eriksson@toppforsakringar.se",
             "Utesäljare",
             "070-678 90 12",
             commissionRate1
@@ -165,7 +165,7 @@ public class Seed
             "Hamngatan 9",
             "50331",
             "Borås",
-            "viktor.nystrom@exempel.se",
+            "viktor.nystrom@toppforsakringar.se",
             "Utesäljare",
             "070-789 01 23",
             commissionRate1
@@ -174,52 +174,72 @@ public class Seed
         #endregion
 
         #region User
-        User user1 = new User("försäkring1", AuthorizationLevel.SalesPerson, employee9, "SP1153");
-        User user2 = new User("försäkring2", AuthorizationLevel.SalesPerson, employee10, "SP7473");
-        User user3 = new User(
-            "försäkring3",
+        PasswordHasher passwordHasher = new PasswordHasher();
+        string hashPassoword = passwordHasher.Hash("password");
+        string hashPassowordAdmin = passwordHasher.Hash("admin");
+
+        User user1 = new User(hashPassoword, AuthorizationLevel.CEO, employee1, "CEO1337");
+        User user2 = new User(
+            hashPassoword,
             AuthorizationLevel.EconomyAssistant,
             employee2,
             "EA9911"
         );
-        User user4 = new User("försäkring3", AuthorizationLevel.Admin, employee2, "AD9911");
+        User user3 = new User(hashPassoword, AuthorizationLevel.SalesManager, employee3, "SC2322");
 
-        PasswordHasher passwordHasher = new PasswordHasher();
-        string hashPassoword = passwordHasher.Hash("admin");
-        User user5 = new User(hashPassoword, AuthorizationLevel.SalesPerson, employee1, "Admin");
+        User user4 = new User(
+            hashPassoword,
+            AuthorizationLevel.SalesAssistant,
+            employee4,
+            "SA6423"
+        );
+        User user5 = new User(hashPassoword, AuthorizationLevel.SalesPerson, employee4, "SP6423");
+
+        User user6 = new User(hashPassoword, AuthorizationLevel.SalesPerson, employee5, "SP2547");
+        User user7 = new User(hashPassoword, AuthorizationLevel.SalesPerson, employee6, "SP2447");
+        User user8 = new User(hashPassoword, AuthorizationLevel.SalesPerson, employee7, "SP5836");
+        User user9 = new User(hashPassoword, AuthorizationLevel.SalesPerson, employee8, "SP2264");
+        User user10 = new User(hashPassoword, AuthorizationLevel.SalesPerson, employee9, "SP1153");
+        User user11 = new User(hashPassoword, AuthorizationLevel.SalesPerson, employee10, "SP7473");
+        User user12 = new User(hashPassoword, AuthorizationLevel.SalesPerson, employee11, "SP4331");
+        User user13 = new User(hashPassoword, AuthorizationLevel.SalesPerson, employee12, "SP7337");
+
+        User user14 = new User(hashPassoword, AuthorizationLevel.Admin, employee1, "AD1337");
+        User user15 = new User(hashPassoword, AuthorizationLevel.Admin, employee2, "AD9911");
+        User user16 = new User(hashPassowordAdmin, AuthorizationLevel.Admin, employee2, "Admin");
 
         #endregion
 
         #region PrivateCustomer
         PrivateCustomer privateCustomer1 = new PrivateCustomer(
             "0706689932",
-            "ingalillblommor52@emial.com",
-            "Gatuvägen 21",
-            "50433",
-            "Borås",
-            "195210191234",
+            "Ingalill.Bengtsson@live.com",
+            "Vasagatan 1",
+            "11120",
+            "Stockholm",
+            "19650230-5678",
             "Inga-Lill",
             "Bengtsson"
         );
 
         PrivateCustomer privateCustomer2 = new PrivateCustomer(
             "0706689932",
-            "jollebolle52@emial.com",
-            "Gatanärhård 69",
-            "50213",
-            "Borås",
-            "199909022173",
-            "Jolle",
-            "Alestrom"
+            "Gustaf.Fridsson@hotmail.com",
+            "Lilla Torg 3",
+            "21134",
+            "Malmö",
+            "19890530-5678",
+            "Gustaf",
+            "Fridsson"
         );
 
         PrivateCustomer privateCustomer3 = new PrivateCustomer(
             "0706689932",
-            "ingalillblommor52@emial.com",
-            "Gatuvägen 21",
-            "50213",
-            "Borås",
-            "18950321-1234",
+            "Kalle.Karlsson@emial.com",
+            "Östra Hamngatan 18",
+            "41109",
+            "Göteborg",
+            "19891020-5678",
             "Kalle",
             "Karlsson"
         );
@@ -228,38 +248,38 @@ public class Seed
         #region CompanyCustomer
         CompanyCustomer companyCustomer1 = new CompanyCustomer(
             "0705102355",
-            "klas123@email.com",
-            "Vägkanten 54",
-            "50331",
-            "Borås",
-            "7711221234",
-            "Klas Persson",
+            "Ekonomi@NordicSolutions.com",
+            "Kungsgatan 3",
+            "41119",
+            "Göteborg",
+            "556986-8667",
+            "Sofia Bergström",
             "0710192844",
-            "Tesla"
+            "Nordic Solutions AB"
         );
 
         CompanyCustomer companyCustomer2 = new CompanyCustomer(
             "07061111222",
-            "buggan3@email.com",
-            "Gatukanten 4",
-            "50251",
-            "Borås",
-            "7412025434",
-            "Buggan Buggster",
+            "Kundservicen@GronaHemTradgardsservice.com",
+            "Storgatan 12B",
+            "58223",
+            "Linköping",
+            "556642-4567",
+            "Erik Johansson",
             "0740568646",
-            "Warwick Inc"
+            "Gröna Hem Trädgårdsservice"
         );
 
         CompanyCustomer companyCustomer3 = new CompanyCustomer(
             "07061783521",
-            "kalle63@email.com",
-            "Hejsandär 94",
-            "50136",
-            "Borås",
-            "5902222496",
-            "Karl Karlsson",
+            "Info@SvenskaByggDesign.com",
+            "Drottninggatan 45",
+            "11121",
+            "Stockholm",
+            "554323-4567",
+            "Anna Lundgren",
             "0700101010",
-            "Bolaget AB"
+            "Svenska Bygg & Design"
         );
         #endregion
 
@@ -279,9 +299,9 @@ public class Seed
         #endregion
 
         #region InsuredPerson
+        InsuredPerson insuredPerson1 = new InsuredPerson("Kalle", "Karlsson", "19891020-5678");
+        InsuredPerson insuredPerson2 = new InsuredPerson("Gustaf", "Fridsson", "19890530-5678");
 
-        InsuredPerson insuredPerson1 = new InsuredPerson("Inga-Lill", "Bengtsson", "1952/06/10");
-        InsuredPerson insuredPerson2 = new InsuredPerson("Klas", "Persson", "1974/03/19");
         #endregion
 
         #region InsuranceType
@@ -345,7 +365,7 @@ public class Seed
             true,
             DateTime.Now,
             "Snäll kund, ge rabbat",
-            user1,
+            user6,
             insuredPerson1,
             privateCustomer1,
             insuranceType1
@@ -357,7 +377,7 @@ public class Seed
             false,
             DateTime.Now,
             "Stor kund, vill hålla kvar",
-            user2,
+            user6,
             insuredPerson2,
             companyCustomer1,
             insuranceType2
@@ -370,7 +390,7 @@ public class Seed
             true,
             DateTime.Now,
             "Snäll kund, ge rabbat",
-            user1,
+            user6,
             insuredPerson1,
             privateCustomer2,
             insuranceType2
@@ -382,7 +402,7 @@ public class Seed
             true,
             DateTime.Now,
             "Stor kund, vill hålla kvar",
-            user2,
+            user6,
             insuredPerson2,
             privateCustomer3,
             insuranceType3
@@ -395,7 +415,7 @@ public class Seed
             true,
             DateTime.Now,
             "Snäll kund, ge rabbat",
-            user1,
+            user6,
             insuredPerson1,
             companyCustomer2,
             insuranceType4
@@ -407,37 +427,10 @@ public class Seed
             false,
             DateTime.Now,
             "Stor kund, vill hålla kvar",
-            user2,
+            user6,
             insuredPerson2,
             companyCustomer3,
             insuranceType5
-        );
-
-        // Jan
-        Insurance insuranceJan1 = new Insurance(
-            new DateTime(2024, 1, 1),
-            BillingInterval.Månad,
-            InsuranceStatus.Active,
-            true,
-            new DateTime(2024, 1, 1),
-            "Ny kund, potentiell långsiktig relation",
-            user1,
-            insuredPerson1,
-            privateCustomer1,
-            insuranceType1
-        );
-
-        Insurance insuranceJan2 = new Insurance(
-            new DateTime(2024, 1, 15),
-            BillingInterval.År,
-            InsuranceStatus.Preliminary,
-            false,
-            new DateTime(2024, 1, 15),
-            "Företagskund, bra intäktsmöjligheter",
-            user2,
-            insuredPerson2,
-            companyCustomer1,
-            insuranceType2
         );
 
         #endregion
@@ -509,7 +502,24 @@ public class Seed
             employee12
         );
 
-        context.Users.AddRange(user1, user2, user3, user4, user5);
+        context.Users.AddRange(
+            user1,
+            user2,
+            user3,
+            user4,
+            user5,
+            user6,
+            user7,
+            user8,
+            user9,
+            user10,
+            user11,
+            user12,
+            user13,
+            user14,
+            user15,
+            user16
+        );
 
         context.ProspectNotes.AddRange(prospectNote1, prospectNote2); //Nya notesen
 

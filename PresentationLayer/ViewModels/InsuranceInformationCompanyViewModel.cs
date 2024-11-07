@@ -15,11 +15,13 @@ public class InsuranceInformationCompanyViewModel : ObservableObject
 {
     private InsuranceController insuranceController = new InsuranceController();
     private InsuranceSpecController insuranceSpecController = new InsuranceSpecController();
+    private LoggedInUser _user;
 
     public InsuranceInformationCompanyViewModel() { }
 
-    public InsuranceInformationCompanyViewModel(CompanyCustomer companyCustomer)
+    public InsuranceInformationCompanyViewModel(LoggedInUser user, CompanyCustomer companyCustomer)
     {
+        _user = user;
         _viewedCompanyCustomer = companyCustomer;
         _customerInsurances = insuranceController.GetCompanyCustomerInsurancesByCustomerId(
             companyCustomer.CustomerID
@@ -66,6 +68,16 @@ public class InsuranceInformationCompanyViewModel : ObservableObject
     public ICommand ChangeInsuranceStatusCommand =>
         _changeInsuranceStatusCommand ??= new RelayCommand(ChangeInsuranceStatus);
 
+    private ICommand _navigateBackCommand = null!;
+    public ICommand NavigateBackCommand =>
+        _navigateBackCommand ??= new RelayCommand(() =>
+        {
+            Mediator.Notify(
+                "ChangeView",
+                new CompanyCustomerProfileViewModel(_viewedCompanyCustomer)
+            );
+        });
+
     private List<Insurance> _customerInsurances = new List<Insurance>();
     public List<Insurance> CustomerInsurances
     {
@@ -105,10 +117,9 @@ public class InsuranceInformationCompanyViewModel : ObservableObject
     public ICommand CreateInsuranceAgreementCommand =>
         _createInsuranceAgreementCommand ??= new RelayCommand(() =>
         {
-            User user = new User();
             Mediator.Notify(
                 "ChangeView",
-                new RegisterPreliminaryInsuranceCompanyViewModel(user, _viewedCompanyCustomer)
+                new RegisterPreliminaryInsuranceCompanyViewModel(_user, _viewedCompanyCustomer)
             );
         });
 

@@ -3,6 +3,7 @@ using System.Windows.Input;
 using Models;
 using PresentationLayer.Command;
 using PresentationLayer.Models;
+using PresentationLayer.Services;
 using ServiceLayer;
 
 namespace PresentationLayer.ViewModels
@@ -15,7 +16,7 @@ namespace PresentationLayer.ViewModels
         public RegisterPreliminaryInsuranceViewModel() { }
 
         public RegisterPreliminaryInsuranceViewModel(
-            User user,
+            LoggedInUser user,
             PrivateCustomer selectedPrivateCustomer
         )
         {
@@ -42,15 +43,15 @@ namespace PresentationLayer.ViewModels
         }
 
         #region Users
-        private User loggedInUser;
-        public User LoggedInUser
+        private LoggedInUser _loggedInUser;
+        public LoggedInUser LoggedInUser
         {
-            get { return loggedInUser; }
+            get { return _loggedInUser; }
             set
             {
-                if (loggedInUser != value)
+                if (_loggedInUser != value)
                 {
-                    loggedInUser = value;
+                    _loggedInUser = value;
                     OnPropertyChanged();
                 }
             }
@@ -370,8 +371,6 @@ namespace PresentationLayer.ViewModels
         private string insuranceType2 = "Sjuk- och olycksfallsförsäkring för vuxen";
         private string insuranceType3 = "Livförsäkring för vuxen";
 
-       
-
         private void UpdateBasePriceOptions()
         {
             if (selectedInsuranceType == insuranceType1 && arrivingDate < cutoffDate)
@@ -561,6 +560,13 @@ namespace PresentationLayer.ViewModels
         public ICommand ShowInsuranceDetailsCommand =>
             new RelayCommand(() => CurrentView = "Försäkringsuppgifter");
 
+        private ICommand _navigateBackCommand = null!;
+        public ICommand NavigateBackCommand =>
+            _navigateBackCommand ??= new RelayCommand(() =>
+            {
+                Mediator.Notify("ChangeView", new SearchCustomerProfileViewModel(_loggedInUser));
+            });
+
         private ICommand searchCommand = null!;
         public ICommand SearchCommand =>
             searchCommand ??= searchCommand = new RelayCommand(
@@ -591,6 +597,20 @@ namespace PresentationLayer.ViewModels
                         && totalPremium != null
                     )
                     {
+                        PrivateCustomer privateCustomer = new PrivateCustomer
+                        {
+                            CustomerID = SelectedPrivateCustomer.CustomerID,
+                            City = SelectedPrivateCustomer.City,
+                            Email = selectedPrivateCustomer.Email,
+                            FirstName = selectedPrivateCustomer.FirstName,
+                            LastName = selectedPrivateCustomer.LastName,
+                            PostalCode = selectedPrivateCustomer.PostalCode,
+                            SSN = selectedPrivateCustomer.SSN,
+                            StreetAddress = selectedPrivateCustomer.StreetAddress,
+                            WorkTelephoneNumber = selectedPrivateCustomer.WorkTelephoneNumber,
+                            TelephoneNumber = selectedPrivateCustomer.TelephoneNumber,
+                        };
+
                         Insurance newInsurance =
                             insuranceController.CreatePrivateInsuranceFromInput(
                                 LoggedInUser.UserID,
@@ -601,7 +621,7 @@ namespace PresentationLayer.ViewModels
                                 ArrivingDate,
                                 SelectedInterval,
                                 Notes,
-                                SelectedPrivateCustomer,
+                                privateCustomer,
                                 SelectedBasePrice,
                                 TotalPremium,
                                 SelectedAddOnBasePrice1,

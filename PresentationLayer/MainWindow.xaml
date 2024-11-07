@@ -60,6 +60,41 @@
                 <views:RegisterPreliminaryInsuranceCompanyView />
             </DataTemplate>
             
+            <!-- RegisterCompanyCustomerViewModel -->
+
+            <DataTemplate DataType="{x:Type vm:RegisterCompanyCustomerViewModel}">
+                <views:RegisterCompanyCustomer/>
+            </DataTemplate>
+            
+             <!-- RegisterPrivateCustomerViewModel -->
+            <DataTemplate DataType="{x:Type vm:RegisterPrivateCustomerViewModel}">
+                <views:RegisterPrivateCustomerView/>
+            </DataTemplate>
+            
+            <!-- ShowProspectsViewModel -->
+            <DataTemplate DataType="{x:Type vm:ShowProspectsViewModel}">
+                <views:ShowProspectsView/>
+            </DataTemplate>
+            
+            <!-- ExportBillingInformationViewModel -->
+            <DataTemplate DataType="{x:Type vm:ExportBillingInformationViewModel}">
+                <views:ExportBillingInformationView/>
+            </DataTemplate>
+            
+            <!-- CalculateComissionViewModel -->
+            <DataTemplate DataType="{x:Type vm:CalculateComissionViewModel}">
+                <views:CalculateComissionView/>
+            </DataTemplate>
+            
+            <!-- SalesStatisticsViewModel -->
+            <DataTemplate DataType="{x:Type vm:SalesStatisticsViewModel}">
+                <views:SalesStatisticsView/>
+            </DataTemplate>
+            
+            <!-- RegisterUserViewModel -->
+            <DataTemplate DataType="{x:Type vm:RegisterUserViewModel}">
+                <views:RegisterUserView/>
+            </DataTemplate>
             
             <!-- Merged dictionaries -->
             <ResourceDictionary.MergedDictionaries>

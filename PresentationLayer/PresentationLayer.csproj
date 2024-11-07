@@ -94,6 +94,10 @@
     <Resource Include="DataTemplatesAndStyles\Assets\user_information.png" />
     <Resource Include="DataTemplatesAndStyles\Assets\user_mini.png" />
     <Resource Include="user_information.png" />
+    <None Remove="DataTemplatesAndStyles\Assets\icons8-search-client-100.png" />
+    <Resource Include="DataTemplatesAndStyles\Assets\icons8-search-client-100.png" />
+    <None Remove="DataTemplatesAndStyles\Assets\icons8-company-100.png" />
+    <Resource Include="DataTemplatesAndStyles\Assets\icons8-company-100.png" />
   </ItemGroup>
 
   <ItemGroup>

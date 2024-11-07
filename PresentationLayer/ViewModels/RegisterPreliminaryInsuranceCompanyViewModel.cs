@@ -9,6 +9,7 @@ using DataLayer.Repositories;
 using Models;
 using PresentationLayer.Command;
 using PresentationLayer.Models;
+using PresentationLayer.Services;
 using ServiceLayer;
 
 namespace PresentationLayer.ViewModels
@@ -22,7 +23,7 @@ namespace PresentationLayer.ViewModels
         public RegisterPreliminaryInsuranceCompanyViewModel() { }
 
         public RegisterPreliminaryInsuranceCompanyViewModel(
-            User user,
+            LoggedInUser user,
             CompanyCustomer selectedCompanyCustomer
         )
         {
@@ -49,8 +50,8 @@ namespace PresentationLayer.ViewModels
         }
 
         #region User
-        private User _loggedInUser = null!;
-        public User LoggedInUser
+        private LoggedInUser _loggedInUser = null!;
+        public LoggedInUser LoggedInUser
         {
             get { return _loggedInUser; }
             set
@@ -733,6 +734,14 @@ namespace PresentationLayer.ViewModels
         public ICommand ShowInsuranceTypeCommand =>
             new RelayCommand(() => CurrentView = "Försäkringstyp");
         public ICommand ShowInsuranceDetailsCommand => new RelayCommand(ExecuteShowNextView);
+
+        private ICommand _navigateBackCommand = null!;
+        public ICommand NavigateBackCommand =>
+            _navigateBackCommand ??= new RelayCommand(() =>
+            {
+                Mediator.Notify("ChangeView", new SearchCustomerProfileViewModel(_loggedInUser));
+            });
+
         private ICommand searchCommand = null!;
         public ICommand SearchCommand =>
             searchCommand ??= searchCommand = new RelayCommand(
@@ -750,11 +759,26 @@ namespace PresentationLayer.ViewModels
             addCommand ??= addCommand = new RelayCommand(
                 () =>
                 {
+                    CompanyCustomer companyCustomer = new CompanyCustomer
+                    {
+                        CustomerID = SelectedCompanyCustomer.CustomerID,
+                        TelephoneNumber = SelectedCompanyCustomer.TelephoneNumber,
+                        Email = SelectedCompanyCustomer.Email,
+                        StreetAddress = SelectedCompanyCustomer.StreetAddress,
+                        PostalCode = SelectedCompanyCustomer.PostalCode,
+                        City = SelectedCompanyCustomer.City,
+                        OrganisationNumber = SelectedCompanyCustomer.OrganisationNumber,
+                        ContactPersonName = SelectedCompanyCustomer.ContactPersonName,
+                        CompanyPersonTelephoneNumber =
+                            SelectedCompanyCustomer.CompanyPersonTelephoneNumber,
+                        CompanyName = SelectedCompanyCustomer.CompanyName,
+                    };
+
                     if (_selectedInsuranceType == insuranceType1)
                     {
                         _insuranceController.CreatePropertyInsuranceFromInput(
                             LoggedInUser,
-                            SelectedCompanyCustomer,
+                            companyCustomer,
                             SelectedInsuranceType,
                             PropertyAddress,
                             PropertyValue,
@@ -772,7 +796,7 @@ namespace PresentationLayer.ViewModels
                     {
                         _insuranceController.CreateCarInsuranceFromInput(
                             LoggedInUser,
-                            SelectedCompanyCustomer,
+                            companyCustomer,
                             SelectedInsuranceType,
                             SelectedCarInsuranceType,
                             SelectedCarDeductible,
@@ -789,7 +813,7 @@ namespace PresentationLayer.ViewModels
                     {
                         _insuranceController.CreateLiabilityInsuranceFromInput(
                             LoggedInUser,
-                            SelectedCompanyCustomer,
+                            companyCustomer,
                             SelectedInsuranceType,
                             SelectedLiabilityAmount,
                             SelectedLiabilityDeductible,

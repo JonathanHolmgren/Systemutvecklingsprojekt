@@ -221,7 +221,7 @@ VerticalAlignment="Center">
                         </MultiBinding>
                     </TextBlock.Text>
                 </TextBlock>
-                <Button Content="Klar" Width="100" Height="30" Style="{StaticResource GeneralButtonStyle}" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="10"/>
+                <Button Content="Klar" Command="{Binding NavigateBackCommand}" Width="100" Height="30" Style="{StaticResource GeneralButtonStyle}" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="10"/>
             </Grid>
         
         </Border>

@@ -21,28 +21,28 @@ namespace PresentationLayer.ViewModels
 {
     public class MainWindowViewModel : ObservableObject, ICloseWindows
     {
-        private LoggedInUser user = null;
+        private LoggedInUser _user = null;
         public LoggedInUser User
         {
-            get { return user; }
+            get { return _user; }
             set
             {
-                if (user != value)
+                if (_user != value)
                 {
-                    user = value;
+                    _user = value;
                     OnPropertyChanged();
                 }
             }
         }
-        private Employee employee = null;
+        private Employee _employee = null;
         public Employee Employee
         {
-            get { return employee; }
+            get { return _employee; }
             set
             {
-                if (employee != value)
+                if (_employee != value)
                 {
-                    employee = value;
+                    _employee = value;
                     OnPropertyChanged();
                 }
             }
@@ -115,27 +115,74 @@ namespace PresentationLayer.ViewModels
 
         // Close App Command
 
-
-
         public MainWindowViewModel()
         {
-             CurrentView = new SearchCustomerProfileViewModel(); // Startvy
-            Mediator.Register("ChangeView", ChangeView);
-
+            CurrentView = new SearchCustomerProfileViewModel(); // Startvy
         }
-        public MainWindowViewModel(LoggedInUser logedInUser)
+
+        public MainWindowViewModel(LoggedInUser loggedInUser)
         {
-            User = logedInUser;
-            CurrentView = new CustomerProfileView(); // Startvy
-            ChangeViewCommand = new RelayCommand<Type>(ChangeViewByType);
- 
+            _user = loggedInUser;
+            CurrentView = new WelcomePageView(); // Startvy
+            Mediator.Register("ChangeView", ChangeView);
+            // ChangeViewCommand = new RelayCommand<Type>(ChangeViewByType);
             DragWindowCommand = new RelayCommand<Window>(OnDragWindow);
         }
+
+        private ICommand _changeViewCommand = null!;
+        public ICommand ChangeViewCommand =>
+            _changeViewCommand ??= new RelayCommand<object>(parameter =>
+            {
+                switch (parameter.ToString())
+                {
+                    case "RegisterCompanyCustomerViewModel":
+                        Mediator.Notify("ChangeView", new RegisterCompanyCustomerViewModel());
+                        break;
+                    case "RegisterPrivateCustomerViewModel":
+                        Mediator.Notify("ChangeView", new RegisterPrivateCustomerViewModel());
+                        break;
+                    case "ShowProspectsViewModel":
+                        Mediator.Notify("ChangeView", new ShowProspectsViewModel());
+                        break;
+                    case "ExportBillingInformationViewModel":
+                        Mediator.Notify("ChangeView", new ExportBillingInformationViewModel());
+                        break;
+                    case "CalculateComissionViewModel":
+                        Mediator.Notify("ChangeView", new CalculateComissionViewModel());
+                        break;
+                    case "SalesStatisticsViewModel":
+                        Mediator.Notify("ChangeView", new SalesStatisticsViewModel());
+                        break;
+                    case "RegisterUserViewModel":
+                        Mediator.Notify("ChangeView", new RegisterUserViewModel());
+                        break;
+                    case "SearchCustomerProfileViewModel":
+                        Mediator.Notify("ChangeView", new SearchCustomerProfileViewModel(_user));
+                        break;
+                }
+            });
 
         private void ChangeView(object viewModel)
         {
             CurrentView = viewModel;
         }
+
+        internal void ChangeViewByType(Type viewType)
+        {
+            if (viewType != null)
+            {
+                CurrentView = (UserControl)Activator.CreateInstance(viewType);
+            }
+        }
+
+        // Does not work, see if you can fix this method to skip th switch case in ChangeViewCommand
+        // internal void ChangeViewByTypeViewModel(object viewModel)
+        // {
+        //     if (viewModel != null)
+        //     {
+        //         Mediator.Notify("ChangeView", (object)Activator.CreateInstance(viewModel));
+        //     }
+        // }
 
         private void MaxApp(object parameter)
         {

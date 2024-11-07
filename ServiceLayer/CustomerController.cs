@@ -22,7 +22,6 @@ namespace ServiceLayer
 
         public void AddPrivateCustomer(PrivateCustomer privateCustomer)
         {
-          
             try
             {
                 unitOfWork.PrivateCustomerRepository.Add(privateCustomer);
@@ -31,11 +30,12 @@ namespace ServiceLayer
             catch (Exception ex)
             {
                 // Hantera felet, till exempel logga det eller visa ett användarmeddelande
-                throw new InvalidOperationException("Misslyckades att lägga till kund till databas.", ex);
+                throw new InvalidOperationException(
+                    "Misslyckades att lägga till kund till databas.",
+                    ex
+                );
             }
         }
-
-
 
         public void UpdateCompanyCustomer(CompanyCustomer updatedCompanyCustomer)
         {
@@ -191,16 +191,16 @@ namespace ServiceLayer
             try
             {
                 // Kontrollera om organisationsnumret redan finns i databasen
-                var existingCompanyCustomer = unitOfWork
-                    .CustomerRepository
-                    .GetSpecificCompanyCustomer(companyCustomer.OrganisationNumber);
+                var existingCompanyCustomer =
+                    unitOfWork.CustomerRepository.GetSpecificCompanyCustomerForInsuranceByOrgNumber(
+                        companyCustomer.OrganisationNumber
+                    );
 
                 if (existingCompanyCustomer != null)
                 {
                     throw new Exception("Organisationsnummer finns redan.");
                 }
 
-        
                 unitOfWork.CustomerRepository.Add(companyCustomer);
                 unitOfWork.SaveChanges();
             }
@@ -209,8 +209,6 @@ namespace ServiceLayer
                 throw new Exception($"Ett fel uppstod vid sparandet av kunden: {ex.Message}");
             }
         }
-
-
 
         public IList<PrivateCustomer> GetAllPrivateCustomers()
         {

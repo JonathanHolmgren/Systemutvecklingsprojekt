@@ -15,6 +15,7 @@ public class PrivateCustomerProfileViewModel : ObservableObject
     private CustomerController customerController = new CustomerController();
     private InsuranceController insuranceController = new InsuranceController();
     private InsuranceSpecController insuranceSpecController = new InsuranceSpecController();
+    private LoggedInUser _user;
 
     private string searchValue;
     public string SearchValue
@@ -99,20 +100,20 @@ public class PrivateCustomerProfileViewModel : ObservableObject
         }
     }
 
-    private PrivateCustomer viewedPrivateCustomer;
+    private PrivateCustomer _viewedPrivateCustomer;
     public PrivateCustomer ViewedPrivateCustomer
     {
-        get { return viewedPrivateCustomer; }
+        get { return _viewedPrivateCustomer; }
         set
         {
-            viewedPrivateCustomer = value;
+            _viewedPrivateCustomer = value;
             OnPropertyChanged(nameof(ViewedPrivateCustomer));
             OnPropertyChanged(nameof(FullName));
 
-            if (viewedPrivateCustomer != null)
+            if (_viewedPrivateCustomer != null)
             {
                 ProspectNotesList = new ObservableCollection<ProspectNote>(
-                    viewedPrivateCustomer.ProspectNotes
+                    _viewedPrivateCustomer.ProspectNotes
                 );
             }
             else
@@ -211,7 +212,20 @@ public class PrivateCustomerProfileViewModel : ObservableObject
 
     public ICommand FindPrivateCustomerCommand { get; private set; }
     public ICommand AddPrivateProspectNoteCommand { get; private set; }
-    public ICommand RemovePrivateCustomerCommand { get; private set; }
+
+    private ICommand _removePrivateCustomerCommand = null!;
+    public ICommand RemovePrivateCustomerCommand =>
+        _removePrivateCustomerCommand ??= new RelayCommand(
+            RemovePrivateCustomer,
+            () => _viewedPrivateCustomer != null
+        );
+
+    private ICommand _navigateBackCommand = null!;
+    public ICommand NavigateBackCommand =>
+        _navigateBackCommand ??= new RelayCommand(() =>
+        {
+            Mediator.Notify("ChangeView", new SearchCustomerProfileViewModel());
+        });
 
     private ICommand _saveEditedPrivateCustomerCommand = null!;
     public ICommand SaveEditedPrivateCustomerCommand =>
@@ -228,24 +242,27 @@ public class PrivateCustomerProfileViewModel : ObservableObject
 
     private ICommand _insuranceViewCommand = null!;
     public ICommand InsuranceViewCommand =>
-        _insuranceViewCommand ??= new RelayCommand(() =>
-        {
-            Mediator.Notify(
-                "ChangeView",
-                new InsuranceInformationPrivateViewModel(ViewedPrivateCustomer)
-            );
-        });
+        _insuranceViewCommand ??= new RelayCommand(
+            () =>
+            {
+                Mediator.Notify(
+                    "ChangeView",
+                    new InsuranceInformationPrivateViewModel(_user, _viewedPrivateCustomer)
+                );
+            },
+            () => _viewedPrivateCustomer != null
+        );
 
     public PrivateCustomerProfileViewModel(PrivateCustomer privateCustomerToEdit)
     {
         ViewedPrivateCustomer = privateCustomerToEdit;
     }
 
-    public PrivateCustomerProfileViewModel()
+    public PrivateCustomerProfileViewModel(LoggedInUser user)
     {
+        _user = user;
         FindPrivateCustomerCommand = new RelayCommand(GetOnePrivateCustomerBySsn);
         AddPrivateProspectNoteCommand = new RelayCommand(AddPrivateProspectNote);
-        RemovePrivateCustomerCommand = new RelayCommand(RemovePrivateCustomer);
 
         IsRemovePrivateCustomerPopupOpen = false;
 

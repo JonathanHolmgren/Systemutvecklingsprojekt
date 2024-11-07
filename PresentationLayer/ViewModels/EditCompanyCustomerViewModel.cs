@@ -40,9 +40,9 @@ public class EditCompanyCustomerViewModel : ObservableObject
     public ICommand SaveEditedCompanyCustomerCommand =>
         _saveEditedCompanyCustomerCommand ??= new RelayCommand(SaveEditedCompanyCustomer);
 
-    private ICommand _backToPreviousViewCommand = null!;
-    public ICommand BackToPreviousViewCommand =>
-        _backToPreviousViewCommand ??= new RelayCommand(() =>
+    private ICommand _navigateBackCommand = null!;
+    public ICommand NavigateBackCommand =>
+        _navigateBackCommand ??= new RelayCommand(() =>
         {
             Mediator.Notify(
                 "ChangeView",

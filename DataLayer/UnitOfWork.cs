@@ -18,28 +18,22 @@ namespace DataLayer
         protected Context Context { get; }
 
         public CommisionRateRepository CommisionRateRepository { get; private set; }
-        public CompanyCustomerRepository CompanyCustomerRepository { get; private set; }
+      
         public CustomerRepository CustomerRepository { get; private set; }
         public EmployeeRepository EmployeeRepository { get; private set; }
         public InsuranceRepository InsuranceRepository { get; private set; }
         public InsuranceSpecRepository InsuranceSpecRepository { get; private set; }
-        public InsuranceTypeAttributeRepository InsuranceTypeAttributeRepository
-        {
-            get;
-            private set;
-        }
+        public InsuranceTypeAttributeRepository InsuranceTypeAttributeRepository { get; private set;}
         public InsuranceTypeRepository InsuranceTypeRepository { get; private set; }
         public InsuredPersonRepository InsuredPersonRepository { get; private set; }
-        public PrivateCustomerRepository PrivateCustomerRepository { get; private set; }
+       
         public UserRepository UserRepository { get; private set; }
         public ProspectNoteRepository ProspectNoteRepository { get; private set; }
 
         public UnitOfWork(Context context)
         {
-            // context.Database.ExecuteSqlRaw("SET IDENTITY_INSERT Patients OFF;");
             Context = context;
             CommisionRateRepository = new CommisionRateRepository(context);
-            CompanyCustomerRepository = new CompanyCustomerRepository(context);
             CustomerRepository = new CustomerRepository(context);
             EmployeeRepository = new EmployeeRepository(context);
             InsuranceRepository = new InsuranceRepository(context);
@@ -47,7 +41,6 @@ namespace DataLayer
             InsuranceTypeAttributeRepository = new InsuranceTypeAttributeRepository(context);
             InsuranceTypeRepository = new InsuranceTypeRepository(context);
             InsuredPersonRepository = new InsuredPersonRepository(context);
-            PrivateCustomerRepository = new PrivateCustomerRepository(context);
             UserRepository = new UserRepository(context);
             ProspectNoteRepository = new ProspectNoteRepository(context);
         }

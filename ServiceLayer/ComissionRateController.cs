@@ -29,7 +29,7 @@ namespace ServiceLayer
         }
 
 
-        public List<Employee> GetEmployeesWithCommissions()
+        public IList<Employee> GetEmployeesWithCommissions()
         {
             return unitOfWork.EmployeeRepository.GetEmployeesWithCommissions();
         }

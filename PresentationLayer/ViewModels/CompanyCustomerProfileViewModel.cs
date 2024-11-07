@@ -12,6 +12,7 @@ namespace PresentationLayer.ViewModels;
 
 public class CompanyCustomerProfileViewModel : ObservableObject
 {
+    #region Initiation of objects
     private CustomerController customerController = new CustomerController();
     private InsuranceController insuranceController = new InsuranceController();
     private InsuranceSpecController insuranceSpecController = new InsuranceSpecController();
@@ -87,10 +88,10 @@ public class CompanyCustomerProfileViewModel : ObservableObject
         get { return isCompanySelected; }
         set
         {
-            // CustomerInsurances.Clear();
+         
             isCompanySelected = value;
             OnPropertyChanged(nameof(IsCompanySelected));
-            SearchValue = null;
+            SearchValue = string.Empty;
         }
     }
 
@@ -171,6 +172,8 @@ public class CompanyCustomerProfileViewModel : ObservableObject
             OnPropertyChanged(nameof(IsValidated));
         }
     }
+    #endregion
+    #region Commands
     private ICommand _navigateBackCommand = null!;
     public ICommand NavigateBackCommand =>
         _navigateBackCommand ??= new RelayCommand(() =>
@@ -210,7 +213,6 @@ public class CompanyCustomerProfileViewModel : ObservableObject
     public ICommand AddCompanyProspectNoteCommand { get; private set; }
     public ICommand ReturnCommand { get; private set; }
     public ICommand GoToInsurancesCommand { get; private set; }
-
     public ICommand ContinueCommand { get; set; }
     public ICommand CancelCommand { get; set; }
     public ICommand RemoveInsuranceCommand { get; private set; }
@@ -224,7 +226,8 @@ public class CompanyCustomerProfileViewModel : ObservableObject
         new RelayCommand(() => CurrentView = "EditCompanyCustomer");
     public ICommand ShowInsuranceDetailsCommand =>
         new RelayCommand(() => CurrentView = "EditPrivateCustomer");
-
+    #endregion
+    #region Constructors
     public CompanyCustomerProfileViewModel(CompanyCustomer companyCustomer)
     {
         ViewedCompanyCustomer = companyCustomer;
@@ -250,74 +253,13 @@ public class CompanyCustomerProfileViewModel : ObservableObject
         IsCompanySelected = true;
         IsRemoveCompanyCustomerPopupOpen = false;
     }
-
-    #region methods
-
-
-
-    // private void UpdateInsuranceList()
-    // {
-    //     if (ViewedCompanyCustomer == null)
-    //         return;
-    //      CustomerInsurances = new ObservableCollection<Insurance>(
-    //         insuranceController.GetCustomerInsurances(ViewedCompanyCustomer.CustomerID)
-    //     );
-    // }
-
-    private void UpdateCompanyCustomer() //Kanske ändra till customerid
+    #endregion
+    #region Methods
+    private void UpdateCompanyCustomer() 
     {
-        ViewedCompanyCustomer = null;
+        ViewedCompanyCustomer = new CompanyCustomer();
         ViewedCompanyCustomer = customerController.GetOneCompanyCustomerByOrgNr(SearchValue);
     }
-
-    // private void ChangeInsuranceStatus()
-    // {
-    //     if (SelectedInsurance == null)
-    //         return;
-    //     if (ViewedCompanyCustomer == null)
-    //         return;
-    //     if (IsActiveStatusSelected == true)
-    //     {
-    //         insuranceController.SetInsuranceStatusToActive(SelectedInsurance);
-    //         foreach (var insurance in ViewedCompanyCustomer.Insurances)
-    //         {
-    //             if (insurance.InsuranceId == selectedInsurance.InsuranceId)
-    //             {
-    //                 insurance.InsuranceStatus = InsuranceStatus.Active;
-    //             }
-    //         }
-    //         MessageBox.Show("Status på avtalet är ändrad till aktiv");
-    //         CustomerInsurances.Clear();
-    //         UpdateInsuranceList();
-    //         UpdateCompanyCustomer();
-    //     }
-    //     else if (IsInactiveStatusSelected == true)
-    //     {
-    //         insuranceController.SetInsuranceStatusToInactive(SelectedInsurance);
-    //         foreach (var insurance in ViewedCompanyCustomer.Insurances)
-    //         {
-    //             if (insurance.InsuranceId == selectedInsurance.InsuranceId)
-    //             {
-    //                 insurance.InsuranceStatus = InsuranceStatus.Inactive;
-    //             }
-    //         }
-    //         MessageBox.Show("Status på avtalet är ändrad till inaktiv");
-    //         CustomerInsurances.Clear();
-    //         UpdateInsuranceList();
-    //         UpdateCompanyCustomer();
-    //     }
-    // }
-
-    // private void OnEditCompanyCustomerClicked()
-    // {
-    //     if (ViewedCompanyCustomer != null)
-    //     {
-    //         CompanyCustomerToEdit = ViewedCompanyCustomer;
-    //         CurrentView = "EditCompanyCustomer";
-    //     }
-    // }
-
-    //Cancel the editing of a customer
     private void CloseEditCustomer()
     {
         IsValidated = false;
@@ -326,14 +268,13 @@ public class CompanyCustomerProfileViewModel : ObservableObject
 
     private void SaveEditedCompanyCustomer()
     {
-        // Kontrollera validering och samla felmeddelanden
+        
         if (!ValidateCompanyCustomer(out string validationErrors))
         {
             MessageBox.Show(validationErrors);
             return;
         }
 
-        // Sätt den redigerade kundens data
         CompanyCustomerToEdit = ViewedCompanyCustomer;
         CompanyCustomerToEdit.CompanyName = CapitalizeFirstLetter(
             CompanyCustomerToEdit.CompanyName
@@ -343,11 +284,8 @@ public class CompanyCustomerProfileViewModel : ObservableObject
             CompanyCustomerToEdit.StreetAddress
         );
 
-        // Uppdatera och spara
         ViewedCompanyCustomer = CompanyCustomerToEdit;
         customerController.UpdateCompanyCustomer(ViewedCompanyCustomer);
-
-        // Bekräftelsemeddelande
         MessageBox.Show("Ändringar är sparade");
     }
 
@@ -360,14 +298,13 @@ public class CompanyCustomerProfileViewModel : ObservableObject
         }
     }
 
-    //Add a note to the company prospect
     private void AddCompanyProspectNote()
     {
         if (ViewedCompanyCustomer == null)
             return;
         if (!string.IsNullOrWhiteSpace(Note))
         {
-            Insurance insurance = ViewedCompanyCustomer.Insurances.FirstOrDefault(); //Gör om logiken så inloggad person blir user istället, endast tillfällig lösning
+            Insurance insurance = ViewedCompanyCustomer.Insurances.FirstOrDefault();
             User user = insurance.User;
 
             ProspectNote prospectNote = new ProspectNote(
@@ -397,8 +334,8 @@ public class CompanyCustomerProfileViewModel : ObservableObject
             if (ViewedCompanyCustomer.Insurances.Count < 1)
             {
                 customerController.RemoveCompanyCustomer(ViewedCompanyCustomer);
-                ViewedCompanyCustomer = null;
-                // CustomerInsurances = null;
+                ViewedCompanyCustomer = new CompanyCustomer();
+            
                 MessageBox.Show("Kunden är nu borttagen ur systemet.");
             }
             else if (ViewedCompanyCustomer.Insurances.Count > 0)
@@ -446,40 +383,11 @@ public class CompanyCustomerProfileViewModel : ObservableObject
         IsRemoveCompanyCustomerPopupOpen = false;
     }
 
-    // private void RemoveChosenInsurance()
-    // {
-    //     if (ViewedCompanyCustomer != null && SelectedInsurance != null)
-    //     {
-    //         if (SelectedInsurance.InsuranceStatus == InsuranceStatus.Active)
-    //         {
-    //             MessageBox.Show(
-    //                 "Detta är en aktiv försäkring, du måste avsluta den innan du kan ta bort den"
-    //             );
-    //         }
-    //         else
-    //         {
-    //             insuranceController.RemoveInsurance(SelectedInsurance);
-    //             CustomerInsurances.Clear();
-    //             CustomerInsurances = new ObservableCollection<Insurance>(
-    //                 insuranceController.GetCustomerInsurances(ViewedCompanyCustomer.CustomerID)
-    //             );
-    //         }
-    //     }
-    //     SelectedInsurance = null;
-    // }
-
-    //Go to insurances view
     private void GoToAddInsurance()
     {
         Mediator.Notify("ChangeView", new RegisterPreliminaryInsuranceViewModel());
     }
     #endregion
-
-
-
-
-
-
     #region Errorhandling
     private string CapitalizeFirstLetter(string input)
     {
@@ -536,6 +444,5 @@ public class CompanyCustomerProfileViewModel : ObservableObject
         IsValidated = string.IsNullOrEmpty(validationErrors);
         return IsValidated;
     }
-
     #endregion
 }

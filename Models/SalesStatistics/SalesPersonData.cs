@@ -4,7 +4,7 @@ namespace Models.SalesStatistics;
 
 public class SalesPersonData
 {
-    public string SalesPersonName { get; set; }
+    public string? SalesPersonName { get; set; }
     public ObservableCollection<MonthlySalesDataPrivate> MonthlySalesPrivate { get; set; } =
         new ObservableCollection<MonthlySalesDataPrivate>();
 

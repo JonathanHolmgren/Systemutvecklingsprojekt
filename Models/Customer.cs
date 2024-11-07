@@ -14,8 +14,6 @@ namespace Models
         public string StreetAddress { get; set; }
         public string PostalCode { get; set; }
         public string City { get; set; }
-
-        // Navigation property
         public ICollection<Insurance> Insurances { get; set; }
         public ICollection<ProspectNote> ProspectNotes { get; set; }
         

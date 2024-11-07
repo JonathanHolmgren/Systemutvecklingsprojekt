@@ -325,7 +325,6 @@ namespace PresentationLayer.ViewModels
             PostalCode = string.Empty;
             City = string.Empty;
 
-            // Rensa eventuella valideringsfel om det behövs
             ClearErrors(nameof(CompanyName));
             ClearErrors(nameof(OrganisationNumber));
             ClearErrors(nameof(ContactPersonName));
@@ -384,10 +383,10 @@ namespace PresentationLayer.ViewModels
             if (string.IsNullOrWhiteSpace(input))
                 return input;
 
-            // Dela upp strängen i ord baserat på mellanslag
+
             var words = input.Split(' ');
 
-            // Kapitalisera första bokstaven i varje ord
+         
             for (int i = 0; i < words.Length; i++)
             {
                 if (!string.IsNullOrWhiteSpace(words[i]))

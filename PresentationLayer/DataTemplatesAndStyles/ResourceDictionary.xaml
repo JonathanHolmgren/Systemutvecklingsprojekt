@@ -6,7 +6,7 @@
 
     <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
     
-
+<!--All the styles for the user controll-->
 
     <Style x:Key="CRUDButtonStyle" TargetType="Button">
         <Setter Property="Background" Value="DarkGreen"/>
@@ -174,10 +174,10 @@
                     CornerRadius="5"
                         >
                         <DockPanel>
-                            <!-- Lägg till DataGridColumnHeadersPresenter för att visa kolumnrubriker -->
+                          
                             <DataGridColumnHeadersPresenter DockPanel.Dock="Top"/>
 
-                            <!-- Lägg till DataGridRowsPresenter för att visa raderna i datagriden -->
+                          
                             <DataGridRowsPresenter/>
                         </DockPanel>
 
@@ -186,7 +186,7 @@
             </Setter.Value>
         </Setter>
 
-        <!-- Allmänna inställningar -->
+       
         <Setter Property="Background" Value="White"/>
         <Setter Property="RowHeight" Value="25"/>
         <Setter Property="AlternatingRowBackground" Value="#F3F3F3"/>
@@ -356,12 +356,12 @@
                     </Grid>
 
                     <ControlTemplate.Triggers>
-                        <!-- Hover-effekt -->
+                      
                         <Trigger Property="IsMouseOver" Value="True">
                             <Setter Property="Background" TargetName="border" Value="#E9EBED" />
                         </Trigger>
 
-                        <!-- Tryck-effekt -->
+                        
                         <Trigger Property="IsPressed" Value="True">
                             <Setter Property="Background" TargetName="border" Value="#C1C1C1" />
                         </Trigger>
@@ -413,12 +413,11 @@
                     </Grid>
 
                     <ControlTemplate.Triggers>
-                        <!-- Hover-effekt -->
+      
                         <Trigger Property="IsMouseOver" Value="True">
                             <Setter Property="Background" TargetName="border" Value="#E9EBED" />
                         </Trigger>
 
-                        <!-- Tryck-effekt -->
                         <Trigger Property="IsPressed" Value="True">
                             <Setter Property="Background" TargetName="border" Value="#C1C1C1" />
                         </Trigger>
@@ -464,7 +463,6 @@
                         </Grid>
                     </Border>
 
-                    <!-- Trigger för att ändra kantfärg vid valideringsfel -->
                     <ControlTemplate.Triggers>
                         <Trigger Property="Validation.HasError" Value="True">
                             <Setter TargetName="OuterBorder" Property="BorderBrush" Value="Red"/>
@@ -543,7 +541,7 @@
                                     VerticalAlignment="Center"
                                     HorizontalAlignment="Left"
                                     Content="{Binding SelectedItem.AgentNumber, RelativeSource={RelativeSource AncestorType=ComboBox}}"/>
-                                    <!--Byt AgentNumber mot det du har i DisplayMemberPath-->
+                                    
                                     <Path
                                     x:Name="DropDownGlyph"
                                     Data="M 0 0 L 4 4 L 8 0 Z"
@@ -571,7 +569,7 @@
                             CornerRadius="5"
                             Width="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType=ComboBox}}">
                                 <ScrollViewer x:Name="DropDownScrollViewer">
-                                    <!-- ItemsPresenter för att visa datan i ComboBox -->
+                             
                                     <ItemsPresenter/>
                                 </ScrollViewer>
                             </Border>
@@ -579,13 +577,6 @@
                     </Grid>
 
                     <ControlTemplate.Triggers>
-                        <!-- Ta bort hover-effekt -->
-                        <!--<Trigger Property="IsMouseOver" Value="False">
-                            <Setter TargetName="ToggleButton" Property="Background" Value="#F3F3F3"/>
-                            <Setter TargetName="ToggleButton" Property="BorderBrush" Value="#F3F3F3"/>
-                        </Trigger>-->
-                        
-                        <!-- Ta bort tryck-effekt -->
                         <Trigger Property="IsDropDownOpen" Value="True">
                             <Setter TargetName="ToggleButton" Property="Background" Value="#F3F3F3"/>
                             <Setter TargetName="ToggleButton" Property="BorderBrush" Value="#F3F3F3"/>
@@ -612,56 +603,55 @@
                 <ControlTemplate TargetType="ComboBox">
                     <Grid>
                         <Border
-                    x:Name="MainBorder"
-                    Background="{TemplateBinding Background}" 
-                    BorderBrush="{TemplateBinding BorderBrush}" 
-                    BorderThickness="{TemplateBinding BorderThickness}" 
-                    CornerRadius="5">
+                            x:Name="MainBorder"
+                            Background="{TemplateBinding Background}" 
+                            BorderBrush="{TemplateBinding BorderBrush}" 
+                            BorderThickness="{TemplateBinding BorderThickness}" 
+                            CornerRadius="5">
 
                             <ToggleButton 
-                        x:Name="ToggleButton" 
-                        IsChecked="{Binding Path=IsDropDownOpen, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}" 
-                        Background="Transparent" 
-                            BorderBrush="Transparent"
-                            Padding="0"
-                                                    Focusable="False"
-                            HorizontalContentAlignment="Stretch">
+                                        x:Name="ToggleButton" 
+                                        IsChecked="{Binding Path=IsDropDownOpen, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}" 
+                                        Background="Transparent" 
+                                        BorderBrush="Transparent"
+                                        Padding="0"
+                                        Focusable="False"
+                                        HorizontalContentAlignment="Stretch">
 
                                 <Grid>
                                     <ContentPresenter 
-                                Margin="10,0,25,0" 
-                                VerticalAlignment="Center" 
-                                HorizontalAlignment="Left"
-                                Content="{Binding SelectedItem, RelativeSource={RelativeSource AncestorType=ComboBox}}"/>
-                                    <Path 
-                                x:Name="DropDownGlyph"
-                                Data="M 0 0 L 4 4 L 8 0 Z"
-                                HorizontalAlignment="Right"
-                                VerticalAlignment="Center"
-                                Margin="0,0,10,0"
-                                Width="10"
-                                Height="5"
-                                Fill="#333333"/>
+                                            Margin="10,0,25,0" 
+                                            VerticalAlignment="Center" 
+                                            HorizontalAlignment="Left"
+                                            Content="{Binding SelectedItem, RelativeSource={RelativeSource AncestorType=ComboBox}}"/>
+                                                <Path 
+                                            x:Name="DropDownGlyph"
+                                            Data="M 0 0 L 4 4 L 8 0 Z"
+                                            HorizontalAlignment="Right"
+                                            VerticalAlignment="Center"
+                                            Margin="0,0,10,0"
+                                            Width="10"
+                                            Height="5"
+                                            Fill="#333333"/>
                                 </Grid>
                             </ToggleButton>
                         </Border>
 
                         <Popup 
-                    x:Name="PART_Popup"
-                    Placement="Bottom"
-                    IsOpen="{TemplateBinding IsDropDownOpen}"
-                    AllowsTransparency="True"
-                    Focusable="False"
-                    PopupAnimation="Slide">
+                            x:Name="PART_Popup"
+                            Placement="Bottom"
+                            IsOpen="{TemplateBinding IsDropDownOpen}"
+                            AllowsTransparency="True"
+                            Focusable="False"
+                            PopupAnimation="Slide">
                             <Border 
-                        Background="White"
-                        BorderBrush="#E1E1E1"
-                        BorderThickness="1"
-                        CornerRadius="5"
-                        Width="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType=ComboBox}}"
+                                Background="White"
+                                BorderBrush="#E1E1E1"
+                                BorderThickness="1"
+                                CornerRadius="5"
+                                Width="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType=ComboBox}}"
                                 Height="102">
                                 <ScrollViewer x:Name="DropDownScrollViewer">
-                                    <!-- ItemsPresenter för att visa datan i ComboBox -->
                                     <ItemsPresenter/>
                                 </ScrollViewer>
                             </Border>

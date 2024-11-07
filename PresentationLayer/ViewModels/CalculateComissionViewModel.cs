@@ -20,11 +20,12 @@ namespace PresentationLayer.ViewModels
 {
     internal class CalculateComissionViewModel : ObservableObject
     {
+        #region Initiation of objects
         private ComissionRateController comissionRateController = new ComissionRateController();
         private Employee selectedEmployee;
         private double totalCommission;
 
-        
+     
 
         public Employee SelectedEmployee
         {
@@ -59,7 +60,7 @@ namespace PresentationLayer.ViewModels
 
             }
         }
-        private string filterText = null;
+        private string filterText = string.Empty;
         public string FilterText
         {
             get { return filterText; }
@@ -121,18 +122,44 @@ namespace PresentationLayer.ViewModels
         {
             get { return _isProvisionVisible; }
             set { _isProvisionVisible = value; OnPropertyChanged(); }
+
+        }
+        private int? selectedYear = 2024;
+        public int? SelectedYear
+        {
+            get { return selectedYear; }
+            set
+            {
+                selectedYear = value;
+                ErrorLabel = string.Empty;
+
+            }
         }
 
+        private string selectedMonth = string.Empty;
+        public string SelectedMonth
+        {
+            get { return selectedMonth; }
+            set
+            {
+                selectedMonth = value;
+                ErrorLabel = string.Empty;
+
+            }
+        }
+        public ObservableCollection<int> Years { get; set; } = new ObservableCollection<int>();
+        public ObservableCollection<string> Months { get; set; } = new ObservableCollection<string>();
         public ICommand CalculateCommisionCommand { get; private set; }
         public ICommand NextPageCommand { get; private set; }
         public ICommand BackPageCommand { get; private set; }
         public ICommand ExportCommand { get; private set; }
 
+        #endregion
+        #region Constructor
         public CalculateComissionViewModel()
         {
             LoadYears();
             LoadMonths();
-            this.comissionRateController = comissionRateController;
             Employees=LoadEmployees();
             ApplyFilter(FilterText);
             ExportCommand = new RelayCommand<object>(execute => ExportToCsv());
@@ -140,9 +167,9 @@ namespace PresentationLayer.ViewModels
             BackPageCommand = new RelayCommand<object>(execute => DecreaseMenuPage());
             CalculateCommisionCommand = new RelayCommand<object>(execute => CalculateCommission());
             IsProvisionVisible = false;
-
-            //ExportCommand = new RelayCommand(ExportToCsv);
         }
+        #endregion
+        #region Methods
         private void IncreaseMenuPage()
         {
             if (SelectedEmployee == null)
@@ -157,7 +184,7 @@ namespace PresentationLayer.ViewModels
         }
         private void DecreaseMenuPage()
         {
-            SelectedEmployee = null;
+            SelectedEmployee = new Employee();
             IsProvisionVisible=false;
             MenuPage--;
         }
@@ -172,7 +199,7 @@ namespace PresentationLayer.ViewModels
             return salespersons;
         }
 
-        private void CalculateCommission()
+        private void CalculateCommission() //Calculating the commision for the selected employee
         {
             if (SelectedMonth == null && SelectedYear == null)
             {
@@ -288,33 +315,6 @@ namespace PresentationLayer.ViewModels
             }
         }
 
-        private int? selectedYear = 2024;
-        public int? SelectedYear
-        {
-            get { return selectedYear; }
-            set
-            {
-                selectedYear = value;
-                ErrorLabel=string.Empty;
-               
-            }
-        }
-
-        private string selectedMonth = null;
-        public string SelectedMonth
-        {
-            get { return selectedMonth; }
-            set
-            {
-                selectedMonth = value;
-                ErrorLabel = string.Empty;
-              
-            }
-        }
-
-        public ObservableCollection<int> Years { get; set; } = new ObservableCollection<int>();
-        public ObservableCollection<string> Months { get; set; } = new ObservableCollection<string>();
-
         private void LoadYears()
         {
             for (int i = DateTime.Now.Year - 10; i <= DateTime.Now.Year; i++)
@@ -342,6 +342,6 @@ namespace PresentationLayer.ViewModels
             };
         }
     }
-
+    #endregion
 }
 

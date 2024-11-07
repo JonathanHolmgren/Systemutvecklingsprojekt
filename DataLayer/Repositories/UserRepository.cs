@@ -14,28 +14,22 @@ namespace DataLayer.Repositories
         
         public UserRepository(Context context) : base(context) { }
 
-        public User GetUserByID(int iD)
+        public User? GetUserByID(int iD)
         {
             return Context.Set<User>().FirstOrDefault(user => user.UserID == iD);
         }
-        public User GetUserByCredentials(string username, string password)
-        {
-            
-            return Context.Set<User>().FirstOrDefault(u => u.Employee.AgentNumber == username && u.Password == password);
-        }
-        public User GetSpecificUser(string username)
+        public User? GetSpecificUser(string username)
         {
             return Context.Set<User>()
            .Include(e => e.Employee)
            .FirstOrDefault(u => u.UserName == username);
         }
-        public List<User> GetUsersByAgentNumber(string agentNumber)
+        public IList<User> GetUsersByAgentNumber(string agentNumber)
         {
             return Context
                 .Set<User>()
                 .Where(user => user.Employee.AgentNumber == agentNumber)
-                .ToList();
-            
+                .ToList();  
         }
     }
 }

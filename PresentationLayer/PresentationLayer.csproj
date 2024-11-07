@@ -9,6 +9,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Styles\**" />
+    <EmbeddedResource Remove="Styles\**" />
+    <None Remove="Styles\**" />
+    <Page Remove="Styles\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove="DataTemplatesAndStyles\Assets\add_user.png" />
     <None Remove="DataTemplatesAndStyles\Assets\add_user_pressed.png" />
     <None Remove="DataTemplatesAndStyles\Assets\arrow.png" />
@@ -104,10 +111,6 @@
     <None Update="appsettings.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Styles\" />
   </ItemGroup>
 
   <ItemGroup>

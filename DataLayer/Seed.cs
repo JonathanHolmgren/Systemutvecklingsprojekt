@@ -5,7 +5,7 @@ namespace DataLayer;
 
 public class Seed
 {
-    public static void Populate(Context context)
+    public static void Populate(Context context) //Seeding the database of fake data
     {
         #region CommisionRate
         Commission commissionRate1 = new Commission(0.12);

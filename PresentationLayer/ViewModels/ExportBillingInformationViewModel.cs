@@ -18,7 +18,7 @@ namespace PresentationLayer.ViewModels
     internal class ExportBillingInformationViewModel : ObservableObject
     {
         CustomerController customerController = new CustomerController();
-        private ObservableCollection<PrivateCustomer> privateCustomer = null;
+        private ObservableCollection<PrivateCustomer> privateCustomer;
         public ObservableCollection<PrivateCustomer> PrivateCustomers
         {
             get { return privateCustomer; }
@@ -28,7 +28,7 @@ namespace PresentationLayer.ViewModels
                 OnPropertyChanged(nameof(PrivateCustomers));
             }
         }
-        private ObservableCollection<CompanyCustomer> companyCustomer = null;
+        private ObservableCollection<CompanyCustomer> companyCustomer;
         public ObservableCollection<CompanyCustomer> CompanyCustomers
         {
             get { return companyCustomer; }
@@ -38,7 +38,7 @@ namespace PresentationLayer.ViewModels
                 OnPropertyChanged(nameof(CompanyCustomers));
             }
         }
-        private ObservableCollection<object> insuranceInfoPrivateCustomer = null;
+        private ObservableCollection<object> insuranceInfoPrivateCustomer;
         public ObservableCollection<object> InsuranceInfoPrivateCustomer
         {
             get { return insuranceInfoPrivateCustomer; }
@@ -48,7 +48,7 @@ namespace PresentationLayer.ViewModels
                 OnPropertyChanged(nameof(InsuranceInfoPrivateCustomer));
             }
         }
-        private ObservableCollection<object> insuranceInfoCompanyCustomer = null;
+        private ObservableCollection<object> insuranceInfoCompanyCustomer;
         public ObservableCollection<object> InsuranceInfoCompanyCustomer
         {
             get { return insuranceInfoCompanyCustomer; }
@@ -116,7 +116,7 @@ namespace PresentationLayer.ViewModels
                     IsPrivateCustomerSelected = false;
             }
         }
-        private string filterText = null;
+        private string filterText = string.Empty;
         public string FilterText
         {
             get { return filterText; }
@@ -149,7 +149,7 @@ namespace PresentationLayer.ViewModels
 
             CompanyCustomerInsuranceInfoToList(CompanyCustomers);
             PrivateCustomerInsurancesInfoToList(PrivateCustomers);
-            ApplyFilter(null);
+            ApplyFilter(string.Empty);
         }
         #endregion
         #region Methods
@@ -242,7 +242,7 @@ namespace PresentationLayer.ViewModels
                 Filter = "JSON files (*.json)|*.json|All files (*.*)|*.*",
             };
 
-            // Visa dialogrutan och kolla om användaren tryckte på OK
+          
             if (saveFileDialog.ShowDialog() == true)
             {
                 File.WriteAllText(saveFileDialog.FileName, jsonContent, Encoding.UTF8);

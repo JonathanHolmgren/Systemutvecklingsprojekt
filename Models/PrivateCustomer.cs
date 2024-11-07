@@ -13,7 +13,6 @@ namespace Models
         public string LastName { get; set; }
         public string? WorkTelephoneNumber { get; set; }
 
-        //Constructors
         public PrivateCustomer() { }
 
         public PrivateCustomer(

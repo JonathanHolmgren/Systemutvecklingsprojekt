@@ -1,5 +1,5 @@
 ﻿namespace PresentationLayer.Services;
-
+//Changes the view
 public static class Mediator
 {
     private static readonly Dictionary<string, Action<object>> Actions = new();

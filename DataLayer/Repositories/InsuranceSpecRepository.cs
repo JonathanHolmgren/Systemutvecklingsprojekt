@@ -13,7 +13,7 @@ namespace DataLayer.Repositories
         public InsuranceSpecRepository(Context context)
             : base(context) { }
 
-        public List<InsuranceSpec> GetInsuranceSpecsByInsuranceId(int insuranceId)
+        public IList<InsuranceSpec> GetInsuranceSpecsByInsuranceId(int insuranceId) //Insurance specs with attributes
         {
             return Context
                 .Set<InsuranceSpec>()
@@ -21,7 +21,7 @@ namespace DataLayer.Repositories
                 .ToList();
         }
 
-        public IList<InsuranceSpec> GetSpecsForInsurance(int insuranceId)
+        public IList<InsuranceSpec> GetSpecsForInsurance(int insuranceId) //Insurance specs without attributes
         {
             return Context
                 .Set<InsuranceSpec>()

@@ -20,10 +20,10 @@
 
     <Window.Resources>
         <ResourceDictionary>
-            <!-- Konverterare -->
+            
             <BooleanToVisibilityConverter x:Key="BooleanToVisibility"/>
 
-            <!-- DataTemplate för CustomerProfileViewModel -->
+            
             <DataTemplate DataType="{x:Type vm:SearchCustomerProfileViewModel}">
                 <views:SearchCustomerProfileView />
             </DataTemplate>
@@ -60,38 +60,38 @@
                 <views:RegisterPreliminaryInsuranceCompanyView />
             </DataTemplate>
             
-            <!-- RegisterCompanyCustomerViewModel -->
+            
 
             <DataTemplate DataType="{x:Type vm:RegisterCompanyCustomerViewModel}">
                 <views:RegisterCompanyCustomer/>
             </DataTemplate>
             
-             <!-- RegisterPrivateCustomerViewModel -->
+     
             <DataTemplate DataType="{x:Type vm:RegisterPrivateCustomerViewModel}">
                 <views:RegisterPrivateCustomerView/>
             </DataTemplate>
             
-            <!-- ShowProspectsViewModel -->
+          
             <DataTemplate DataType="{x:Type vm:ShowProspectsViewModel}">
                 <views:ShowProspectsView/>
             </DataTemplate>
             
-            <!-- ExportBillingInformationViewModel -->
+            
             <DataTemplate DataType="{x:Type vm:ExportBillingInformationViewModel}">
                 <views:ExportBillingInformationView/>
             </DataTemplate>
             
-            <!-- CalculateComissionViewModel -->
+           
             <DataTemplate DataType="{x:Type vm:CalculateComissionViewModel}">
                 <views:CalculateComissionView/>
             </DataTemplate>
             
-            <!-- SalesStatisticsViewModel -->
+            
             <DataTemplate DataType="{x:Type vm:SalesStatisticsViewModel}">
                 <views:SalesStatisticsView/>
             </DataTemplate>
             
-            <!-- RegisterUserViewModel -->
+            
             <DataTemplate DataType="{x:Type vm:RegisterUserViewModel}">
                 <views:RegisterUserView/>
             </DataTemplate>
@@ -106,7 +106,7 @@
 
     <!-- ContentControl för vyhantering baserat på CurrentView -->
 
-    <!-- Ställ in datakontotext till MainWindowViewModel -->
+    
     <Window.DataContext>
         <vm:MainWindowViewModel/>
     </Window.DataContext>
@@ -163,11 +163,9 @@
                         Placement="Bottom" 
                         StaysOpen="False" 
                         AllowsTransparency="True"
-                        Focusable="False"
-                   
-                       >
+                        Focusable="False" >
 
-                    <!-- Popup innehåll -->
+                   
                     <Border Background="White"
                             Height="140"
                             Width="205"
@@ -184,7 +182,7 @@
                                            FontFamily="Fonts/#Saira SemiBold"
                                            Margin="0,0,0,0"/>
                                 <Button Style="{StaticResource PopOutButtonLogOut}"
-                                        Command="{Binding ExitCommand}"
+                                        Command="{Binding LogoutCommand}"
                                         Margin="6,0,0,0">
                                 </Button>
 

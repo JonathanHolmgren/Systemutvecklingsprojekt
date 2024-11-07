@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Models
 {
-    public enum AuthorizationLevel
+    public enum AuthorizationLevel //All the existable roles, Maybe translate
     {
         [Description("Admin")]
         Admin,

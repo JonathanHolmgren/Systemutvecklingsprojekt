@@ -15,7 +15,6 @@ namespace Models
 
         public ICollection<Insurance> Insurances { get; set; }
 
-        //Constructors
         public InsuredPerson() { }
 
         public InsuredPerson(string firstName, string lastName, string sSN)

@@ -9,10 +9,6 @@ public class SalesStatisticsController
 {
     UnitOfWork unitOfWork = new UnitOfWork();
 
-    // public List<Insurance> GetAllActiveInsurance(Employee employees, int year)
-    // {
-    //     //return unitOfWork.InsuranceRepository.GetAllActiveInsurance();
-    // }
 
     List<Employee> GetAllEmployees()
     {

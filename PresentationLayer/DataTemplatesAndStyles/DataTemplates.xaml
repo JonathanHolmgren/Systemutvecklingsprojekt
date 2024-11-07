@@ -8,7 +8,7 @@
 
         <ResourceDictionary Source="Styles.xaml"/>
     </ResourceDictionary.MergedDictionaries>
-
+<!--All the data templates for mainwindow-->
 
     <DataTemplate x:Key="Desktop_Layout">
         <Grid x:Name="BaseGrid"
@@ -56,18 +56,18 @@
 
             <Grid Grid.Row="1"
                 Grid.Column="0"
-Grid.ColumnSpan="1" 
-VerticalAlignment="Top"
-HorizontalAlignment="Stretch"
-Background="LightGray"
-Height="30">
+                Grid.ColumnSpan="1" 
+                VerticalAlignment="Top"
+                HorizontalAlignment="Stretch"
+                Background="LightGray"
+                Height="30">
 
 
                 <Border BorderBrush="#C5C5C5"
-      BorderThickness="0,0,0,1" 
-              VerticalAlignment="Top"
-      HorizontalAlignment="Stretch"
-                         Margin="0,3,0,0"/>
+                        BorderThickness="0,0,0,1" 
+                        VerticalAlignment="Top"
+                        HorizontalAlignment="Stretch"
+                        Margin="0,3,0,0"/>
                
 
 
@@ -82,7 +82,7 @@ Height="30">
                     Margin="0,30,0,0">
                 <ContentControl.Style>
                     <Style TargetType="ContentControl">
-                        <!-- Ange standardtemplate för Guest -->
+                        
                         <Setter Property="Template" Value="{StaticResource SideMenuTemplate}" />
 
                         <Style.Triggers>
@@ -123,19 +123,19 @@ Height="30">
 
 
                     <Border BorderBrush="#C5C5C5"
-BorderThickness="0,0,0,1" 
-        VerticalAlignment="Top"
-HorizontalAlignment="Stretch"
-                   Margin="0,3,0,0"/>
+                            BorderThickness="0,0,0,1" 
+                            VerticalAlignment="Top"
+                            HorizontalAlignment="Stretch"
+                            Margin="0,3,0,0"/>
                     <Border BorderBrush="#C5C5C5"
-BorderThickness="1,0,0,0"
-VerticalAlignment="Stretch"
-HorizontalAlignment="Left"
-Margin="0,3,0,0" />
+                            BorderThickness="1,0,0,0"
+                            VerticalAlignment="Stretch"
+                            HorizontalAlignment="Left"
+                            Margin="0,3,0,0" />
                     <!-- Placeholder for UserControl -->
                     <ContentControl Content="{Binding CurrentView, UpdateSourceTrigger=PropertyChanged}"
-                                HorizontalAlignment="Stretch"
-                                VerticalAlignment="Stretch"
+                                    HorizontalAlignment="Stretch"
+                                    VerticalAlignment="Stretch"
                                     Margin="4,7,0,0"/>
                 </Grid>
             </ScrollViewer>
@@ -192,20 +192,20 @@ Margin="0,3,0,0" />
             
 
             <Grid Grid.Row="1"
-      Grid.Column="0"
-      Grid.ColumnSpan="2" 
-      VerticalAlignment="Top"
-      HorizontalAlignment="Stretch"
-      Background="LightGray"
-      Height="30">
+                  Grid.Column="0"
+                  Grid.ColumnSpan="2" 
+                  VerticalAlignment="Top"
+                  HorizontalAlignment="Stretch"
+                  Background="LightGray"
+                  Height="30">
 
                 
 
                 <Border BorderBrush="#C5C5C5"
-BorderThickness="0,0,0,1" 
-        VerticalAlignment="Top"
-HorizontalAlignment="Stretch"
-                   Margin="0,3,0,0"/>
+                        BorderThickness="0,0,0,1" 
+                        VerticalAlignment="Top"
+                        HorizontalAlignment="Stretch"
+                        Margin="0,3,0,0"/>
 
 
                 
@@ -214,10 +214,10 @@ HorizontalAlignment="Stretch"
 
             <!-- Side Menu -->
             <ContentControl 
-    Grid.Row="0" 
-    Grid.RowSpan="3" 
-    Grid.Column="0"
-    Margin="0,30,0,0">
+                        Grid.Row="0" 
+                        Grid.RowSpan="3" 
+                        Grid.Column="0"
+                        Margin="0,30,0,0">
                 <ContentControl.Style>
                     <Style TargetType="ContentControl">
                         <!-- Ange standardtemplate för Guest -->
@@ -258,25 +258,25 @@ HorizontalAlignment="Stretch"
 
             <!-- Main content area with ScrollViewer -->
             <ScrollViewer Grid.Row="1"
-                        Grid.Column="1"
-          VerticalScrollBarVisibility="Auto"
+                          Grid.Column="1"
+                          VerticalScrollBarVisibility="Auto"
                           Background="Transparent">
                 
                 <Grid x:Name="MainContentGrid">
                     <Border BorderBrush="#C5C5C5"
-BorderThickness="0,0,0,1" 
-        VerticalAlignment="Top"
-HorizontalAlignment="Stretch"
-                   Margin="0,3,0,0"/>
+                            BorderThickness="0,0,0,1" 
+                            VerticalAlignment="Top"
+                            HorizontalAlignment="Stretch"
+                            Margin="0,3,0,0"/>
                     <Border BorderBrush="#C5C5C5"
-            BorderThickness="1,0,0,0"
-            VerticalAlignment="Stretch"
-            HorizontalAlignment="Left"
-            Margin="0,3,0,0" />
+                            BorderThickness="1,0,0,0"
+                            VerticalAlignment="Stretch"
+                            HorizontalAlignment="Left"
+                            Margin="0,3,0,0" />
                     <!-- Placeholder for UserControl -->
                     <ContentControl Content="{Binding CurrentView, UpdateSourceTrigger=PropertyChanged}"
-                    HorizontalAlignment="Stretch"
-                    VerticalAlignment="Stretch"
+                                    HorizontalAlignment="Stretch"
+                                    VerticalAlignment="Stretch"
                                     Margin="4,7,0,0"/>
                 </Grid>
             </ScrollViewer>

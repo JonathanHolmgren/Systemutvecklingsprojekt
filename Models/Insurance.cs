@@ -24,7 +24,6 @@ namespace Models
         public Customer Customer { get; set; }
         public InsuranceType InsuranceType { get; set; }
 
-        //Constructors
         public Insurance() { }
 
         public Insurance(

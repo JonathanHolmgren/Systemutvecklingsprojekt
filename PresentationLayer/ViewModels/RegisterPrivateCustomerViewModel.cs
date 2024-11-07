@@ -17,10 +17,11 @@ namespace PresentationLayer.ViewModels
 {
     public class RegisterPrivateCustomerViewModel : ObservableObject, INotifyDataErrorInfo
     {
+        #region Inition of objects
         private CustomerController customerController = new CustomerController();
         private readonly Dictionary<string, List<string>> errors = new Dictionary<string, List<string>>();
 
-        // Properties med valideringslogik
+
         private string ssn;
         public string SSN
         {
@@ -29,7 +30,7 @@ namespace PresentationLayer.ViewModels
             {
                 ssn = value;
                 OnPropertyChanged();
-                ValidateSSN(); // Validera direkt vid uppdatering
+                ValidateSSN();
             }
         }
 
@@ -144,6 +145,8 @@ namespace PresentationLayer.ViewModels
         public ICommand NextPageCommand { get; private set; }
         public ICommand GoBackPageCommand { get; private set; }
         public ICommand ResetReigstrationCommand { get; private set; }
+        #endregion
+        #region Constructor
         public RegisterPrivateCustomerViewModel()
         {
             AddPrivateCustomerCommand = new RelayCommand(AddPrivateCustomer);
@@ -151,6 +154,8 @@ namespace PresentationLayer.ViewModels
             GoBackPageCommand = new RelayCommand<object>(execute => DecreaseMenuPage());
             ResetReigstrationCommand = new RelayCommand<object>(execute => ResetFields());
         }
+        #endregion
+        #region Methods
         private void IncreaseMenuPage() //Change the menupage in the registering
         {
             if (MenuPage == 0)
@@ -163,7 +168,7 @@ namespace PresentationLayer.ViewModels
                 bool hasLastNameErrors = GetErrors(nameof(LastName))?.Cast<string>().Any() ?? false;
                 bool hasSSNErrors = GetErrors(nameof(SSN))?.Cast<string>().Any() ?? false;
 
-                if (!hasFirstNameErrors && !hasLastNameErrors&&!hasSSNErrors)
+                if (!hasFirstNameErrors && !hasLastNameErrors && !hasSSNErrors)
                 {
                     MenuPage++;
                 }
@@ -183,11 +188,11 @@ namespace PresentationLayer.ViewModels
                     MenuPage++;
                 }
             }
-           
+
         }
         public void ResetFields()
         {
-            // Återställ alla fält till tomma strängar
+
             SSN = string.Empty;
             FirstName = string.Empty;
             LastName = string.Empty;
@@ -198,7 +203,7 @@ namespace PresentationLayer.ViewModels
             WorkTelephoneNumber = string.Empty;
             Email = string.Empty;
 
-            // Rensa alla valideringsfel genom att ange egenskapsnamnen som strängar
+
             ClearErrors(nameof(SSN));
             ClearErrors(nameof(FirstName));
             ClearErrors(nameof(LastName));
@@ -209,7 +214,7 @@ namespace PresentationLayer.ViewModels
             ClearErrors(nameof(WorkTelephoneNumber));
             ClearErrors(nameof(Email));
 
-            // Uppdatera HasErrors så att UI:t känner av ändringen
+
             OnPropertyChanged(nameof(HasErrors));
             MenuPage = 0;
         }
@@ -220,7 +225,7 @@ namespace PresentationLayer.ViewModels
             MenuPage--;
         }
 
-       
+
         private void AddPrivateCustomer()
         {
             ValidateAll();
@@ -241,10 +246,16 @@ namespace PresentationLayer.ViewModels
             }
             MenuPage++;
         }
+        private string CapitalizeFirstLetter(string input)
+        {
+            if (string.IsNullOrEmpty(input))
+                return input;
 
-     
+            return char.ToUpper(input[0]) + input.Substring(1).ToLower();
+        }
+        #endregion
 
-        #region Valideringslogik
+        #region ValidateLogic
 
         private void ValidateNotEmpty(string propertyName, string value, string errorMessage)
         {
@@ -255,7 +266,7 @@ namespace PresentationLayer.ViewModels
         }
         private void ValidateWorkPhone()
         {
-            
+
             if (!IsValidCompanyPhoneNumber(WorkTelephoneNumber))
                 AddError(nameof(WorkTelephoneNumber), "Telefonnummer måste vara mellan 5 och 8 siffror.");
             else
@@ -264,10 +275,10 @@ namespace PresentationLayer.ViewModels
         }
         private void ValidateCellPhoneNumber()
         {
-          
+
             if (string.IsNullOrWhiteSpace(TelephoneNumber) || !IsValidCellPhoneNumber(TelephoneNumber))
                 AddError(nameof(TelephoneNumber), "Mobilnummer måste vara exakt 10 siffror.");
-            else 
+            else
                 ClearErrors(nameof(TelephoneNumber));
         }
         private void ValidateSSN()
@@ -278,7 +289,7 @@ namespace PresentationLayer.ViewModels
             if (string.IsNullOrWhiteSpace(SSN) || !regex.IsMatch(SSN))
             {
                 AddError(nameof(SSN), "Personnummer måste vara av formatet av 8 siffror - 4 siffor");
-               
+
             }
             else
                 ClearErrors(nameof(SSN));
@@ -303,7 +314,7 @@ namespace PresentationLayer.ViewModels
         }
         private void ValidateAll()
         {
-            
+
             ValidateSSN();
             ValidateNotEmpty(nameof(FirstName), FirstName, "Förnamn saknas");
             ValidateNotEmpty(nameof(LastName), LastName, "Efternamn saknas");
@@ -318,23 +329,23 @@ namespace PresentationLayer.ViewModels
         private bool IsValidCellPhoneNumber(string phoneNumber)
         {
             return phoneNumber.Length == 10 && phoneNumber.All(char.IsDigit);
-            
+
         }
         private bool IsValidCompanyPhoneNumber(string phoneNumber)
         {
-            
+
             if (phoneNumber == null)
             {
                 return true;
             }
 
-            
+
             return phoneNumber.Length >= 5 && phoneNumber.Length <= 8 && phoneNumber.All(char.IsDigit);
         }
 
         #endregion
 
-        #region INotifyDataErrorInfo-implementering
+        #region INotifyDataErrorInfo
 
         public bool HasErrors => errors.Any();
 
@@ -377,14 +388,5 @@ namespace PresentationLayer.ViewModels
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        #region Hjälpmetoder
-        private string CapitalizeFirstLetter(string input)
-        {
-            if (string.IsNullOrEmpty(input))
-                return input;
-
-            return char.ToUpper(input[0]) + input.Substring(1).ToLower();
-        }
-        #endregion
     }
 }

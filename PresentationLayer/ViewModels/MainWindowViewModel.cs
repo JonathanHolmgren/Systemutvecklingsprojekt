@@ -21,7 +21,8 @@ namespace PresentationLayer.ViewModels
 {
     public class MainWindowViewModel : ObservableObject, ICloseWindows
     {
-        private LoggedInUser _user = null;
+        #region Initation of objects
+        private LoggedInUser _user;
         public LoggedInUser User
         {
             get { return _user; }
@@ -34,7 +35,7 @@ namespace PresentationLayer.ViewModels
                 }
             }
         }
-        private Employee _employee = null;
+        private Employee _employee;
         public Employee Employee
         {
             get { return _employee; }
@@ -58,14 +59,6 @@ namespace PresentationLayer.ViewModels
                 OnPropertyChanged();
             }
         }
-
-        public ICommand ShowSubMenuCommand =>
-            new RelayCommand(() => IsSubmenuOpen = !IsSubmenuOpen);
-        public Action Close { get; set; }
-        private ICommand exitCommand = null!;
-        public ICommand ExitCommand =>
-            exitCommand ??= exitCommand = new RelayCommand(() => App.Current.Shutdown());
-
         private object _currentView;
         public object CurrentView
         {
@@ -80,56 +73,19 @@ namespace PresentationLayer.ViewModels
                 }
             }
         }
-
-        private ICommand _maxCommand;
-        public ICommand MaxAppCommand
-        {
-            get
-            {
-                if (_maxCommand == null)
-                {
-                    _maxCommand = new RelayCommand<object>(execute => MaxApp(execute));
-                }
-                return _maxCommand;
-            }
-        }
-        private ICommand _minCommand;
-        public ICommand MinAppCommand
-        {
-            get
-            {
-                if (_minCommand == null)
-                {
-                    _minCommand = new RelayCommand<object>(execute => MinApp(execute));
-                }
-                return _minCommand;
-            }
-        }
-
-        public ICommand DragWindowCommand { get; }
-
-        private void OnDragWindow(Window window)
-        {
-            window?.DragMove();
-        }
-
-        // Close App Command
-
-        public MainWindowViewModel()
-        {
-            CurrentView = new SearchCustomerProfileViewModel(); // Startvy
-        }
-
-        public MainWindowViewModel(LoggedInUser loggedInUser)
-        {
-            _user = loggedInUser;
-            CurrentView = new WelcomePageView(); // Startvy
-            Mediator.Register("ChangeView", ChangeView);
-            // ChangeViewCommand = new RelayCommand<Type>(ChangeViewByType);
-            DragWindowCommand = new RelayCommand<Window>(OnDragWindow);
-        }
+        #endregion
+        #region Commands
+        public ICommand ShowSubMenuCommand =>
+            new RelayCommand(() => IsSubmenuOpen = !IsSubmenuOpen);
+        public Action Close { get; set; }
+        private ICommand exitCommand = null!;
+        public ICommand ExitCommand =>
+            exitCommand ??= exitCommand = new RelayCommand(() => App.Current.Shutdown());
+        private ICommand _logoutCommand;
+        public ICommand LogoutCommand => _logoutCommand ??= new RelayCommand(Logout);
 
         private ICommand _changeViewCommand = null!;
+        //Alternating usercontrolls via ViewModels
         public ICommand ChangeViewCommand =>
             _changeViewCommand ??= new RelayCommand<object>(parameter =>
             {
@@ -161,42 +117,87 @@ namespace PresentationLayer.ViewModels
                         break;
                 }
             });
+        private IWindowService windowService { get; set; }
+        private ICommand _maxCommand;
+        public ICommand MaxAppCommand
+        {
+            get
+            {
+                if (_maxCommand == null)
+                {
+                    _maxCommand = new RelayCommand<object>(execute => MaxApp(execute));
+                }
+                return _maxCommand;
+            }
+        }
+        private ICommand _minCommand;
+        public ICommand MinAppCommand
+        {
+            get
+            {
+                if (_minCommand == null)
+                {
+                    _minCommand = new RelayCommand<object>(execute => MinApp(execute));
+                }
+                return _minCommand;
+            }
+        }
+
+        public ICommand DragWindowCommand { get; }
+        #endregion
+        #region Constructors
+        public MainWindowViewModel()
+        {
+            CurrentView = new WelcomePageView();
+           
+        }
+
+        public MainWindowViewModel(LoggedInUser loggedInUser)
+        {
+            _user = loggedInUser;
+            CurrentView = new WelcomePageView(); 
+            Mediator.Register("ChangeView", ChangeView);
+            windowService = new WindowService();
+            DragWindowCommand = new RelayCommand<Window>(OnDragWindow);
+           
+        }
+        #endregion
+        #region Methods
+        private void OnDragWindow(Window window)
+        {
+            window?.DragMove();
+        }
 
         private void ChangeView(object viewModel)
         {
             CurrentView = viewModel;
         }
-
-        internal void ChangeViewByType(Type viewType)
+      
+        private void Logout()
         {
-            if (viewType != null)
-            {
-                CurrentView = (UserControl)Activator.CreateInstance(viewType);
-            }
+
+            var loginViewModel = new LoginViewModel();
+            windowService.ShowWindow(loginViewModel);
+
+            Close.Invoke();
+
+
         }
-
-        // Does not work, see if you can fix this method to skip th switch case in ChangeViewCommand
-        // internal void ChangeViewByTypeViewModel(object viewModel)
-        // {
-        //     if (viewModel != null)
-        //     {
-        //         Mediator.Notify("ChangeView", (object)Activator.CreateInstance(viewModel));
-        //     }
-        // }
-
+       
+        
         private void MaxApp(object parameter)
         {
             if (parameter is Window window)
             {
-                // Kontrollera om fönstret redan är maximerat
+                
                 if (window.WindowState == WindowState.Maximized)
                 {
-                    // Om ja, återställ till normalt läge
+                    
                     window.WindowState = WindowState.Normal;
                 }
                 else
                 {
-                    // Annars maximera fönstret
+                    
                     window.WindowState = WindowState.Maximized;
                 }
             }
@@ -216,5 +217,6 @@ namespace PresentationLayer.ViewModels
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
+        #endregion
     }
 }

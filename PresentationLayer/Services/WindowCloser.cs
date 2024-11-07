@@ -20,8 +20,7 @@ namespace PresentationLayer.Services
         {
             obj.SetValue(MyPropertyProperty, value);
         }
-
-        // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
+     
         public static readonly DependencyProperty MyPropertyProperty =
             DependencyProperty.RegisterAttached("MyProperty", typeof(bool), typeof(WindowCloser), new PropertyMetadata(false, OnEnableWindowClosingChanged));
 
@@ -37,10 +36,7 @@ namespace PresentationLayer.Services
                         {
                             window.Close();
                         };
-                        //window.Closing += (s, e) =>
-                        //            {
-                        //                e.Cancel = !vm.CanClose();
-                        //            };
+                        
                     }
                 };
             }

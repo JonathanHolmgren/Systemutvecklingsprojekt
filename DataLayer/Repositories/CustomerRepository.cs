@@ -14,7 +14,7 @@ namespace DataLayer.Repositories
         public CustomerRepository(Context context)
             : base(context) { }
 
-        public List<Customer> GetInActiveCustomersWithInsurances()
+        public IList<Customer> GetInActiveCustomersWithInsurances()
         {
             DateTime oneYearAgo = DateTime.Now.AddYears(-1);
 
@@ -43,7 +43,7 @@ namespace DataLayer.Repositories
                 .ToList();
         }
 
-        public PrivateCustomer GetSpecificPrivateCustomerForInsuranceBySSN(string sSN)
+        public PrivateCustomer? GetSpecificPrivateCustomerForInsuranceBySSN(string sSN)
         {
             return Context
                 .Set<Customer>()
@@ -51,7 +51,7 @@ namespace DataLayer.Repositories
                 .FirstOrDefault(c => c.SSN == sSN);
         }
 
-        public CompanyCustomer GetSpecificCompanyCustomerForInsuranceByOrgNumber(string org)
+        public CompanyCustomer? GetSpecificCompanyCustomerForInsuranceByOrgNumber(string org)
         {
             return Context
                 .Set<Customer>()
@@ -59,7 +59,7 @@ namespace DataLayer.Repositories
                 .FirstOrDefault(c => c.OrganisationNumber == org);
         }
 
-        public IList<CompanyCustomer> GetCompanyCustomers()
+        public IList<CompanyCustomer> GetCompanyCustomers() //Loading all company customer with all attributes
         {
             return Context
                 .Set<Customer>()
@@ -98,30 +98,9 @@ namespace DataLayer.Repositories
                 .Include(p => p.ProspectNotes)
                 .FirstOrDefault(c => c.SSN == ssn);
 
-            // return Context
-            //     .Set<Customer>()
-            //     .OfType<PrivateCustomer>()
-            //     .Include(p => p.ProspectNotes)
-            //     .ThenInclude(i => i.User)
-            //     .ThenInclude(u => u.Employee)
-            //     .Include(c => c.Insurances)
-            //     .ThenInclude(a => a.User)
-            //     .ThenInclude(b => b.Employee)
-            //     .Include(c => c.Insurances)
-            //     //.ThenInclude(a => a.InsuranceType)
-            //     //.ThenInclude(b => b.InsuranceTypeAttributes)
-            //     .Include(c => c.Insurances)
-            //     .ThenInclude(a => a.InsuredPerson)
-            //     .FirstOrDefault(c => c.SSN == sSN);
+         
         }
 
-        //public void Changepostalcode(int customerId, string postalCode)
-        //{
-        //    var sql =
-        //        $"Update Customer Set PostalCodeCityPostalCode = '{postalCode}' Where CustomerID = {customerId} ";
-
-        //    int rowsAffected = Context.Database.ExecuteSqlRaw(sql);
-        //    Console.WriteLine($"This work! {rowsAffected} records were affected.");
-        //}
+       
     }
 }

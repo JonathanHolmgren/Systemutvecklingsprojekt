@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Models
 {
-    public class LoggedInUser
+    public class LoggedInUser //All the user attributes that the system needs
     {
         public int UserID { get; set; }
         public string FirstName { get; set; }

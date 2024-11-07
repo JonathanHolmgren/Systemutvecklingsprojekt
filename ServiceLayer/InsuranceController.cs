@@ -15,27 +15,26 @@ namespace ServiceLayer
     {
         InsuranceSpecController insuranceSpecController = new InsuranceSpecController();
 
-        InsuranceTypeAttributeController insuranceTypeAttributeController =
-            new InsuranceTypeAttributeController();
+       
 
         UnitOfWork unitOfWork = new UnitOfWork();
 
-        // public List<Insurance> GetAllPreliminaryInsurances()
 
 
-        public List<Insurance> GetCompanyCustomerInsurancesByCustomerId(int customerId)
+
+        public IList<Insurance> GetCompanyCustomerInsurancesByCustomerId(int customerId)
         {
             return unitOfWork.InsuranceRepository.GetCompanyCustomerInsurancesById(customerId);
         }
 
-        public List<Insurance> GetPrivateCustomerInsurancesByCustomerId(int customerId)
+        public IList<Insurance> GetPrivateCustomerInsurancesByCustomerId(int customerId)
         {
             return unitOfWork.InsuranceRepository.GetPrivateCustomerInsurancesById(customerId);
         }
 
         public void SetInsuranceStatusToActive(Insurance selectedInsurance)
         {
-            Insurance insuranceToUpdate = unitOfWork.InsuranceRepository.GetInsurance(
+            Insurance? insuranceToUpdate = unitOfWork.InsuranceRepository.GetInsurance(
                 selectedInsurance.InsuranceId
             );
 
@@ -49,7 +48,7 @@ namespace ServiceLayer
 
         public void SetInsuranceStatusToInactive(Insurance selectedInsurance)
         {
-            Insurance insuranceToUpdate = unitOfWork.InsuranceRepository.GetInsurance(
+            Insurance? insuranceToUpdate = unitOfWork.InsuranceRepository.GetInsurance(
                 selectedInsurance.InsuranceId
             );
 
@@ -451,7 +450,7 @@ namespace ServiceLayer
             string selectedAddOnOption2
         )
         {
-            User user = GetUserByID(userId); //denna ska hämta den användaren som är inloggad!
+            User user = GetUserByID(userId);
             InsuranceType insuranceType = GetInsuranceType(selectedInsuranceType);
 
             List<InsuranceTypeAttribute> insuranceTypeAttributesList =
@@ -534,7 +533,7 @@ namespace ServiceLayer
             }
         }
 
-        public InsuranceType GetInsuranceType(string inputInsuranceType)
+        public InsuranceType? GetInsuranceType(string inputInsuranceType)
         {
             return unitOfWork.InsuranceTypeRepository.GetInsuranceType(inputInsuranceType);
         }
@@ -633,7 +632,7 @@ namespace ServiceLayer
             }
         }
 
-        //Ska nog ligga i UserControllern
+    
         private User GetUserByID(int iD)
         {
             return unitOfWork.UserRepository.GetUserByID(iD);

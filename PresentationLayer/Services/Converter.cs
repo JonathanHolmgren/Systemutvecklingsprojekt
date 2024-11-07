@@ -7,6 +7,7 @@ using System.Globalization;
 using System.Windows.Data;
 
 namespace PresentationLayer.Services
+    //Converts size between full screen and laptop
 {
     // IsLessThanConverter //
     public class IsLessThanConverter : IValueConverter

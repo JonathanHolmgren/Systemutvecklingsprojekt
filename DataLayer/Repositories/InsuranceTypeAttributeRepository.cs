@@ -14,22 +14,15 @@ namespace DataLayer.Repositories
         public InsuranceTypeAttributeRepository(Context context) : base(context) { }
         public int GetPremieTypeAttributeId(int insuranceTypeId)
         {
+            var insuranceTypeAttribute = Context.Set<InsuranceTypeAttribute>()
+                .Include(iT => iT.InsuranceType)
+                .FirstOrDefault(iT =>
+                    iT != null &&
+                    iT.InsuranceType != null &&
+                    iT.InsuranceAttribute == "Månadspremie" &&
+                    iT.InsuranceType.InsuranceTypeId == insuranceTypeId);
 
-            var insuranceTypes = Context.Set<InsuranceTypeAttribute>()
-                .Include(iT=>iT.InsuranceType)
-                .ToList();
-                                
-            int insuranceTypeAttributeId = 0;
-            foreach (InsuranceTypeAttribute insuranceType in insuranceTypes)
-            {
-                if (insuranceType != null && insuranceType.InsuranceAttribute == "Månadspremie"&&insuranceType.InsuranceType.InsuranceTypeId==insuranceTypeId)
-                {
-                    insuranceTypeAttributeId = insuranceType.InsuranceTypeAttributeId;
-                    return insuranceTypeAttributeId;
-                }
-                
-            }
-            return 0;
+            return insuranceTypeAttribute?.InsuranceTypeAttributeId ?? 0;
         }
     }
 }

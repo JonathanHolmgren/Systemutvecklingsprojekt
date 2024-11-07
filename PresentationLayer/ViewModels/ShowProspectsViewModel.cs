@@ -15,9 +15,10 @@ namespace PresentationLayer.ViewModels
 {
     internal class ShowProspectsViewModel : ObservableObject
     {
+        #region Initation of objects
         private CustomerController customerController = new CustomerController();
 
-        private string note = null;
+        private string note = string.Empty;
         public string Note
         {
             get { return note; }
@@ -40,7 +41,7 @@ namespace PresentationLayer.ViewModels
             set { prospectNotesList = value; OnPropertyChanged(nameof(ProspectNotesList)); }
         }
 
-        private ObservableCollection<PrivateCustomer> privateCustomers = null;
+        private ObservableCollection<PrivateCustomer> privateCustomers;
         public ObservableCollection<PrivateCustomer> PrivateCustomers
         {
             get { return privateCustomers; }
@@ -51,7 +52,7 @@ namespace PresentationLayer.ViewModels
             }
         }
 
-        private ObservableCollection<CompanyCustomer> companyCustomers = null;
+        private ObservableCollection<CompanyCustomer> companyCustomers;
         public ObservableCollection<CompanyCustomer> CompanyCustomers
         {
             get { return companyCustomers; }
@@ -116,8 +117,8 @@ namespace PresentationLayer.ViewModels
         public bool IsPrivateColumnVisible => IsPrivateSelected;
         public bool IsCompanyColumnVisible => IsCompanySelected;
 
-        
-        private PrivateCustomer privateProspectSelectedItem;
+
+        private PrivateCustomer privateProspectSelectedItem = null;
         public PrivateCustomer PrivateProspectSelectedItem 
         { 
             get { return privateProspectSelectedItem; } 
@@ -139,7 +140,7 @@ namespace PresentationLayer.ViewModels
             }
         }
 
-        private CompanyCustomer companyProspectSelectedItem;
+        private CompanyCustomer companyProspectSelectedItem = null;
         public CompanyCustomer CompanyProspectSelectedItem
         {
             get { return companyProspectSelectedItem; }
@@ -197,7 +198,8 @@ namespace PresentationLayer.ViewModels
         public ICommand AddPrivateProspectNoteCommand { get; private set; }
         public ICommand AddCompanyProspectNoteCommand { get; private set; }
         public ICommand ReturnCommand { get; private set; }
-
+        #endregion
+        #region Constructors
         public ShowProspectsViewModel()
         {
             PrivateCustomers = new ObservableCollection<PrivateCustomer>(customerController.GetPrivateCustomerList());
@@ -213,7 +215,7 @@ namespace PresentationLayer.ViewModels
             IsCompanySelected = true;
             IsNoteFilled = true;
         }
-
+        #endregion
         #region Methods
 
         private ObservableCollection<PrivateCustomer> FilterPrivateProspects()

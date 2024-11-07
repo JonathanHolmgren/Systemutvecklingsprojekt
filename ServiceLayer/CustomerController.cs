@@ -24,12 +24,12 @@ namespace ServiceLayer
         {
             try
             {
-                unitOfWork.PrivateCustomerRepository.Add(privateCustomer);
+                unitOfWork.CustomerRepository.Add(privateCustomer);
                 unitOfWork.SaveChanges();
             }
             catch (Exception ex)
             {
-                // Hantera felet, till exempel logga det eller visa ett användarmeddelande
+           
                 throw new InvalidOperationException(
                     "Misslyckades att lägga till kund till databas.",
                     ex
@@ -61,12 +61,12 @@ namespace ServiceLayer
             unitOfWork.SaveChanges();
         }
 
-        public PrivateCustomer GetSpecificPrivateCustomerForInsuranceBySSN(string sSN)
+        public PrivateCustomer? GetSpecificPrivateCustomerForInsuranceBySSN(string sSN)
         {
             return unitOfWork.CustomerRepository.GetSpecificPrivateCustomerForInsuranceBySSN(sSN);
         }
 
-        public CompanyCustomer GetSpecificCompanyCustomerForInsuranceByOrgNumber(string orgNr)
+        public CompanyCustomer? GetSpecificCompanyCustomerForInsuranceByOrgNumber(string orgNr)
         {
             return unitOfWork.CustomerRepository.GetSpecificCompanyCustomerForInsuranceByOrgNumber(
                 orgNr
@@ -190,7 +190,7 @@ namespace ServiceLayer
         {
             try
             {
-                // Kontrollera om organisationsnumret redan finns i databasen
+                
                 var existingCompanyCustomer =
                     unitOfWork.CustomerRepository.GetSpecificCompanyCustomerForInsuranceByOrgNumber(
                         companyCustomer.OrganisationNumber
@@ -220,7 +220,7 @@ namespace ServiceLayer
             return unitOfWork.CustomerRepository.GetCompanyCustomers();
         }
 
-        public string GetCustomerInsuranceTypes(int insuranceId)
+        public string? GetCustomerInsuranceTypes(int insuranceId)
         {
             Insurance insurance = unitOfWork.InsuranceRepository.GetInsurance(insuranceId);
             return unitOfWork.InsuranceTypeRepository.GetCustomerInsuranceType(
@@ -328,7 +328,7 @@ namespace ServiceLayer
             return unitOfWork.CustomerRepository.GetPrivateCustomerBySsn(ssn);
         }
 
-        public CompanyCustomer GetOneCompanyCustomerByOrgNr(string organisationNumber)
+        public CompanyCustomer? GetOneCompanyCustomerByOrgNr(string organisationNumber)
         {
             CompanyCustomer companyCustomer =
                 unitOfWork.CustomerRepository.GetSpecificCompanyCustomerByOrgNr(organisationNumber);

@@ -12,6 +12,7 @@ namespace PresentationLayer.ViewModels;
 
 public class PrivateCustomerProfileViewModel : ObservableObject
 {
+    #region Initation of objects
     private CustomerController customerController = new CustomerController();
     private InsuranceController insuranceController = new InsuranceController();
     private InsuranceSpecController insuranceSpecController = new InsuranceSpecController();
@@ -203,13 +204,8 @@ public class PrivateCustomerProfileViewModel : ObservableObject
             OnPropertyChanged(nameof(IsRemovePrivateCustomerPopupOpen));
         }
     }
-
-    private void UpdatePrivateCustomer() //Kanske ändra till customerid
-    {
-        ViewedPrivateCustomer = null;
-        ViewedPrivateCustomer = customerController.GetOnePrivateCustomerBySsn(SearchValue);
-    }
-
+    #endregion
+    #region Commands
     public ICommand FindPrivateCustomerCommand { get; private set; }
     public ICommand AddPrivateProspectNoteCommand { get; private set; }
 
@@ -252,7 +248,8 @@ public class PrivateCustomerProfileViewModel : ObservableObject
             },
             () => _viewedPrivateCustomer != null
         );
-
+    #endregion
+    #region Constructors
     public PrivateCustomerProfileViewModel(PrivateCustomer privateCustomerToEdit)
     {
         ViewedPrivateCustomer = privateCustomerToEdit;
@@ -265,19 +262,12 @@ public class PrivateCustomerProfileViewModel : ObservableObject
         AddPrivateProspectNoteCommand = new RelayCommand(AddPrivateProspectNote);
 
         IsRemovePrivateCustomerPopupOpen = false;
-
-        // ContinueCommand = new RelayCommand(OnContinueClicked);
-        // CancelCommand = new RelayCommand(OnCancelClicked);
-        // RemoveInsuranceCommand = new RelayCommand(RemoveChosenInsurance);
-        // ChangeInsuranceStatusCommand = new RelayCommand(ChangeInsuranceStatus);
-        // CloseEditCustomerCommand = new RelayCommand(CloseEditCustomer);
-        // GoToAddInsuranceCommand = new RelayCommand(GoToAddInsurance);
-
         CustomerInsurances = new ObservableCollection<Insurance>();
         InsuranceSpecsAndAttributesInformation =
             new ObservableCollection<InsuranceSpecAndAttributeInformation>();
     }
-
+    #endregion
+    #region Methods
     private void ShowAttributesAndSpecs()
     {
         InsuranceSpecsAndAttributesInformation.Clear();
@@ -301,7 +291,11 @@ public class PrivateCustomerProfileViewModel : ObservableObject
             }
         }
     }
-
+    private void UpdatePrivateCustomer() 
+    {
+        ViewedPrivateCustomer = new PrivateCustomer();
+        ViewedPrivateCustomer = customerController.GetOnePrivateCustomerBySsn(SearchValue);
+    }
     private void UpdateInsuranceList()
     {
         if (ViewedPrivateCustomer != null)
@@ -334,7 +328,7 @@ public class PrivateCustomerProfileViewModel : ObservableObject
             CustomerInsurances.Clear();
             UpdateInsuranceList();
             UpdatePrivateCustomer();
-            //CustomerInsurances = new ObservableCollection<Insurance>(insuranceController.GetCustomerInsurances(ViewedPrivateCustomer.CustomerID));
+         
         }
         else if (IsInactiveStatusSelected == true)
         {
@@ -350,7 +344,7 @@ public class PrivateCustomerProfileViewModel : ObservableObject
             CustomerInsurances.Clear();
             UpdateInsuranceList();
             UpdatePrivateCustomer();
-            //CustomerInsurances = new ObservableCollection<Insurance>(insuranceController.GetCustomerInsurances(ViewedPrivateCustomer.CustomerID));
+            
         }
     }
 
@@ -362,13 +356,13 @@ public class PrivateCustomerProfileViewModel : ObservableObject
 
     private void SaveEditedPrivateCustomer()
     {
-        // Kontrollera validering och samla felmeddelanden
+      
         if (!ValidatePrivateCustomer(out string validationErrors))
         {
             MessageBox.Show(validationErrors);
         }
 
-        // Sätt den redigerade kundens data
+ 
         PrivateCustomerToEdit = ViewedPrivateCustomer;
         PrivateCustomerToEdit.FirstName = CapitalizeFirstLetter(PrivateCustomerToEdit.FirstName);
         PrivateCustomerToEdit.LastName = CapitalizeFirstLetter(PrivateCustomerToEdit.LastName);
@@ -377,11 +371,10 @@ public class PrivateCustomerProfileViewModel : ObservableObject
             PrivateCustomerToEdit.StreetAddress
         );
 
-        // Uppdatera och spara
         ViewedPrivateCustomer = PrivateCustomerToEdit;
         customerController.UpdatePrivateCustomer(ViewedPrivateCustomer);
 
-        // Bekräftelsemeddelande
+       
         MessageBox.Show("Ändringar är sparade");
         FullName = $"{ViewedPrivateCustomer.FirstName} {ViewedPrivateCustomer.LastName}";
     }
@@ -569,4 +562,5 @@ public class PrivateCustomerProfileViewModel : ObservableObject
         IsValidated = string.IsNullOrEmpty(validationErrors);
         return IsValidated;
     }
+    #endregion
 }

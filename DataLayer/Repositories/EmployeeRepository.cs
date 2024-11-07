@@ -13,7 +13,7 @@ namespace DataLayer.Repositories
     {
         public EmployeeRepository(Context context) : base(context) { }
 
-        public List<Employee> GetEmployeesWithCommissions()
+        public IList<Employee> GetEmployeesWithCommissions() //Loading all employees with commision
         {
             using (var context = new Context()) 
             {
@@ -26,7 +26,7 @@ namespace DataLayer.Repositories
             }
         }
 
-        public IList<Employee> GetEmployees()
+        public IList<Employee> GetEmployees() //Loading all employees
         {
             return Context.Set<Employee>().ToList();
         }

@@ -14,34 +14,13 @@ namespace PresentationLayer.ViewModels;
 
 public class RegisterUserViewModel : ObservableObject
 {
+    #region Initation of objects
     private readonly UserController userController;
     private EmployeeController employeeController = new EmployeeController();
 
     private AcronymForPermissionLevel acronymForPermissionLevel = new AcronymForPermissionLevel();
     public ObservableCollection<Employee> Employees { get; set; } = new ObservableCollection<Employee>();
-
-    public ICommand NextPageCommand { get; private set; }
-    public ICommand BackPageCommand { get; private set; }
-    public ICommand RemoveProfilePageCommand { get; private set; }
-    public ICommand AddProfilePageCommand { get; private set; }
-    public ICommand BackMainPageCommand { get; private set; }
-    public ICommand ChoíceMenuPageCommand { get; private set; }
-    public RegisterUserViewModel()
-    {
-        this.userController = new UserController();
-       Employees = new ObservableCollection<Employee>(employeeController.GetEmployees());
-        ApplyFilter(FilterText);
-        NextPageCommand = new RelayCommand<object>(execute => IncreaseMenuPage());
-        BackPageCommand = new RelayCommand<object>(execute => DecreaseMenuPage());
-        AddUserCommand = new RelayCommand<object>(execute => CreateUser());
-        RemoveProfilePageCommand = new RelayCommand<object>(execute => RemoveProfileMenuPage());
-        AddProfilePageCommand = new RelayCommand<object>(execute=> AddProfileMenuPage());
-        BackMainPageCommand = new RelayCommand<object>(execute => BackMainPage());
-        ChoíceMenuPageCommand = new RelayCommand<object>(execute => ChoiceMenuPage());
-        RemoveUserCommand = new RelayCommand<object>(execute => RemoveUser());
-    
-    }
-    private string filterText = null;
+    private string filterText = string.Empty;
     public string FilterText
     {
         get { return filterText; }
@@ -55,38 +34,7 @@ public class RegisterUserViewModel : ObservableObject
             }
         }
     }
-    private void DecreaseMenuPage()
-    {
-        EmployeeSelected = null;
-        ErrorLabel = string.Empty;
-        MenuPage--;
-    }
-    private void ChoiceMenuPage()
-    {
-      
-        UserSelected = null;
-        NewUserName = string.Empty;
-        PasswordInput = string.Empty;
-        PasswordInputControll = string.Empty;
-        ErrorLabel = string.Empty;
-        MenuPage = 1;
-    }
-    private void BackMainPage()
-    {
-        EmployeeSelected = null;
-        UserSelected = null;
-        NewUserName = string.Empty;
-        PasswordInput = string.Empty;
-        PasswordInputControll = string.Empty;
-        ErrorLabel = string.Empty;
-        MenuPage = 0;
-      
-    }
-    private void AddProfileMenuPage()
-    {
-        MenuPage = 3;
-        ErrorLabel = string.Empty;
-    }
+
     private int menuPage = 0;
     public int MenuPage
     {
@@ -109,23 +57,23 @@ public class RegisterUserViewModel : ObservableObject
 
         }
     }
-    private Employee employeeSelected ;
+    private Employee employeeSelected;
     public Employee EmployeeSelected
     {
         get { return employeeSelected; }
         set
         {
             employeeSelected = value;
-               
-                if (employeeSelected != null)
-                {
-                    Users = new ObservableCollection<User> (userController.GetUsers(employeeSelected.AgentNumber));
-                }
-                else
-                {
+
+            if (employeeSelected != null)
+            {
+                Users = new ObservableCollection<User>(userController.GetUsers(employeeSelected.AgentNumber));
+            }
+            else
+            {
                 Users = new ObservableCollection<User>();
             }
-            OnPropertyChanged(nameof(EmployeeSelected));    
+            OnPropertyChanged(nameof(EmployeeSelected));
         }
     }
     private ObservableCollection<User> users = null!;
@@ -181,7 +129,7 @@ public class RegisterUserViewModel : ObservableObject
         {
             authorizationLevelSelected = value;
             OnPropertyChanged();
-            if(EmployeeSelected != null) 
+            if (EmployeeSelected != null)
             {
                 NewUserName = acronymForPermissionLevel.GenereateAcronym(EmployeeSelected.AgentNumber, AuthorizationLevelSelected);
             }
@@ -195,7 +143,7 @@ public class RegisterUserViewModel : ObservableObject
         {
             errorLabel = value;
             OnPropertyChanged();
-           
+
         }
     }
 
@@ -218,10 +166,69 @@ public class RegisterUserViewModel : ObservableObject
         {
             passwordInputControll = value;
             OnPropertyChanged();
-            ErrorLabel= string.Empty;
+            ErrorLabel = string.Empty;
         }
     }
 
+    public ICommand NextPageCommand { get; private set; }
+    public ICommand BackPageCommand { get; private set; }
+    public ICommand RemoveProfilePageCommand { get; private set; }
+    public ICommand AddProfilePageCommand { get; private set; }
+    public ICommand BackMainPageCommand { get; private set; }
+    public ICommand ChoíceMenuPageCommand { get; private set; }
+    public ICommand RemoveUserCommand { get; set; }
+    public ICommand AddUserCommand { get; set; }
+    #endregion
+    #region Constructor
+    public RegisterUserViewModel()
+    {
+        this.userController = new UserController();
+       Employees = new ObservableCollection<Employee>(employeeController.GetEmployees());
+        ApplyFilter(FilterText);
+        NextPageCommand = new RelayCommand<object>(execute => IncreaseMenuPage());
+        BackPageCommand = new RelayCommand<object>(execute => DecreaseMenuPage());
+        AddUserCommand = new RelayCommand<object>(execute => CreateUser());
+        RemoveProfilePageCommand = new RelayCommand<object>(execute => RemoveProfileMenuPage());
+        AddProfilePageCommand = new RelayCommand<object>(execute=> AddProfileMenuPage());
+        BackMainPageCommand = new RelayCommand<object>(execute => BackMainPage());
+        ChoíceMenuPageCommand = new RelayCommand<object>(execute => ChoiceMenuPage());
+        RemoveUserCommand = new RelayCommand<object>(execute => RemoveUser());
+    
+    }
+    #endregion
+    #region Methods
+    private void DecreaseMenuPage()
+    {
+        EmployeeSelected = null;
+        ErrorLabel = string.Empty;
+        MenuPage--;
+    }
+    private void ChoiceMenuPage()
+    {
+
+        UserSelected = null;
+        NewUserName = string.Empty;
+        PasswordInput = string.Empty;
+        PasswordInputControll = string.Empty;
+        ErrorLabel = string.Empty;
+        MenuPage = 1;
+    }
+    private void BackMainPage()
+    {
+        EmployeeSelected = null;
+        UserSelected = null;
+        NewUserName = string.Empty;
+        PasswordInput = string.Empty;
+        PasswordInputControll = string.Empty;
+        ErrorLabel = string.Empty;
+        MenuPage = 0;
+
+    }
+    private void AddProfileMenuPage()
+    {
+        MenuPage = 3;
+        ErrorLabel = string.Empty;
+    }
     private void IncreaseMenuPage()
     {
         if (EmployeeSelected == null)
@@ -247,9 +254,8 @@ public class RegisterUserViewModel : ObservableObject
             ErrorLabel = string.Empty;
         }
     }
-    private ICommand removeUser = null!;
 
-    public ICommand RemoveUserCommand { get; set; }
+   
        
        
     private void RemoveUser()
@@ -266,9 +272,7 @@ public class RegisterUserViewModel : ObservableObject
             
         }
     }
-    private ICommand addUserCommand;
 
-   public ICommand AddUserCommand { get; set; }
     private void CreateUser()
     {
         if (PasswordInput!=passwordInputControll)
@@ -329,5 +333,5 @@ public class RegisterUserViewModel : ObservableObject
             ) || employee.AgentNumber.Contains(filterText,
             StringComparison.OrdinalIgnoreCase);
     }
-
+    #endregion
 }

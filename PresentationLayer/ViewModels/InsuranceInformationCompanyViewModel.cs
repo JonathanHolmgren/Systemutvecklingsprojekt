@@ -23,9 +23,9 @@ public class InsuranceInformationCompanyViewModel : ObservableObject
     {
         _user = user;
         _viewedCompanyCustomer = companyCustomer;
-        _customerInsurances = insuranceController.GetCompanyCustomerInsurancesByCustomerId(
+        _customerInsurances = new ObservableCollection<Insurance>( insuranceController.GetCompanyCustomerInsurancesByCustomerId(
             companyCustomer.CustomerID
-        );
+        ));
     }
 
     private CompanyCustomer _viewedCompanyCustomer = null!;
@@ -78,8 +78,8 @@ public class InsuranceInformationCompanyViewModel : ObservableObject
             );
         });
 
-    private List<Insurance> _customerInsurances = new List<Insurance>();
-    public List<Insurance> CustomerInsurances
+    private ObservableCollection<Insurance> _customerInsurances = new ObservableCollection<Insurance>();
+    public ObservableCollection<Insurance> CustomerInsurances
     {
         get => _customerInsurances;
         set

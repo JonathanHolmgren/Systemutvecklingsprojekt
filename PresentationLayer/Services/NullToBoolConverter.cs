@@ -7,7 +7,7 @@ public class NullToBoolConverter : IValueConverter
 {
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
-        return value != null; // Returnerar true om värdet inte är null
+        return value != null; 
     }
 
     public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

@@ -14,18 +14,18 @@ namespace DataLayer.Repositories
         public InsuranceRepository(Context context)
             : base(context) { }
 
-        public List<Insurance> GetCompanyCustomerInsurancesById(int customerId)
+        public  IList<Insurance> GetCompanyCustomerInsurancesById(int customerId)
         {
             return Context
                 .Set<Insurance>()
                 .Where(insurance => insurance.Customer.CustomerID == customerId)
                 .Include(i => i.InsuranceType)
-                .Include(i => i.User) // Jag la till dessa
-                .ThenInclude(a => a.Employee) // Ta bort om de krånglar
+                .Include(i => i.User) 
+                .ThenInclude(a => a.Employee) 
                 .ToList();
         }
 
-        public List<Insurance> GetPrivateCustomerInsurancesById(int customerId)
+        public IList<Insurance> GetPrivateCustomerInsurancesById(int customerId)
         {
             return Context
                 .Set<Insurance>()
@@ -37,7 +37,7 @@ namespace DataLayer.Repositories
                 .ToList();
         }
 
-        public Insurance GetInsurance(int insuranceId)
+        public Insurance? GetInsurance(int insuranceId)
         {
             return Context
                 .Set<Insurance>()
@@ -92,21 +92,8 @@ namespace DataLayer.Repositories
             }
         }
 
-        public SalesReport GetSalesReportForInscurance()
-        {
-            return new SalesReport();
-        }
 
-        // public List<Insurance> GetAllActiveInsurance()
-        // {
-        //     return Context
-        //         .Set<Insurance>()
-        //         .Where(x => x.InsuranceStatus == InsuranceStatus.Active)
-        //         .Include(x => x.User)
-        //         .ToList();
-        // }
-
-        public SalesReport GetSalesReport(int year)
+        public SalesReport? GetSalesReport(int year)
         {
             var insuranceData = Context
                 .Set<Insurance>()
@@ -190,31 +177,6 @@ namespace DataLayer.Repositories
 
             return salesReport;
         }
-
-        public List<Insurance> GetAllPreliminaryInsurances()
-        {
-            return Context
-                .Set<Insurance>()
-                .Include(i => i.Customer)
-                .Where(p => p.InsuranceStatus == InsuranceStatus.Preliminary)
-                .ToList();
-        }
-
-        //public Insurance SetInsuranceStatusToActive(Insurance selectedInsurance)
-        //{
-        //    Insurance insuranceToUpdate = Context
-        //        .Set<Insurance>()
-        //        .FirstOrDefault(p => p.InsuranceId == selectedInsurance.InsuranceId);
-
-        //    return insuranceToUpdate;
-        //}
-        //public Insurance SetInsuranceStatusToInactive(Insurance selectedInsurance)
-        //{
-        //    Insurance insuranceToUpdate = Context
-        //        .Set<Insurance>()
-        //        .FirstOrDefault(p => p.InsuranceId == selectedInsurance.InsuranceId);
-
-        //    return insuranceToUpdate;
-        //}
+      
     }
 }

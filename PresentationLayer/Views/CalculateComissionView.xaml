@@ -70,25 +70,25 @@
                     <Grid>
                         <StackPanel>
                             <TextBlock Text="Sök på namn eller agentnummer för säljaren du ska räkna provision för."
-             TextAlignment="Center"
-             TextWrapping="Wrap"
-             Width="200"
-             VerticalAlignment="Bottom"
-             HorizontalAlignment="Left"
-             Margin="0,20,0,0"/>
+                                         TextAlignment="Center"
+                                         TextWrapping="Wrap"
+                                         Width="200"
+                                         VerticalAlignment="Bottom"
+                                         HorizontalAlignment="Left"
+                                         Margin="0,20,0,0"/>
                             <StackPanel Orientation="Horizontal">
 
                                 <TextBox Style="{StaticResource SearchTextBoxStyle}"
-        Height="30"
-        Width="170"
-        VerticalAlignment="Top"
-        HorizontalAlignment="Left"
-        Text="{Binding FilterText, UpdateSourceTrigger=PropertyChanged}"/>
+                                        Height="30"
+                                        Width="170"
+                                        VerticalAlignment="Top"
+                                        HorizontalAlignment="Left"
+                                        Text="{Binding FilterText, UpdateSourceTrigger=PropertyChanged}"/>
                                 <TextBlock Foreground="Red" FontSize="12"
-         Margin="0,16,0,0"
-         TextAlignment="Center"
-         HorizontalAlignment="Right"
-         VerticalAlignment="Top"
+                                         Margin="0,16,0,0"
+                                         TextAlignment="Center"
+                                         HorizontalAlignment="Right"
+                                         VerticalAlignment="Top"
         
          Text="{Binding ErrorLabel}"/>
 

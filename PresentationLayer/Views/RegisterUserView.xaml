@@ -12,12 +12,12 @@
 
     <UserControl.Resources>
         <ResourceDictionary>
-            <!-- Importera ResourceDictionary.xaml -->
+       
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/DataTemplatesAndStyles/ResourceDictionary.xaml"/>
             </ResourceDictionary.MergedDictionaries>
 
-            <!-- Enum värden för AuthorizationLevel -->
+            <!-- Enum value for AuthorizationLevel -->
             <ObjectDataProvider MethodName="GetValues" ObjectType="{x:Type sys:Enum}" x:Key="AuthorizationLevelEnumValues">
                 <ObjectDataProvider.MethodParameters>
                     <x:Type TypeName="models:AuthorizationLevel" />

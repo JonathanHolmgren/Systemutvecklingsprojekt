@@ -14,12 +14,12 @@ public class UserController
         return unitOfWork.EmployeeRepository.FirstOrDefault(e => e.AgentNumber == agentNumber);
     }
 
-    public List<User> GetUsers(string agentNumber)
+    public IList<User> GetUsers(string agentNumber)
     {
         return unitOfWork.UserRepository.GetUsersByAgentNumber(agentNumber);
     }
 
-    public User GetUser(int id)
+    public User? GetUser(int id)
     {
         return unitOfWork.UserRepository.GetUserByID(id);
     }

@@ -2,8 +2,6 @@
 using LiveChartsCore;
 using LiveChartsCore.Kernel.Sketches;
 using LiveChartsCore.SkiaSharpView;
-using LiveChartsCore.SkiaSharpView;
-using LiveChartsCore.SkiaSharpView.Painting;
 using LiveChartsCore.SkiaSharpView.Painting;
 using LiveChartsCore.SkiaSharpView.VisualElements;
 using Models.SalesStatistics;
@@ -15,9 +13,8 @@ namespace PresentationLayer.ViewModels;
 
 public class SalesStatisticsViewModel : ObservableObject
 {
-    private SalesStatisticsController salesStatisticsController;
-    public ObservableCollection<int> AvailableYears { get; set; }
-
+   
+    #region Constructor
     public SalesStatisticsViewModel()
     {
         salesStatisticsController = new SalesStatisticsController();
@@ -27,7 +24,8 @@ public class SalesStatisticsViewModel : ObservableObject
         SelectedYear = DateTime.Now.Year;
         SalesReport = salesStatisticsController.GetSalesReport(SelectedYear);
     }
-
+    #endregion
+    #region Inition of objects
     private SalesPersonData selectedSalesPerson;
 
     public SalesPersonData SelectedSalesPerson
@@ -42,6 +40,8 @@ public class SalesStatisticsViewModel : ObservableObject
         }
     }
 
+    private SalesStatisticsController salesStatisticsController;
+    public ObservableCollection<int> AvailableYears { get; set; }
     private SalesReport salesReport = new SalesReport();
 
     public SalesReport SalesReport
@@ -80,40 +80,7 @@ public class SalesStatisticsViewModel : ObservableObject
         }
     }
 
-    private void UpdateChartData()
-    {
-        if (SelectedSalesPerson == null)
-        {
-            Series.Clear();
-            return;
-        }
-
-        var monthlyTotalSales = new int[12];
-
-        foreach (var sale in SelectedSalesPerson.MonthlySalesPrivate)
-        {
-            int monthIndex = sale.ActiveDate.Month - 1;
-            monthlyTotalSales[monthIndex] += sale.TotalSales;
-        }
-
-        foreach (var sale in SelectedSalesPerson.MonthlySalesCompany)
-        {
-            int monthIndex = sale.ActiveDate.Month - 1;
-            monthlyTotalSales[monthIndex] += sale.TotalSales;
-        }
-
-        // Uppdatera Series med nya data
-        Series.Clear();
-        Series.Add(
-            new LineSeries<int>
-            {
-                Values = monthlyTotalSales,
-                Name = "Total Sales",
-                LineSmoothness = 0,
-                GeometrySize = 0,
-            }
-        );
-    }
+    
 
     public LabelVisual Title { get; set; } =
         new LabelVisual
@@ -159,7 +126,42 @@ public class SalesStatisticsViewModel : ObservableObject
             OnPropertyChanged();
         }
     }
+    #endregion
+    #region Methods
+    private void UpdateChartData()
+    {
+        if (SelectedSalesPerson == null)
+        {
+            Series.Clear();
+            return;
+        }
 
+        var monthlyTotalSales = new int[12];
+
+        foreach (var sale in SelectedSalesPerson.MonthlySalesPrivate)
+        {
+            int monthIndex = sale.ActiveDate.Month - 1;
+            monthlyTotalSales[monthIndex] += sale.TotalSales;
+        }
+
+        foreach (var sale in SelectedSalesPerson.MonthlySalesCompany)
+        {
+            int monthIndex = sale.ActiveDate.Month - 1;
+            monthlyTotalSales[monthIndex] += sale.TotalSales;
+        }
+
+
+        Series.Clear();
+        Series.Add(
+            new LineSeries<int>
+            {
+                Values = monthlyTotalSales,
+                Name = "Total Sales",
+                LineSmoothness = 0,
+                GeometrySize = 0,
+            }
+        );
+    }
     private void GenerateChartData()
     {
         var salesPerson = SelectedSalesPerson;
@@ -228,4 +230,5 @@ public class SalesStatisticsViewModel : ObservableObject
 
         return trendline;
     }
+    #endregion
 }

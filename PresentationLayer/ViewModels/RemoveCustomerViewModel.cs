@@ -27,7 +27,7 @@ namespace PresentationLayer.ViewModels
         public ICommand UpdatePrivateCustomerList { get; set; }
         public ICommand UpdateCompanyCustomerList { get; set; }
         #endregion
-
+        #region Initation of objects
         public bool IsPrivateColumnVisible => IsPrivateSelected;
         public bool IsCompanyColumnVisible => IsCompanySelected;
 
@@ -37,7 +37,7 @@ namespace PresentationLayer.ViewModels
             get { return isCompanySelected; }
             set
             {
-                PrivateCustomerSelectedItem = null;
+                PrivateCustomerSelectedItem = new PrivateCustomer();
                 isCompanySelected = value;
                 OnPropertyChanged(nameof(IsCompanySelected));
                 OnPropertyChanged(nameof(IsCompanyColumnVisible));
@@ -52,7 +52,7 @@ namespace PresentationLayer.ViewModels
             get { return isPrivateSelected; }
             set
             {
-                CompanyCustomerSelectedItem = null;
+                CompanyCustomerSelectedItem = new CompanyCustomer();
                 isPrivateSelected = value;
                 OnPropertyChanged(nameof(IsPrivateSelected));
                 OnPropertyChanged(nameof(IsCompanyColumnVisible));
@@ -137,7 +137,7 @@ namespace PresentationLayer.ViewModels
                 OnPropertyChanged(nameof(CompanyCustomerList));
             }
         }
-
+        #endregion
         #region Constructor
         public RemoveCustomerViewModel()
         {
@@ -209,11 +209,11 @@ namespace PresentationLayer.ViewModels
             if (counter == 0)
             {
                 MessageBox.Show("Det angivna organisationsnummret finns inte i systemet.");
-                CompanyCustomerSearchedItem = null;
+                CompanyCustomerSearchedItem = string.Empty;
             }
             else if (counter > 0)
             {
-                PrivateCustomerSearchedItem = null;
+                PrivateCustomerSearchedItem = string.Empty;
                 PrivateCustomerList.Clear();
                 PrivateCustomerList.Add(searchedPrivateCustomer);
             }
@@ -236,11 +236,11 @@ namespace PresentationLayer.ViewModels
             if (counter == 0)
             {
                 MessageBox.Show("Det angivna organisationsnummret finns inte i systemet.");
-                CompanyCustomerSearchedItem = null;
+                CompanyCustomerSearchedItem = string.Empty;
             }
             else if (counter > 0)
             {
-                CompanyCustomerSearchedItem = null;
+                CompanyCustomerSearchedItem = string.Empty;
                 CompanyCustomerList.Clear();
                 CompanyCustomerList.Add(searchedCompanyCustomer);
             }

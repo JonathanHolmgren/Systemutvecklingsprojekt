@@ -13,8 +13,6 @@ namespace Models
 
         public ICollection<Employee> Employees { get; set; } = new List<Employee>();
 
-        // public ICollection<Customer> Customers { get; set; }
-
         public Commission(double commisionRate)
         {
             CommisionRate = commisionRate;

@@ -12,21 +12,5 @@ namespace DataLayer.Repositories
     {
         public ProspectNoteRepository(Context context) : base(context) { }
 
-        public IList<ProspectNote> GetProspectNotes()
-        {
-            return Context.Set<ProspectNote>()
-
-                .Include(c => c.User)
-                    .ThenInclude(b => b.Employee)
-                        .ToList(); // Konvertera till en lista
-        }
-        //public ProspectNote GetSpecificProspectNote(int prospectNoteId)
-        //{
-        //    return Context.Set<ProspectNote>()
-        //          .Include(c => c.User)
-        //            .ThenInclude(b => b.Employee)
-        //                .FirstOrDefault(); // Konvertera till ett objekt
-        //}
-
     }
 }

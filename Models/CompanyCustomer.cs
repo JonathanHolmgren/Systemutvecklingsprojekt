@@ -14,7 +14,7 @@ namespace Models
         public string CompanyPersonTelephoneNumber { get; set; }
         public string CompanyName { get; set; }
 
-        //Constructors
+    
         public CompanyCustomer() { }
 
         public CompanyCustomer(

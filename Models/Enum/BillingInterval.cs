@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Models
 {
-    public enum BillingInterval
+    public enum BillingInterval //The billing intervals
     {
         Månad, Kvartal, Halvår, År
     }

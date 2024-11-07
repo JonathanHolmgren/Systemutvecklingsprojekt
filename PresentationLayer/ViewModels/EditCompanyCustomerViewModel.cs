@@ -10,6 +10,7 @@ namespace PresentationLayer.ViewModels;
 
 public class EditCompanyCustomerViewModel : ObservableObject
 {
+    #region Initiation of objects
     private CustomerController customerController = new CustomerController();
     private InsuranceController insuranceController = new InsuranceController();
     private InsuranceSpecController insuranceSpecController = new InsuranceSpecController();
@@ -49,23 +50,24 @@ public class EditCompanyCustomerViewModel : ObservableObject
                 new CompanyCustomerProfileViewModel(CompanyCustomerToEdit)
             );
         });
-
+    #endregion
+    #region Constructors
     public EditCompanyCustomerViewModel() { }
 
     public EditCompanyCustomerViewModel(CompanyCustomer companyCustomerToEdit)
     {
         _companyCustomerToEdit = companyCustomerToEdit;
     }
-
+    #endregion
+    #region Methods
     private void SaveEditedCompanyCustomer()
     {
-        // Kontrollera validering och samla felmeddelanden
+       
         if (!ValidateCompanyCustomer(out string validationErrors))
         {
             MessageBox.Show(validationErrors);
         }
 
-        // Sätt den redigerade kundens data
         CompanyCustomerToEdit = CompanyCustomerToEdit;
         CompanyCustomerToEdit.CompanyName = CapitalizeFirstLetter(
             CompanyCustomerToEdit.CompanyName
@@ -75,10 +77,10 @@ public class EditCompanyCustomerViewModel : ObservableObject
             CompanyCustomerToEdit.StreetAddress
         );
 
-        // Uppdatera och spara
+       
         customerController.UpdateCompanyCustomer(CompanyCustomerToEdit);
 
-        // Bekräftelsemeddelande
+     
         MessageBox.Show("Ändringar är sparade");
     }
 
@@ -137,4 +139,5 @@ public class EditCompanyCustomerViewModel : ObservableObject
 
         return char.ToUpper(input[0]) + input.Substring(1).ToLower();
     }
+    #endregion
 }

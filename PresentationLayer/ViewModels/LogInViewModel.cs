@@ -11,6 +11,7 @@ namespace PresentationLayer.ViewModels;
 
 public class LoginViewModel : ObservableObject, ICloseWindows
 {
+    #region Initation of objects
     LoginUser loginUser = new LoginUser();
 
     public Action Close { get; set; }
@@ -60,6 +61,8 @@ public class LoginViewModel : ObservableObject, ICloseWindows
         }
     }
 
+    #endregion
+    #region Commands
     private ICommand loginBtn = null!;
     public ICommand LoginBtn =>
         loginBtn ??= new RelayCommand(() =>
@@ -78,9 +81,11 @@ public class LoginViewModel : ObservableObject, ICloseWindows
                 ErrorMessage = ex.Message;
             }
         });
-
+    #endregion
+    #region Constructor
     public LoginViewModel()
     {
         windowService = new WindowService();
     }
+    #endregion
 }

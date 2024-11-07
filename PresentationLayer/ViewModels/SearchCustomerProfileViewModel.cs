@@ -10,14 +10,15 @@ namespace PresentationLayer.ViewModels;
 public class SearchCustomerProfileViewModel : ObservableObject
 {
     private LoggedInUser _user;
-
+    #region Constructors
     public SearchCustomerProfileViewModel() { }
 
     public SearchCustomerProfileViewModel(LoggedInUser user)
     {
         _user = user;
     }
-
+    #endregion
+    #region Commands
     private ICommand _searchPrivateCustomerCommand = null!;
     public ICommand SearchPrivateCustomerCommand =>
         _searchPrivateCustomerCommand ??= new RelayCommand(() =>
@@ -31,4 +32,5 @@ public class SearchCustomerProfileViewModel : ObservableObject
         {
             Mediator.Notify("ChangeView", new CompanyCustomerProfileViewModel(_user));
         });
+    #endregion
 }

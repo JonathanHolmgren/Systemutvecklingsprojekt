@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Models
 {
-    public enum InsuranceStatus
+    public enum InsuranceStatus //Maybe translate
     {
         Active, Inactive, Preliminary
     }

@@ -1,6 +1,4 @@
-﻿
-
-<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:views="clr-namespace:PresentationLayer.Views"
                     xmlns:vm="clr-namespace:PresentationLayer.ViewModels"
@@ -8,6 +6,10 @@
                     xmlns:local="clr-namespace:PresentationLayer.Services">
     <local:ViewTypeToImageSourceConverter x:Key="ViewTypeToImageSourceConverter"/>
     <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+    <!--All the styles for mainwindow-->
+    
+    
+    
     <!--Sidemenu-->
     <Style x:Key="SideMenuStyle"
            TargetType="Border">
@@ -39,7 +41,6 @@
                             CornerRadius="5"
                             Margin="5">
                             <StackPanel Orientation="Horizontal">
-                                <!-- Extra bild, visas endast när CurrentView är specificerad -->
                                 <Image x:Name="extraImage"
                                    Height="45"
                                    Width="25"
@@ -50,7 +51,6 @@
                                    Source="Assets/select_line.png"
                                    Visibility="Collapsed"/>
 
-                                <!-- Ikon och textblock -->
                                 <StackPanel x:Name="iconStackPanel"
                                         Height="55"
                                         Width="55"
@@ -59,7 +59,7 @@
                                         Orientation="Vertical"
                                         Margin="0,0,0,0">
 
-                                    <!-- Standardikon som visas när ingen specifik vy är aktiv -->
+                                    
                                     <Image x:Name="iconImage"
                                        Height="25"
                                        Width="25"
@@ -70,7 +70,7 @@
                                        Source="Assets/register_customer.png"
                                        Visibility="Visible"/>
 
-                                    <!-- Alternativ ikon som visas när specifik vy är aktiv -->
+                                  
                                     <Image x:Name="selectedImage"
                                        Height="25"
                                        Width="25"
@@ -95,17 +95,16 @@
                     </Grid>
 
                     <ControlTemplate.Triggers>
-                        <!-- Hover-effekt -->
+
                         <Trigger Property="IsMouseOver" Value="True">
                             <Setter Property="Background" TargetName="border" Value="#E9EBED" />
                         </Trigger>
 
-                        <!-- Tryck-effekt -->
+                      
                         <Trigger Property="IsPressed" Value="True">
                             <Setter Property="Background" TargetName="border" Value="#C1C1C1" />
                         </Trigger>
 
-                        <!-- DataTrigger för att visa extraImage och selectedImage, samt dölja iconImage -->
                         <DataTrigger Binding="{Binding CurrentView, Converter={StaticResource ViewTypeToImageSourceConverter}}" 
                                  Value="Assets/register_customer_pressed.png">
                             <Setter TargetName="extraImage" Property="Visibility" Value="Visible"/>
@@ -134,7 +133,7 @@
                          CornerRadius="5"
                          Margin="5">
                             <StackPanel Orientation="Horizontal">
-                                <!-- Extra bild, visas endast när CurrentView är specificerad -->
+                             
                                 <Image x:Name="extraImage"
                                 Height="45"
                                 Width="25"
@@ -145,7 +144,7 @@
                                 Source="Assets/select_line.png"
                                 Visibility="Collapsed"/>
 
-                                <!-- Ikon och textblock -->
+                                
                                 <StackPanel x:Name="iconStackPanel"
                                      Height="55"
                                      Width="55"
@@ -154,7 +153,6 @@
                                      Orientation="Vertical"
                                      Margin="0,0,0,0">
 
-                                    <!-- Standardikon som visas när ingen specifik vy är aktiv -->
                                     <Image x:Name="iconImage"
                                     Height="25"
                                     Width="25"
@@ -165,7 +163,6 @@
                                     Source="Assets/register_company.png"
                                     Visibility="Visible"/>
 
-                                    <!-- Alternativ ikon som visas när specifik vy är aktiv -->
                                     <Image x:Name="selectedImage"
                                     Height="25"
                                     Width="25"
@@ -191,17 +188,16 @@
                     </Grid>
 
                     <ControlTemplate.Triggers>
-                        <!-- Hover-effekt -->
+                     
                         <Trigger Property="IsMouseOver" Value="True">
                             <Setter Property="Background" TargetName="border" Value="#E9EBED" />
                         </Trigger>
 
-                        <!-- Tryck-effekt -->
+                    
                         <Trigger Property="IsPressed" Value="True">
                             <Setter Property="Background" TargetName="border" Value="#C1C1C1" />
                         </Trigger>
 
-                        <!-- DataTrigger för att visa extraImage och selectedImage, samt dölja iconImage -->
                         <DataTrigger Binding="{Binding CurrentView, Converter={StaticResource ViewTypeToImageSourceConverter}}" 
                               Value="Assets/register_company_pressed.png">
                             <Setter TargetName="extraImage" Property="Visibility" Value="Visible"/>
@@ -229,7 +225,7 @@
                      CornerRadius="5"
                      Margin="5">
                             <StackPanel Orientation="Horizontal">
-                                <!-- Extra bild, visas endast när CurrentView är specificerad -->
+                             
                                 <Image x:Name="extraImage"
                             Height="45"
                             Width="25"
@@ -240,7 +236,6 @@
                             Source="Assets/select_line.png"
                             Visibility="Collapsed"/>
 
-                                <!-- Ikon och textblock -->
                                 <StackPanel x:Name="iconStackPanel"
                                  Height="55"
                                  Width="55"
@@ -249,7 +244,7 @@
                                  Orientation="Vertical"
                                  Margin="0,0,0,0">
 
-                                    <!-- Standardikon som visas när ingen specifik vy är aktiv -->
+                                
                                     <Image x:Name="iconImage"
                                 Height="25"
                                 Width="25"
@@ -258,9 +253,8 @@
                                 Margin="0,7,0,0"
                                 Stretch="Fill"
                                 Source="Assets/insurance_icon.png"
-                                Visibility="Visible"/>
+                                Visibility="Visible"/> 
 
-                                    <!-- Alternativ ikon som visas när specifik vy är aktiv -->
                                     <Image x:Name="selectedImage"
                                 Height="25"
                                 Width="25"
@@ -285,17 +279,16 @@
                     </Grid>
 
                     <ControlTemplate.Triggers>
-                        <!-- Hover-effekt -->
+                 
                         <Trigger Property="IsMouseOver" Value="True">
                             <Setter Property="Background" TargetName="border" Value="#E9EBED" />
                         </Trigger>
 
-                        <!-- Tryck-effekt -->
+                       
                         <Trigger Property="IsPressed" Value="True">
                             <Setter Property="Background" TargetName="border" Value="#C1C1C1" />
                         </Trigger>
 
-                        <!-- DataTrigger för att visa extraImage och selectedImage, samt dölja iconImage -->
                         <DataTrigger Binding="{Binding CurrentView, Converter={StaticResource ViewTypeToImageSourceConverter}}" 
                           Value="Assets/insurance_pressed.png">
                             <Setter TargetName="extraImage" Property="Visibility" Value="Visible"/>
@@ -323,7 +316,7 @@
                      CornerRadius="5"
                      Margin="5">
                         <StackPanel Orientation="Horizontal">
-                            <!-- Extra bild, visas endast när CurrentView är specificerad -->
+               
                             <Image x:Name="extraImage"
                             Height="45"
                             Width="25"
@@ -334,7 +327,7 @@
                             Source="Assets/select_line.png"
                             Visibility="Collapsed"/>
 
-                            <!-- Ikon och textblock -->
+                       
                             <StackPanel x:Name="iconStackPanel"
                                  Height="55"
                                  Width="55"
@@ -343,7 +336,7 @@
                                  Orientation="Vertical"
                                  Margin="0,0,0,0">
 
-                                <!-- Standardikon som visas när ingen specifik vy är aktiv -->
+                    
                                 <Image x:Name="iconImage"
                                 Height="25"
                                 Width="25"
@@ -354,7 +347,7 @@
                                 Source="Assets/show_prospects.png"
                                 Visibility="Visible"/>
 
-                                <!-- Alternativ ikon som visas när specifik vy är aktiv -->
+                      
                                 <Image x:Name="selectedImage"
                                 Height="23"
                                 Width="23"
@@ -379,17 +372,17 @@
                 </Grid>
 
                 <ControlTemplate.Triggers>
-                    <!-- Hover-effekt -->
+            
                     <Trigger Property="IsMouseOver" Value="True">
                         <Setter Property="Background" TargetName="border" Value="#E9EBED" />
                     </Trigger>
 
-                    <!-- Tryck-effekt -->
+       
                     <Trigger Property="IsPressed" Value="True">
                         <Setter Property="Background" TargetName="border" Value="#C1C1C1" />
                     </Trigger>
 
-                    <!-- DataTrigger för att visa extraImage och selectedImage, samt dölja iconImage -->
+           
                     <DataTrigger Binding="{Binding CurrentView, Converter={StaticResource ViewTypeToImageSourceConverter}}" 
                           Value="Assets/show_prospects_pressed.png">
                         <Setter TargetName="extraImage" Property="Visibility" Value="Visible"/>
@@ -417,7 +410,7 @@
                      CornerRadius="5"
                      Margin="5">
                             <StackPanel Orientation="Horizontal">
-                                <!-- Extra bild, visas endast när CurrentView är specificerad -->
+                               
                                 <Image x:Name="extraImage"
                             Height="45"
                             Width="25"
@@ -428,7 +421,6 @@
                             Source="Assets/select_line.png"
                             Visibility="Collapsed"/>
 
-                                <!-- Ikon och textblock -->
                                 <StackPanel x:Name="iconStackPanel"
                                  Height="55"
                                  Width="55"
@@ -437,7 +429,6 @@
                                  Orientation="Vertical"
                                  Margin="0,0,0,0">
 
-                                    <!-- Standardikon som visas när ingen specifik vy är aktiv -->
                                     <Image x:Name="iconImage"
                                 Height="25"
                                 Width="25"
@@ -448,7 +439,6 @@
                                 Source="Assets/export_bill.png"
                                 Visibility="Visible"/>
 
-                                    <!-- Alternativ ikon som visas när specifik vy är aktiv -->
                                     <Image x:Name="selectedImage"
                                 Height="25"
                                 Width="25"
@@ -474,17 +464,16 @@
                     </Grid>
 
                     <ControlTemplate.Triggers>
-                        <!-- Hover-effekt -->
+  
                         <Trigger Property="IsMouseOver" Value="True">
                             <Setter Property="Background" TargetName="border" Value="#E9EBED" />
                         </Trigger>
 
-                        <!-- Tryck-effekt -->
+                    
                         <Trigger Property="IsPressed" Value="True">
                             <Setter Property="Background" TargetName="border" Value="#C1C1C1" />
                         </Trigger>
 
-                        <!-- DataTrigger för att visa extraImage och selectedImage, samt dölja iconImage -->
                         <DataTrigger Binding="{Binding CurrentView, Converter={StaticResource ViewTypeToImageSourceConverter}}" 
                           Value="Assets/export_bill_pressed.png">
                             <Setter TargetName="extraImage" Property="Visibility" Value="Visible"/>
@@ -512,7 +501,7 @@
                   CornerRadius="5"
                   Margin="5">
                             <StackPanel Orientation="Horizontal">
-                                <!-- Extra bild, visas endast när CurrentView är specificerad -->
+                                
                                 <Image x:Name="extraImage"
                          Height="45"
                          Width="25"
@@ -523,7 +512,6 @@
                          Source="Assets/select_line.png"
                          Visibility="Collapsed"/>
 
-                                <!-- Ikon och textblock -->
                                 <StackPanel x:Name="iconStackPanel"
                               Height="55"
                               Width="55"
@@ -532,7 +520,7 @@
                               Orientation="Vertical"
                               Margin="0,7,0,0">
 
-                                    <!-- Standardikon som visas när ingen specifik vy är aktiv -->
+                            
                                     <Image x:Name="iconImage"
                              Height="25"
                              Width="25"
@@ -543,7 +531,6 @@
                              Source="Assets/calculate_comission.png"
                              Visibility="Visible"/>
 
-                                    <!-- Alternativ ikon som visas när specifik vy är aktiv -->
                                     <Image x:Name="selectedImage"
                              Height="25"
                              Width="25"
@@ -568,17 +555,17 @@
                     </Grid>
 
                     <ControlTemplate.Triggers>
-                        <!-- Hover-effekt -->
+                        
                         <Trigger Property="IsMouseOver" Value="True">
                             <Setter Property="Background" TargetName="border" Value="#E9EBED" />
                         </Trigger>
 
-                        <!-- Tryck-effekt -->
+                 
                         <Trigger Property="IsPressed" Value="True">
                             <Setter Property="Background" TargetName="border" Value="#C1C1C1" />
                         </Trigger>
 
-                        <!-- DataTrigger för att visa extraImage och selectedImage, samt dölja iconImage -->
+                        
                         <DataTrigger Binding="{Binding CurrentView, Converter={StaticResource ViewTypeToImageSourceConverter}}" 
                        Value="Assets/calculate_comission_pressed.png">
                             <Setter TargetName="extraImage" Property="Visibility" Value="Visible"/>
@@ -606,7 +593,7 @@
                      CornerRadius="5"
                      Margin="5">
                             <StackPanel Orientation="Horizontal">
-                                <!-- Extra bild, visas endast när CurrentView är specificerad -->
+                             
                                 <Image x:Name="extraImage"
                             Height="45"
                             Width="25"
@@ -617,7 +604,7 @@
                             Source="Assets/select_line.png"
                             Visibility="Collapsed"/>
 
-                                <!-- Ikon och textblock -->
+                        
                                 <StackPanel x:Name="iconStackPanel"
                                  Height="55"
                                  Width="55"
@@ -626,7 +613,7 @@
                                  Orientation="Vertical"
                                  Margin="0,0,0,0">
 
-                                    <!-- Standardikon som visas när ingen specifik vy är aktiv -->
+                                  
                                     <Image x:Name="iconImage"
                                 Height="25"
                                 Width="25"
@@ -637,7 +624,7 @@
                                 Source="Assets/SalesStatistics.png"
                                 Visibility="Visible"/>
 
-                                    <!-- Alternativ ikon som visas när specifik vy är aktiv -->
+                             
                                     <Image x:Name="selectedImage"
                                 Height="25"
                                 Width="25"
@@ -662,17 +649,17 @@
                     </Grid>
 
                     <ControlTemplate.Triggers>
-                        <!-- Hover-effekt -->
+           
                         <Trigger Property="IsMouseOver" Value="True">
                             <Setter Property="Background" TargetName="border" Value="#E9EBED" />
                         </Trigger>
 
-                        <!-- Tryck-effekt -->
+                      
                         <Trigger Property="IsPressed" Value="True">
                             <Setter Property="Background" TargetName="border" Value="#C1C1C1" />
                         </Trigger>
 
-                        <!-- DataTrigger för att visa extraImage och selectedImage, samt dölja iconImage -->
+                     
                         <DataTrigger Binding="{Binding CurrentView, Converter={StaticResource ViewTypeToImageSourceConverter}}" 
                           Value="Assets/SalesStatistics_pressed.png">
                             <Setter TargetName="extraImage" Property="Visibility" Value="Visible"/>
@@ -701,7 +688,7 @@
                      CornerRadius="5"
                      Margin="5">
                             <StackPanel Orientation="Horizontal">
-                                <!-- Extra bild, visas endast när CurrentView är specificerad -->
+                         
                                 <Image x:Name="extraImage"
                             Height="45"
                             Width="25"
@@ -712,7 +699,7 @@
                             Source="Assets/select_line.png"
                             Visibility="Collapsed"/>
 
-                                <!-- Ikon och textblock -->
+                           
                                 <StackPanel x:Name="iconStackPanel"
                                  Height="55"
                                  Width="55"
@@ -721,7 +708,6 @@
                                  Orientation="Vertical"
                                  Margin="0,0,0,0">
 
-                                    <!-- Standardikon som visas när ingen specifik vy är aktiv -->
                                     <Image x:Name="iconImage"
                                 Height="25"
                                 Width="25"
@@ -732,7 +718,6 @@
                                 Source="Assets/add_user.png"
                                 Visibility="Visible"/>
 
-                                    <!-- Alternativ ikon som visas när specifik vy är aktiv -->
                                     <Image x:Name="selectedImage"
                                 Height="25"
                                 Width="25"
@@ -758,17 +743,15 @@
                     </Grid>
 
                     <ControlTemplate.Triggers>
-                        <!-- Hover-effekt -->
+                    
                         <Trigger Property="IsMouseOver" Value="True">
                             <Setter Property="Background" TargetName="border" Value="#E9EBED" />
                         </Trigger>
 
-                        <!-- Tryck-effekt -->
                         <Trigger Property="IsPressed" Value="True">
                             <Setter Property="Background" TargetName="border" Value="#C1C1C1" />
                         </Trigger>
 
-                        <!-- DataTrigger för att visa extraImage och selectedImage, samt dölja iconImage -->
                         <DataTrigger Binding="{Binding CurrentView, Converter={StaticResource ViewTypeToImageSourceConverter}}" 
                           Value="Assets/add_user_pressed.png">
                             <Setter TargetName="extraImage" Property="Visibility" Value="Visible"/>
@@ -796,7 +779,7 @@
                                   CornerRadius="5"
                                   Margin="5">
                             <StackPanel Orientation="Horizontal">
-                                <!-- Extra bild, visas endast när CurrentView är specificerad -->
+                             
                                 <Image x:Name="extraImage"
                          Height="45"
                          Width="25"
@@ -807,7 +790,7 @@
                          Source="Assets/select_line.png"
                          Visibility="Collapsed"/>
 
-                                <!-- Ikon och textblock -->
+                         
                                 <StackPanel x:Name="iconStackPanel"
                               Height="55"
                               Width="55"
@@ -816,7 +799,6 @@
                               Orientation="Vertical"
                               Margin="0,0,0,0">
 
-                                    <!-- Standardikon som visas när ingen specifik vy är aktiv -->
                                     <Image x:Name="iconImage"
                              Height="25"
                              Width="25"
@@ -827,7 +809,6 @@
                              Source="Assets/customer_profile.png"
                              Visibility="Visible"/>
 
-                                    <!-- Alternativ ikon som visas när specifik vy är aktiv -->
                                     <Image x:Name="selectedImage"
                              Height="25"
                              Width="25"
@@ -853,17 +834,15 @@
                     </Grid>
 
                     <ControlTemplate.Triggers>
-                        <!-- Hover-effekt -->
+        
                         <Trigger Property="IsMouseOver" Value="True">
                             <Setter Property="Background" TargetName="border" Value="#E9EBED" />
                         </Trigger>
 
-                        <!-- Tryck-effekt -->
                         <Trigger Property="IsPressed" Value="True">
                             <Setter Property="Background" TargetName="border" Value="#C1C1C1" />
                         </Trigger>
 
-                        <!-- DataTrigger för att visa extraImage och selectedImage, samt dölja iconImage -->
                         <DataTrigger Binding="{Binding CurrentView, Converter={StaticResource ViewTypeToImageSourceConverter}}" 
                        Value="Assets/customer_profile_pressed.png">
                             <Setter TargetName="extraImage" Property="Visibility" Value="Visible"/>
@@ -1033,7 +1012,7 @@
                                     VerticalAlignment="Center"
                                     Margin="0,0,0,0">
 
-                                <!-- Stäng-ikon -->
+
                                 <Image x:Name="closeImage"
                                    Source="Assets/cross.png"
                                    Height="20"
@@ -1054,14 +1033,13 @@
                             <Setter Property="Background" TargetName="border" Value="#C1C1C1" />
                         </Trigger>
 
-                        <!-- DataTrigger för att ändra ikonens placering vid maximerat fönster -->
                         <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=Window}, Path=WindowState}" Value="Maximized">
                             <Setter TargetName="closeImage" Property="Margin" Value="0,3,0,0" />
-                            <!-- Justerar margin när maximerat -->
+                        
                         </DataTrigger>
                         <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=Window}, Path=WindowState}" Value="Normal">
                             <Setter TargetName="closeImage" Property="Margin" Value="0,0,0,0" />
-                            <!-- Standardmargin för normal state -->
+                       
                         </DataTrigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -1155,7 +1133,7 @@
                             VerticalAlignment="Top"
                             HorizontalAlignment="Right"
                             Margin="0,0,0,0">
-                            <!-- Behåll standardmarginalen på border -->
+                      
 
                             <StackPanel Height="20"
                                     Width="20"
@@ -1163,7 +1141,6 @@
                                     VerticalAlignment="Center"
                                     Margin="0,0,0,0">
 
-                                <!-- Minimera-ikon -->
                                 <Image x:Name="minimizeImage"
                                    Source="Assets/minimize.png"
                                    Height="13"
@@ -1184,14 +1161,13 @@
                             <Setter Property="Background" TargetName="border" Value="#C1C1C1" />
                         </Trigger>
 
-                        <!-- DataTrigger för att ändra ikonens placering vid maximerat fönster -->
                         <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=Window}, Path=WindowState}" Value="Maximized">
                             <Setter TargetName="minimizeImage" Property="Margin" Value="0,6,0,0" />
-                            <!-- Justera marginalen för maximized state -->
+                           
                         </DataTrigger>
                         <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=Window}, Path=WindowState}" Value="Normal">
                             <Setter TargetName="minimizeImage" Property="Margin" Value="0,4,0,0" />
-                            <!-- Standardmarginal för normal state -->
+                           
                         </DataTrigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -1216,7 +1192,7 @@
                                     VerticalAlignment="Center"
                                     Orientation="Horizontal">
 
-                                <!-- Använd en Wrapper för att ändra margin baserat på WindowState -->
+                              
                                 <Image x:Name="userIcon"
                                    Source="Assets/user_mini.png"
                                    Height="10"
@@ -1245,7 +1221,7 @@
                     </Grid>
 
                     <ControlTemplate.Triggers>
-                        <!-- Trigger för MouseOver och IsPressed -->
+                       
                         <Trigger Property="IsMouseOver" Value="True">
                             <Setter Property="Background" TargetName="border" Value="#E9EBED" />
                         </Trigger>
@@ -1253,7 +1229,7 @@
                             <Setter Property="Background" TargetName="border" Value="#C1C1C1" />
                         </Trigger>
 
-                        <!-- Trigger för maximerat fönster -->
+                      
                         <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=Window}, Path=WindowState}" Value="Maximized">
                             <Setter TargetName="userIcon" Property="Margin" Value="2,6,0,0"/>
                             <Setter TargetName="userText" Property="Margin" Value="3,13,0,0"/>
@@ -1293,46 +1269,10 @@
                 Style="{StaticResource SideMenuStyle}">
 
             <Grid>
-                
-                <!-- <StackPanel Style="{StaticResource MenuStackPanelStyle}" -->
-                <!--             Margin="-4,0,0,0"> -->
-                <!-- -->
-                <!--     <Button Style="{StaticResource MenuButtonRegisterCompanyCustomer}" -->
-                <!--             Command="{Binding ChangeViewCommand}" -->
-                <!--             CommandParameter="{x:Type views:RegisterCompanyCustomer}"/> -->
-                <!-- -->
-                <!--     <Button Style="{StaticResource MenuButtonRegisterPrivateCustomer}" -->
-                <!--             Command="{Binding ChangeViewCommand}" -->
-                <!--             CommandParameter="{x:Type views:RegisterPrivateCustomerView}"/> -->
-                <!-- -->
-                <!--     <Button Style="{StaticResource MenuButtonAddinsurance}" -->
-                <!--             Command="{Binding ChangeViewCommand}" -->
-                <!--             CommandParameter="{x:Type views:RegisterPreliminaryInsurance}"/> -->
-                <!-- -->
-                <!--     <Button Style="{StaticResource MenuButtonShowProspects}" -->
-                <!--             Command="{Binding ChangeViewCommand}" -->
-                <!--             CommandParameter="{x:Type views:ShowProspectsView}" /> -->
-                <!-- -->
-                <!--     <Button Style="{StaticResource MenuButtonExportBillingInfo}" -->
-                <!--             Command="{Binding ChangeViewCommand}" -->
-                <!--             CommandParameter="{x:Type views:ExportBillingInformationView}" /> -->
-                <!-- -->
-                <!--     <Button Style="{StaticResource MenuButtonCalculateCommision}" -->
-                <!--             Command="{Binding ChangeViewCommand}" -->
-                <!--             CommandParameter="{x:Type views:CalculateComissionView}" /> -->
-                <!--      -->
-                <!--     <Button Style="{StaticResource MenuButtonSalesStatistics}" -->
-                <!--             Command="{Binding ChangeViewCommand}" -->
-                <!--             CommandParameter="{x:Type views:SalesStatisticsView}" /> -->
-                <!--      -->
-                <!--     <Button Style="{StaticResource MenuButtonRegisterUser}" -->
-                <!--             Command="{Binding ChangeViewCommand}" -->
-                <!--             CommandParameter="{x:Type views:RegisterUserView}" /> -->
-                <!-- <Button Style="{StaticResource MenuButtonCustomerProfile}" -->
-                <!--         Command="{Binding ChangeViewCommand}" -->
-                <!--         CommandParameter="{x:Type views:SearchCustomerProfileView}" /> -->
+
                
- 
+
+
                 <StackPanel Style="{StaticResource MenuStackPanelStyle}"
                             Margin="-4,0,0,0">
                 
@@ -1397,70 +1337,31 @@
 
             <Grid>
 
-                <!-- <StackPanel Style="{StaticResource MenuStackPanelStyle}" -->
-                <!--          Margin="-4,0,0,0"> -->
-                <!-- -->
-                <!--     <Button Style="{StaticResource MenuButtonRegisterCompanyCustomer}" -->
-                <!--          Command="{Binding ChangeViewCommand}" -->
-                <!--          CommandParameter="{x:Type views:RegisterCompanyCustomer}"/> -->
-                <!-- -->
-                <!--     <Button Style="{StaticResource MenuButtonRegisterPrivateCustomer}" -->
-                <!--          Command="{Binding ChangeViewCommand}" -->
-                <!--          CommandParameter="{x:Type views:RegisterPrivateCustomerView}"/> -->
-                <!-- -->
-                <!--     <Button Style="{StaticResource MenuButtonAddinsurance}" -->
-                <!--          Command="{Binding ChangeViewCommand}" -->
-                <!--          CommandParameter="{x:Type views:RegisterPreliminaryInsurance}"/> -->
-                <!-- -->
-                <!--     <Button Style="{StaticResource MenuButtonShowProspects}" -->
-                <!--          Command="{Binding ChangeViewCommand}" -->
-                <!--          CommandParameter="{x:Type views:ShowProspectsView}" /> -->
-                <!-- -->
-                <!--     <Button Style="{StaticResource MenuButtonCustomerProfile}" -->
-                <!--             Command="{Binding ChangeViewCommand}" -->
-                <!--             CommandParameter="{x:Type views:CustomerProfileView}" /> -->
-                <!-- -->
-                <!-- </StackPanel> -->
+                 <StackPanel Style="{StaticResource MenuStackPanelStyle}" 
+                          Margin="-4,0,0,0"> 
+                
+                <Button Style="{StaticResource MenuButtonRegisterCompanyCustomer}"
+                        Command="{Binding ChangeViewCommand}"
+                        CommandParameter="RegisterCompanyCustomerViewModel"/>
 
-                <!--     <StackPanel Style="{StaticResource MenuStackPanelStyle}" -->
-                <!--             Margin="-4,0,0,0"> -->
-                <!-- -->
-                <!--     <Button Style="{StaticResource MenuButtonRegisterCompanyCustomer}" -->
-                <!--             Command="{Binding ChangeViewCommand}" -->
-                <!--             CommandParameter="RegisterCompanyCustomerViewModel"/> -->
-                <!-- -->
-                <!--     <Button Style="{StaticResource MenuButtonRegisterPrivateCustomer}" -->
-                <!--             Command="{Binding ChangeViewCommand}" -->
-                <!--             CommandParameter="RegisterPrivateCustomerViewModel"/> -->
-                <!--      -->
-                <!--     <Button Style="{StaticResource MenuButtonShowProspects}" -->
-                <!--             Command="{Binding ChangeViewCommand}" -->
-                <!--             CommandParameter="ShowProspectsViewModel" /> -->
-                <!-- -->
-                <!--     <Button Style="{StaticResource MenuButtonExportBillingInfo}" -->
-                <!--             Command="{Binding ChangeViewCommand}" -->
-                <!--             CommandParameter="ExportBillingInformationViewModel" /> -->
-                <!-- -->
-                <!--     <Button Style="{StaticResource MenuButtonCalculateCommision}" -->
-                <!--             Command="{Binding ChangeViewCommand}" -->
-                <!--             CommandParameter="CalculateComissionViewModel" /> -->
-                <!-- -->
-                <!--     <Button Style="{StaticResource MenuButtonSalesStatistics}" -->
-                <!--             Command="{Binding ChangeViewCommand}" -->
-                <!--             CommandParameter="SalesStatisticsViewModel" /> -->
-                <!-- -->
-                <!--     <Button Style="{StaticResource MenuButtonRegisterUser}" -->
-                <!--             Command="{Binding ChangeViewCommand}" -->
-                <!--             CommandParameter="RegisterUserViewModel" /> -->
-                <!-- -->
-                <!--     <Button Style="{StaticResource MenuButtonCustomerProfile}" -->
-                <!--             Command="{Binding ChangeViewCommand}" -->
-                <!--             CommandParameter="SearchCustomerProfileViewModel" /> -->
-                <!-- </StackPanel> -->
-                <!-- -->
+                <Button Style="{StaticResource MenuButtonRegisterPrivateCustomer}"
+                        Command="{Binding ChangeViewCommand}"
+                        CommandParameter="RegisterPrivateCustomerViewModel"/>
+                
+                <Button Style="{StaticResource MenuButtonShowProspects}"
+                        Command="{Binding ChangeViewCommand}"
+                        CommandParameter="ShowProspectsViewModel" />
+
+                <Button Style="{StaticResource MenuButtonCustomerProfile}"
+                         Command="{Binding ChangeViewCommand}"
+                         CommandParameter="SearchCustomerProfileViewModel" />
+                                
+                 </StackPanel> 
+
+             
 
                 <Button Style="{StaticResource MenuButtonLogOut}"
-                         Command="{Binding ExitCommand}"
+                         Command="{Binding LogOutCommand}"
                          Margin="-4,0,0,0"
                          VerticalAlignment="Bottom"
                          HorizontalAlignment="Left"/>
@@ -1486,33 +1387,30 @@
                         Margin="-4,0,0,0">
 
                     <Button Style="{StaticResource MenuButtonRegisterCompanyCustomer}"
-                        Command="{Binding ChangeViewCommand}"
-                        CommandParameter="{x:Type views:RegisterCompanyCustomer}"/>
+                            Command="{Binding ChangeViewCommand}"
+                            CommandParameter="RegisterCompanyCustomerViewModel"/>
 
                     <Button Style="{StaticResource MenuButtonRegisterPrivateCustomer}"
-                        Command="{Binding ChangeViewCommand}"
-                        CommandParameter="{x:Type views:RegisterPrivateCustomerView}"/>
+                            Command="{Binding ChangeViewCommand}"
+                            CommandParameter="RegisterPrivateCustomerViewModel"/>
 
-                    <Button Style="{StaticResource MenuButtonAddinsurance}"
-                        Command="{Binding ChangeViewCommand}"
-                        CommandParameter="{x:Type views:RegisterPreliminaryInsurance}"/>
 
                     <Button Style="{StaticResource MenuButtonShowProspects}"
-                        Command="{Binding ChangeViewCommand}"
-                        CommandParameter="{x:Type views:ShowProspectsView}" />
+                            Command="{Binding ChangeViewCommand}"
+                            CommandParameter="ShowProspectsViewModel" />
 
                     <Button Style="{StaticResource MenuButtonCustomerProfile}"
-                            Command="{Binding ChangeViewCommand}"
-                            CommandParameter="{x:Type views:CustomerProfileView}" />
+                           Command="{Binding ChangeViewCommand}"
+                           CommandParameter="SearchCustomerProfileViewModel" />
 
                     <Button Style="{StaticResource MenuButtonExportBillingInfo}"
                             Command="{Binding ChangeViewCommand}"
-                            CommandParameter="{x:Type views:ExportBillingInformationView}" />
+                            CommandParameter="ExportBillingInformationViewModel" />
 
                     <Button Style="{StaticResource MenuButtonCalculateCommision}"
                             Command="{Binding ChangeViewCommand}"
-                            CommandParameter="{x:Type views:CalculateComissionView}" />
-                    
+                            CommandParameter="CalculateComissionViewModel" />
+
 
 
                 </StackPanel>
@@ -1520,7 +1418,7 @@
 
 
                 <Button Style="{StaticResource MenuButtonLogOut}"
-                        Command="{Binding ExitCommand}"
+                        Command="{Binding LogOutCommand}"
                         Margin="-4,0,0,0"
                         VerticalAlignment="Bottom"
                         HorizontalAlignment="Left"/>
@@ -1546,36 +1444,33 @@
                     Margin="-4,0,0,0">
 
                     <Button Style="{StaticResource MenuButtonRegisterCompanyCustomer}"
-                    Command="{Binding ChangeViewCommand}"
-                    CommandParameter="{x:Type views:RegisterCompanyCustomer}"/>
+                            Command="{Binding ChangeViewCommand}"
+                            CommandParameter="RegisterCompanyCustomerViewModel"/>
 
                     <Button Style="{StaticResource MenuButtonRegisterPrivateCustomer}"
-                    Command="{Binding ChangeViewCommand}"
-                    CommandParameter="{x:Type views:RegisterPrivateCustomerView}"/>
+                            Command="{Binding ChangeViewCommand}"
+                            CommandParameter="RegisterPrivateCustomerViewModel"/>
 
-                    <Button Style="{StaticResource MenuButtonAddinsurance}"
-                    Command="{Binding ChangeViewCommand}"
-                    CommandParameter="{x:Type views:RegisterPreliminaryInsurance}"/>
 
                     <Button Style="{StaticResource MenuButtonShowProspects}"
-                    Command="{Binding ChangeViewCommand}"
-                    CommandParameter="{x:Type views:ShowProspectsView}" />
+                            Command="{Binding ChangeViewCommand}"
+                            CommandParameter="ShowProspectsViewModel" />
 
                     <Button Style="{StaticResource MenuButtonCustomerProfile}"
-                            Command="{Binding ChangeViewCommand}"
-                            CommandParameter="{x:Type views:CustomerProfileView}" />
+                           Command="{Binding ChangeViewCommand}"
+                           CommandParameter="SearchCustomerProfileViewModel" />
+
+
 
                     <Button Style="{StaticResource MenuButtonSalesStatistics}"
                             Command="{Binding ChangeViewCommand}"
-                            CommandParameter="{x:Type views:SalesStatisticsView}" />
-
-
+                            CommandParameter="SalesStatisticsViewModel" />
                 </StackPanel>
 
 
 
                 <Button Style="{StaticResource MenuButtonLogOut}"
-                    Command="{Binding ExitCommand}"
+                    Command="{Binding LogOutCommand}"
                     Margin="-4,0,0,0"
                     VerticalAlignment="Bottom"
                     HorizontalAlignment="Left"/>
@@ -1591,9 +1486,9 @@
     <ControlTemplate x:Key="SideMenuTemplateAdmin">
 
         <Border Grid.Row="0"
-    Grid.RowSpan="3"
-    Grid.Column="0"
-    Style="{StaticResource SideMenuStyle}">
+                Grid.RowSpan="3"
+                Grid.Column="0"
+                Style="{StaticResource SideMenuStyle}">
 
             <Grid>
 
@@ -1601,15 +1496,16 @@
                 Margin="-4,0,0,0">
 
                     <Button Style="{StaticResource MenuButtonRegisterUser}"
-                Command="{Binding ChangeViewCommand}"
-                CommandParameter="{x:Type views:RegisterUserView}"/>
+                            Command="{Binding ChangeViewCommand}"
+                            CommandParameter="RegisterUserViewModel" />
+
 
                 </StackPanel>
 
 
 
                 <Button Style="{StaticResource MenuButtonLogOut}"
-                Command="{Binding ExitCommand}"
+                Command="{Binding LogOutCommand}"
                 Margin="-4,0,0,0"
                 VerticalAlignment="Bottom"
                 HorizontalAlignment="Left"/>

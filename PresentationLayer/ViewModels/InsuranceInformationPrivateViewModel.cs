@@ -22,9 +22,9 @@ public class InsuranceInformationPrivateViewModel : ObservableObject
     {
         _user = user;
         _viewedPrivateCustomer = privateCustomer;
-        _customerInsurances = insuranceController.GetPrivateCustomerInsurancesByCustomerId(
+        _customerInsurances = new ObservableCollection<Insurance> (insuranceController.GetPrivateCustomerInsurancesByCustomerId(
             privateCustomer.CustomerID
-        );
+        ));
     }
 
     private PrivateCustomer _viewedPrivateCustomer = null!;
@@ -67,8 +67,8 @@ public class InsuranceInformationPrivateViewModel : ObservableObject
     public ICommand ChangeInsuranceStatusCommand =>
         _changeInsuranceStatusCommand ??= new RelayCommand(ChangeInsuranceStatus);
 
-    private List<Insurance> _customerInsurances = new List<Insurance>();
-    public List<Insurance> CustomerInsurances
+    private ObservableCollection<Insurance> _customerInsurances = new ObservableCollection<Insurance>();
+    public ObservableCollection<Insurance> CustomerInsurances
     {
         get => _customerInsurances;
         set

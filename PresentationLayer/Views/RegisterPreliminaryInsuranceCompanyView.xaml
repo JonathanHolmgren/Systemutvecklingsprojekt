@@ -13,7 +13,7 @@
   </UserControl.Resources>
    
     <Grid> 
-      <!--Företagsuppgifter-->
+      
       <Border HorizontalAlignment="Center" VerticalAlignment="Center" Background="#F3F3F3" >
           <Border.Style>
               <Style TargetType="Border">
@@ -134,7 +134,7 @@
           </Grid>
       </Border>
 
-      <!--Försäkringsuppgifter-->
+     
       <!--insuranceType1-->
       <Border HorizontalAlignment="Center" VerticalAlignment="Center" Background="#F3F3F3">
           <Border.Style>

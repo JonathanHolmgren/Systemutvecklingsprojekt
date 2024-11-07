@@ -10,6 +10,7 @@ namespace PresentationLayer.ViewModels;
 
 public class EditPrivateCustomerViewModel : ObservableObject
 {
+    #region Initation of objects
     private CustomerController customerController = new CustomerController();
     private InsuranceController insuranceController = new InsuranceController();
     private InsuranceSpecController insuranceSpecController = new InsuranceSpecController();
@@ -67,23 +68,25 @@ public class EditPrivateCustomerViewModel : ObservableObject
                 new PrivateCustomerProfileViewModel(PrivateCustomerToEdit)
             );
         });
-
+    #endregion
+    #region Constructors
     public EditPrivateCustomerViewModel() { }
 
     public EditPrivateCustomerViewModel(PrivateCustomer privateCustomerToEdit)
     {
         _privateCustomerToEdit = privateCustomerToEdit;
     }
-
+    #endregion
+    #region Methods
     private void SaveEditedPrivateCustomer()
     {
-        // Kontrollera validering och samla felmeddelanden
+       
         if (!ValidatePrivateCustomer(out string validationErrors))
         {
             MessageBox.Show(validationErrors);
         }
 
-        // Sätt den redigerade kundens data
+      
 
         PrivateCustomerToEdit.FirstName = CapitalizeFirstLetter(PrivateCustomerToEdit.FirstName);
         PrivateCustomerToEdit.LastName = CapitalizeFirstLetter(PrivateCustomerToEdit.LastName);
@@ -92,10 +95,10 @@ public class EditPrivateCustomerViewModel : ObservableObject
             PrivateCustomerToEdit.StreetAddress
         );
 
-        // Uppdatera och spara
+       
         customerController.UpdatePrivateCustomer(PrivateCustomerToEdit);
 
-        // Bekräftelsemeddelande
+       
         MessageBox.Show("Ändringar är sparade");
         FullName = $"{PrivateCustomerToEdit.FirstName} {PrivateCustomerToEdit.LastName}";
     }
@@ -152,4 +155,5 @@ public class EditPrivateCustomerViewModel : ObservableObject
 
         return char.ToUpper(input[0]) + input.Substring(1).ToLower();
     }
+    #endregion
 }

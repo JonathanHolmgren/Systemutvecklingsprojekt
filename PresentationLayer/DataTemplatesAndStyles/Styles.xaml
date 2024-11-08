@@ -1499,6 +1499,9 @@
                             Command="{Binding ChangeViewCommand}"
                             CommandParameter="RegisterUserViewModel" />
 
+                    <Button Style="{StaticResource MenuButtonCustomerProfile}"
+                            Command="{Binding ChangeViewCommand}"
+                            CommandParameter="SearchCustomerProfileViewModel" />
 
                 </StackPanel>
 

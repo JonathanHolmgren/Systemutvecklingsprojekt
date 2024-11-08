@@ -5,12 +5,14 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:PresentationLayer.Views"
              xmlns:vm="clr-namespace:PresentationLayer.ViewModels"
+             xmlns:sr="clr-namespace:PresentationLayer.Services"
              mc:Ignorable="d"
              d:DesignHeight="800" d:DesignWidth="1080">
     
     <UserControl.Resources>
         <ResourceDictionary>
-            <BooleanToVisibilityConverter x:Key="BoolToVisConverter" />
+             <BooleanToVisibilityConverter x:Key="BoolToVisConverter" />
+             <sr:InverseBoolToVisConverter x:Key="InverseBoolToVisConverter" />
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/DataTemplatesAndStyles/ResourceDictionary.xaml"/>
             </ResourceDictionary.MergedDictionaries>
@@ -256,14 +258,14 @@
              TextWrapping="Wrap"
              AcceptsReturn="True"
              VerticalScrollBarVisibility="Auto" Height="60"  Margin="0,5,0,5"/>
-    <Button Content="Lägg till notering" Width="120" Height="30" Command="{Binding AddPrivateProspectNoteCommand}"  Margin="0,5,0,0" Style="{StaticResource GeneralButtonStyle}"/>
+    <Button Content="Lägg till notering" Width="120" Height="30" Visibility="{Binding IsAdmin, Converter={StaticResource InverseBoolToVisConverter}}" Command="{Binding AddPrivateProspectNoteCommand}"  Margin="0,5,0,0" Style="{StaticResource GeneralButtonStyle}"/>
     </StackPanel>
     </Border>
     <!-- Action Buttons -->
     <StackPanel Grid.Row="3" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,10,0,0">
-        <Button Content="Redigera kund" Width="120" Height="30" Command="{Binding OnEditPrivateCustomerClickedCommand}"  Margin="0,0,10,0" Style="{StaticResource GeneralButtonStyle}"/>
+        <Button Content="Redigera kund" Width="120" Height="30" Visibility="{Binding IsAdmin, Converter={StaticResource InverseBoolToVisConverter}}" Command="{Binding OnEditPrivateCustomerClickedCommand}"  Margin="0,0,10,0" Style="{StaticResource GeneralButtonStyle}"/>
         <Button Content="Ta bort kund" Width="120" Height="30" Visibility="{Binding IsAdmin, Converter={StaticResource BoolToVisConverter}}" Command="{Binding RemovePrivateCustomerCommand}" Margin="0,0,10,0" Style="{StaticResource GeneralButtonStyle}"/>
-        <Button Content="Avtal" Width="120" Height="30" Command="{Binding InsuranceViewCommand}" Style="{StaticResource GeneralButtonStyle}" />
+        <Button Content="Avtal" Width="120" Height="30" Visibility="{Binding IsAdmin, Converter={StaticResource InverseBoolToVisConverter}}" Command="{Binding InsuranceViewCommand}" Style="{StaticResource GeneralButtonStyle}" />
     </StackPanel>
 </Grid>
     </Grid>

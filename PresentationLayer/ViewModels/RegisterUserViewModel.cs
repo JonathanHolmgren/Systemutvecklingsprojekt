@@ -15,59 +15,61 @@ namespace PresentationLayer.ViewModels;
 public class RegisterUserViewModel : ObservableObject
 {
     #region Initation of objects
-    private readonly UserController userController;
-    private EmployeeController employeeController = new EmployeeController();
+    private readonly UserController _userController;
+    private readonly EmployeeController _employeeController = new EmployeeController();
 
-    private AcronymForPermissionLevel acronymForPermissionLevel = new AcronymForPermissionLevel();
-    public ObservableCollection<Employee> Employees { get; set; } = new ObservableCollection<Employee>();
-    private string filterText = string.Empty;
+    private readonly AcronymForPermissionLevel _acronymForPermissionLevel =
+        new AcronymForPermissionLevel();
+    public ObservableCollection<Employee> Employees { get; set; } =
+        new ObservableCollection<Employee>();
+    private string _filterText = string.Empty;
     public string FilterText
     {
-        get { return filterText; }
+        get { return _filterText; }
         set
         {
-            if (filterText != value)
+            if (_filterText != value)
             {
-                filterText = value;
-                ApplyFilter(filterText);
+                _filterText = value;
+                ApplyFilter(_filterText);
                 OnPropertyChanged(nameof(FilterText));
             }
         }
     }
 
-    private int menuPage = 0;
+    private int _menuPage = 0;
     public int MenuPage
     {
-        get => menuPage;
+        get => _menuPage;
         set
         {
-            menuPage = value;
+            _menuPage = value;
             OnPropertyChanged(nameof(MenuPage));
-
         }
     }
-    ObservableCollection<Employee> filteredEmployees;
+    ObservableCollection<Employee> _filteredEmployees;
     public ObservableCollection<Employee> FilteredEmployees
     {
-        get { return filteredEmployees; }
+        get { return _filteredEmployees; }
         set
         {
-            filteredEmployees = value;
+            _filteredEmployees = value;
             OnPropertyChanged();
-
         }
     }
-    private Employee employeeSelected;
+    private Employee _employeeSelected;
     public Employee EmployeeSelected
     {
-        get { return employeeSelected; }
+        get { return _employeeSelected; }
         set
         {
-            employeeSelected = value;
+            _employeeSelected = value;
 
-            if (employeeSelected != null)
+            if (_employeeSelected != null)
             {
-                Users = new ObservableCollection<User>(userController.GetUsers(employeeSelected.AgentNumber));
+                Users = new ObservableCollection<User>(
+                    _userController.GetUsers(_employeeSelected.AgentNumber)
+                );
             }
             else
             {
@@ -76,62 +78,64 @@ public class RegisterUserViewModel : ObservableObject
             OnPropertyChanged(nameof(EmployeeSelected));
         }
     }
-    private ObservableCollection<User> users = null!;
+    private ObservableCollection<User> _users = null!;
     public ObservableCollection<User> Users
     {
-        get { return users; }
+        get { return _users; }
         set
         {
-            users = value;
+            _users = value;
             OnPropertyChanged(nameof(Users));
         }
     }
 
-    private User userSelected = null!;
+    private User _userSelected = null!;
     public User UserSelected
     {
-        get { return userSelected; }
+        get { return _userSelected; }
         set
         {
-            userSelected = value;
+            _userSelected = value;
             OnPropertyChanged();
         }
     }
 
-    private string employeeInput = null!;
+    private string _employeeInput = null!;
     public string EmployeeInput
     {
-        get { return employeeInput; }
+        get { return _employeeInput; }
         set
         {
-            employeeInput = value;
+            _employeeInput = value;
             OnPropertyChanged();
         }
     }
 
-
-    private string newUserName = null!;
+    private string _newUserName = null!;
     public string NewUserName
     {
-        get { return newUserName; }
+        get { return _newUserName; }
         set
         {
-            newUserName = value;
+            _newUserName = value;
             OnPropertyChanged();
         }
     }
 
-    private AuthorizationLevel authorizationLevelSelected;
+    private AuthorizationLevel _authorizationLevelSelected;
     public AuthorizationLevel AuthorizationLevelSelected
     {
-        get { return authorizationLevelSelected; }
+        get { return _authorizationLevelSelected; }
         set
         {
-            authorizationLevelSelected = value;
+            _authorizationLevelSelected = value;
             OnPropertyChanged();
             if (EmployeeSelected != null)
             {
-                NewUserName = acronymForPermissionLevel.GenereateAcronym(EmployeeSelected.AgentNumber, AuthorizationLevelSelected);
+                NewUserName = _acronymForPermissionLevel.GenereateAcronym(
+                    EmployeeSelected.AgentNumber,
+                    AuthorizationLevelSelected
+                );
             }
         }
     }
@@ -143,7 +147,6 @@ public class RegisterUserViewModel : ObservableObject
         {
             errorLabel = value;
             OnPropertyChanged();
-
         }
     }
 
@@ -177,23 +180,31 @@ public class RegisterUserViewModel : ObservableObject
     public ICommand BackMainPageCommand { get; private set; }
     public ICommand ChoíceMenuPageCommand { get; private set; }
     public ICommand RemoveUserCommand { get; set; }
-    public ICommand AddUserCommand { get; set; }
+
+    private ICommand _addUserCommand = null!;
+    public ICommand AddUserCommand =>
+        _addUserCommand ??= new RelayCommand(
+            () =>
+            {
+                CreateUser();
+            },
+            () => _newUserName != null
+        );
+
     #endregion
     #region Constructor
     public RegisterUserViewModel()
     {
-        this.userController = new UserController();
-       Employees = new ObservableCollection<Employee>(employeeController.GetEmployees());
+        this._userController = new UserController();
+        Employees = new ObservableCollection<Employee>(_employeeController.GetEmployees());
         ApplyFilter(FilterText);
         NextPageCommand = new RelayCommand<object>(execute => IncreaseMenuPage());
         BackPageCommand = new RelayCommand<object>(execute => DecreaseMenuPage());
-        AddUserCommand = new RelayCommand<object>(execute => CreateUser());
         RemoveProfilePageCommand = new RelayCommand<object>(execute => RemoveProfileMenuPage());
-        AddProfilePageCommand = new RelayCommand<object>(execute=> AddProfileMenuPage());
+        AddProfilePageCommand = new RelayCommand<object>(execute => AddProfileMenuPage());
         BackMainPageCommand = new RelayCommand<object>(execute => BackMainPage());
         ChoíceMenuPageCommand = new RelayCommand<object>(execute => ChoiceMenuPage());
         RemoveUserCommand = new RelayCommand<object>(execute => RemoveUser());
-    
     }
     #endregion
     #region Methods
@@ -203,9 +214,9 @@ public class RegisterUserViewModel : ObservableObject
         ErrorLabel = string.Empty;
         MenuPage--;
     }
+
     private void ChoiceMenuPage()
     {
-
         UserSelected = null;
         NewUserName = string.Empty;
         PasswordInput = string.Empty;
@@ -213,6 +224,7 @@ public class RegisterUserViewModel : ObservableObject
         ErrorLabel = string.Empty;
         MenuPage = 1;
     }
+
     private void BackMainPage()
     {
         EmployeeSelected = null;
@@ -222,13 +234,14 @@ public class RegisterUserViewModel : ObservableObject
         PasswordInputControll = string.Empty;
         ErrorLabel = string.Empty;
         MenuPage = 0;
-
     }
+
     private void AddProfileMenuPage()
     {
         MenuPage = 3;
         ErrorLabel = string.Empty;
     }
+
     private void IncreaseMenuPage()
     {
         if (EmployeeSelected == null)
@@ -244,47 +257,44 @@ public class RegisterUserViewModel : ObservableObject
 
     private void RemoveProfileMenuPage()
     {
-        if (Users.Count()==0)
+        if (Users.Count() == 0)
         {
             ErrorLabel = "Denna säljare har ingen profil";
         }
         else if (EmployeeSelected != null)
         {
-            MenuPage=2;
+            MenuPage = 2;
             ErrorLabel = string.Empty;
         }
     }
 
-   
-       
-       
     private void RemoveUser()
     {
         if (UserSelected != null)
         {
-            userController.RemoveUserById(UserSelected.UserID);
-            Users = new ObservableCollection<User>(userController.GetUsers(employeeSelected.AgentNumber));
+            _userController.RemoveUserById(UserSelected.UserID);
+            Users = new ObservableCollection<User>(
+                _userController.GetUsers(_employeeSelected.AgentNumber)
+            );
             MessageBox.Show("Profil borttagen");
         }
         else
         {
             ErrorLabel = "Välj en profil";
-            
         }
     }
 
     private void CreateUser()
     {
-        if (PasswordInput!=passwordInputControll)
+        if (PasswordInput != passwordInputControll)
         {
             ErrorLabel = "Lösenorden måste matcha";
         }
         else if (string.IsNullOrWhiteSpace(PasswordInput))
         {
-            ErrorLabel="Var vänlig fyll i lösenord";
+            ErrorLabel = "Var vänlig fyll i lösenord";
         }
-      
-        else if (AuthorizationLevelSelected==null)
+        else if (AuthorizationLevelSelected == null)
         {
             ErrorLabel = "Var vänlig fyll i roll.";
         }
@@ -292,7 +302,7 @@ public class RegisterUserViewModel : ObservableObject
         {
             try
             {
-                userController.CreateUser(
+                _userController.CreateUser(
                     PasswordInput,
                     EmployeeSelected,
                     AuthorizationLevelSelected
@@ -307,8 +317,8 @@ public class RegisterUserViewModel : ObservableObject
                 ErrorLabel = ex.Message;
             }
         }
-
     }
+
     private void ApplyFilter(string filterText)
     {
         if (string.IsNullOrWhiteSpace(filterText))
@@ -319,8 +329,8 @@ public class RegisterUserViewModel : ObservableObject
         {
             FilterEmployees(filterText);
         }
-
     }
+
     private void FilterEmployees(string filterText) //Applying the filter text to company customers
     {
         FilteredEmployees.Clear();
@@ -333,17 +343,12 @@ public class RegisterUserViewModel : ObservableObject
             }
         }
     }
+
     private bool IsEmployeeMatch(Employee employee, string filterText)
     {
-        return employee.FirstName.Contains(
-                filterText,
-                StringComparison.OrdinalIgnoreCase
-            )
-            || employee.LastName.Contains(
-                filterText,
-                StringComparison.OrdinalIgnoreCase
-            ) || employee.AgentNumber.Contains(filterText,
-            StringComparison.OrdinalIgnoreCase);
+        return employee.FirstName.Contains(filterText, StringComparison.OrdinalIgnoreCase)
+            || employee.LastName.Contains(filterText, StringComparison.OrdinalIgnoreCase)
+            || employee.AgentNumber.Contains(filterText, StringComparison.OrdinalIgnoreCase);
     }
     #endregion
 }

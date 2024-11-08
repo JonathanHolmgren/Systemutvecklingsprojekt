@@ -11,30 +11,33 @@ namespace DataLayer.Repositories
 {
     public class UserRepository : Repository<User>
     {
-        
-        public UserRepository(Context context) : base(context) { }
+        public UserRepository(Context context)
+            : base(context) { }
 
         public User? GetUserByID(int iD)
         {
             return Context.Set<User>().FirstOrDefault(user => user.UserID == iD);
         }
+
         public User? GetSpecificUser(string username)
         {
-            return Context.Set<User>()
-           .Include(e => e.Employee)
-           .FirstOrDefault(u => u.UserName == username);
+            return Context
+                .Set<User>()
+                .Include(e => e.Employee)
+                .FirstOrDefault(u => u.UserName == username);
         }
+
         public IList<User> GetUsersByAgentNumber(string agentNumber)
         {
             return Context
                 .Set<User>()
                 .Where(user => user.Employee.AgentNumber == agentNumber)
-                .ToList();  
+                .ToList();
         }
 
-        public bool DoesUserExist(User user)
+        public bool DoesUserExist(string username)
         {
-            var existingUser = Context.Set<User>().FirstOrDefault(u => u.UserName == user.UserName);
+            var existingUser = Context.Set<User>().FirstOrDefault(u => u.UserName == username);
 
             return existingUser != null;
         }

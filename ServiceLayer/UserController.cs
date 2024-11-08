@@ -39,18 +39,18 @@ public class UserController
 
         User user = new User(hashPassoword, authorizationLevel, employee, userName);
 
-        bool existingUser = unitOfWork.UserRepository.DoesUserExist(user);
+        bool existingUser = unitOfWork.UserRepository.DoesUserExist(userName);
 
         if (existingUser)
+        {
+            throw new Exception("Endast ett konto tillåtet per arbetsroll.");
+        }
+        else
         {
             unitOfWork.Update(employee);
             unitOfWork.UserRepository.Add(user);
             unitOfWork.SaveChanges();
         }
-
-        throw new Exception("Endast ett konto tillåtet per arbetsroll.");
-
-
     }
 
     public void RemoveUserById(int userSelectedUserId)

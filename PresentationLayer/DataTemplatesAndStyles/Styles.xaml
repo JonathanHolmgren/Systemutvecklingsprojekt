@@ -1361,7 +1361,7 @@
              
 
                 <Button Style="{StaticResource MenuButtonLogOut}"
-                         Command="{Binding LogOutCommand}"
+                         Command="{Binding LogoutCommand}"
                          Margin="-4,0,0,0"
                          VerticalAlignment="Bottom"
                          HorizontalAlignment="Left"/>
@@ -1418,7 +1418,7 @@
 
 
                 <Button Style="{StaticResource MenuButtonLogOut}"
-                        Command="{Binding LogOutCommand}"
+                        Command="{Binding LogoutCommand}"
                         Margin="-4,0,0,0"
                         VerticalAlignment="Bottom"
                         HorizontalAlignment="Left"/>
@@ -1470,7 +1470,7 @@
 
 
                 <Button Style="{StaticResource MenuButtonLogOut}"
-                    Command="{Binding LogOutCommand}"
+                    Command="{Binding LogoutCommand}"
                     Margin="-4,0,0,0"
                     VerticalAlignment="Bottom"
                     HorizontalAlignment="Left"/>
@@ -1505,7 +1505,7 @@
 
 
                 <Button Style="{StaticResource MenuButtonLogOut}"
-                Command="{Binding LogOutCommand}"
+                Command="{Binding LogoutCommand}"
                 Margin="-4,0,0,0"
                 VerticalAlignment="Bottom"
                 HorizontalAlignment="Left"/>

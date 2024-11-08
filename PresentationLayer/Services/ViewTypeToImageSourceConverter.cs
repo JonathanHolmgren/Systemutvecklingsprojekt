@@ -46,7 +46,7 @@ namespace PresentationLayer.Services
             {
                 return "Assets/add_user_pressed.png";
             }
-            else if (value is CompanyCustomerProfileViewModel)
+            else if (value is CompanyCustomerProfileViewModel||value is PrivateCustomerProfileViewModel||value is SearchCustomerProfileViewModel)
             {
                 return "Assets/customer_profile_pressed.png";
             }

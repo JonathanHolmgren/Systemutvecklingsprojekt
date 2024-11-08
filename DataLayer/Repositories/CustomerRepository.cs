@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,19 +15,30 @@ namespace DataLayer.Repositories
         public CustomerRepository(Context context)
             : base(context) { }
 
-        public IList<Customer> GetInActiveCustomersWithInsurances()
+        public IList<PrivateCustomer> GetInActiveCustomersWithInsurances()
         {
-            DateTime oneYearAgo = DateTime.Now.AddYears(-1);
+            try
+            {
+                DateTime oneYearAgo = DateTime.Now.AddYears(-1);
 
-            return Context
-                .Set<Customer>()
-                .Where(c =>
-                    c.Insurances.All(i =>
-                        i.InsuranceStatus == InsuranceStatus.Inactive && i.ExpiryDate <= oneYearAgo
-                    ) && !c.Insurances.Any(i => i.InsuranceStatus != InsuranceStatus.Inactive)
-                )
-                .Include(c => c.Insurances)
-                .ToList();
+                var customers = Context
+                    .Set<PrivateCustomer>()
+                    .Where(c =>
+                        c.Insurances.All(i =>
+                            i.InsuranceStatus == InsuranceStatus.Inactive
+                            && i.ExpiryDate <= oneYearAgo
+                        )
+                    )
+                    .Include(c => c.Insurances)
+                    .ToList();
+
+                return customers;
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Error: {ex.Message}");
+                return new List<PrivateCustomer>();
+            }
         }
 
         public IList<PrivateCustomer> GetPrivateCustomers()
@@ -97,10 +109,6 @@ namespace DataLayer.Repositories
                 .OfType<PrivateCustomer>()
                 .Include(p => p.ProspectNotes)
                 .FirstOrDefault(c => c.SSN == ssn);
-
-         
         }
-
-       
     }
 }

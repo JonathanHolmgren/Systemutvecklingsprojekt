@@ -72,7 +72,6 @@ public class LoginViewModel : ObservableObject, ICloseWindows
                 LoggedInUser loggedInuser = loginUser.ValidateUser(userNameInput, passwordInput);
                 MainWindowViewModel mainWindowViewModel = new MainWindowViewModel(loggedInuser);
 
-                
                 windowService.ShowWindow(mainWindowViewModel);
                 Close?.Invoke();
             }
@@ -86,6 +85,11 @@ public class LoginViewModel : ObservableObject, ICloseWindows
     public LoginViewModel()
     {
         windowService = new WindowService();
+        Task.Run(() =>
+        {
+            CustomerController customerController = new CustomerController();
+            customerController.RemoveInactiveCustomers();
+        });
     }
     #endregion
 }

@@ -29,7 +29,6 @@ namespace ServiceLayer
             }
             catch (Exception ex)
             {
-           
                 throw new InvalidOperationException(
                     "Misslyckades att lägga till kund till databas.",
                     ex
@@ -86,7 +85,6 @@ namespace ServiceLayer
                         unitOfWork.InsuranceSpecRepository.GetInsuranceSpecsByInsuranceId(
                             insurance.InsuranceId
                         );
-
                     foreach (var spec in insuranceSpecs)
                     {
                         unitOfWork.InsuranceSpecRepository.Remove(spec);
@@ -190,7 +188,6 @@ namespace ServiceLayer
         {
             try
             {
-                
                 var existingCompanyCustomer =
                     unitOfWork.CustomerRepository.GetSpecificCompanyCustomerForInsuranceByOrgNumber(
                         companyCustomer.OrganisationNumber

@@ -290,10 +290,22 @@ public class RegisterUserViewModel : ObservableObject
         }
         else
         {
-            userController.CreateUser(PasswordInput, EmployeeSelected, AuthorizationLevelSelected);
-            MessageBox.Show($"Ny profil skapad för {EmployeeSelected.FirstName} {EmployeeSelected.LastName} med användarnamn {NewUserName}");
-            BackMainPage();
-
+            try
+            {
+                userController.CreateUser(
+                    PasswordInput,
+                    EmployeeSelected,
+                    AuthorizationLevelSelected
+                );
+                MessageBox.Show(
+                    $"Ny profil skapad för {EmployeeSelected.FirstName} {EmployeeSelected.LastName} med användarnamn {NewUserName}"
+                );
+                BackMainPage();
+            }
+            catch (Exception ex)
+            {
+                ErrorLabel = ex.Message;
+            }
         }
 
     }

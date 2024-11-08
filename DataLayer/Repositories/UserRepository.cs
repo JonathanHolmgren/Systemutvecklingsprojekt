@@ -31,5 +31,12 @@ namespace DataLayer.Repositories
                 .Where(user => user.Employee.AgentNumber == agentNumber)
                 .ToList();  
         }
+
+        public bool DoesUserExist(User user)
+        {
+            var existingUser = Context.Set<User>().FirstOrDefault(u => u.UserName == user.UserName);
+
+            return existingUser != null;
+        }
     }
 }

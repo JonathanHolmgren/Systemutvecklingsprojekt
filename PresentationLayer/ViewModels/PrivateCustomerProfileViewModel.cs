@@ -16,6 +16,7 @@ public class PrivateCustomerProfileViewModel : ObservableObject
     private CustomerController customerController = new CustomerController();
     private InsuranceController insuranceController = new InsuranceController();
     private InsuranceSpecController insuranceSpecController = new InsuranceSpecController();
+    private UserController userController = new UserController();   
     private LoggedInUser _user;
 
     private string searchValue;
@@ -425,8 +426,7 @@ public class PrivateCustomerProfileViewModel : ObservableObject
             return;
         if (!string.IsNullOrWhiteSpace(Note))
         {
-            Insurance insurance = ViewedPrivateCustomer.Insurances.FirstOrDefault(); //Gör om logiken så inloggad person blir user istället, endast tillfällig lösning
-            User user = insurance.User;
+            User user = userController.GetUser(_user.UserID);
 
             ProspectNote prospectNote = new ProspectNote(
                 Note,

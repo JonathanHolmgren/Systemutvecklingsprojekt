@@ -307,6 +307,7 @@ namespace ServiceLayer
         public void AddProspectNote(ProspectNote prospectNote)
         {
             unitOfWork.ProspectNoteRepository.Add(prospectNote);
+            unitOfWork.Update(prospectNote.User);
             unitOfWork.SaveChanges();
         }
 

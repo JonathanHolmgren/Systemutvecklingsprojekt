@@ -16,6 +16,7 @@ public class CompanyCustomerProfileViewModel : ObservableObject
     private CustomerController customerController = new CustomerController();
     private InsuranceController insuranceController = new InsuranceController();
     private InsuranceSpecController insuranceSpecController = new InsuranceSpecController();
+    private UserController userController = new UserController();
     private LoggedInUser _user;
 
     private string searchValue;
@@ -328,8 +329,7 @@ public class CompanyCustomerProfileViewModel : ObservableObject
             return;
         if (!string.IsNullOrWhiteSpace(Note))
         {
-            Insurance insurance = ViewedCompanyCustomer.Insurances.FirstOrDefault();
-            User user = insurance.User;
+            User user = userController.GetUser(_user.UserID);
 
             ProspectNote prospectNote = new ProspectNote(
                 Note,

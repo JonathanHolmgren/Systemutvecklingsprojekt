@@ -7,24 +7,31 @@ using System.Windows;
 
 namespace PresentationLayer.Services
 {
-   public class WindowCloser
+    public class WindowCloser
     {
-
+        // DependencyProperty för att möjliggöra fönsterstängning via DataContext
+        public static readonly DependencyProperty EnableWindowClosingProperty =
+            DependencyProperty.RegisterAttached(
+                "EnableWindowClosing",
+                typeof(bool),
+                typeof(WindowCloser),
+                new PropertyMetadata(false, OnEnableWindowClosingChanged)
+            );
 
         public static bool GetEnableWindowClosing(DependencyObject obj)
         {
-            return (bool)obj.GetValue(MyPropertyProperty);
+            return (bool)obj.GetValue(EnableWindowClosingProperty);
         }
 
         public static void SetEnableWindowClosing(DependencyObject obj, bool value)
         {
-            obj.SetValue(MyPropertyProperty, value);
+            obj.SetValue(EnableWindowClosingProperty, value);
         }
-     
-        public static readonly DependencyProperty MyPropertyProperty =
-            DependencyProperty.RegisterAttached("MyProperty", typeof(bool), typeof(WindowCloser), new PropertyMetadata(false, OnEnableWindowClosingChanged));
 
-        private static void OnEnableWindowClosingChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        private static void OnEnableWindowClosingChanged(
+            DependencyObject d,
+            DependencyPropertyChangedEventArgs e
+        )
         {
             if (d is Window window)
             {
@@ -32,11 +39,8 @@ namespace PresentationLayer.Services
                 {
                     if (window.DataContext is ICloseWindows vm)
                     {
-                        vm.Close += () =>
-                        {
-                            window.Close();
-                        };
-                        
+                        // Lyssnar på Close-händelsen för att stänga fönstret
+                        vm.Close += () => window.Close();
                     }
                 };
             }

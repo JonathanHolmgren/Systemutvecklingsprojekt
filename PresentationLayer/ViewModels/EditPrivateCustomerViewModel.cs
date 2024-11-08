@@ -14,6 +14,7 @@ public class EditPrivateCustomerViewModel : ObservableObject
     private CustomerController customerController = new CustomerController();
     private InsuranceController insuranceController = new InsuranceController();
     private InsuranceSpecController insuranceSpecController = new InsuranceSpecController();
+    private LoggedInUser _user;
 
     private PrivateCustomer _privateCustomerToEdit;
     public PrivateCustomer PrivateCustomerToEdit
@@ -65,28 +66,26 @@ public class EditPrivateCustomerViewModel : ObservableObject
         {
             Mediator.Notify(
                 "ChangeView",
-                new PrivateCustomerProfileViewModel(PrivateCustomerToEdit)
+                new PrivateCustomerProfileViewModel(_user, PrivateCustomerToEdit)
             );
         });
     #endregion
     #region Constructors
     public EditPrivateCustomerViewModel() { }
 
-    public EditPrivateCustomerViewModel(PrivateCustomer privateCustomerToEdit)
+    public EditPrivateCustomerViewModel(LoggedInUser user, PrivateCustomer privateCustomerToEdit)
     {
+        _user = user;
         _privateCustomerToEdit = privateCustomerToEdit;
     }
     #endregion
     #region Methods
     private void SaveEditedPrivateCustomer()
     {
-       
         if (!ValidatePrivateCustomer(out string validationErrors))
         {
             MessageBox.Show(validationErrors);
         }
-
-      
 
         PrivateCustomerToEdit.FirstName = CapitalizeFirstLetter(PrivateCustomerToEdit.FirstName);
         PrivateCustomerToEdit.LastName = CapitalizeFirstLetter(PrivateCustomerToEdit.LastName);
@@ -95,10 +94,8 @@ public class EditPrivateCustomerViewModel : ObservableObject
             PrivateCustomerToEdit.StreetAddress
         );
 
-       
         customerController.UpdatePrivateCustomer(PrivateCustomerToEdit);
 
-       
         MessageBox.Show("Ändringar är sparade");
         FullName = $"{PrivateCustomerToEdit.FirstName} {PrivateCustomerToEdit.LastName}";
     }

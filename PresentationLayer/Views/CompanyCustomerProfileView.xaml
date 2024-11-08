@@ -11,6 +11,7 @@
    
     <UserControl.Resources>
         <ResourceDictionary>
+            <BooleanToVisibilityConverter x:Key="BoolToVisConverter" />
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/DataTemplatesAndStyles/ResourceDictionary.xaml"/>
             </ResourceDictionary.MergedDictionaries>
@@ -207,7 +208,7 @@
     <!-- Action Buttons -->
     <StackPanel Grid.Row="3" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,10,0,0" >
         <Button Content="Redigera kund" Width="120" Height="30" Command="{Binding OnEditCompanyCustomerClickedCommand}" Margin="0,0,10,0" Style="{StaticResource GeneralButtonStyle}"/>
-        <Button Content="Ta bort kund" Width="120" Height="30" Command="{Binding RemoveCompanyCustomerCommand}"  Margin="0,0,10,0" Style="{StaticResource GeneralButtonStyle}"/>
+        <Button Content="Ta bort kund" Width="120" Height="30" Visibility="{Binding IsAdmin, Converter={StaticResource BoolToVisConverter}}" Command="{Binding RemoveCompanyCustomerCommand}"  Margin="0,0,10,0" Style="{StaticResource GeneralButtonStyle}"/>
         <Button Content="Avtal" Width="120" Height="30" Command="{Binding InsuranceViewCommand}" Style="{StaticResource GeneralButtonStyle}"/>
     </StackPanel>
 </Grid>

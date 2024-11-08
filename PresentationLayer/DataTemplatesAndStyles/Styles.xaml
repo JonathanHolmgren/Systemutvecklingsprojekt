@@ -1314,7 +1314,7 @@
                  
                     
                     <Button Style="{StaticResource MenuButtonLogOut}"
-                            Command="{Binding ExitCommand}"
+                            Command="{Binding LogoutCommand}"
                             Margin="-4,0,0,0"
                             VerticalAlignment="Bottom"
                             HorizontalAlignment="Left"/>

@@ -3,14 +3,26 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:PresentationLayer"
              xmlns:models="clr-namespace:Models;assembly=Models"
+             xmlns:vm="clr-namespace:PresentationLayer.ViewModels"
+              xmlns:views="clr-namespace:PresentationLayer.Views"
+
              xmlns:sys="clr-namespace:System;assembly=System.Runtime"
              StartupUri="/Views/LoginUserWindow.xaml">
   
+    
+    
+    
     <Application.Resources>
         <ObjectDataProvider MethodName="GetValues" ObjectType="{x:Type sys:Enum}" x:Key="AuthorizationLevelEnumValues">
                 <ObjectDataProvider.MethodParameters>
                     <x:Type TypeName="models:AuthorizationLevel" />
                 </ObjectDataProvider.MethodParameters>
             </ObjectDataProvider>
+        <DataTemplate DataType="{x:Type vm:LoginViewModel}">
+            <views:LoginUserWindow />
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:MainWindowViewModel}">
+            <local:MainWindow />
+        </DataTemplate>
     </Application.Resources>
 </Application>

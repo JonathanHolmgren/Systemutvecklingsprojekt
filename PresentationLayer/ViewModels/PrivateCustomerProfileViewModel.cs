@@ -38,6 +38,18 @@ public class PrivateCustomerProfileViewModel : ObservableObject
             OnPropertyChanged(nameof(Note));
         }
     }
+
+    private bool _isAdmin;
+    public bool IsAdmin
+    {
+        get { return _isAdmin; }
+        set
+        {
+            _isAdmin = value;
+            OnPropertyChanged();
+        }
+    }
+
     private string fullName;
     public string FullName
     {
@@ -220,7 +232,7 @@ public class PrivateCustomerProfileViewModel : ObservableObject
     public ICommand NavigateBackCommand =>
         _navigateBackCommand ??= new RelayCommand(() =>
         {
-            Mediator.Notify("ChangeView", new SearchCustomerProfileViewModel());
+            Mediator.Notify("ChangeView", new SearchCustomerProfileViewModel(_user));
         });
 
     private ICommand _saveEditedPrivateCustomerCommand = null!;
@@ -233,7 +245,10 @@ public class PrivateCustomerProfileViewModel : ObservableObject
         {
             PrivateCustomerToEdit = ViewedPrivateCustomer;
 
-            Mediator.Notify("ChangeView", new EditPrivateCustomerViewModel(PrivateCustomerToEdit));
+            Mediator.Notify(
+                "ChangeView",
+                new EditPrivateCustomerViewModel(_user, PrivateCustomerToEdit)
+            );
         });
 
     private ICommand _insuranceViewCommand = null!;
@@ -250,6 +265,12 @@ public class PrivateCustomerProfileViewModel : ObservableObject
         );
     #endregion
     #region Constructors
+    public PrivateCustomerProfileViewModel(LoggedInUser user, PrivateCustomer privateCustomerToEdit)
+    {
+        _user = user;
+        ViewedPrivateCustomer = privateCustomerToEdit;
+    }
+
     public PrivateCustomerProfileViewModel(PrivateCustomer privateCustomerToEdit)
     {
         ViewedPrivateCustomer = privateCustomerToEdit;
@@ -258,6 +279,7 @@ public class PrivateCustomerProfileViewModel : ObservableObject
     public PrivateCustomerProfileViewModel(LoggedInUser user)
     {
         _user = user;
+        _isAdmin = CheckIfUSerIsAdmin(user);
         FindPrivateCustomerCommand = new RelayCommand(GetOnePrivateCustomerBySsn);
         AddPrivateProspectNoteCommand = new RelayCommand(AddPrivateProspectNote);
 
@@ -291,11 +313,13 @@ public class PrivateCustomerProfileViewModel : ObservableObject
             }
         }
     }
-    private void UpdatePrivateCustomer() 
+
+    private void UpdatePrivateCustomer()
     {
         ViewedPrivateCustomer = new PrivateCustomer();
         ViewedPrivateCustomer = customerController.GetOnePrivateCustomerBySsn(SearchValue);
     }
+
     private void UpdateInsuranceList()
     {
         if (ViewedPrivateCustomer != null)
@@ -306,6 +330,11 @@ public class PrivateCustomerProfileViewModel : ObservableObject
                 )
             );
         }
+    }
+
+    private bool CheckIfUSerIsAdmin(LoggedInUser user)
+    {
+        return user.AuthorizationLevel == AuthorizationLevel.Admin;
     }
 
     private void ChangeInsuranceStatus()
@@ -328,7 +357,6 @@ public class PrivateCustomerProfileViewModel : ObservableObject
             CustomerInsurances.Clear();
             UpdateInsuranceList();
             UpdatePrivateCustomer();
-         
         }
         else if (IsInactiveStatusSelected == true)
         {
@@ -344,7 +372,6 @@ public class PrivateCustomerProfileViewModel : ObservableObject
             CustomerInsurances.Clear();
             UpdateInsuranceList();
             UpdatePrivateCustomer();
-            
         }
     }
 
@@ -356,13 +383,11 @@ public class PrivateCustomerProfileViewModel : ObservableObject
 
     private void SaveEditedPrivateCustomer()
     {
-      
         if (!ValidatePrivateCustomer(out string validationErrors))
         {
             MessageBox.Show(validationErrors);
         }
 
- 
         PrivateCustomerToEdit = ViewedPrivateCustomer;
         PrivateCustomerToEdit.FirstName = CapitalizeFirstLetter(PrivateCustomerToEdit.FirstName);
         PrivateCustomerToEdit.LastName = CapitalizeFirstLetter(PrivateCustomerToEdit.LastName);
@@ -374,7 +399,6 @@ public class PrivateCustomerProfileViewModel : ObservableObject
         ViewedPrivateCustomer = PrivateCustomerToEdit;
         customerController.UpdatePrivateCustomer(ViewedPrivateCustomer);
 
-       
         MessageBox.Show("Ändringar är sparade");
         FullName = $"{ViewedPrivateCustomer.FirstName} {ViewedPrivateCustomer.LastName}";
     }

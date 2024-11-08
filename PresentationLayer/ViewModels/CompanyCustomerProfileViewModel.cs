@@ -38,58 +38,67 @@ public class CompanyCustomerProfileViewModel : ObservableObject
             OnPropertyChanged(nameof(Note));
         }
     }
-
-    private bool isEditCompanyOpen;
-    public bool IsEditCompanyOpen
+    private bool _isAdmin;
+    public bool IsAdmin
     {
-        get { return isEditCompanyOpen; }
+        get { return _isAdmin; }
         set
         {
-            isEditCompanyOpen = value;
+            _isAdmin = value;
+            OnPropertyChanged();
+        }
+    }
+
+    private bool _isEditCompanyOpen;
+    public bool IsEditCompanyOpen
+    {
+        get { return _isEditCompanyOpen; }
+        set
+        {
+            _isEditCompanyOpen = value;
             OnPropertyChanged(nameof(IsEditCompanyOpen));
         }
     }
 
-    private bool isRemoveCompanyCustomerPopupOpen;
+    private bool _isRemoveCompanyCustomerPopupOpen;
     public bool IsRemoveCompanyCustomerPopupOpen
     {
-        get { return isRemoveCompanyCustomerPopupOpen; }
+        get { return _isRemoveCompanyCustomerPopupOpen; }
         set
         {
-            isRemoveCompanyCustomerPopupOpen = value;
+            _isRemoveCompanyCustomerPopupOpen = value;
             OnPropertyChanged(nameof(IsRemoveCompanyCustomerPopupOpen));
         }
     }
 
-    private bool isActiveStatusSelected;
+    private bool _isActiveStatusSelected;
     public bool IsActiveStatusSelected
     {
-        get { return isActiveStatusSelected; }
+        get { return _isActiveStatusSelected; }
         set
         {
-            isActiveStatusSelected = value;
+            _isActiveStatusSelected = value;
             OnPropertyChanged(nameof(IsActiveStatusSelected));
         }
     }
-    private bool isInactiveStatusSelected;
+    private bool _isInactiveStatusSelected;
     public bool IsInactiveStatusSelected
     {
-        get { return isInactiveStatusSelected; }
+        get { return _isInactiveStatusSelected; }
         set
         {
-            isInactiveStatusSelected = value;
+            _isInactiveStatusSelected = value;
             OnPropertyChanged(nameof(IsInactiveStatusSelected));
         }
     }
 
-    private bool isCompanySelected;
+    private bool _isCompanySelected;
     public bool IsCompanySelected
     {
-        get { return isCompanySelected; }
+        get { return _isCompanySelected; }
         set
         {
-         
-            isCompanySelected = value;
+            _isCompanySelected = value;
             OnPropertyChanged(nameof(IsCompanySelected));
             SearchValue = string.Empty;
         }
@@ -129,46 +138,46 @@ public class CompanyCustomerProfileViewModel : ObservableObject
             }
         }
     }
-    private CompanyCustomer companyCustomerToEdit;
+    private CompanyCustomer _companyCustomerToEdit;
     public CompanyCustomer CompanyCustomerToEdit
     {
-        get { return companyCustomerToEdit; }
+        get { return _companyCustomerToEdit; }
         set
         {
-            companyCustomerToEdit = value;
+            _companyCustomerToEdit = value;
             OnPropertyChanged(nameof(CompanyCustomerToEdit));
         }
     }
 
-    private ObservableCollection<InsuranceSpecAndAttributeInformation> insuranceSpecsAndAttributesInformation;
+    private ObservableCollection<InsuranceSpecAndAttributeInformation> _insuranceSpecsAndAttributesInformation;
     public ObservableCollection<InsuranceSpecAndAttributeInformation> InsuranceSpecsAndAttributesInformation
     {
-        get => insuranceSpecsAndAttributesInformation;
+        get => _insuranceSpecsAndAttributesInformation;
         set
         {
-            insuranceSpecsAndAttributesInformation = value;
+            _insuranceSpecsAndAttributesInformation = value;
             OnPropertyChanged(nameof(InsuranceSpecsAndAttributesInformation));
         }
     }
 
-    private string currentView;
+    private string _currentView;
     public string CurrentView
     {
-        get => currentView;
+        get => _currentView;
         set
         {
-            currentView = value;
+            _currentView = value;
             OnPropertyChanged(nameof(CurrentView));
         }
     }
 
-    private bool isValidated;
+    private bool _isValidated;
     public bool IsValidated
     {
-        get { return isValidated; }
+        get { return _isValidated; }
         set
         {
-            isValidated = value;
+            _isValidated = value;
             OnPropertyChanged(nameof(IsValidated));
         }
     }
@@ -178,7 +187,7 @@ public class CompanyCustomerProfileViewModel : ObservableObject
     public ICommand NavigateBackCommand =>
         _navigateBackCommand ??= new RelayCommand(() =>
         {
-            Mediator.Notify("ChangeView", new SearchCustomerProfileViewModel());
+            Mediator.Notify("ChangeView", new SearchCustomerProfileViewModel(_user));
         });
 
     private ICommand _onEditCompanyCustomerClickedCommand = null!;
@@ -186,7 +195,10 @@ public class CompanyCustomerProfileViewModel : ObservableObject
         _onEditCompanyCustomerClickedCommand ??= new RelayCommand(() =>
         {
             CompanyCustomerToEdit = ViewedCompanyCustomer;
-            Mediator.Notify("ChangeView", new EditCompanyCustomerViewModel(CompanyCustomerToEdit));
+            Mediator.Notify(
+                "ChangeView",
+                new EditCompanyCustomerViewModel(_user, CompanyCustomerToEdit)
+            );
         });
 
     private ICommand _insuranceViewCommand = null!;
@@ -228,6 +240,12 @@ public class CompanyCustomerProfileViewModel : ObservableObject
         new RelayCommand(() => CurrentView = "EditPrivateCustomer");
     #endregion
     #region Constructors
+    public CompanyCustomerProfileViewModel(LoggedInUser user, CompanyCustomer companyCustomer)
+    {
+        _user = user;
+        ViewedCompanyCustomer = companyCustomer;
+    }
+
     public CompanyCustomerProfileViewModel(CompanyCustomer companyCustomer)
     {
         ViewedCompanyCustomer = companyCustomer;
@@ -236,6 +254,7 @@ public class CompanyCustomerProfileViewModel : ObservableObject
     public CompanyCustomerProfileViewModel(LoggedInUser user)
     {
         _user = user;
+        _isAdmin = CheckIfUSerIsAdmin(user);
         FindCompanyCustomerCommand = new RelayCommand(GetOneCompanyCustomerByOrgNr);
         AddCompanyProspectNoteCommand = new RelayCommand(AddCompanyProspectNote);
 
@@ -255,20 +274,25 @@ public class CompanyCustomerProfileViewModel : ObservableObject
     }
     #endregion
     #region Methods
-    private void UpdateCompanyCustomer() 
+    private void UpdateCompanyCustomer()
     {
         ViewedCompanyCustomer = new CompanyCustomer();
         ViewedCompanyCustomer = customerController.GetOneCompanyCustomerByOrgNr(SearchValue);
     }
+
     private void CloseEditCustomer()
     {
         IsValidated = false;
         CompanyCustomerToEdit = null!;
     }
 
+    private bool CheckIfUSerIsAdmin(LoggedInUser user)
+    {
+        return user.AuthorizationLevel == AuthorizationLevel.Admin;
+    }
+
     private void SaveEditedCompanyCustomer()
     {
-        
         if (!ValidateCompanyCustomer(out string validationErrors))
         {
             MessageBox.Show(validationErrors);
@@ -335,7 +359,7 @@ public class CompanyCustomerProfileViewModel : ObservableObject
             {
                 customerController.RemoveCompanyCustomer(ViewedCompanyCustomer);
                 ViewedCompanyCustomer = new CompanyCustomer();
-            
+
                 MessageBox.Show("Kunden är nu borttagen ur systemet.");
             }
             else if (ViewedCompanyCustomer.Insurances.Count > 0)
@@ -365,7 +389,7 @@ public class CompanyCustomerProfileViewModel : ObservableObject
         }
     }
 
-    public void OnContinueClicked()
+    private void OnContinueClicked()
     {
         IsRemoveCompanyCustomerPopupOpen = false;
 
@@ -378,7 +402,7 @@ public class CompanyCustomerProfileViewModel : ObservableObject
         MessageBox.Show("Kunden är nu borttagen ur systemet.");
     }
 
-    public void OnCancelClicked()
+    private void OnCancelClicked()
     {
         IsRemoveCompanyCustomerPopupOpen = false;
     }

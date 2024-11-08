@@ -23,9 +23,9 @@ public class InsuranceInformationCompanyViewModel : ObservableObject
     {
         _user = user;
         _viewedCompanyCustomer = companyCustomer;
-        _customerInsurances = new ObservableCollection<Insurance>( insuranceController.GetCompanyCustomerInsurancesByCustomerId(
-            companyCustomer.CustomerID
-        ));
+        _customerInsurances = new ObservableCollection<Insurance>(
+            insuranceController.GetCompanyCustomerInsurancesByCustomerId(companyCustomer.CustomerID)
+        );
     }
 
     private CompanyCustomer _viewedCompanyCustomer = null!;
@@ -74,11 +74,12 @@ public class InsuranceInformationCompanyViewModel : ObservableObject
         {
             Mediator.Notify(
                 "ChangeView",
-                new CompanyCustomerProfileViewModel(_viewedCompanyCustomer)
+                new CompanyCustomerProfileViewModel(_user, _viewedCompanyCustomer)
             );
         });
 
-    private ObservableCollection<Insurance> _customerInsurances = new ObservableCollection<Insurance>();
+    private ObservableCollection<Insurance> _customerInsurances =
+        new ObservableCollection<Insurance>();
     public ObservableCollection<Insurance> CustomerInsurances
     {
         get => _customerInsurances;

@@ -85,6 +85,7 @@ namespace PresentationLayer.ViewModels
         public ICommand LogoutCommand => _logoutCommand ??= new RelayCommand(Logout);
 
         private ICommand _changeViewCommand = null!;
+
         //Alternating usercontrolls via ViewModels
         public ICommand ChangeViewCommand =>
             _changeViewCommand ??= new RelayCommand<object>(parameter =>
@@ -149,17 +150,15 @@ namespace PresentationLayer.ViewModels
         public MainWindowViewModel()
         {
             CurrentView = new WelcomePageView();
-           
         }
 
         public MainWindowViewModel(LoggedInUser loggedInUser)
         {
             _user = loggedInUser;
-            CurrentView = new WelcomePageView(); 
+            CurrentView = new WelcomePageView();
             Mediator.Register("ChangeView", ChangeView);
             windowService = new WindowService();
             DragWindowCommand = new RelayCommand<Window>(OnDragWindow);
-           
         }
         #endregion
         #region Methods
@@ -172,32 +171,27 @@ namespace PresentationLayer.ViewModels
         {
             CurrentView = viewModel;
         }
-      
+
         private void Logout()
         {
+            var loginWindow = new LoginUserWindow { DataContext = new LoginViewModel() };
+            loginWindow.Show();
 
-            var loginViewModel = new LoginViewModel();
-            windowService.ShowWindow(loginViewModel);
+            Application.Current.MainWindow = loginWindow;
 
-            Close.Invoke();
-
-
+            Close?.Invoke();
         }
-       
-        
+
         private void MaxApp(object parameter)
         {
             if (parameter is Window window)
             {
-                
                 if (window.WindowState == WindowState.Maximized)
                 {
-                    
                     window.WindowState = WindowState.Normal;
                 }
                 else
                 {
-                    
                     window.WindowState = WindowState.Maximized;
                 }
             }

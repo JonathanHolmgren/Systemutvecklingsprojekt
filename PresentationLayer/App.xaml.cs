@@ -18,25 +18,24 @@ namespace PresentationLayer
     /// </summary>
     public partial class App : Application
     {
-        public static IServiceProvider ServiceProvider { get; private set; }
-
-
-   
         protected override void OnStartup(StartupEventArgs e)
         {
             WindowService.RegisterWindow<MainWindowViewModel, MainWindow>();
             WindowService.RegisterWindow<LoginViewModel, LoginUserWindow>();
+        }
 
+        private void ConfigureServices(ServiceCollection services)
+        {
             //var services = new ServiceCollection();
             //ConfigureServices(services);
             //ServiceProvider = services.BuildServiceProvider();
 
             //// Skapa MainWindow från DI-container och visa det
             //var mainWindow = ServiceProvider.GetRequiredService<MainWindow>();
-        }
 
-        private void ConfigureServices(ServiceCollection services)
-        {
+
+            // public static IServiceProvider ServiceProvider { get; private set; }
+
             //// Ladda konfiguration från appsettings.json
             //var configuration = new ConfigurationBuilder()
             //    .SetBasePath(Directory.GetCurrentDirectory())
@@ -60,5 +59,4 @@ namespace PresentationLayer
             //services.AddTransient<MainWindow>();
         }
     }
-
 }

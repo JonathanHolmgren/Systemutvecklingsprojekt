@@ -14,7 +14,7 @@ public class EditCompanyCustomerViewModel : ObservableObject
     private CustomerController customerController = new CustomerController();
     private InsuranceController insuranceController = new InsuranceController();
     private InsuranceSpecController insuranceSpecController = new InsuranceSpecController();
-
+    private LoggedInUser _user;
     private CompanyCustomer _companyCustomerToEdit;
     public CompanyCustomer CompanyCustomerToEdit
     {
@@ -47,22 +47,22 @@ public class EditCompanyCustomerViewModel : ObservableObject
         {
             Mediator.Notify(
                 "ChangeView",
-                new CompanyCustomerProfileViewModel(CompanyCustomerToEdit)
+                new CompanyCustomerProfileViewModel(_user, CompanyCustomerToEdit)
             );
         });
     #endregion
     #region Constructors
     public EditCompanyCustomerViewModel() { }
 
-    public EditCompanyCustomerViewModel(CompanyCustomer companyCustomerToEdit)
+    public EditCompanyCustomerViewModel(LoggedInUser user, CompanyCustomer companyCustomerToEdit)
     {
+        _user = user;
         _companyCustomerToEdit = companyCustomerToEdit;
     }
     #endregion
     #region Methods
     private void SaveEditedCompanyCustomer()
     {
-       
         if (!ValidateCompanyCustomer(out string validationErrors))
         {
             MessageBox.Show(validationErrors);
@@ -77,10 +77,8 @@ public class EditCompanyCustomerViewModel : ObservableObject
             CompanyCustomerToEdit.StreetAddress
         );
 
-       
         customerController.UpdateCompanyCustomer(CompanyCustomerToEdit);
 
-     
         MessageBox.Show("Ändringar är sparade");
     }
 

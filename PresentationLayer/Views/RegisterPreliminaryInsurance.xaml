@@ -64,10 +64,6 @@ VerticalAlignment="Center">
                         <TextBox Style="{StaticResource TextBoxStyle}" x:Name="TelephoneNumberTextbox" Margin="0,-5" Text="{Binding SelectedPrivateCustomer.WorkTelephoneNumber,UpdateSourceTrigger=PropertyChanged}" BorderBrush="Black" Height="30" Width="200" HorizontalAlignment="Stretch"/>
                     </StackPanel>
                     <StackPanel Orientation="Vertical" Grid.Column="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="50,0,0,0">
-                        <StackPanel Orientation="Horizontal" Margin="0">
-                            <TextBox Style="{StaticResource SearchTextBoxStyle}" FontSize="10" HorizontalAlignment="Right" Height="25" Text="{Binding InputSocialSecurityNumber, UpdateSourceTrigger=PropertyChanged}"  Width="117"/>
-                            <Button Style="{StaticResource CRUDButtonStyle}" HorizontalAlignment="Right" Content="Sök" Command="{Binding SearchCommand}" Height="25" Width="70" />
-                        </StackPanel>
                         <Label Content="Personnummer" Height="25" Margin="0" />
                         <TextBox Style="{StaticResource TextBoxStyle}" Margin="0,-5" x:Name="SSNTextbox" Text="{Binding SelectedPrivateCustomer.SSN,UpdateSourceTrigger=PropertyChanged}" BorderBrush="Black" HorizontalAlignment="Stretch" Width="200" Height="30"/>
                         <Label Content="Stad" Margin="0,40,0,0"/>

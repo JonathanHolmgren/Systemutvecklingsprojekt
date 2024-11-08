@@ -95,6 +95,7 @@ namespace DataLayer.Repositories
                 .Set<Customer>()
                 .OfType<CompanyCustomer>()
                 .Include(p => p.ProspectNotes)
+                .Include(p => p.Insurances)
                 .FirstOrDefault(c => c.OrganisationNumber == organisationNumber);
         }
 
@@ -108,6 +109,7 @@ namespace DataLayer.Repositories
                 .Set<Customer>()
                 .OfType<PrivateCustomer>()
                 .Include(p => p.ProspectNotes)
+                .Include(p => p.Insurances)
                 .FirstOrDefault(c => c.SSN == ssn);
         }
     }

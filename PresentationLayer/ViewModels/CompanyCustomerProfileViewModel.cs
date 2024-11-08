@@ -127,7 +127,7 @@ public class CompanyCustomerProfileViewModel : ObservableObject
             _viewedCompanyCustomer = value;
             OnPropertyChanged();
 
-            if (_viewedCompanyCustomer != null)
+            if (_viewedCompanyCustomer?.ProspectNotes != null)
             {
                 ProspectNotesList = new ObservableCollection<ProspectNote>(
                     _viewedCompanyCustomer.ProspectNotes

@@ -16,7 +16,7 @@ public class PrivateCustomerProfileViewModel : ObservableObject
     private CustomerController customerController = new CustomerController();
     private InsuranceController insuranceController = new InsuranceController();
     private InsuranceSpecController insuranceSpecController = new InsuranceSpecController();
-    private UserController userController = new UserController();   
+    private UserController userController = new UserController();
     private LoggedInUser _user;
 
     private string searchValue;
@@ -124,7 +124,7 @@ public class PrivateCustomerProfileViewModel : ObservableObject
             OnPropertyChanged(nameof(ViewedPrivateCustomer));
             OnPropertyChanged(nameof(FullName));
 
-            if (_viewedPrivateCustomer != null)
+            if (_viewedPrivateCustomer?.ProspectNotes != null)
             {
                 ProspectNotesList = new ObservableCollection<ProspectNote>(
                     _viewedPrivateCustomer.ProspectNotes
